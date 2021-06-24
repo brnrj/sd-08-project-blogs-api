@@ -1,4 +1,4 @@
-require('dotenv');
+require('dotenv/config');
 
 const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD } = process.env;
 
