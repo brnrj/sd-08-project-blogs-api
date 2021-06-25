@@ -6,4 +6,6 @@ const validData = (displayName) => {
   return true;
 };
 
-module.exports = { validData };
+module.exports = { 
+  validData,
+};

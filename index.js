@@ -31,6 +31,10 @@ app.get('/user',
   tokenValidation,
   UserController.getAll);
 
+app.get('/user/:id',
+  tokenValidation,
+  UserController.getById);
+
 app.post('/login',
   validEmail,
   validPassword,
