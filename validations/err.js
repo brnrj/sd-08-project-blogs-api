@@ -18,5 +18,6 @@ module.exports = {
     ENATBE: '"email" is not allowed to be empty',
     PNATBE: '"password" is not allowed to be empty',
     USER_NOT_EXISTS: 'User does not exist',
+    NAME_REQUIRED: '"name" is required',
   },
 };
