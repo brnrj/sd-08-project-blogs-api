@@ -13,6 +13,13 @@ const createUser = (req, res) => {
     });
 };
 
+const getAllUsers = async (req, res) => {
+  userServices.getAllUsers()
+    .then((response) => res.status(200).json(response))
+    .catch((err) => console.log(err));
+};
+
 module.exports = {
   createUser,
+  getAllUsers,
 };
