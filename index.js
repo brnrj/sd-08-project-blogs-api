@@ -63,3 +63,11 @@ app.get('/post',
 app.get('/post/:id',
   tokenValidation,
   PostsController.getById);
+
+app.put('/post/:id',
+  tokenValidation,
+  PostsController.updateById);
+
+app.delete('/post/:id',
+  tokenValidation,
+  PostsController.deleteById);
