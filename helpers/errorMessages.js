@@ -1,5 +1,5 @@
 module.exports = {
-  categoryIdReqError: '"categoryId" is required',
+  categoryIdReqError: '"categoryIds" is required',
   categoryIdsFoundError: '"categoryIds" not found',
   categoryEditError: 'Categories cannot be edited',
   contentReqError: '"content" is required',

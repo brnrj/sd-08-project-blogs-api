@@ -59,3 +59,7 @@ app.post('/post',
 app.get('/post',
   tokenValidation,
   PostsController.getAll);
+
+app.get('/post/:id',
+  tokenValidation,
+  PostsController.getById);
