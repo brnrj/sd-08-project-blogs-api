@@ -3,7 +3,7 @@ const { Users } = require('../models');
 const message = require('../helpers/errorMessages');
 const tokenGen = require('../services/tokenGenerator');
 
-const UserController = async (req, res) => {
+const create = async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
   if (!UserService.validData(displayName)) {
@@ -25,7 +25,17 @@ const UserController = async (req, res) => {
 
   const token = tokenGen(email);
 
-  res.status(201).json({ token });
+  return res.status(201).json({ token });
 };
 
-module.exports = UserController;
+const getAll = async (req, res) => {
+  const users = await Users.findAll({ attributes:
+    { exclude: ['createdAt', 'updatedAt'] } });
+
+  return res.status(200).json(users);
+};
+
+module.exports = {
+  create,
+  getAll,
+};

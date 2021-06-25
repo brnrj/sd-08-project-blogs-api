@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const validEmail = require('./middlewares/validEmail');
+const tokenValidation = require('./middlewares/tokenValidation');
 const validPassword = require('./middlewares/validPassword');
 
 const UserController = require('./controllers/UserController');
@@ -24,7 +25,11 @@ app.get('/', (request, response) => {
 app.post('/user',
   validEmail,
   validPassword,
-  UserController);
+  UserController.create);
+
+app.get('/user',
+  tokenValidation,
+  UserController.getAll);
 
 app.post('/login',
   validEmail,
