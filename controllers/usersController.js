@@ -9,7 +9,7 @@ const createNewUser = async (req, res, next) => {
     if (e.errors[0].message.includes('unique')) {
       return next({
       status: 409,
-      message: 'User already exists',
+      message: 'User already registered',
       });
     }
     return next(e.message);
