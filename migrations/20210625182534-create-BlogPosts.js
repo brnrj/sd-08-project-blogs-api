@@ -15,8 +15,7 @@ module.exports = {
       },
       content: {
         allowNull: false,
-        type: Sequelize.STRING,
-        unique: true,
+        type: Sequelize.TEXT,
       },
       userId: {
         allowNull: false,
