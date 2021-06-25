@@ -30,6 +30,11 @@ const userRegistered = {
   message: error.message.USER_EXISTS,
 };
 
+const userDoesNotExists = {
+  code: error.code.NOT_FOUND,
+  message: error.message.USER_NOT_EXISTS,
+};
+
 const displayNameVerify = (name) => {
   if (typeof (name) !== 'string' || name.length < 8) {
     throw new Error(JSON.stringify(displayNameError));
@@ -62,6 +67,12 @@ const userExists = (user) => {
   }
 };
 
+const userNotExists = (user) => {
+  if (!user) {
+    throw new Error(JSON.stringify(userDoesNotExists));
+  }
+};
+
 const newUserVerify = ({ displayName, email, password }) => {
   displayNameVerify(displayName);
   emailVerify(email);
@@ -74,4 +85,5 @@ module.exports = {
   passwordVerify,
   userExists,
   newUserVerify,
+  userNotExists,
 };

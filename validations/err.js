@@ -3,6 +3,7 @@ module.exports = {
     OK: 200,
     CREATED: 201,
     BAD_REQ: 400,
+    NOT_FOUND: 404,
     CONFLICT: 409,
   },
 
@@ -16,5 +17,6 @@ module.exports = {
     INVALID_FIELDS: 'Invalid fields',
     ENATBE: '"email" is not allowed to be empty',
     PNATBE: '"password" is not allowed to be empty',
+    USER_NOT_EXISTS: 'User does not exist',
   },
 };

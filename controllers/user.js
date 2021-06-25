@@ -19,7 +19,20 @@ const getAllUsers = async (req, res) => {
     .catch((err) => console.log(err));
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  userServices.getUserById(id)
+    .then((response) => res.status(200).json(response))
+    .catch((err) => {
+      const { code, message } = JSON.parse(err.message);
+
+      res.status(code).json({ message });
+    });
+};
+
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
 };

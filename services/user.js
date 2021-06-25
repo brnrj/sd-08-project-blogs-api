@@ -19,7 +19,16 @@ const createUser = async (newUser) => {
 
 const getAllUsers = () => User.findAll();
 
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+
+  validations.userNotExists(user);
+
+  return user;
+};
+
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
 };
