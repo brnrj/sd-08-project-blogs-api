@@ -30,7 +30,7 @@ const userRegistered = {
   message: error.message.USER_EXISTS,
 };
 
-const displayName = (name) => {
+const displayNameVerify = (name) => {
   if (typeof (name) !== 'string' || name.length < 8) {
     throw new Error(JSON.stringify(displayNameError));
   }
@@ -62,9 +62,16 @@ const userExists = (user) => {
   }
 };
 
+const newUserVerify = ({ displayName, email, password }) => {
+  displayNameVerify(displayName);
+  emailVerify(email);
+  passwordVerify(password);
+};
+
 module.exports = {
-  displayName,
+  displayNameVerify,
   emailVerify,
   passwordVerify,
   userExists,
+  newUserVerify,
 };

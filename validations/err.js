@@ -1,6 +1,7 @@
 module.exports = {
   code: {
     OK: 200,
+    CREATED: 201,
     BAD_REQ: 400,
     CONFLICT: 409,
   },
