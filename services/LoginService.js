@@ -42,7 +42,8 @@ const loginService = async ({ email, password }) => {
     const token = tokenLogin(user.dataValues);
     return { statusCode: 200, json: { token } };
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
+    return { statusCode: 500, json: { message: 'Algo deu errado' } };
   }
 };
 

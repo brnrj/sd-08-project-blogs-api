@@ -35,6 +35,7 @@ const addUser = async ({ displayName, email, password, image }) => {
     return { statusCode: 201, json: { token: login } };
   } catch (err) {
     console.log(err.message);
+    return { statusCode: 500, json: { message: 'Algo deu errado' } };
   }
 };
 
