@@ -14,15 +14,25 @@ const insertUser = async (displayName, email, password, image) => {
     };
     const user = { displayName, email, password, image };
     const token = jwt.sign({ data: user }, JWT_SECRET, jwtConfig);
-    console.log(`token: ${token}`);
     await User.create({ displayName, email, password, image });
     return { token };
   } catch (e) {
-    // console.log(e);
+    console.log(e);
+    return { message: 'erro verifique o console' };
+  }
+};
+
+const getAllUsers = async () => {
+  try {
+    const users = await User.findAll();
+    return users;
+  } catch (e) {
+    console.log(e);
     return { message: 'erro verifique o console' };
   }
 };
 
 module.exports = {
   insertUser,
+  getAllUsers,
 };
