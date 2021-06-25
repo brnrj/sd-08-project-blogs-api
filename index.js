@@ -6,6 +6,7 @@ const tokenValidation = require('./middlewares/tokenValidation');
 const validPassword = require('./middlewares/validPassword');
 
 const UserController = require('./controllers/UserController');
+const Categories = require('./controllers/CategoryController');
 const Login = require('./controllers/Login');
 
 require('dotenv').config();
@@ -39,3 +40,11 @@ app.post('/login',
   validEmail,
   validPassword,
   Login);
+
+app.post('/categories',
+  tokenValidation,
+  Categories.create);
+
+app.get('/categories',
+  tokenValidation,
+  Categories.getAll);
