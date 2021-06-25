@@ -6,10 +6,6 @@ const validRegex = (email) => {
   const restrictEmailRegex = /@gmail.com/i;
   const validRestrictEmail = restrictEmailRegex.test(email);
 
-  // if (!validReg) {
-  //   return false;
-  // }
-
   if (!validReg || !validRestrictEmail) {
     return false;
   }

@@ -10,7 +10,7 @@ const create = async (req, res) => {
 
   await Categories.create({ name })
     .then((result) => res.status(201).json({
-        id: result.insertedId,
+        id: result.id,
         name,
       }));
 };

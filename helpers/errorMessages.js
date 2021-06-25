@@ -1,6 +1,6 @@
 module.exports = {
-  categoryIdReqError: 'categoryId is required',
-  categoryIdsFoundError: 'categoryIds not found',
+  categoryIdReqError: '"categoryId" is required',
+  categoryIdsFoundError: '"categoryIds" not found',
   categoryEditError: 'Categories cannot be edited',
   contentReqError: '"content" is required',
   displayNameError: '"displayName" length must be at least 8 characters long',

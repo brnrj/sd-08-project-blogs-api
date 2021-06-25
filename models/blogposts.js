@@ -12,7 +12,7 @@ const BlogPosts = (sequelize, DataTypes) => {
   };
 
   BlogPost.associate = (models) => {
-    BlogPost.hasOne(models.PostCategories,
+    BlogPost.hasMany(models.PostCategories,
       { foreignKey: 'categoryId', as: 'category' });
   };
 

@@ -4,9 +4,11 @@ const bodyParser = require('body-parser');
 const validEmail = require('./middlewares/validEmail');
 const tokenValidation = require('./middlewares/tokenValidation');
 const validPassword = require('./middlewares/validPassword');
+const validPost = require('./middlewares/validPost');
 
 const UserController = require('./controllers/UserController');
 const Categories = require('./controllers/CategoryController');
+const Posts = require('./controllers/PostsController');
 const Login = require('./controllers/Login');
 
 require('dotenv').config();
@@ -48,3 +50,8 @@ app.post('/categories',
 app.get('/categories',
   tokenValidation,
   Categories.getAll);
+
+app.post('/post',
+  tokenValidation,
+  validPost,
+  Posts.create);
