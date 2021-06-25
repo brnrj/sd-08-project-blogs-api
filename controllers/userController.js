@@ -16,7 +16,6 @@ router.post('/', async (req, res) => {
     const verifyIfExists = await User.findOne({
       where: { email },
     });
-    console.log(verifyIfExists, 'verify');
     if (verifyIfExists) res.status(409).json({ message: 'User already registered' });
 
     await User.create({ displayName, email, password, image });
