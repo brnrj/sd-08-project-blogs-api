@@ -6,6 +6,7 @@ const Routes = require('./routes');
 
 app.use(bodyParser.json());
 app.use('/user', Routes.user);
+app.use('/login', Routes.login);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

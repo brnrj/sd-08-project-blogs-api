@@ -13,5 +13,8 @@ module.exports = {
     PASS_REQUIRED: '"password" is required',
     EMAIL_REQUIRED: '"email" is required',
     USER_EXISTS: 'User already registered',
+    INVALID_FIELDS: 'Invalid fields',
+    ENATBE: '"email" is not allowed to be empty',
+    PNATBE: '"password" is not allowed to be empty',
   },
 };
