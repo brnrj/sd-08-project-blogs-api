@@ -28,7 +28,24 @@
     "eslint-plugin-import": "2.22.1",
     "frisby": "2.1.2",
     "jest": "26.0.1",
+    "nodemon": "^2.0.7",
     "sequelize-cli": "6.2.0",
     "supertest": "4.0.2"
-  }
+  },
+  "description": "Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryber/sd-08-project-blogs-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tryber/sd-08-project-blogs-api/issues"
+  },
+  "homepage": "https://github.com/tryber/sd-08-project-blogs-api#readme"
 }
