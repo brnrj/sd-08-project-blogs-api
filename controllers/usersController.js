@@ -12,7 +12,7 @@ const createNewUser = async (req, res, next) => {
       message: 'User already exists',
       });
     }
-    next(e.message);
+    return next(e.message);
   }
 };
 

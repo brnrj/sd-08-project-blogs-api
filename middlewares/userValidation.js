@@ -11,7 +11,7 @@ const userValidation = (req, _res, next) => {
   const { displayName, email, password, image } = req.body;
   const { error } = schema.validate({ displayName, email, password, image });
   if (error) return next(error);
-  next();
+  return next();
 };
 
 module.exports = userValidation;

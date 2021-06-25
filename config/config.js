@@ -1,11 +1,13 @@
 require('dotenv').config();
 
+console.log(process.env.HOSTNAME);
+
 module.exports = {
   development: {
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: 'blogs_api',
-    host: process.env.HOSTNAME === '127.0.0.1' || process.env.MYSQL_HOSTNAME,
+    host: process.env.HOSTNAME,
     dialect: 'mysql',
   },
   test: {
