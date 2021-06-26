@@ -38,6 +38,10 @@ app.get('/user/:id',
   tokenValidation,
   UserController.getById);
 
+app.delete('/user/me',
+  tokenValidation,
+  UserController.deleteUser);
+
 app.post('/login',
   validEmail,
   validPassword,
