@@ -21,7 +21,6 @@ const mailValidate = (email) => {
   if (!emailIsvalid(email)) {
     throw new CustomErr(httpStatusCode.BAD_REQUEST, '"email" must be a valid email');
   }
-  return false;
 };
 
 const passValidate = (password) => {

@@ -1,11 +1,13 @@
 const express = require('express');
-
 const user = require('./user');
 const posts = require('./posts');
 
-const route = express();
+const router = express();
 
-route.use('/user', user);
-route.use('/post', posts);
+router.route('/user')
+  .post(user);
 
-module.exports = route;
+router.route('/post')
+  .post(posts);
+
+module.exports = router;

@@ -14,7 +14,8 @@ const createUser = async (displayName, email, password, image) => {
     }
 
     const { dataValues: { id } } = await User.create({ displayName, email, password, image });
-    return tokenGenerete({ email, id });
+    const token = tokenGenerete({ email, id });
+    return token;
 };
 
 module.exports = {
