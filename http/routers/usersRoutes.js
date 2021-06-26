@@ -1,9 +1,10 @@
 const { celebrate, Segments, Joi } = require('celebrate');
 const express = require('express');
 const { usersController } = require('../../controllers');
+const auth = require('../middlewares/isAuthenticated');
 
 const routes = express.Router();
-routes.get('/', usersController.userAll);
+routes.get('/', auth, usersController.userAll);
 
 routes.post('/', celebrate({
   [Segments.BODY]: {
