@@ -1,17 +1,18 @@
-const express = require('express');
 const { CelebrateError } = require('celebrate');
+const express = require('express');
+const { loginRoutes, usersRoutes } = require('./http/routers');
 const HandleError = require('./http/errors/HandleError');
-const { usersRoutes } = require('./http/routers');
 
 const app = express();
-
 app.use(express.json());
-app.use(usersRoutes);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
+
+app.use('/login', loginRoutes);
+app.use('/user', usersRoutes);
 
 app.use((err, _req, res, _next) => {
   if (err instanceof CelebrateError) {

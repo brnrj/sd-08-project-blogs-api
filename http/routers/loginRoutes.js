@@ -3,15 +3,12 @@ const express = require('express');
 const { usersController } = require('../../controllers');
 
 const routes = express.Router();
-routes.get('/', usersController.userAll);
 
 routes.post('/', celebrate({
   [Segments.BODY]: {
-    displayName: Joi.string().min(8).required(),
     email: Joi.string().email().required(),
     password: Joi.string().length(6).required(),
-    image: Joi.string(),
   }, 
-}), usersController.createUser);
+}), usersController.loginUser);
 
 module.exports = routes;
