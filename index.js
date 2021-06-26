@@ -4,6 +4,7 @@ const rescue = require('express-rescue');
 
 const Users = require('./controllers/users');
 const Login = require('./controllers/login');
+const validateJWT = require('./middleware/validateJWT');
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,6 +17,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/user', rescue(Users.add));
+app.get('/user', validateJWT, rescue(Users.getAll));
 
 app.post('/login', rescue(Login.login));
 
