@@ -14,6 +14,11 @@ async function findUser(email) {
   return !!data;
 }
 
+async function getUsers() {
+  const data = await User.findAll();
+  return data;
+}
+
 module.exports = {
-  createUser, findUser,
+  createUser, findUser, getUsers,
 };

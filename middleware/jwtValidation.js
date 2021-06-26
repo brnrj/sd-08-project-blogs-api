@@ -9,11 +9,10 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-function getToken(user) {
-  const token = jwt.sign(({ data: user }), secret, jwtConfig);
-  return token;
-}
+const getToken = (user) => jwt.sign(({ data: user }), secret, jwtConfig);
+
+const decodeToken = (token) => jwt.verify(token, secret);
 
 module.exports = {
-  getToken,
+  getToken, decodeToken,
 };
