@@ -6,6 +6,7 @@ const displayNameValidation = (displayName) => {
 };
 
 const emailValidation = (email) => {
+  // reference: https://ui.dev/validate-email-address-javascript/
   const regex = /\S+@\S+\.\S+/;
   if (!email) return '"email" is required';
   if (!regex.test(email)) return '"email" must be a valid email';
@@ -26,6 +27,26 @@ const userValidation = (req, res, next) => {
   next();
 };
 
+const emailValid = (email) => {
+  if (email === '') return '"email" is not allowed to be empty';
+  if (!email) return '"email" is required';
+  return false;
+};
+
+const passwordValid = (password) => {
+  if (password === '') return '"password" is not allowed to be empty';
+  if (!password) return '"password" is required';
+  return false;
+};
+
+const loginValidation = (req, res, next) => {
+  const { email, password } = req.body;
+  const validation = emailValid(email) || passwordValid(password) || false;
+  if (validation) return res.status(BAD_REQUEST).json({ message: validation });
+  next();
+};
+
 module.exports = {
   userValidation,
+  loginValidation,
 };

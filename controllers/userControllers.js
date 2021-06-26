@@ -1,12 +1,12 @@
 const express = require('express');
 const { User } = require('../models');
-
-const router = express.Router();
 const { userValidation } = require('../middlewares');
 
+const router = express.Router();
+
 const CREATED = 201;
-const BAD_REQUEST = 400;
 const CONFLICT = 409;
+const INTERNAL_SERVER_ERROR = 500;
 
 router.use(userValidation);
 
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     await User.create(req.body);
     res.status(CREATED).json({ token: 'asdbasdbaskdbasjkdbasjk' });
   } catch (error) {
-    res.status(BAD_REQUEST).json({ message: error.message });
+    res.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
 });
 
