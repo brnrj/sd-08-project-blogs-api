@@ -4,13 +4,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true },
-    displayName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    image: DataTypes.STRING,
+    name: DataTypes.STRING,
   },
   {
-    timestamps: true,
+    timestamps: false,
     tableName: 'Categories',
   });
 
