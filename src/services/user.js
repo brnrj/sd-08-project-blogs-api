@@ -10,7 +10,7 @@ const createUser = async (displayName, email, password, image) => {
     userValidations.passValidate(password);
     const alreadyRegistredUser = await User.findOne({ where: { email } });
     if (alreadyRegistredUser) {
-      throw new CustomErr(httpStatusCode.CONFLICT, 'User already registred');
+      throw new CustomErr(httpStatusCode.CONFLICT, 'User already registered');
     }
 
     const { dataValues: { id } } = await User.create({ displayName, email, password, image });
