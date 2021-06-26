@@ -7,9 +7,9 @@ const { auth } = require('../middlewares/auteMiddleware');
 
 const router = express.Router();
 const CATEGORY = '/category';
-const CATEGORYID = '/category/:id';
+// const CATEGORYID = '/category/:id';
 
+router.post(CATEGORY, auth, categoryController.createCategory);
 router.get(CATEGORY, auth, categoryController.getAllCategory);
-router.get(CATEGORYID, auth, categoryController.getCategoryById);
 
 module.exports = router;

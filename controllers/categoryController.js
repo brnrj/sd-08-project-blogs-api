@@ -1,20 +1,23 @@
 const { Category } = require('../models');
+const { create } = require('../services/categorieService');
 
-const getAllCategory = async (_req, res) => {
-  const allPosts = await Category.findAll();
+const getAllCategory = async (req, res) => {
+  const { name } = req.body;
+  const allPosts = await Category.findAll(req.body);
 
-  res.status(200).json(allPosts);
+  res.status(201).json(allPosts);
 };
 
-const getCategoryById = async (req, res) => {
-  const postById = await Category.findByPk(req.params.id);
+const createCategory = async (req, res) => {
+  const { name } = req.body;
+  const createC = await create({ name })
 
-  if (!postById) return res.status(404).json({ message: 'Produto não encontrado' });
+  if (!createC) return res.status(404).json({ message: 'Produto não encontrado' });
 
   res.status(201).json(postById);
 };
 
 module.exports = {
   getAllCategory,
-  getCategoryById,
+  createCategory,
 };
