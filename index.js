@@ -4,6 +4,8 @@ const rescue = require('express-rescue');
 
 const Users = require('./controllers/users');
 const Login = require('./controllers/login');
+const Categories = require('./controllers/categories');
+
 const validateJWT = require('./middleware/validateJWT');
 
 const app = express();
@@ -21,6 +23,8 @@ app.get('/user', validateJWT, rescue(Users.getAll));
 app.get('/user/:id', validateJWT, rescue(Users.getById));
 
 app.post('/login', rescue(Login.login));
+
+app.post('/categories', validateJWT, rescue(Categories.add));
 
 app.use((err, req, res, _next) => {
   const { code, message } = err;
