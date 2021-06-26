@@ -1,13 +1,12 @@
 'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Users', {
       id: {
-        type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
       displayName: {
         type: Sequelize.STRING
@@ -26,18 +25,15 @@ module.exports = {
         validate: { isUrl: true }
       },
       createdAt: {
-        type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.fn('NOW')
+        type: Sequelize.DATE
       },
       updatedAt: {
-        type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.fn('NOW')
-      },
-    })
+        type: Sequelize.DATE
+      }
+    });
   },
-
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Users');
   }
