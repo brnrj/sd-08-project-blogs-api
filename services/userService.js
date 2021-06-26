@@ -32,7 +32,19 @@ const getAllUsers = async () => {
   }
 };
 
+const getUserById = async (id) => {
+  try {
+    const user = await User.findByPk(id);
+    if (user === null) return { err: { status: 404, message: 'User does not exist' } };
+    return user;
+  } catch (e) {
+    console.log(e);
+    return { message: 'erro, verifique o console' };
+  }
+};
+
 module.exports = {
   insertUser,
   getAllUsers,
+  getUserById,
 };
