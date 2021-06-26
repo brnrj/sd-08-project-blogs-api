@@ -20,6 +20,7 @@ const auth = rescue((req, res, next) => {
   if (!token) return next({ err: missingJWT });
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
+    console.log(decoded);
     const {
       data: { email },
     } = decoded;

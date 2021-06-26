@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       content: DataTypes.STRING,
     },
     {
-      timestamps: false,
+      timestamps: true,
       createdAt: 'published',
       updatedAt: 'updated',
     },
