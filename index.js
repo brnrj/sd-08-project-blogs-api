@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 
 const Users = require('./controllers/users');
+const Login = require('./controllers/login');
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,7 +17,7 @@ app.get('/', (request, response) => {
 
 app.post('/user', rescue(Users.add));
 
-app.post('/login', rescue(Users.add));
+app.post('/login', rescue(Login.login));
 
 app.use((err, req, res, _next) => {
   const { code, message } = err;
