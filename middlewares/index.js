@@ -1,4 +1,5 @@
 const BAD_REQUEST = 400;
+const UNAUTHORIZED = 401;
 
 const displayNameValidation = (displayName) => {
   if (displayName.length < 8) return '"displayName" length must be at least 8 characters long';
@@ -46,7 +47,17 @@ const loginValidation = (req, res, next) => {
   next();
 };
 
+const tokenValidation = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
+  if (token !== 'token') {
+    return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
+  }
+  next();
+};
+
 module.exports = {
   userValidation,
   loginValidation,
+  tokenValidation,
 };

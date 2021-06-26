@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     const user = await User.findOne({ where: { email, password } });
     console.log(user);
     if (!user) return res.status(BAD_REQUEST).json({ message: 'Invalid fields' });
-    res.status(OK).json({ token: 'asdbnasdbaskdbasfbasfsa' });
+    res.status(OK).json({ token: 'token' });
   } catch (error) {
     res.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
