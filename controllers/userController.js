@@ -14,15 +14,15 @@ const createUser = async (req, res) => {
 const getAllUsers = async (_req, res) => {
   const getUsers = await User.findAll();
 
-  res.status(200).json(getUsers);
+  return res.status(200).json(getUsers);
 };
 
 const getUserById = async (req, res) => {
   const userById = await User.findByPk(req.params.id);
 
-  if (!userById) return res.status(404).json({ message: 'Usuário não encontrado' });
+  if (!userById) return res.status(404).json({ message: 'User does not exist' });
 
-  res.status(201).json(userById);
+  res.status(200).json(userById);
 };
 
 const deleteUser = async (req, res) => {
