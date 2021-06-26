@@ -9,9 +9,10 @@ const add = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const response = await User.findAll();
+    const response = await User.findAll({ attributes: { exclude: ['password'] } });
     return res.status(200).json(response);
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ message: 'Internal Error' });
   }
 };
@@ -19,7 +20,7 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await User.findByPk(id);
+    const response = await User.findByPk(id, { attributes: { exclude: ['password'] } });
     if (!response) return res.status(404).json({ message: 'User does not exist' });
     return res.status(200).json(response);
   } catch (err) {

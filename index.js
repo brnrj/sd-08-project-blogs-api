@@ -5,6 +5,7 @@ const rescue = require('express-rescue');
 const Users = require('./controllers/users');
 const Login = require('./controllers/login');
 const Categories = require('./controllers/categories');
+const Post = require('./controllers/post');
 
 const validateJWT = require('./middleware/validateJWT');
 
@@ -26,6 +27,8 @@ app.post('/login', rescue(Login.login));
 
 app.post('/categories', validateJWT, rescue(Categories.add));
 app.get('/categories', validateJWT, rescue(Categories.getAll));
+
+app.post('/post', validateJWT, rescue(Post.add));
 
 app.use((err, req, res, _next) => {
   const { code, message } = err;
