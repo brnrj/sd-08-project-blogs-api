@@ -5,7 +5,7 @@ const login = async (req, res) => {
 
   const token = await LoginSevices.login(body);
 
-  return res.status(201).json({ token });
+  return res.status(200).json({ token });
 };
 
 module.exports = {
