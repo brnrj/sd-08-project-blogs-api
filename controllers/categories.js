@@ -1,4 +1,4 @@
-// const { Category } = require('../models');
+const { Category } = require('../models');
 const CategoryServices = require('../services/categories');
 
 const add = async (req, res) => {
@@ -7,6 +7,16 @@ const add = async (req, res) => {
   res.status(201).json(response);
 };
 
+const getAll = async (req, res) => {
+  try {
+    const response = await Category.findAll();
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json({ message: 'Internal Error' });
+  }
+};
+
 module.exports = {
   add,
+  getAll,
 };

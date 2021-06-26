@@ -25,6 +25,7 @@ app.get('/user/:id', validateJWT, rescue(Users.getById));
 app.post('/login', rescue(Login.login));
 
 app.post('/categories', validateJWT, rescue(Categories.add));
+app.get('/categories', validateJWT, rescue(Categories.getAll));
 
 app.use((err, req, res, _next) => {
   const { code, message } = err;
