@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { hash } = require('bcryptjs');
+// const { hash } = require('bcryptjs');
 const { signToken } = require('../config/jwtConfig');
 const { User } = require('../models');
 const HandleError = require('../http/errors/HandleError');
@@ -13,8 +13,9 @@ exports.createUser = async ({ displayName, email, password, image = 'any' }) => 
     },
   });
   if (userExists.length !== 0) throw new HandleError('User already registered', 409);
-  const hashedPassword = await hash(password, 8);
-  const user = await User.create({ displayName, email, password: hashedPassword, image });
+  // const hashedPassword = await hash(password, 8);
+  // const user = await User.create({ displayName, email, password: hashedPassword, image });
+  const user = await User.create({ displayName, email, password, image });
   return user;
 };
 
