@@ -5,7 +5,7 @@ const createUser = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
   try {
     const createdUser = await userService.createUser(displayName, email, password, image);
-    res.status(httpStatusCode.CREATED).send(createdUser);
+    res.status(httpStatusCode.CREATED).json({ token: createdUser });
   } catch (error) {
     return next(error);
   }

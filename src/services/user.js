@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const CustomErr = require('../utils');
 const { httpStatusCode } = require('../../constants');
-const tokenGenerete = require('../auth');
+const { tokenGenerete } = require('../auth');
 const { userValidations } = require('../validations');
 
 const createUser = async (displayName, email, password, image) => {
