@@ -1,13 +1,7 @@
 const { User } = require('../models');
 
 /* req 1
-[Será validado que é possível cadastrar um usuário com sucesso]
-[Será validado que não é possível cadastrar usuário com o campo displayName menor que 8 caracteres]
-[Será validado que não é possível cadastrar usuário com o campo email com formato email: rubinho]
-[Será validado que não é possível cadastrar usuário com o campo email com formato email: @gmail.com]
-[Será validado que o campo email é obrigatório]
-[Será validado que o campo password é obrigato]
-[Validar que não é possível cadastrar um usuário com email já existente]
+*Mockup de mensagens
 */
 const usuario = {
   nomeMenor: { message: '"displayName" length must be at least 8 characters long', status: 400 },
@@ -17,6 +11,18 @@ const usuario = {
   passwordRequerido: { message: '"password" is required', status: 400 },
   usurarioExistente: { message: 'User already registered', status: 409 },
   usurarioCadastrado: { message: 'Success returned Token', status: 201 },
+};
+
+/* req 3
+* Feito no Middleware de autenticação
+*/
+
+/* req 4
+*Mockup de mensagens
+*/
+const listaUsuario = {
+  usuarioEncontrado: { message: 'List user', status: 200 },
+  usuarioInexistente: { message: 'User does not exist', status: 404 },
 };
 
 const validEntrie = (myValue, object) => {
@@ -79,27 +85,13 @@ const create = ({ displayName, email, password }) => {
   return true;
 };
 
-/* req 3
-[Será validado que é possível listar todos os usuários]
-[Será validado que não é possível listar usuários sem o token na requisição]
-[Será validado que não é possível listar usuários com o token inválido]
-*/
-const listaUsuarios = {
-  usuarioEncontrado: { message: 'List users', status: 200 },
-  tokenInexistente: { message: 'Token not found', status: 401 },
-  tokenExpirado: { message: 'Expired or invalid token', status: 401 },
-};
-/* req 4
-[Será validado que é possível listar um usuario específico com sucesso]
-[Será validado que não é possível listar um usuário inexistente]
-[Será validado que não é possível listar um determinado usuário sem o token na requisição]
-[Será validado que não é possível listar um determinado usuário com o token inválido]
-*/
-const listaUsuario = {
-  usuarioEncontrado: { message: 'List user', status: 200 },
-  usuarioInexistente: { message: 'User does not exist', status: 404 },
-  tokenInexistente: { message: 'Token not found', status: 401 },
-  tokenExpirado: { message: 'Expired or invalid token', status: 401 },
+const getUser = async (id) => {
+  const userById = await User.findByPk(id);
+  const { usuarioInexistente } = listaUsuario;
+  if (!userById) {
+    return ({ result: usuarioInexistente });
+  }
+  return ({ userById });
 };
 /* req 12
 [Será validado que é possível excluir meu usuário com sucesso]
@@ -114,4 +106,5 @@ const deleteSe = {
 
 module.exports = {
   create,
+  getUser,
 };

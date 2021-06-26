@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { create } = require('../services/userService');
+const { create, getUser } = require('../services/userService');
 
 const createUser = async (req, res) => {
     const { displayName, email, password, image } = req.body;
@@ -18,11 +18,14 @@ const getAllUsers = async (_req, res) => {
 };
 
 const getUserById = async (req, res) => {
-  const userById = await User.findByPk(req.params.id);
+  const { result, userById } = await getUser(req.params.id);
 
-  if (!userById) return res.status(404).json({ message: 'User does not exist' });
+  if (result) {
+    const { status, message } = result;
+    return res.status(status).json({ message });
+  }
 
-  res.status(200).json(userById);
+  return res.status(200).json(userById);
 };
 
 const deleteUser = async (req, res) => {
