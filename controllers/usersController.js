@@ -1,7 +1,7 @@
 const { usersUseCasesService } = require('../services');
 const { User } = require('../models');  
   
-  exports.userAll = async (req, res) => {
+  exports.usersAll = async (req, res) => {
     try {
       const users = await User.findAll({
         attributes: ['id', 'displayName', 'email', 'image'],
@@ -9,6 +9,15 @@ const { User } = require('../models');
       res.status(200).json(users);
       } catch (error) {
         res.status(400).json({ message: error.message });
+      }
+  };
+
+  exports.userById = async (req, res) => {
+    try {
+      const users = await usersUseCasesService.findByUser(req.params);
+      res.status(200).json(users);
+      } catch (error) {
+        res.status(error.statusCode).json({ message: error.message });
       }
   };
   
@@ -28,6 +37,6 @@ const { User } = require('../models');
     const user = await usersUseCasesService.authorizationUser({ email, password });
       res.status(200).json(user);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(error.statusCode).json({ message: error.message });
     }
   };

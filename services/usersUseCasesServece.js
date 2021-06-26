@@ -40,8 +40,15 @@ exports.authorizationUser = async ({ email, password }) => {
   return { token };
 };
 
-exports.findUsers = async () => {
-  const user = await User.findAll();
-  if (user.length === 0) throw new HandleError('User already registered');
+exports.findByUser = async ({ id }) => {
+  const [user] = await User.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+    where: {
+      id: {
+        [Op.eq]: id,
+      },
+    },
+  });
+  if (!user) throw new HandleError('User does not exist', 404);
   return user;
 };

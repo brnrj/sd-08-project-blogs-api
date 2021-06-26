@@ -4,7 +4,7 @@ const { usersController } = require('../../controllers');
 const auth = require('../middlewares/isAuthenticated');
 
 const routes = express.Router();
-routes.get('/', auth, usersController.userAll);
+routes.get('/', auth, usersController.usersAll);
 
 routes.post('/', celebrate({
   [Segments.BODY]: {
@@ -14,5 +14,7 @@ routes.post('/', celebrate({
     image: Joi.string(),
   }, 
 }), usersController.createUser);
+
+routes.get('/:id', auth, usersController.userById);
 
 module.exports = routes;
