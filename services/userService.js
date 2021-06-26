@@ -34,7 +34,7 @@ const emailTest = (myEmail) => {
 const uniqueEmail = async (myEmail) => {
   const { usurarioExistente } = usuario;
 
-  const user = await User.findOne({ where: { email: myEmail }});
+  const user = await User.findOne({ where: { email: myEmail } });
   
   if (user) return usurarioExistente;
   return true;
@@ -44,7 +44,7 @@ const validateEmail = async (myEmail) => {
   const { emailRequerido } = usuario;
   if (validEntrie(myEmail, emailRequerido) !== true) return validEntrie(myEmail, emailRequerido);
   if (emailTest(myEmail) !== true) return emailTest(myEmail);
-  if (await uniqueEmail(myEmail) !== true) return await uniqueEmail(myEmail);
+  if (await uniqueEmail(myEmail) !== true) return uniqueEmail(myEmail);
   return true;
 };
 
@@ -57,7 +57,9 @@ const passwordTest = (myPassword) => {
 
 const validatePassword = (myPassword) => {
   const { passwordRequerido } = usuario;
-  if (validEntrie(myPassword, passwordRequerido) !== true) return validEntrie(myPassword, passwordRequerido);
+  if (validEntrie(myPassword, passwordRequerido) !== true) {
+    return validEntrie(myPassword, passwordRequerido);
+  }
   if (passwordTest(myPassword) !== true) return passwordTest(myPassword);
   return true;
 };
@@ -65,12 +67,12 @@ const validatePassword = (myPassword) => {
 const validName = (myName) => {
   const { nomeMenor } = usuario;
   
-  if (myName?.length < 8) return nomeMenor;
+  if (myName && myName.length < 8) return nomeMenor;
   return true;
 };
 
 const create = ({ displayName, email, password }) => {
-  console.log(displayName, email, password)
+  console.log(displayName, email, password);
   if (validName(displayName) !== true) return validName(displayName);
   if (validatePassword(password) !== true) return validatePassword(password);
   if (validateEmail(email) !== true) return validateEmail(email);
@@ -111,5 +113,5 @@ const deleteSe = {
 };
 
 module.exports = {
-  create
-}
+  create,
+};

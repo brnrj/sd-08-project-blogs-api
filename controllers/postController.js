@@ -1,3 +1,4 @@
+const Op = require('sequelize');
 const { BlogPost } = require('../models');
 
 const createPost = async (req, res) => {
@@ -34,7 +35,7 @@ const deletePost = async (req, res) => {
 const updatePost = async (req, res) => {
   const { } = req.body;
 
-  await BlogPost.update({ },
+  await BlogPost.update({},
     {
       where: {
         id: req.params.id,

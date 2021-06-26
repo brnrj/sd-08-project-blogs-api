@@ -7,8 +7,8 @@ const createUser = async (req, res) => {
     if (result !== true) {
       return res.status(result.status).json({ message: result.message });
     }  
-    const createUser = await User.create({ displayName, email, password, image });
-    return res.status(201).json(createUser);
+    const createdU = await User.create({ displayName, email, password, image });
+    return res.status(201).json(createdU);
 };
 
 const getAllUsers = async (_req, res) => {
