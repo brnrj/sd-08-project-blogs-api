@@ -8,4 +8,6 @@ const router = express.Router();
 
 router.post('/', authMiddleware, categoriesControler.insertCategory);
 
+router.get('/', authMiddleware, categoriesControler.getAllCategories);
+
 module.exports = router;

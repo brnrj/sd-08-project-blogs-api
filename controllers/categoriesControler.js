@@ -2,7 +2,7 @@ const rescue = require('express-rescue');
 const categoriesService = require('../services/categoriesService');
 
 const CREATED_STATUS = 201;
-// const OK_STATUS = 200;
+const OK_STATUS = 200;
 
 const insertCategory = rescue(async (req, res, next) => {
   const { name } = req.body;
@@ -11,6 +11,13 @@ const insertCategory = rescue(async (req, res, next) => {
   return res.status(CREATED_STATUS).json(result);
 });
 
+const getAllCategories = rescue(async (req, res, next) => {
+  const result = await categoriesService.getAllCategories();
+  if (result.err) return next(result);
+  return res.status(OK_STATUS).json(result);
+});
+
 module.exports = {
   insertCategory,
+  getAllCategories,
 };
