@@ -1,6 +1,6 @@
 const { CelebrateError } = require('celebrate');
 const express = require('express');
-const { loginRoutes, usersRoutes, categoryRoutes } = require('./http/routers');
+const { loginRoutes, usersRoutes, categoryRoutes, postRoutes } = require('./http/routers');
 const HandleError = require('./http/errors/HandleError');
 
 const app = express();
@@ -14,6 +14,7 @@ app.get('/', (request, response) => {
 app.use('/login', loginRoutes);
 app.use('/user', usersRoutes);
 app.use('/categories', categoryRoutes);
+app.use('/post', postRoutes);
 
 app.use((err, _req, res, _next) => {
   if (err instanceof CelebrateError) {

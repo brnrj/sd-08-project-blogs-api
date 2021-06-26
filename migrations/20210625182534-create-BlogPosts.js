@@ -19,7 +19,7 @@ module.exports = {
       },
       userId: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       published: {
         allowNull: false,
@@ -27,6 +27,7 @@ module.exports = {
       },
       updated: {
         allowNull: false,
+        defaultValue: new Date(),
         type: Sequelize.DATE,
       },
     });
