@@ -3,6 +3,7 @@ const { httpStatusCode } = require('../../constants');
 
 const createUser = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
+  console.log('user: ', req.body);
   try {
     const createdUser = await userService.createUser(displayName, email, password, image);
     res.status(httpStatusCode.CREATED).send(createdUser);
