@@ -1,16 +1,18 @@
 const express = require('express');
 const user = require('./user');
 const login = require('./login');
+const categories = require('./categories');
 const posts = require('./posts');
 
 const router = express.Router();
 
-router.use('/user', user);
-
 router.route('/login')
- .post(login);
+  .post(login);
 
-router.route('/post')
-  .post(posts);
+router.use('/user', user);
+ 
+ router.use('/categories', categories);
+
+router.use('/post', posts);
 
 module.exports = router;
