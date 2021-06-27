@@ -1,4 +1,5 @@
 const express = require('express');
+const loginController = require('./controllers/login');
 const userController = require('./controllers/user');
 
 const app = express();
@@ -14,3 +15,4 @@ app.get('/', (request, response) => {
 
 app.use('/teste', (req, res) => res.status(200).json({ message: 'Hello World' }));
 app.use('/user', userController);
+app.use('/login', loginController);
