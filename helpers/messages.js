@@ -5,6 +5,7 @@ const code = {
   SERVER_ERROR: 500,
   CONFLICT: 409,
   UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
 };
 
 module.exports = { code };
