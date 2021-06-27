@@ -1,3 +1,5 @@
+const { Users } = require('./models');
+
 /*  const validationUser = async (req, res, next) => {
   const emailRegex = /\S+@\S+\.\S+/;
 
@@ -22,8 +24,6 @@ next();
 };
  */ 
 
-const BAD_REQUEST = 400;
-
 const nameValidation = (displayName) => {
   if (displayName.length < 8) return '"displayName" length must be at least 8 characters long';
   return false;
@@ -40,11 +40,13 @@ const passValidation = (password) => {
   if (password.length < 6) return '"password" length must be 6 characters long';
 };
 
-const userValidation = (req, res, next) => {
+const userValidation = async (req, res, next) => {
   const { displayName, email, password } = req.body;
   const validation = nameValidation(displayName) || emailValidation(email)
     || passValidation(password);
-  if (validation) return res.status(BAD_REQUEST).json({ message: validation });
+  if (validation) return res.status(400).json({ message: validation });
+  const user = await Users.findOne({ where: { email } });
+  if (user) return res.status(409).json({ message: 'User already registered' });
   next();
 };
 

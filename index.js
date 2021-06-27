@@ -4,6 +4,7 @@ const USER = require('./controllers/userController');
 const CATEGORIE = require('./controllers/categoriesController');
 const { getToken } = require('./getToken');
 const valiToken = require('./valiToken');
+const POSTS = require('./controllers/postsController');
 const { userValidation } = require('./validations');
 
 const app = express();
@@ -14,7 +15,7 @@ app.get('/user', valiToken, USER.getAll);
  app.get('/user/:id', valiToken, USER.findOne); 
  app.post('/categories', valiToken, CATEGORIE.categoryCreate);
  app.get('/categories', valiToken, CATEGORIE.getAllCategories); 
- // app.post('/post', valiToken, CATEGORIE.blogPost); 
+ app.post('/post', valiToken, POSTS.addPost); 
  
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

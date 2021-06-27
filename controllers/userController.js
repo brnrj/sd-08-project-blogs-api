@@ -1,28 +1,20 @@
 const { Users } = require('../models/index');
 
-const CREATED = 201;
-const OK = 200;
-
-const BAD_REQUEST = 400;
-const CONFLICT = 409;
-const INTERNAL_SERVER_ERROR = 500;
 const newUser = async (req, res) => {
   try {
-   const { email } = req.body;
-   const user = await Users.findOne({ where: { email } });
-   if (user) return res.status(CONFLICT).json({ message: 'User already registered' });
-   await Users.create(req.body);
-   res.status(CREATED).json({ token: 'asdbasdbaskdbasjkdbasjk' });
+    const data = req.body;
+    await Users.create(data);
+    res.status(201).json({ token: 'asdasdsadqweqwerwsdvxc' });
   } catch (error) {
-    res.status(BAD_REQUEST).json(error.message);
+    res.status(400).json(error.message);
   }
 };
 const getAll = async (req, res) => {
   try {
     const users = await Users.findAll();
-    return res.status(OK).json(users);
+    return res.status(200).json(users);
   } catch (error) {
-    res.status(INTERNAL_SERVER_ERROR).json(error.message);
+    res.status(500).json(error.message);
   }
 };
 const findOne = async (req, res) => { // por id

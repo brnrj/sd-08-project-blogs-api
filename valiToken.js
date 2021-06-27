@@ -3,13 +3,11 @@ const jwt = require('jsonwebtoken');
 const secret = 'segredosecreto';
 const { Users } = require('./models');
 
-const NOT_FOUND = 401;
-
 const valiToken = async (req, res, next) => {
   try {
 const token = req.headers.authorization;
     
-if (!token) res.status(NOT_FOUND).json({ message: 'Token not found' });
+if (!token) res.status(401).json({ message: 'Token not found' });
 const decode = jwt.verify(token, secret);
 const user = await Users.findOne({ where: { email: decode.data } });
 
@@ -17,7 +15,7 @@ const user = await Users.findOne({ where: { email: decode.data } });
  req.user = user;
 next();
   } catch (error) {
-    res.status(NOT_FOUND).json({ message: 'Expired or invalid token' });
+    res.status(401).json({ message: 'Expired or invalid token' });
   }
 };
 
