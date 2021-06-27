@@ -20,10 +20,18 @@ const wrongPassword = {
     message: 'password incorrect',
   },
 };
+
 const userNotExists = {
   statusCode: codes.NOT_FOUND,
   error: {
     message: 'User does not exist',
+  },
+};
+
+const userNotFound = {
+  statusCode: codes.BAD_REQUEST,
+  error: {
+    message: 'Invalid fields',
   },
 };
 
@@ -64,4 +72,5 @@ module.exports = {
   userUnathorized,
   categoryIdNotFound,
   postNotExists,
+  userNotFound,
 };

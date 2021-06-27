@@ -4,6 +4,9 @@ const {
   usersController: {
     userCreate,
   },
+  loginController: {
+    makeLogin,
+  },
 } = require('./controlers');
 
 const {
@@ -11,6 +14,10 @@ const {
     validateName,
     validateEmail,
     validatePassword,
+  },
+  loginMiddlewares: {
+    validateEmailLogin,
+    validatePasswordLogin,
   },
 } = require('./middlewares');
 
@@ -24,10 +31,16 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+// Rotas /user
 app.post('/user',
   validateName,
   validateEmail,
   validatePassword,
   userCreate);
+
+app.post('/login',
+  validateEmailLogin,
+  validatePasswordLogin,
+  makeLogin);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
