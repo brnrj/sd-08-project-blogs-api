@@ -1,5 +1,8 @@
+const jwt = require('jsonwebtoken');
 const { httpStatusCode } = require('../../constants');
 const CustomErr = require('../utils');
+
+const secret = process.env.JWT_SECRET;
 
 const nameValidate = (displayName) => {
   if (displayName === '' || displayName === undefined) {
@@ -36,8 +39,14 @@ const passValidate = (password) => {
   }
 };
 
+const tokenValidator = (token) => {
+  const decoded = jwt.verify(token, secret);
+  if (!decoded) throw new CustomErr(httpStatusCode.UNAUTHORIZED, 'Expired or invalid token');
+};
+
 module.exports = {
   nameValidate,
   mailValidate,
   passValidate,
+  tokenValidator,
 };

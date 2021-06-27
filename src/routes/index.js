@@ -3,10 +3,9 @@ const user = require('./user');
 const login = require('./login');
 const posts = require('./posts');
 
-const router = express();
+const router = express.Router();
 
-router.route('/user')
-  .post(user);
+router.use('/user', user);
 
 router.route('/login')
  .post(login);
