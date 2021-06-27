@@ -13,9 +13,7 @@ exports.registerPost = async ({ userId, title, content, categoryIds }) => {
 
   if (!categoryExists) throw new HandleError('"categoryIds" not found', 400);
   const published = new Date();
-  console.log({ 
-    title, content, userId, published, 
-  });
+
   const category = await BlogPost.create({ 
     title, content, userId, published, 
   });
