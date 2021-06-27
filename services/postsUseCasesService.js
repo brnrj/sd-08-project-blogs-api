@@ -3,15 +3,15 @@ const { BlogPost, PostCategory, Category, User } = require('../models');
 const HandleError = require('../http/errors/HandleError');
 
 exports.registerPost = async ({ userId, title, content, categoryIds }) => {
-  const categoryExists = await Category.findAll({
+  const categoryExists = await Category.count({
     where: {
       id: {
         [Op.or]: categoryIds,
       },
     },
   });
-
-  if (categoryExists.length < 1) throw new HandleError('"categoryIds" not found', 400);
+  if (!categoryExists 
+    || categoryExists < categoryIds.length) throw new HandleError('"categoryIds" not found', 400);
   const published = new Date();
   
   const post = await BlogPost.create({ 
