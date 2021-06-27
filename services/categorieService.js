@@ -7,12 +7,14 @@
 const categoria = {
   categoriaCriada: { message: 'Category created', status: 201 },
   nomeRequerido: { message: '"name" is required', status: 400 },
-  tokenInexistente: { message: 'Token not found', status: 401 },
-  tokenExpirado: { message: 'Expired or invalid token', status: 401 },
 };
 
 const validEntrie = (myValue, object) => {
-  if (myValue === undefined || myValue === null) return object;
+  if (
+    myValue === undefined
+    || myValue === null
+    || myValue === ''
+    || typeof myValue !== 'string') return object;
   return true;
 };
 
