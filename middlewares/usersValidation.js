@@ -12,13 +12,19 @@ const validateDisplayName = async (req, res, next) => {
 const validateEmail = async (req, res, next) => {
   const { email } = req.body;
   const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-  const emailExists = await usersServices.findUserByEmail(email);
-  if (typeof email !== 'string' || !emailRegex.test(email)) {
-    return res.status(status.badRequest).json({ message: message.invalidEmail });
-  }
-  if (!email) {
+  const emailIsValid = emailRegex.test(email);
+  if (email === '' || email === undefined) {
     return res.status(status.badRequest).json({ message: message.requiredEmail });
   }
+  if (!emailIsValid) {
+    return res.status(status.badRequest).json({ message: message.invalidEmail });
+  }
+  next();
+};
+
+const validateEmailExists = async (req, res, next) => {
+  const { email } = req.body;
+  const emailExists = await usersServices.findUserByEmail(email);
   if (emailExists) {
     return res.status(status.conflict).json({ message: message.existsEmail });
   }
@@ -26,18 +32,16 @@ const validateEmail = async (req, res, next) => {
 };
 
 const validatePassword = async (req, res, next) => {
-  const { password } = req.body;  
-  if (password.length < 6) {
-    return res.status(status.badRequest).json({ message: message.passwordSize });
-  }
-  if (!password) {
-   return res.status(status.badRequest).json({ message: message.requiredPassword });
-  }
+  const { password } = req.body;
+  if (password === '' || password === undefined) {
+    return res.status(status.badRequest).json({ message: message.requiredPassword });
+   }
   next();
 };
 
 module.exports = {
   validateDisplayName,
   validateEmail,
+  validateEmailExists,
   validatePassword,
 };
