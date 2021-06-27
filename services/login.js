@@ -3,7 +3,7 @@ const generateToken = require('./token');
 
 const OK = 200;
 const BAD_REQUEST = 400;
-const INVALID_FIELDS = { message: 'invalid fields' };
+const INVALID_FIELDS = { message: 'Invalid fields' };
 
 const post = async (req, res) => {
   const { email, password } = req.body;
