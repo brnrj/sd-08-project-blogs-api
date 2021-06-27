@@ -1,7 +1,8 @@
-const Category = (sequelize, DataTypes) => {
-  const category = sequelize.define(
+module.exports = (sequelize, DataTypes) => {
+  const Category = sequelize.define(
     'Category',
     {
+      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       name: DataTypes.STRING,
     },
     {
@@ -9,7 +10,5 @@ const Category = (sequelize, DataTypes) => {
     },
   );
 
-  return category;
+  return Category;
 };
-
-module.exports = Category;
