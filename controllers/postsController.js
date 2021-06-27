@@ -20,7 +20,7 @@ const { BlogPost, User, Category } = require('../models');
       const category = await postsUseCasesService.findByPost(req.params);
       res.status(200).json(category);
       } catch (error) {
-        res.status(error.statusCode).json({ message: error.message });
+        res.status(404).json({ message: error.message });
       }
   };
   
