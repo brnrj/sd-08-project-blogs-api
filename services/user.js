@@ -3,9 +3,7 @@ const generateToken = require('./token');
 
 const CREATED = 201;
 const CONFLICT = 409;
-const USER_EXISTS = {
-  message: 'User already registered',
-};
+const USER_EXISTS = { message: 'User already registered' };
 
 const post = async (req, res) => {
   const { email } = req.body;
