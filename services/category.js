@@ -1,5 +1,6 @@
 const { Category } = require('../models/index');
 
+const OK = 200;
 const CREATED = 201;
 
 const post = async (req, res) => {
@@ -8,6 +9,14 @@ const post = async (req, res) => {
   res.status(CREATED).json(createdCategory);
 };
 
+const getAll = async (req, res) => {
+  const categoryList = await Category.findAll({
+    attributes: ['id', 'name'],
+  });
+  res.status(OK).json(categoryList);
+};
+
 module.exports = {
   post,
+  getAll,
 };
