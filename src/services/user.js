@@ -18,12 +18,18 @@ const createUser = async (displayName, email, password, image) => {
     return token;
 };
 
-const GetAllUsers = async () => {
+const getAllUsers = async () => {
   const usersFound = await User.findAll();
   return usersFound;
 };
 
+const getUserById = async (id) => {
+  const userFound = await User.findOne({ where: { id } });
+  return userFound;
+};
+
 module.exports = {
   createUser,
-  GetAllUsers,
+  getAllUsers,
+  getUserById,
 };
