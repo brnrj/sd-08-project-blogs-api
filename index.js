@@ -1,4 +1,5 @@
 const express = require('express');
+const categoryController = require('./controllers/category');
 const loginController = require('./controllers/login');
 const userController = require('./controllers/user');
 
@@ -16,3 +17,4 @@ app.get('/', (request, response) => {
 app.use('/teste', (req, res) => res.status(200).json({ message: 'Hello World' }));
 app.use('/user', userController);
 app.use('/login', loginController);
+app.use('/categories', categoryController);
