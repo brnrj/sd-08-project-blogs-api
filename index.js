@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { userRouter } = require('./routes');
+const { userRouter, loginRouter } = require('./routes');
 const generalError = require('./middlewares/error');
 
 const app = express();
@@ -14,4 +14,5 @@ app.get('/', (request, response) => {
 });
 
 app.use('/user', userRouter);
+app.use('/login', loginRouter);
 app.use(generalError);

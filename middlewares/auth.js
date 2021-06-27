@@ -6,12 +6,12 @@ const { JWT_SECRET } = process.env;
 
 const jwtMalformed = {
   status: UNAUTHORIZED,
-  message: 'jwt malformed',
+  message: 'Expired or invalid token',
 };
 
 const missingAuthToken = {
   status: UNAUTHORIZED,
-  message: 'missing auth token',
+  message: 'Token not found',
 };
 
 const auth = rescue((req, _res, next) => {
@@ -21,11 +21,9 @@ const auth = rescue((req, _res, next) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     const {
-      data: { id, role, userEmail },
+      data: { email },
     } = decoded;
-    req.email = userEmail;
-    req.userId = id;
-    req.role = role;
+    req.email = email;
   } catch (e) {
     next({ err: jwtMalformed });
   }

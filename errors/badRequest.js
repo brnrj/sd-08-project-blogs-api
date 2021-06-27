@@ -1,8 +1,8 @@
 const { BAD_REQUEST } = require('../helpers/statusHttp');
 
-const errorMessage = (message) => ({
+const errorMessage = (message, status = BAD_REQUEST) => ({
   err: {
-    status: BAD_REQUEST,
+    status,
     message,
   },
 });

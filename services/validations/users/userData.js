@@ -1,12 +1,6 @@
-const errorMessage = require('../../../errors/badRequest');
 const displayNameValidate = require('./displayName');
 const emailValidate = require('./email');
-
-const passwordValidate = (password) => {
-  if (!password) return errorMessage('"password" is required');
-  if (password.length < 6) return errorMessage('"password" length must be 6 characters long');
-  return true;
-};
+const passwordValidate = require('./password');
 
 const userData = async (displayName, email, password) => {
   const displayNameValid = displayNameValidate(displayName);
