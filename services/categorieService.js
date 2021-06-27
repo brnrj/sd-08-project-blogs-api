@@ -18,7 +18,6 @@ const validEntrie = (myValue, object) => {
   return true;
 };
 
-
 const create = ({ name }) => {
   console.log('name', name);
   const { nomeRequerido } = categoria;
