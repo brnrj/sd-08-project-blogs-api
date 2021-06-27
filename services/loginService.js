@@ -1,12 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 /* req 2
-[Será validado que é possível fazer login com sucesso]
-[Será validado que não é possível fazer login sem o campo email]
-[Será validado que não é possível fazer login sem o campo password]
-[Será validado que não é possível fazer login com o campo email em branco]
-[Será validado que não é possível fazer login com o campo password em branco]
-[Será validado que não é possível fazer login com um usuário que não existe]
+*Mockup de mensagens
 */
 const login = {
   passwordRequerido: { message: '"password" is required', status: 400 },

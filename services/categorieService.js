@@ -19,9 +19,10 @@ const validEntrie = (myValue, object) => {
 };
 
 
-const create = ({ myName }) => {
+const create = ({ name }) => {
+  console.log('name', name);
   const { nomeRequerido } = categoria;
-  if (validEntrie(myName, nomeRequerido) !== true) return validEntrie(myName, nomeRequerido);  
+  if (validEntrie(name, nomeRequerido) !== true) return validEntrie(name, nomeRequerido);  
   return true;
 };
 

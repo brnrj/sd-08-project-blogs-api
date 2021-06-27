@@ -6,10 +6,10 @@ const categoryController = require('../controllers/categoryController');
 const { auth } = require('../middlewares/auteMiddleware');
 
 const router = express.Router();
-const CATEGORY = '/category';
+const CATEGORIES = '/categories';
 // const CATEGORYID = '/category/:id';
 
-router.post(CATEGORY, auth, categoryController.createCategory);
-router.get(CATEGORY, auth, categoryController.getAllCategory);
+router.post(CATEGORIES, auth, categoryController.createCategory);
+router.get(CATEGORIES, auth, categoryController.getAllCategory);
 
 module.exports = router;
