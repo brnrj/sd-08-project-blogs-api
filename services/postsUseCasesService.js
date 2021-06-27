@@ -1,22 +1,24 @@
 const { Op } = require('sequelize');
-const { BlogPost } = require('../models');
+const { BlogPost, PostCategory } = require('../models');
 const HandleError = require('../http/errors/HandleError');
 
 exports.registerPost = async ({ userId, title, content, categoryIds }) => {
-  const [categoryExists] = await BlogPost.findAll({
+  const categoryExists = await BlogPost.findAll({
     where: {
       id: {
-        [Op.eq]: categoryIds,
+        [Op.or]: categoryIds,
       },
     },
   });
 
-  if (!categoryExists) throw new HandleError('"categoryIds" not found', 400);
+  if (categoryExists.length < 1) throw new HandleError('"categoryIds" not found', 400);
   const published = new Date();
-
+  
   const post = await BlogPost.create({ 
     title, content, userId, published, 
   });
+  const postsCategories = categoryIds.map((categoryId) => ({ postId: post.id, categoryId }));
+  await PostCategory.bulkCreate(postsCategories);
   return post;
 };
 

@@ -1,10 +1,13 @@
 const { postsUseCasesService } = require('../services');
-const { BlogPost, User } = require('../models');
+const { BlogPost, User, Category } = require('../models');
   
   exports.postsAll = async (_req, res) => {
     try {
       const category = await BlogPost.findAll({
-        include: { model: User, as: 'users' },
+        include: [
+          { model: User, as: 'user' }, 
+          { model: Category, as: 'categories', through: { attributes: [] } },
+        ],
       });
       res.status(200).json(category);
       } catch (error) {
