@@ -7,9 +7,8 @@ const createCategory = async (name) => {
   return newCategory;
 };
 
-const getCategory = async (name) => {
-  categoriesValidations.nameValidate(name);
-  const categoryFound = await Category.findOne({ where: { name } });
+const getCategory = async () => {
+  const categoryFound = await Category.findAll();
   return categoryFound;
 };
 

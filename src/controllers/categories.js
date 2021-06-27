@@ -13,11 +13,11 @@ const createCategory = async (req, res, next) => {
 };
 
 const getCategory = async (req, res, next) => {
-  const { name } = req.body;
   try {
-    const categoryFound = await categoriesService.getCategory(name);
+    const categoryFound = await categoriesService.getCategory();
     if (!categoryFound) throw new CustomErr(httpStatusCode.NOT_FOUND, 'Category not found');
-    return res.status(httpStatusCode.CREATED).send(categoryFound);
+    console.log(categoryFound);
+    return res.status(httpStatusCode.OK).send(categoryFound);
   } catch (error) {
     return next(error);
   }
