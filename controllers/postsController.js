@@ -1,9 +1,11 @@
 const { postsUseCasesService } = require('../services');
-const { BlogPost } = require('../models');
+const { BlogPost, User } = require('../models');
   
   exports.postsAll = async (_req, res) => {
     try {
-      const category = await BlogPost.findAll();
+      const category = await BlogPost.findAll({
+        include: { model: User, as: 'users' },
+      });
       res.status(200).json(category);
       } catch (error) {
         res.status(400).json({ message: error.message });
