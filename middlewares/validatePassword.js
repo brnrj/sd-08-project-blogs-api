@@ -1,9 +1,11 @@
 const BAD_REQUEST = 400;
 const INVALID_PW = { message: '"password" length must be 6 characters long' };
 const REQUIRED_PW = { message: '"password" is required' };
+const EMPTY_PW = { message: '"password" is not allowed to be empty' };
 
 const valPw = async (req, res, next) => {
   const { password } = req.body;
+  if (password === '') return res.status(BAD_REQUEST).json(EMPTY_PW);
   if (!password) return res.status(BAD_REQUEST).json(REQUIRED_PW);
   if (password.length !== 6) return res.status(BAD_REQUEST).json(INVALID_PW);
   next();
