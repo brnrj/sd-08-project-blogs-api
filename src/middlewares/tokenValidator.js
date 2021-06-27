@@ -4,14 +4,16 @@ const CustomErr = require('../utils');
 
 const secret = process.env.JWT_SECRET;
 
+const malFormedToken = new CustomErr(httpStatusCode.UNAUTHORIZED, 'Expired or invalid token');
+
 const tokenValidator = (req, res, next) => {
   const token = req.headers.authorization;
+  if (!token) throw new CustomErr(httpStatusCode.UNAUTHORIZED, 'Token not found');
   try {
-    if (!token) throw new CustomErr(httpStatusCode.UNAUTHORIZED, 'Token not found');
     const decoded = jwt.verify(token, secret);
-    if (!decoded) throw new CustomErr(httpStatusCode.UNAUTHORIZED, 'Expired or invalid token');
+    req.user = decoded;
   } catch (error) {
-    return next(error);
+    return next(malFormedToken);
   }
   next();
 };
