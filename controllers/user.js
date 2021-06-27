@@ -8,6 +8,7 @@ const userController = Router();
 const user = require('../services/user');
 
 userController.post('/', valUser, valEmail, valPw, user.post);
+userController.get('/:id', valToken, user.getOne);
 userController.get('/', valToken, user.getAll);
 
 module.exports = userController;

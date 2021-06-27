@@ -3,8 +3,10 @@ const generateToken = require('./token');
 
 const OK = 200;
 const CREATED = 201;
+const NOT_FOUND = 404;
 const CONFLICT = 409;
 const USER_EXISTS = { message: 'User already registered' };
+const USER_NOT_FOUND = { message: 'User does not exist' };
 
 const post = async (req, res) => {
   const { email } = req.body;
@@ -22,7 +24,15 @@ const getAll = async (req, res) => {
   res.status(OK).json(userList);
 };
 
+const getOne = async (req, res) => {
+  const { id } = req.params;
+  const userData = await User.findOne({ where: { id } });
+  if (!userData) return res.status(NOT_FOUND).json(USER_NOT_FOUND);
+  res.status(OK).json(userData);
+};
+
 module.exports = {
   post,
   getAll,
+  getOne,
 };
