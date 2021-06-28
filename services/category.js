@@ -16,6 +16,9 @@ const create = async (newCategory) => {
     CategoryModel.create({ ...newCategory }, { transaction })));
 };
 
+const findAll = async () => CategoryModel.findAll();
+
 module.exports = {
   create,
+  findAll,
 };
