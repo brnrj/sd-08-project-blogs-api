@@ -18,8 +18,8 @@ const create = async (newUser) => {
 
 const findAll = async (options) => UserModel.findAll(options);
 
-const findById = async (options) => {
-  const result = await UserModel.findOne(options);
+const findById = async (id) => {
+  const result = await UserModel.findOne({ where: { id } });
   if (!result) throw boom.notFound('User does not exist');
   return result;
 };
