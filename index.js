@@ -9,6 +9,9 @@ const {
   loginController: {
     makeLogin,
   },
+  categoriesController: {
+    categoryCreate,
+  },
 } = require('./controlers');
 
 const {
@@ -44,5 +47,7 @@ app.post('/login',
   validateEmail,
   validatePassword,
   makeLogin);
+
+app.post('/categories', validateToken, categoryCreate);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
