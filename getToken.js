@@ -8,13 +8,13 @@ const BAD_REQUEST = 400;
 const INTERNAL_SERVER_ERROR = 500;
 
 const emailToken = (email) => {
-  if (email === '') return '"email" is not allowed to be empty'; 
-if (!email) return '"email" is required';
+  if (email === '') return '"email" is not allowed to be empty';
+  if (!email) return '"email" is required';
 };
 
 const passToken = (password) => {
-  if (password === '') return '"password" is not allowed to be empty'; 
-  if (!password) return '"password" is required'; 
+  if (password === '') return '"password" is not allowed to be empty';
+  if (!password) return '"password" is required';
 };
 
 const userToken = async (email, password) => {
@@ -29,26 +29,26 @@ const getToken = async (req, res) => {
       algorithm: 'HS256',
     };
 
-const { email, password } = req.body;
+    const { email, password } = req.body;
 
-/* if (!email) res.status(400).json({ message: '"email" is required' }); */
+    /* if (!email) res.status(400).json({ message: '"email" is required' }); */
 
-/* if (!password) res.status(400).json({ message: '"password" is required' }); */
+    /* if (!password) res.status(400).json({ message: '"password" is required' }); */
 
-/* if (email === '') res.status(400).json({ message: '"email" is not allowed to be empty' }); */
+    /* if (email === '') res.status(400).json({ message: '"email" is not allowed to be empty' }); */
 
-/* if (password === '') res.status(400).json({ message: '"password" is not allowed to be empty' }); */
-const validation = emailToken(email) || passToken(password);
-if (validation) res.status(BAD_REQUEST).json({ message: validation });
+    /* if (password === '') res.status(400).json({ message: '"password" is not allowed to be empty' }); */
+    const validation = emailToken(email) || passToken(password);
+    if (validation) return res.status(BAD_REQUEST).json({ message: validation });
 
-const user = await userToken(email, password);
-if (!user) res.status(BAD_REQUEST).json({ message: 'Invalid fields' }); 
+    const user = await userToken(email, password);
+    if (!user) return res.status(BAD_REQUEST).json({ message: 'Invalid fields' });
 
-const token = jwt.sign({ data: user.dataValues.email }, secret, jwtConfi);
+    const token = jwt.sign({ data: user.dataValues.email }, secret, jwtConfi);
 
-res.status(OK).json({ token });
+    return res.status(OK).json({ token });
   } catch (error) {
-    res.status(INTERNAL_SERVER_ERROR).json(error.message);
+    return res.status(INTERNAL_SERVER_ERROR).json(error.message);
   }
 };
 

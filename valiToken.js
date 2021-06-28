@@ -7,7 +7,7 @@ const valiToken = async (req, res, next) => {
   try {
 const token = req.headers.authorization;
     
-if (!token) res.status(401).json({ message: 'Token not found' });
+if (!token) return res.status(401).json({ message: 'Token not found' });
 const decode = jwt.verify(token, secret);
 const user = await Users.findOne({ where: { email: decode.data } });
 
@@ -15,7 +15,7 @@ const user = await Users.findOne({ where: { email: decode.data } });
  req.user = user;
 next();
   } catch (error) {
-    res.status(401).json({ message: 'Expired or invalid token' });
+  return res.status(401).json({ message: 'Expired or invalid token' });
   }
 };
 
