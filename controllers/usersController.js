@@ -28,6 +28,23 @@ const getAll = async (_req, res) => {
     const { message, code } = err;
 
     if (code) return res.status(code).json({ message });
+
+    return res.status(INTERNAL_SERVER_ERROR).json({
+      message,
+    });
+  }
+};
+
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await userService.getById(id);
+
+    res.status(OK).json(user);
+  } catch (err) {
+    const { message, code } = err;
+
+    if (code) return res.status(code).json({ message });
     
     return res.status(INTERNAL_SERVER_ERROR).json({
       message,
@@ -38,4 +55,5 @@ const getAll = async (_req, res) => {
 module.exports = {
   create,
   getAll,
+  getById,
 };

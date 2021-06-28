@@ -25,7 +25,14 @@ const create = async (user) => {
 
 const getAll = async () => User.findAll();
 
+const getById = async (userId) => {
+  const userFound = await UserValidation.validateUserExists(userId);  
+  
+  return userFound;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };

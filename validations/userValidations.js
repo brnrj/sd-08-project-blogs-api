@@ -41,7 +41,21 @@ const validateEmailAlreadyExists = async (email) => {
   }
 };
 
+const validateUserExists = async (userId) => {
+  const userFound = await User.findByPk(userId);
+
+  if (!userFound) {
+    throw new CustomError(
+      ErrorMessages.userNotExists,
+      StatusCode.NOT_FOUND,
+    );
+  }
+
+  return userFound;
+};
+
 module.exports = {
   validateNewUser,
   validateEmailAlreadyExists,
+  validateUserExists,
 };
