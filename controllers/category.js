@@ -13,6 +13,13 @@ const createCategory = (req, res) => {
     });
 };
 
+const getCategories = (req, res) => {
+  categoryServices.getCategories()
+    .then((response) => res.status(200).json(response))
+    .catch((err) => res.status(500).json(err.message));
+};
+
 module.exports = {
   createCategory,
+  getCategories,
 };
