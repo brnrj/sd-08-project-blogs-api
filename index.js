@@ -10,5 +10,6 @@ app.get('/', (request, response) => {
 
 app.use(express.json());
 app.use(routes.userRoute);
+app.use(routes.loginRoute);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
