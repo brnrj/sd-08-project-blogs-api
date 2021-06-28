@@ -36,3 +36,17 @@ const { BlogPost, User, Category } = require('../models');
       res.status(400).json({ message: error.message });
     }
   };
+
+  exports.postEdit = async (req, res) => {
+    const { title, content } = req.body;
+    const { id } = req.params;
+    const userId = req.user.id;
+    try {
+    const post = await postsUseCasesService.editPost({
+      userId, postId: id, title, content, 
+    });
+      res.status(200).json(post);
+    } catch (error) {
+      res.status(401).json({ message: error.message });
+    }
+  };

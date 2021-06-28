@@ -35,3 +35,24 @@ exports.findByPost = async ({ id }) => {
   if (!category) throw new HandleError('Post does not exist', 404);
   return category;
 };
+
+exports.editPost = async ({ userId, postId, title, content }) => {
+  const [postContent] = await BlogPost.findAll({ where: { id: Number(postId) } });
+  if (!postContent) throw new HandleError('Post does not exist', 404);
+  if (postContent.userId !== userId) throw new HandleError('Unauthorized user', 401);
+  await BlogPost.update({ title, content }, {
+    where: {
+      id: postId,
+    },
+  });
+  const reuslt = await BlogPost.findOne({
+    where: {
+      id: postId,
+    },
+    include: [
+      { model: User, as: 'user' }, 
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return reuslt;
+};
