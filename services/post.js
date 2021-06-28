@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { Error400, Error500 } = require('../errors');
+const { Error400, Error500, Error404 } = require('../errors');
 
 const { BlogPost, Category, User } = require('../models');
 
@@ -64,7 +64,24 @@ const getAll = async () => {
   }
 };
 
+const getById = async (id) => {
+  let response;
+  try {
+    response = await BlogPost.findByPk(id, {
+      include: [
+        { model: User, as: 'user', attributes: { excludes: ['password'] } },
+        { model: Category, as: 'categories' },
+      ],
+    });
+  } catch (err) {
+    throw new Error500('Internal Error');
+  }
+  if (!response) throw new Error404('Post does not exist');
+  return response;
+};
+
 module.exports = {
   add,
   getAll,
+  getById,
 };
