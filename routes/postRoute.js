@@ -16,9 +16,9 @@ const SEARCH = '/post/search?q=:searchTerm';
 
 router.post(POST, auth, postController.createPost);
 router.get(POST, auth, postController.getAllPosts);
-router.get(POSTID, auth, postController.getPostById);
-router.put(POSTID, auth, postController.updatePost);
-router.delete(POSTID, auth, postController.deletePost);
-router.get(SEARCH, auth, postController.searchPost);
+// router.get(POSTID, auth, postController.getPostById);
+// router.put(POSTID, auth, postController.updatePost);
+// router.delete(POSTID, auth, postController.deletePost);
+// router.get(SEARCH, auth, postController.searchPost);
 
 module.exports = router;

@@ -15,6 +15,6 @@ const USER = '/user';
 router.post(USER, userController.createUser);
 router.get(USER, auth, userController.getAllUsers);
 router.get(USERID, auth, userController.getUserById);
-router.delete(USERME, auth, userController.deleteUser);
+// router.delete(USERME, auth, userController.deleteUser);
 
 module.exports = router;
