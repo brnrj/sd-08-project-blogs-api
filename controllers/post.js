@@ -6,6 +6,12 @@ const add = async (req, res) => {
   res.status(201).json(response);
 };
 
+const getAll = async (req, res) => {
+  const response = await PostSevices.getAll();
+  res.status(200).json(response);
+};
+
 module.exports = { 
   add,
+  getAll,
 };

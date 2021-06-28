@@ -29,6 +29,7 @@ app.post('/categories', validateJWT, rescue(Categories.add));
 app.get('/categories', validateJWT, rescue(Categories.getAll));
 
 app.post('/post', validateJWT, rescue(Post.add));
+app.get('/post', validateJWT, rescue(Post.getAll));
 
 app.use((err, req, res, _next) => {
   const { code, message } = err;

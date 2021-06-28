@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { Error400, Error500 } = require('../errors');
 
-const { BlogPost, Category } = require('../models');
+const { BlogPost, Category, User } = require('../models');
 
 const postDataSchema = Joi.object({
   title: Joi.string().required(),
@@ -35,12 +35,28 @@ const add = async (postData, userData) => {
   checkFields(postData);
   await checkCategoryIds(postData.categoryIds);
   try {
-    const { categoryIds, ...postDetails } = postData;
-    const response = await BlogPost.create({
-      ...postDetails,
+    const { categoryIds, ...toAddPostDetails } = postData;
+    const post = await BlogPost.create({
+      ...toAddPostDetails,
       userId: userData.id,
       published: new Date(),
       updated: new Date(),
+    });
+    await post.addCategory(categoryIds, { through: {} });
+    const { published, updated, ...showPostData } = post.toJSON();
+    return showPostData;
+  } catch (err) {
+    throw new Error500('Internal Error');
+  }
+};
+
+const getAll = async () => {
+  try {
+    const response = await BlogPost.findAll({
+      include: [
+        { model: User, as: 'user', attributes: { excludes: ['password'] } },
+        { model: Category, as: 'categories' },
+      ],
     });
     return response;
   } catch (err) {
@@ -50,4 +66,5 @@ const add = async (postData, userData) => {
 
 module.exports = {
   add,
+  getAll,
 };

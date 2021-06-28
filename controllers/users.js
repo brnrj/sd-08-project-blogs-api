@@ -12,7 +12,6 @@ const getAll = async (req, res) => {
     const response = await User.findAll({ attributes: { exclude: ['password'] } });
     return res.status(200).json(response);
   } catch (err) {
-    console.log(err);
     return res.status(500).json({ message: 'Internal Error' });
   }
 };
