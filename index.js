@@ -16,7 +16,7 @@ const {
     validateName,
     validateEmail,
     validatePassword,
-    // validateToken,
+    validateToken,
   },
 } = require('./middlewares');
 
@@ -36,9 +36,9 @@ app.post('/user',
   validatePassword,
   userCreate);
 
-app.get('/user', getUsers);
+app.get('/user', validateToken, getUsers);
 
-app.get('/user/:id', getUsersById);
+app.get('/user/:id', validateToken, getUsersById);
 
 app.post('/login',
   validateEmail,

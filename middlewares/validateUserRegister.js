@@ -1,5 +1,10 @@
+const {
+  usersServices: {
+    existsToken,
+    testToken,
+  },
+} = require('../services');
 const codes = require('../services/codes');
-const errors = require('../services/errorMessages');
 
 const validateName = (req, res, next) => {
   const { displayName } = req.body;
@@ -60,18 +65,15 @@ const validatePassword = (req, res, next) => {
   next();
 };
 
-const validateToken = (req, res, next) => {
+const validateToken = async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(errors.tokenNotFound.statusCode).json(errors.tokenNotFound);
+    const result = await existsToken();
+    return res.status(result.statusCode).json(result.error);
   }
-
-  console.log(authorization);
   
-  // const teste = await testToken(authorization);
-
-  // console.log(await testToken(authorization));
+  await testToken(authorization);
 
   next();
 };
