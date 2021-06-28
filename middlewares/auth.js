@@ -1,33 +1,46 @@
-const rescue = require('express-rescue');
 const jwt = require('jsonwebtoken');
-const { UNAUTHORIZED } = require('../helpers/statusHttp');
+const { User } = require('../models');
+const { UNAUTHORIZED, NOT_FOUND } = require('../helpers');
 
 const { JWT_SECRET } = process.env;
 
-const jwtMalformed = {
-  status: UNAUTHORIZED,
-  message: 'Expired or invalid token',
+const config = {
+  expiresIn: '1D',
+  algorithm: 'HS256',
 };
 
-const missingAuthToken = {
+const generateToken = (userNoPass) => jwt.sign(userNoPass, JWT_SECRET, config);
+
+const tokenNotFound = {
   status: UNAUTHORIZED,
   message: 'Token not found',
 };
 
-const auth = rescue((req, _res, next) => {
-  const token = req.headers.authorization;
-  if (!token) return next({ err: missingAuthToken });
-  
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const {
-      data: { email },
-    } = decoded;
-    req.email = email;
-  } catch (e) {
-    next({ err: jwtMalformed });
-  }
-  next();
-});
+const userNotFound = {
+  status: NOT_FOUND,
+  message: 'User does not exist',
+};
 
-module.exports = auth;
+const validationToken = async (req, _res, next) => {
+  const { authorization } = req.headers;
+  if (!authorization) next(tokenNotFound); 
+
+  try {
+    const validation = jwt.verify(authorization, JWT_SECRET);
+    const { id } = validation;
+    const userAlreadtExists = await User.findOne({ where: { id } });
+    if (!userAlreadtExists) next(userNotFound);
+
+    const { dataValues: { password: _noPassword, ...userNoPass } } = userAlreadtExists;
+    req.user = userNoPass;
+
+    next();
+  } catch (error) {
+    next({ status: UNAUTHORIZED, message: 'Expired or invalid token' });
+  } 
+};
+
+module.exports = {
+  generateToken,
+  validationToken,
+};

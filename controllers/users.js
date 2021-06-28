@@ -1,34 +1,52 @@
 const rescue = require('express-rescue');
-const userService = require('../services/users');
-const { CREATED, OK } = require('../helpers/statusHttp');
+const { CREATED, OK, NO_CONTENT } = require('../helpers');
+const userService = require('../services');
+const {
+  createUserValidate,
+  loginValidate,
+  joiValidate,
+} = require('../validations');
 
-const createUser = rescue(async (req, res, next) => {
+const createUser = rescue(async (req, res) => {
+  await joiValidate(createUserValidate, req.body);
   const { displayName, email, password, image } = req.body;
-  const newUser = await userService
-    .createUser(displayName, email, password, image);
+  const token = await userService.createUser({ displayName, email, password, image });
 
-  if (newUser.err) return next(newUser);
-
-  return res.status(CREATED).json(newUser);
+  return res.status(CREATED).send({ token });
 });
 
-const findAllUsers = rescue(async (req, res, next) => {
-  const allUsers = await userService.findAllUsers();
-  if (allUsers.err) return next(allUsers);
+const login = rescue(async (req, res) => {
+  await joiValidate(loginValidate, req.body);
+  const { email, password } = req.body;
+  const token = await userService.login({ email, password });
 
-  return res.status(OK).json(allUsers);
+  return res.status(OK).send({ token });
 });
 
-const findUserById = rescue(async (req, res, next) => {
+const getAllUser = rescue(async (_req, res) => {
+  const allUsers = await userService.getAllUsers();
+
+  return res.status(OK).send(allUsers);
+});
+
+const getUserById = rescue(async (req, res) => {
   const { id } = req.params;
-  const user = await userService.findUserById(id);
-  if (user.err) return next(user);
+  const user = await userService.getUserById(id);
 
-  return res.status(OK).json(user);
+  return res.status(OK).send(user);
+});
+
+const deleteUser = rescue(async (req, res) => {
+  const { id } = req.user;
+  await userService.deleteUser(id);
+
+  return res.status(NO_CONTENT).send({});
 });
 
 module.exports = {
   createUser,
-  findAllUsers,
-  findUserById,
+  login,
+  getAllUser,
+  getUserById,
+  deleteUser,
 };

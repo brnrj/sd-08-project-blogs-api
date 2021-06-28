@@ -1,15 +1,28 @@
-const express = require('express');
-const auth = require('../middlewares/auth');
-const {
+const router = require('express').Router();
+const { validationToken } = require('../middlewares');
+const { 
   createUser,
-  findAllUsers,
-  findUserById,
-} = require('../controllers/users');
+  getAllUser,
+  getUserById,
+  deleteUser,
+} = require('../controllers');
 
-const router = express.Router();
+router.route('/')
+  .get(validationToken, getAllUser)
+  .post(createUser)
+  .put()
+  .delete();
 
-router.post('/', createUser);
-router.get('/', auth, findAllUsers);
-router.get('/:id', auth, findUserById);
+router.route('/:id')
+  .get(validationToken, getUserById)
+  .post()
+  .put()
+  .delete();
+
+router.route('/me')
+  .get()
+  .post()
+  .put()
+  .delete(validationToken, deleteUser);
 
 module.exports = router;

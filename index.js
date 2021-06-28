@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
-const { userRouter, loginRouter } = require('./routes');
-const generalError = require('./middlewares/error');
+const routes = require('./routes');
+const { generalError } = require('./middlewares');
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
@@ -13,6 +13,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/user', userRouter);
-app.use('/login', loginRouter);
+app.use('/', routes);
+
 app.use(generalError);

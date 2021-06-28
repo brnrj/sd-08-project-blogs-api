@@ -1,11 +1,14 @@
-const INTERNAL_SERVER_ERROR = 500;
-module.exports = (err, _req, res, _next) => {
-  if (err.err) {
+const { INTERNAL_SERVER_ERROR } = require('../helpers');
+
+const generalError = (err, _req, res, _next) => {
+  if (err.status) {
     return res
-      .status(err.err.status)
-      .json({ message: err.err.message });
+      .status(err.status)
+      .send({ message: err.message });
   }
-  res
-    .status(INTERNAL_SERVER_ERROR)
-    .json({ message: `Erro interno de servidor: ${err}` });
+    return res
+      .status(INTERNAL_SERVER_ERROR)
+      .send({ message: err.message });
 };
+
+module.exports = { generalError };

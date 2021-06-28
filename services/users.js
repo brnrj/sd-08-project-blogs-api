@@ -1,58 +1,55 @@
-const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-const { NOT_FOUND } = require('../helpers/statusHttp');
-const userData = require('./validations/users/userData');
+const { CONFLICT, NOT_FOUND, BAD_REQUEST } = require('../helpers');
+const { generateToken } = require('../middlewares');
 
-const { JWT_SECRET } = process.env;
+const errorUserAlreadyExists = { status: CONFLICT, message: 'User already registered' };
+const errorLogin = { status: BAD_REQUEST, message: 'Invalid fields' };
+const userNotFound = { status: NOT_FOUND, message: 'User does not exist' };
 
-const createUser = async (displayName, email, password, image) => {
-  try {
-    const userDateValidate = await userData(displayName, email, password);
-    if (userDateValidate.err) return userDateValidate;
-    
-    const jwtConfig = {
-      expiresIn: '7d',
-      algorithm: 'HS256',
-    };
-    const user = { displayName, email, password, image };
-    const token = jwt.sign({ data: user }, JWT_SECRET, jwtConfig);
-    
-    await User.create({ displayName, email, password, image });
-    return { token };
-  } catch (e) {
-    return { message: 'Algo de errado aconteceu...' };
-  }
+const createUser = async ({ displayName, email, password, image }) => {
+  const emailExists = await User.findOne({ where: { email } });
+  if (emailExists) throw errorUserAlreadyExists;
+
+  const newUser = await User.create({ displayName, email, password, image });
+  const { dataValues: { password: _noPassword, ...userNoPass } } = newUser;
+  const token = generateToken(userNoPass);
+
+  return token;
 };
 
-const findAllUsers = async () => {
-  try {
-    const allUsers = await User.findAll();
-    return allUsers;
-  } catch (e) {
-    return { message: 'erro verifique o console' };
-  }
+const login = async ({ email, password }) => {
+  const validLogin = await User.findOne({ where: { email, password } });
+  if (!validLogin) throw errorLogin;
+
+  const { dataValues: { password: _noPassword, ...userNoPass } } = validLogin;
+  const token = generateToken(userNoPass);
+
+  return token;
 };
 
-const findUserById = async (id) => {
-  try {
-    const user = await User.findByPk(id);
-    if (user === null) {
-      return { err:
-        {
-          status: NOT_FOUND,
-          message: 'User does not exist',
-        },
-      };
-    }
+const getAllUsers = async () => {
+  const allUsers = await User.findAll({ attributes: { exclude: ['password'] } });
+  return allUsers;
+};
 
-    return user;
-  } catch (e) {
-    return { message: 'Algo deu errado...' };
-  }
+const getUserById = async (id) => {
+  const getUser = await User
+    .findOne({
+      where: { id },
+      attributes: { exclude: ['password'] },
+    });
+  if (!getUser) throw userNotFound; 
+  return getUser;
+};
+
+const deleteUser = async (id) => {
+  await User.destroy({ where: { id } });
 };
 
 module.exports = {
   createUser,
-  findAllUsers,
-  findUserById,
+  login,
+  getAllUsers,
+  getUserById,
+  deleteUser,
 };
