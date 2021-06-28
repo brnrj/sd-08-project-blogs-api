@@ -6,8 +6,7 @@ const posts = require('./posts');
 
 const router = express.Router();
 
-router.route('/login')
-  .post(login);
+router.use('/login', login);
 
 router.use('/user', user);
  
