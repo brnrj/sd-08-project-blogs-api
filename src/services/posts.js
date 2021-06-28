@@ -6,9 +6,10 @@ const createPost = async (email, title, categoryIds, content) => {
   postValidations.categoryIdsValidate(categoryIds);
   postValidations.contentValidate(content);
 
-  const categoryIdsFound = await Category.findAll();
-  categoryIdsFound.map((categoryId) => 
-    categoriesValidations.existCategoryValidate(categoryId.dataValues, categoryIds));
+  categoryIds.forEach(async (categoryId) => {
+    const categoryIdFound = await Category.findOne({ where: { id: categoryId } });
+    return categoriesValidations.existCategoryValidate(categoryIdFound);
+  });
 
   const user = await User.findOne({ where: { email } });
   const { id } = user;

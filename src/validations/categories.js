@@ -7,9 +7,8 @@ const nameValidate = (displayName) => {
   }
 };
 
-const existCategoryValidate = (categoryId, ids) => {
-  const existCategoryId = ids.filter((id) => id !== categoryId.id);
-  if (!existCategoryId) {
+const existCategoryValidate = (categoryId) => {
+  if (categoryId === '' || categoryId === undefined) {
     throw new CustomErr(httpStatusCode.NOT_FOUND, '"categoryIds" not found');
   }
 };

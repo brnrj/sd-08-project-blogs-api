@@ -9,7 +9,6 @@ const createPost = async (req, res, next) => {
     const newPost = await postsService.createPost(email, title, categoryIds, content);
     return res.status(httpStatusCode.CREATED).send(newPost);
   } catch (error) {
-    console.log(error);
     return next(error);
   }
 };
