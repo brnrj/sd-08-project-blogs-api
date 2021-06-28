@@ -23,5 +23,6 @@ module.exports = {
     CONTENT_REQUIRED: '"content" is required',
     CAT_ID_REQUIRED: '"categoryIds" is required',
     CAT_ID_NOT_FOUND: '"categoryIds" not found',
+    POST_DOESNT_EXIST: 'Post does not exist',
   },
 };

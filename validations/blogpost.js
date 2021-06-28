@@ -20,6 +20,11 @@ const catIdNotFound = {
   message: error.message.CAT_ID_NOT_FOUND,
 };
 
+const postDoesntExist = {
+  code: error.code.NOT_FOUND,
+  message: error.message.POST_DOESNT_EXIST,
+};
+
 const titleVerify = (title) => {
   if (!title) throw new Error(JSON.stringify(titleRequired));
 };
@@ -42,7 +47,12 @@ const categoriesExists = (categories) => {
   if (categories.length < 1) throw new Error(JSON.stringify(catIdNotFound));
 };
 
+const blogExists = (blog) => {
+  if (!blog) throw new Error(JSON.stringify(postDoesntExist));
+};
+
 module.exports = {
   verifyBodyRequest,
   categoriesExists,
+  blogExists,
 };

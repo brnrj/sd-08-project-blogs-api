@@ -16,14 +16,26 @@ const getPosts = (req, res) => {
   postServices.getPosts()
   .then((response) => res.status(200).json(response))
   .catch((err) => {
-    console.log(err);
-
     const { code, message } = JSON.parse(err.message);
     res.status(code).json({ message });
   });
 };
 
+const getPostById = (req, res) => {
+  const { id } = req.params;
+
+  postServices.getPostById(id)
+    .then((response) => res.status(200).json(response))
+    .catch((err) => {
+      console.log(err);
+
+      const { code, message } = JSON.parse(err.message);
+      res.status(code).json({ message });
+    });
+};
+
 module.exports = {
   createPost,
   getPosts,
+  getPostById,
 };
