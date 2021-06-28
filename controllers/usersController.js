@@ -2,8 +2,10 @@ const userService = require('../services/user');
 const token = require('../utils/token');
 
 const getAll = async (req, res) => {
-    const result = await userService.getAll();
-    
+    const { authorization } = req.headers;
+    const result = await userService.getAll(authorization);
+
+    if (result.message) return res.status(401).json(result);
     res.status(200).json(result);
 }; 
 

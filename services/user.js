@@ -3,10 +3,10 @@ const { User } = require('../models');
 
 const validateUser = require('../middleware/userValidade');
 
-const getAll = async () => {
-    // const { error } = validateUser.validate(user);
+const getAll = async (autorization) => {
+    if (!autorization) return { message: 'Token not found' };
+    if (autorization.length < 15) return { message: 'Expired or invalid token' };
 
-    // if (error) return createError(error.details[0].message);
     try {
         return await User.findAll();        
     } catch (e) {
