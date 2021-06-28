@@ -1,6 +1,7 @@
 const {
   categoriesServices: {
     createCategory,
+    showCategories,
   },
 } = require('../services');
 const code = require('../services/codes');
@@ -24,6 +25,20 @@ const categoryCreate = async (req, res) => {
   }
 };
 
+const getCategories = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    const result = await showCategories(name);
+
+    return res.status(code.OK).json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(code.INTERNAL_ERROR).json({ message: error.message });
+  }
+};
+
 module.exports = {
   categoryCreate,
+  getCategories,
 };

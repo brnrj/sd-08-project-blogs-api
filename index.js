@@ -11,6 +11,7 @@ const {
   },
   categoriesController: {
     categoryCreate,
+    getCategories,
   },
 } = require('./controlers');
 
@@ -49,5 +50,7 @@ app.post('/login',
   makeLogin);
 
 app.post('/categories', validateToken, categoryCreate);
+
+app.get('/categories', validateToken, getCategories);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
