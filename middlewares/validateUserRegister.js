@@ -66,14 +66,19 @@ const validatePassword = (req, res, next) => {
 };
 
 const validateToken = async (req, res, next) => {
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    const result = await existsToken();
-    return res.status(result.statusCode).json(result.error);
-  }
+  try {
+    const { authorization } = req.headers;
   
-  await testToken(authorization);
+    if (!authorization) {
+      const result = await existsToken();
+      return res.status(result.statusCode).json(result.error);
+    }
+    
+    await testToken(authorization);
+  } catch (error) {
+    console.error(error);
+    return res.status(codes.UNAUTHORIZED).json({ message: 'Expired or invalid token' });
+  }
 
   next();
 };
