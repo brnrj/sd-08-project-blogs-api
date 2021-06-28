@@ -10,8 +10,7 @@ const createUser = async (data) => {
   validateUser(data);
 
   try {
-    console.log('cheguei aqui'+ data.email);
-    const teste = await Users.create(data);
+    await Users.create(data);
     const token = jwt.sign(
       { email: data.email, password: data.password },
       process.env.JWT_SECRET,
@@ -19,7 +18,6 @@ const createUser = async (data) => {
     );
     return { token };
   } catch (e) {
-    console.log('Erro aqui' + e);
     throw new Error(ERR.userRegistered);
   }
 };

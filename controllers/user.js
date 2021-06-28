@@ -3,9 +3,7 @@ const { STATUS } = require('../config/messages');
 
 const createUser = async (req, res) => {
   const { body } = req;
-  console.log('Corpinho' + body.email);
-  /* const { displayName = '', email = '', password = '', image = '' } = req.body;
-  const newUser = { displayName, email, password, image }; */
+  
   try {
     const result = await user.createUser(body);
     res.status(STATUS.created).json(result);
