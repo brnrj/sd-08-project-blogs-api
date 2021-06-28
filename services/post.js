@@ -1,4 +1,4 @@
-const { PostCategory } = require('../models');
+// const { PostCategory } = require('../models');
 
 async function createPost(body) {
   return body;
