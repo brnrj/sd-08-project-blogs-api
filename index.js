@@ -1,6 +1,7 @@
 const express = require('express');
 
 const usersController = require('./controllers/usersController');
+const loginController = require('./controllers/loginController');
 
 const { error, userValidation } = require('./middlewares');
 
@@ -13,6 +14,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/user', userValidation, usersController.createNewUser);
+app.post('/login', loginController.validateLogin);
 
 app.use(error);
 
