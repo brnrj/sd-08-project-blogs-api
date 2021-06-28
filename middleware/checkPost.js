@@ -5,9 +5,8 @@ const checkContentExist = (content) => !!content;
 const checkCategoryIdsExist = (categoryIds) => !!categoryIds;
 
 const checkCategoryIdsValid = async (categoryIds) => {
-  const data = await Category.findAll();
-  const dataCategoriesIds = data.map(({ dataValues: { id } }) => id);
-  return categoryIds.every((id) => dataCategoriesIds.includes(id));
+  const data = await Category.count({ where: { id: categoryIds } });
+  return !!data;
 };
 
 async function checkPost(req, res, next) {
