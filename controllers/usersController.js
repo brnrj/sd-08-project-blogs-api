@@ -1,18 +1,14 @@
 const userService = require('../services/user');
 const token = require('../utils/token');
 
-// const getAll = (req, res) => {
-//     userService.findAll().then((users) => {
-//         res.status(200).json(users);
-//     }).catch((err) => {
-//         console.log(err.message);
-//         res.status(500).json({ message: 'Algo deu errado' });
-//     });
-// }; 
+const getAll = async (req, res) => {
+    const result = await userService.getAll();
+    
+    res.status(200).json(result);
+}; 
 
 const create = async (req, res) => {
     const result = await userService.create(req.body);
-    console.log(result);
 
     if (result.err) return res.status(409).json({ message: result.err });
     if (result.message) return res.status(400).json(result);
@@ -21,5 +17,5 @@ const create = async (req, res) => {
 
 module.exports = {
     create,
-    // getAll,
+    getAll,
 };
