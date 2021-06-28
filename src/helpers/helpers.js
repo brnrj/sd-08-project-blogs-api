@@ -1,4 +1,5 @@
 module.exports = {
+  DOO: 200,
   DOU: 201,
   QOO: 400,
   QOU: 401,

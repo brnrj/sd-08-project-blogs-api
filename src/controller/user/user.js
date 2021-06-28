@@ -15,9 +15,9 @@ const createUser = rescue(async (req, res, next) => {
 
 const loginUser = rescue(async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await loginServices({ email, password });
-  if (user.status) return next(user);
-  res.status(helpers.DOU).json({ user });
+  const token = await loginServices({ email, password });
+  if (token.status) return next(token);
+  res.status(helpers.DOO).json({ token });
 });
 
 module.exports = {
