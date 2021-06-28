@@ -8,8 +8,10 @@ const createPost = async (email, title, categoryIds, content) => {
   postValidations.categoryIdsValidate(categoryIds);
   postValidations.contentValidate(content);
 
-  categoryIds.forEach(async (categoryId) => {
-    const categoryIdFound = await Categories.findOne({ where: { id: categoryId } });
+  categoryIds.forEach((categoryId) => {
+    const categoryIdFound = Categories.findOne({ where: { id: categoryId } })
+      .then((data) => console.log('Data: ', data))
+        .catch((err) => console.log('Erro: ', err));
     categoriesValidations.existCategoryValidate(categoryIdFound);
   });
 
