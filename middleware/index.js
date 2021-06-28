@@ -4,7 +4,8 @@ const { checkPassword } = require('./checkPassword');
 const { getToken } = require('./jwtValidation');
 const { checkToken } = require('./checkToken');
 const { checkNameExist } = require('./checkName');
+const { checkPost } = require('./checkPost');
 
 module.exports = { 
-  checkName, checkEmail, checkPassword, getToken, checkToken, checkNameExist,
+  checkName, checkEmail, checkPassword, getToken, checkToken, checkNameExist, checkPost,
 };
