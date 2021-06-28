@@ -2,6 +2,7 @@ const express = require('express');
 const usersRoutes = require('./routes/usersRoutes');
 const loginsRoutes = require('./routes/loginsRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
+const blogPostsRoutes = require('./routes/blogPostsRoutes');
 
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use('/user', usersRoutes);
 app.use('/login', loginsRoutes);
 app.use('/categories', categoriesRoutes);
+app.use('/post', blogPostsRoutes);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
