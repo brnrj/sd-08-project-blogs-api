@@ -6,6 +6,8 @@ const router = express.Router();
 
 const OK = 200;
 const CREATED = 201;
+const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
 const CONFLICT = 409;
 const INTERNAL_SERVER_ERROR = 500;
 
@@ -24,6 +26,13 @@ router.post('/', userValidation, async (req, res) => {
 router.get('/', tokenValidation, async (_req, res) => {
   const users = await User.findAll();
   res.status(OK).json(users);
+});
+
+router.get('/:id', tokenValidation, async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findOne({ where: { id } });
+  if (!user) return res.status(NOT_FOUND).json({ message: 'User does not exist' });
+  res.status(OK).json(user); 
 });
 
 module.exports = router;
