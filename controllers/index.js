@@ -6,7 +6,16 @@ const { createPost } = require('./createPost');
 const { getCategories } = require('./getCategories');
 const { createCategory } = require('./createCategory');
 const { getPosts } = require('./getAllPosts');
+const { getPostById } = require('./getPostById');
 
 module.exports = {
-  createUser, login, getUsers, getUserById, createPost, getCategories, createCategory, getPosts,
+createUser,
+login,
+getUsers,
+getUserById,
+createPost,
+getCategories,
+createCategory,
+getPosts,
+getPostById,
 };

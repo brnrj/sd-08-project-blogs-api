@@ -23,6 +23,16 @@ async function getPosts() {
   });
   return data;
 }
+
+async function getPostById(id) {
+  const [data] = await BlogPost.findAll({ where: { id },
+include: [
+    { model: User, as: 'user' },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ] });
+  if (!data) throw new Error('Post does not exist');
+  return data;
+}
 module.exports = {
-  createPost, getPosts,
+  createPost, getPosts, getPostById,
 };
