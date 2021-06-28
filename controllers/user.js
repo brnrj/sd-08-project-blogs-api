@@ -16,4 +16,17 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser };
+const getAllUsers = async (req, res) => {
+  try {
+    const result = await user.getAllUsers();
+    res.status(STATUS.ok).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(STATUS.unauthorized).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  createUser,
+  getAllUsers,
+};

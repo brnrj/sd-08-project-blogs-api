@@ -22,6 +22,9 @@ const createUser = async (data) => {
   }
 };
 
+const getAllUsers = async () => Users.findAll();
+
 module.exports = {
   createUser,
+  getAllUsers,
 };
