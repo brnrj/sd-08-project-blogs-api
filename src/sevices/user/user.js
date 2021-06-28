@@ -1,13 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../../models');
 const helpers = require('../../helpers/helpers');
+require('dotenv').config();
 
 const jwtConfig = {
   expiresIn: '7d',
   algorithm: 'HS256',
 };
-
-const secret = 'tokenSecret';
 
 const {
   validUser,
@@ -21,9 +20,15 @@ const createServices = async (data) => {
   const { email } = data;
   const emailExists = await User.findOne({ where: { email } });
   if (emailExists) return { status: helpers.QON, message: 'User already registered' };
-
-  const result = await User.create(data);
-  return result;
+  await User.create(data);
+  
+  const payload = {
+    email: data.email,
+    role: true,
+  };
+  
+  const token = jwt.sign(payload, process.env.JWT_SECRET, jwtConfig);
+  return token;
 };
 
 const loginServices = async (data) => {
@@ -32,20 +37,25 @@ const loginServices = async (data) => {
 
   const { email } = data;
   const emailExists = await User.findOne({ where: { email } });
-  if (emailExists) return { status: helpers.QON, message: 'User already registered' };
+  if (emailExists === null) return { status: helpers.QOO, message: 'Invalid fields' };
   
-  const bool = true;
   const payload = {
     _id: emailExists.id,
     email: data.email,
-    role: bool,
+    role: true,
   };
 
-  const token = jwt.sign(payload, secret, jwtConfig);
+  const token = jwt.sign(payload, process.env.JWT_SECRET, jwtConfig);
   return token;
+};
+
+const findServices = async () => {
+  const result = await User.findAll();
+  return result;
 };
 
 module.exports = {
   createServices,
   loginServices,
+  findServices,
 };

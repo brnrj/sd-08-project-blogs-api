@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-// const { getByEmail } = require('../../models/users/users');
+const { User } = require('../../models');
 const helpers = require('../../helpers/helpers');
+require('dotenv').config();
 
-const secret = 'tokenSecret';
-const msg = 'jwt malformed';
-const msg1 = 'missing auth token';
+const msg = 'Expired or invalid token';
+const msg1 = 'Token not found';
 
 const validateJwt = async (req, res, next) => {
   const token = req.headers.authorization;
@@ -12,18 +12,17 @@ const validateJwt = async (req, res, next) => {
   if (!token) return res.status(helpers.QOU).json({ message: msg1 });
   
   try {
-    const decoded = jwt.verify(token, secret);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { email } = decoded;
+    const exists = await User.findOne({ where: { email } });
     
-    const email = '';
-    // await getByEmail(decoded.email);
-    
-    if (!email) return res.status(helpers.QOO).json({ message: msg });
+    if (!exists) return res.status(helpers.QOO).json({ message: msg });
     
     req.users = decoded;
 
     next();
   } catch (err) {
-    return res.status(helpers.COO).json({ message: err.message });
+    return res.status(helpers.QOU).json({ message: msg });
   }
 };
 
