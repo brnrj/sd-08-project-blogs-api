@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 app.use('/user', Routes.user);
 app.use('/login', Routes.login);
 app.use('/categories', Routes.category);
+app.use('/post', Routes.blogpost);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

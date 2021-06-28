@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       updated: DataTypes.DATE,
     },
     {
-      timestamp: false,
+      timestamps: false,
     },
   );
 
