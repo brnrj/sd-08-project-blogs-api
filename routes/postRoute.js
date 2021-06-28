@@ -11,8 +11,8 @@ const { auth } = require('../middlewares/auteMiddleware');
 
 const router = express.Router();
 const POST = '/post';
-const POSTID = '/post/:id';
-const SEARCH = '/post/search?q=:searchTerm';
+// const POSTID = '/post/:id';
+// const SEARCH = '/post/search?q=:searchTerm';
 
 router.post(POST, auth, postController.createPost);
 router.get(POST, auth, postController.getAllPosts);

@@ -8,7 +8,7 @@ const userController = require('../controllers/userController');
 const { auth } = require('../middlewares/auteMiddleware');
 
 const router = express.Router();
-const USERME = '/user/me';
+// const USERME = '/user/me';
 const USERID = '/user/:id';
 const USER = '/user';
 
