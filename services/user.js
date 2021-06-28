@@ -3,12 +3,17 @@ const { User } = require('../models');
 
 const validateUser = require('../middleware/userValidade');
 
-const getAll = async (autorization) => {
-    if (!autorization) return { message: 'Token not found' };
-    if (autorization.length < 15) return { message: 'Expired or invalid token' };
-
+const getAll = async () => {
     try {
         return await User.findAll();        
+    } catch (e) {
+        console.log(e.message);
+    }
+};
+
+const getById = async (id) => {
+    try {
+        return await User.findByPk(id);        
     } catch (e) {
         console.log(e.message);
     }
@@ -29,4 +34,5 @@ const create = async (user) => {
 module.exports = {
     create,
     getAll,
+    getById,
 };
