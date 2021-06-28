@@ -4,6 +4,7 @@ const {
   usersController: {
     userCreate,
     getUsers,
+    getUsersById,
   },
   loginController: {
     makeLogin,
@@ -15,6 +16,7 @@ const {
     validateName,
     validateEmail,
     validatePassword,
+    // validateToken,
   },
 } = require('./middlewares');
 
@@ -35,6 +37,8 @@ app.post('/user',
   userCreate);
 
 app.get('/user', getUsers);
+
+app.get('/user/:id', getUsersById);
 
 app.post('/login',
   validateEmail,

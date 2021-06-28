@@ -30,19 +30,18 @@ const registerUser = async ({ displayName, email, password, image }) => {
     return newUser && { token };
 };
 
-const listUsers = async () => {
-  const users = await User.findAll();
-
-  return users;
-};
+const listUsers = async () => User.findAll();
 
 const existsToken = async () => error.tokenNotFound;
 
 const testToken = async (auth) => jwt.verify(auth, SECRET);
+
+const listUserById = async (id) => User.findOne({ where: { id } });
 
 module.exports = {
   registerUser,
   listUsers,
   existsToken,
   testToken,
+  listUserById,
 };
