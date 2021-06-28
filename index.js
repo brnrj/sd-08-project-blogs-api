@@ -3,6 +3,7 @@ const express = require('express');
 const {
   usersController: {
     userCreate,
+    getUsers,
   },
   loginController: {
     makeLogin,
@@ -32,6 +33,8 @@ app.post('/user',
   validateEmail,
   validatePassword,
   userCreate);
+
+app.get('/user', getUsers);
 
 app.post('/login',
   validateEmail,

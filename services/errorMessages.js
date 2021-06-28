@@ -63,6 +63,13 @@ const userUnathorized = {
   },
 };
 
+const tokenNotFound = {
+  statusCode: codes.UNAUTHORIZED,
+  error: {
+    message: 'Token not found',
+  },
+};
+
 module.exports = {
   userRegistered,
   invalidFields,
@@ -73,4 +80,5 @@ module.exports = {
   categoryIdNotFound,
   postNotExists,
   userNotFound,
+  tokenNotFound,
 };
