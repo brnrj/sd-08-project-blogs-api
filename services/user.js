@@ -20,7 +20,14 @@ const create = async (newUser) => {
 
 const findAll = async () => UserModel.findAll();
 
+const findById = async (options) => {
+  const result = await UserModel.findOne(options);
+  if (!result) throw boom.notFound('User does not exist');
+  return result;
+};
+
 module.exports = {
   create,
   findAll,
+  findById,
 };
