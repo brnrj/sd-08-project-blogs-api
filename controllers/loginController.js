@@ -13,16 +13,16 @@ router.post('/', async (req, res) => {
   const validation = loginValidation.validation(email, password);
   if (validation) return res.status(validation.code).json({ message: validation.message });
 
-  const verifyIfExists = await User.findOne({
+  const user = await User.findOne({
     where: { email },
   });
-  if (!verifyIfExists) return res.status(400).json({ message: 'Invalid fields' });
+  if (!user) return res.status(400).json({ message: 'Invalid fields' });
 
   const jwtConfig = {
     expiresIn: '1h',
     algorithm: 'HS256',
   };
-  const token = jwt.sign({ data: email }, secret, jwtConfig);
+  const token = jwt.sign({ data: { id: user.id, email } }, secret, jwtConfig);
 
   return res.status(200).json({ token });
 });

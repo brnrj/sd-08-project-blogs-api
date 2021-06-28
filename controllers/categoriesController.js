@@ -14,9 +14,9 @@ router.post('/', tokenValidation, async (req, res) => {
 });
 
 router.get('/', tokenValidation, async (_req, res) => {
-  const users = await Categories.findAll();
+  const categories = await Categories.findAll();
 
-  return res.status(200).json(users);
+  return res.status(200).json(categories);
 });
 
 module.exports = router;

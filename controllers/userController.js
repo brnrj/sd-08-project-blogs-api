@@ -17,13 +17,13 @@ router.post('/', async (req, res) => {
     const verifyIfExists = await User.findOne({ where: { email } });
     if (verifyIfExists) return res.status(409).json({ message: 'User already registered' });
 
-    await User.create({ displayName, email, password, image });
+    const user = await User.create({ displayName, email, password, image });
 
     const jwtConfig = {
       expiresIn: '1h',
       algorithm: 'HS256',
     };
-    const token = jwt.sign({ data: email }, secret, jwtConfig);
+    const token = jwt.sign({ data: user }, secret, jwtConfig);
 
     return res.status(201).json({ token });
 });
