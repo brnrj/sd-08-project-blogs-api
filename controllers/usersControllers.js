@@ -35,4 +35,15 @@ routes.get('/', validationToken, async (req, res) => {
   }
 });
 
+routes.get('/:id', validationToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await usersServices.findUserById(id);
+    if (user.isError) return res.status(status.notFound).json({ message: message.userNotExist });
+    return res.status(status.OK).json(user);
+  } catch (err) {
+    return res.status(status.badRequest).json({ message: 'Algo deu errado' });
+  }
+});
+
 module.exports = routes;

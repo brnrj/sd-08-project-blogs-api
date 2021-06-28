@@ -27,8 +27,22 @@ const findAllUsers = async () => {
   return users;
 };
 
+const findUserById = async (id) => {
+  const findUser = await User.findOne({ where: { id } });
+  if (!findUser) {
+    return {
+      isError: true,
+      status: status.notFound,
+      message: message.userNotExist,
+    };
+  }
+  const userById = await User.findByPk(id);
+  return userById;
+};
+
 module.exports = {
   findUserByEmail,
   createUser,
   findAllUsers,
+  findUserById,
 };

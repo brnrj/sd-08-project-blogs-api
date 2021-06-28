@@ -4,6 +4,7 @@ const status = {
   conflict: 409,
   OK: 200,
   unauthorized: 401,
+  notFound: 404,
 };
 
 const message = {
@@ -18,6 +19,7 @@ const message = {
   emptyPassword: '"password" is not allowed to be empty',
   tokenNotFound: 'Token not found',
   invalidToken: 'Expired or invalid token',
+  userNotExist: 'User does not exist',
 };
 
 module.exports = {
