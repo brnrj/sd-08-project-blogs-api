@@ -23,6 +23,9 @@ const create = async (user) => {
   return { token };
 };
 
+const getAll = async () => User.findAll();
+
 module.exports = {
   create,
+  getAll,
 };

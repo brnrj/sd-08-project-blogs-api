@@ -1,5 +1,5 @@
 const userService = require('../services/userService');
-const StatusCode = require('../messages/statusCodeMessages');
+const { OK, CREATED, INTERNAL_SERVER_ERROR } = require('../messages/statusCodeMessages');
 
 const create = async (req, res) => {
   try {
@@ -7,15 +7,29 @@ const create = async (req, res) => {
 
     const createdUser = await userService.create(user);
 
-    res.status(StatusCode.CREATED).json(createdUser);
+    res.status(CREATED).json(createdUser);
   } catch (err) {
     const { message, code } = err;
-    if (code) {
-      return res.status(code).json({
-        message,
-      });
-    }
-    return res.status(500).json({
+    
+    if (code) return res.status(code).json({ message });
+    
+    return res.status(INTERNAL_SERVER_ERROR).json({
+      message,
+    });
+  }
+};
+
+const getAll = async (_req, res) => {
+  try {
+    const allUsers = await userService.getAll();
+
+    res.status(OK).json(allUsers);
+  } catch (err) {
+    const { message, code } = err;
+
+    if (code) return res.status(code).json({ message });
+    
+    return res.status(INTERNAL_SERVER_ERROR).json({
       message,
     });
   }
@@ -23,4 +37,5 @@ const create = async (req, res) => {
 
 module.exports = {
   create,
+  getAll,
 };
