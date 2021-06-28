@@ -16,7 +16,7 @@ const create = async (newUser) => {
     UserModel.create({ ...newUser }, { transaction })));
 };
 
-const findAll = async () => UserModel.findAll();
+const findAll = async (options) => UserModel.findAll(options);
 
 const findById = async (options) => {
   const result = await UserModel.findOne(options);

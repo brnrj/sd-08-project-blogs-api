@@ -7,10 +7,14 @@ module.exports = {
     database: process.env.MYSQL_DATABASE,
     host: process.env.HOST,
     dialect: 'mysql',
+    dialectOptions: {
+      options: {
+        requestTimeout: 3000,
+      },
+    },
     define: {
       timestamps: false,
     },
-    logging: false,
   },
   test: {
     username: process.env.MYSQL_USER,

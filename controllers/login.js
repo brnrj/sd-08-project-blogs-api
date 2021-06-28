@@ -11,7 +11,7 @@ const loginSchema = joi.object({
 
 const getJwtToken = (payload) => {
   const jwtConfig = {
-    expiresIn: '1h',
+    expiresIn: '1d',
   };
 
   return jwt.sign(payload, process.env.JWT_SECRET, jwtConfig);

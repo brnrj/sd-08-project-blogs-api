@@ -13,6 +13,8 @@ app.use('/user', routes.user);
 
 app.use('/categories', routes.categories);
 
+app.use('/post', routes.post);
+
 app.post('/login', login);
 
 // não remova esse endpoint, e para o avaliador funcionar
