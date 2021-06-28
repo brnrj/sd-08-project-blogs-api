@@ -16,6 +16,12 @@ const createNewUser = async (req, res, next) => {
   }
 };
 
+const getAllUsers = async (req, res, _next) => {
+  const users = await Users.findAll();
+  res.status(200).json(users);
+};
+
 module.exports = {
   createNewUser,
+  getAllUsers,
 };

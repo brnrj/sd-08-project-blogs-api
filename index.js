@@ -3,7 +3,7 @@ const express = require('express');
 const usersController = require('./controllers/usersController');
 const loginController = require('./controllers/loginController');
 
-const { error, userValidation } = require('./middlewares');
+const { error, userValidation, validateJWT } = require('./middlewares');
 
 const app = express();
 app.use(express.json());
@@ -14,6 +14,8 @@ app.get('/', (request, response) => {
 });
 
 app.post('/user', userValidation, usersController.createNewUser);
+app.get('/user', validateJWT, usersController.getAllUsers);
+
 app.post('/login', loginController.validateLogin);
 
 app.use(error);
