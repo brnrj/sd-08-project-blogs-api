@@ -1,14 +1,14 @@
-const { Category } = require('../models');
+const { Categories } = require('../models');
 const { categoriesValidations } = require('../validations');
 
 const createCategory = async (name) => {
   categoriesValidations.nameValidate(name);
-  const newCategory = await Category.create({ name });
+  const newCategory = await Categories.create({ name });
   return newCategory;
 };
 
 const getCategory = async () => {
-  const categoryFound = await Category.findAll();
+  const categoryFound = await Categories.findAll();
   return categoryFound;
 };
 

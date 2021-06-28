@@ -7,7 +7,7 @@ const posts = express.Router();
 
 posts.post('/', tokenValidator, postsController.createPost);
 posts.get('/', tokenValidator, postsController.getAllPosts);
-// posts.get('/:id', tokenValidator, postsController.getPostById);
+posts.get('/:id', tokenValidator, postsController.getPostById);
 // posts.put('/:id', tokenValidator, postsController.deletePost);
 
 module.exports = posts;

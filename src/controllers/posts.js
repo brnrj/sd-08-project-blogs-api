@@ -23,7 +23,18 @@ const getAllPosts = async (req, res, next) => {
   }
 };
 
+const getPostById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const postFound = await postsService.getPostById(id);
+    return res.status(httpStatusCode.OK).send(postFound);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
+  getPostById,
 };
