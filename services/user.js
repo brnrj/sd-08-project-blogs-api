@@ -3,8 +3,6 @@ const { User: UserModel } = require('../models');
 const UserSchema = require('../schema/user');
 const { sequelize } = require('../models');
 
-console.log(sequelize.transaction);
-
 const create = async (newUser) => {
   const { error } = UserSchema.validate(newUser);
 
