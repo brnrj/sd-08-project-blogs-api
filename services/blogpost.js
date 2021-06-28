@@ -1,4 +1,4 @@
-const { BlogPost, Categorie, PostsCategories } = require('../models');
+const { BlogPost, Categorie, PostsCategories, User } = require('../models');
 
 const validations = require('../validations/blogpost');
 const decodeToken = require('../helper/decodeToken');
@@ -34,6 +34,14 @@ const createPost = async (post, token) => {
   return { ...response };
 };
 
+const getPosts = async () => BlogPost.findAll({
+    include: [
+      { model: User, as: 'user' },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
 module.exports = {
   createPost,
+  getPosts,
 };
