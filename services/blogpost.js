@@ -1,4 +1,6 @@
-const { BlogPost, Categorie, PostsCategory } = require('../models');
+const { BlogPost, Categorie, PostsCategories } = require('../models');
+
+const models = require('../models');
 const validations = require('../validations/blogpost');
 const decodeToken = require('../helper/decodeToken');
 
@@ -27,11 +29,10 @@ const createPost = async (post, token) => {
   const postCategories = post.categoryIds
   .map((elem) => ({ postId: created.dataValues.id, categoryId: elem }));
 
-  console.log(postCategories, 'aaaa', PostsCategory, Categorie);
+  await PostsCategories.bulkCreate(postCategories);
 
-  await PostsCategory.bulkCreate(postCategories);
-
-  return newBlogPost;
+  const { published, updated, ...response } = created.dataValues;
+  return { ...response };
 };
 
 module.exports = {
