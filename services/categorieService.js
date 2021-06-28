@@ -30,11 +30,11 @@ const create = ({ name }) => {
 [Será validado que não é possível cadastrar uma determinada categoria sem o token na requisição]
 */
 
-const listaCategorias = {
-  categoriaListadas: { message: 'Categories listed', status: 200 },
-  tokenInexistente: { message: 'Token not found', status: 401 },
-  tokenExpirado: { message: 'Expired or invalid token', status: 401 },
-};
+// const listaCategorias = {
+//   categoriaListadas: { message: 'Categories listed', status: 200 },
+//   tokenInexistente: { message: 'Token not found', status: 401 },
+//   tokenExpirado: { message: 'Expired or invalid token', status: 401 },
+// };
 
 module.exports = {
   create,

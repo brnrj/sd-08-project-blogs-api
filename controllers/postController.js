@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-const { BlogPost } = require('../models');
-const { create } =  require('../services/postServices');
+const { Op } = require('sequelize');
+const { BlogPost, User, Category } = require('../models');
+const { create } = require('../services/postServices');
 
 const SECRET = process.env.JWT_SECRET;
 
@@ -17,9 +18,23 @@ const createPost = async (req, res) => {
 };
 
 const getAllPosts = async (_req, res) => {
-  const getAllPosts = await BlogPost.findAll();
-
-  return res.status(200).json(getAllPosts);
+  const getAll = await BlogPost.findAll({ raw: true });
+  const result = await Promise.all(getAll.map(async (post) => {
+    const getUser = await User.findOne({
+      where: { id: post.userId },
+    });
+    const getCat = await Category.findOne({
+      where: { id: post.id },
+    });
+    return ({
+      ...post,
+      user: { ...getUser.dataValues },
+      categories: [{ ...getCat.dataValues }],
+    });
+  }));
+  
+  console.log(result);
+  return res.status(200).json(result);
 };
 
 const getPostById = async (req, res) => {
@@ -41,14 +56,13 @@ const deletePost = async (req, res) => {
 };
 
 const updatePost = async (req, res) => {
-  const { } = req.body;
-
-  await BlogPost.update({},
+  await BlogPost.update(
     {
       where: {
         id: req.params.id,
       },
-  });
+  },
+);
 
   res.status(200).json({ message: 'Post removido com sucesso' });
 };

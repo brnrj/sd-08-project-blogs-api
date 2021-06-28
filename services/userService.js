@@ -98,11 +98,11 @@ const getUser = async (id) => {
 [Será validado que não é possivel excluir meu usuário com token inválido]
 [Será validado que não é possivel excluir meu usuário sem o token]
 */
-const deleteSe = {
-  postagemAtualizada: { message: 'User deleted', status: 204 },
-  tokenInexistente: { message: 'Token not found', status: 401 },
-  tokenExpirado: { message: 'Expired or invalid token', status: 401 },
-};
+// const deleteSe = {
+//   postagemAtualizada: { message: 'User deleted', status: 204 },
+//   tokenInexistente: { message: 'Token not found', status: 401 },
+//   tokenExpirado: { message: 'Expired or invalid token', status: 401 },
+// };
 
 module.exports = {
   create,

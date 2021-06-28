@@ -48,7 +48,7 @@ const auth = async (req, res, next) => {
     const { id } = jwt.verify(token, SECRET);
     const user = await User.findByPk(id);
     if (!user) {
-      const { status, message } = usuarioDesautorizado;
+      const { status, message } = verificaToken.usuarioDesautorizado;
       return res.status(status).send(message);
     }
     
