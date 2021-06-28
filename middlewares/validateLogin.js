@@ -16,7 +16,6 @@ const validateLoginForm = (data) =>
 const validateLogin = async (req, res, next) => {
   const data = req.body;
   const { error } = validateLoginForm(data);
-  console.log(error);
   try {
     if (error) {
       const loginResponse = { code: 400, message: error.details[0].message };
