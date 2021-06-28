@@ -1,3 +1,6 @@
+const { Categories } = require('../models');
+const { User } = require('../models');
+
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 
@@ -47,6 +50,13 @@ const loginValidation = (req, res, next) => {
   next();
 };
 
+const userRegistred = async (req, res, next) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ where: { email, password } });
+  if (!user) return res.status(BAD_REQUEST).json({ message: 'Invalid fields' });
+  next();
+};
+
 const tokenValidation = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
@@ -56,8 +66,46 @@ const tokenValidation = (req, res, next) => {
   next();
 };
 
+const titleValidation = (title) => {
+  if (!title) return '"title" is required';
+  return false;
+};
+
+const contentValidation = (content) => {
+  if (!content) return '"content" is required';
+  return false;
+};
+
+const categoryIdsValidation = (categoryIds) => {
+  if (!categoryIds) return '"categoryIds" is required';
+  return false;
+};
+
+const postValidation = (req, res, next) => {
+  const { title, content, categoryIds } = req.body;
+  const validation = titleValidation(title) || contentValidation(content)
+    || categoryIdsValidation(categoryIds) || false;
+  if (validation) return res.status(BAD_REQUEST).json({ message: validation });
+  next();
+};
+
+const categoryValidation = async (req, res, next) => {
+  const { categoryIds } = req.body;
+  const categories = await Categories.findAll();
+  const idsFromCategories = categories.map(({ id }) => id);
+  for (let i = 0; i < categoryIds.length; i += 1) {
+    if (!idsFromCategories.includes(categoryIds[i])) {
+      return res.status(BAD_REQUEST).json({ message: '"categoryIds" not found' });
+    }
+  }
+  next();
+};
+
 module.exports = {
   userValidation,
   loginValidation,
+  userRegistred,
   tokenValidation,
+  postValidation,
+  categoryValidation,
 };

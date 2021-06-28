@@ -1,6 +1,7 @@
 const express = require('express');
 const { User } = require('../models');
-const { userValidation, tokenValidation } = require('../middlewares');
+const { userValidation } = require('../middlewares');
+const { getToken } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -22,12 +23,12 @@ router.post('/', userValidation, async (req, res) => {
   }
 });
 
-router.get('/', tokenValidation, async (_req, res) => {
+router.get('/', getToken, async (_req, res) => {
   const users = await User.findAll();
   res.status(OK).json(users);
 });
 
-router.get('/:id', tokenValidation, async (req, res) => {
+router.get('/:id', getToken, async (req, res) => {
   const { id } = req.params;
   const user = await User.findOne({ where: { id } });
   if (!user) return res.status(NOT_FOUND).json({ message: 'User does not exist' });
