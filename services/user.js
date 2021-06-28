@@ -1,24 +1,25 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
+const { Users } = require('../models');
 
 const { validateUser } = require('./userValidates');
 const { ERR } = require('../config/messages');
-const jwtConfig = require('../config/jwtConfig');
+const { jwtConfig } = require('../config/jwtConfig');
 
 const createUser = async (data) => {
   validateUser(data);
 
   try {
-    await User.create(data);
-    const { email, password } = data;
+    console.log('cheguei aqui'+ data.email);
+    const teste = await Users.create(data);
     const token = jwt.sign(
-      { email, password },
+      { email: data.email, password: data.password },
       process.env.JWT_SECRET,
       jwtConfig,
     );
-    return token;
+    return { token };
   } catch (e) {
+    console.log('Erro aqui' + e);
     throw new Error(ERR.userRegistered);
   }
 };
