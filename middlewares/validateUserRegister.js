@@ -18,6 +18,10 @@ const validateEmail = (req, res, next) => {
   const emailValidate = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   const resultValidateEmail = emailValidate.test(email);
 
+  if (email === '') {
+    return res.status(codes.BAD_REQUEST).json({ message: '"email" is not allowed to be empty' });
+  }
+
   if (!email) {
     return res.status(codes.BAD_REQUEST).json({
       message: '"email" is required',
@@ -35,6 +39,10 @@ const validateEmail = (req, res, next) => {
 
 const validatePassword = (req, res, next) => {
   const { password } = req.body;
+
+  if (password === '') {
+    return res.status(codes.BAD_REQUEST).json({ message: '"password" is not allowed to be empty' });
+  }
 
   if (!password) {
     return res.status(codes.BAD_REQUEST).json({

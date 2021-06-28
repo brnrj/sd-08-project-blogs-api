@@ -15,10 +15,6 @@ const {
     validateEmail,
     validatePassword,
   },
-  loginMiddlewares: {
-    validateEmailLogin,
-    validatePasswordLogin,
-  },
 } = require('./middlewares');
 
 const PORT = process.env.PORT || 3000;
@@ -31,7 +27,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-// Rotas /user
 app.post('/user',
   validateName,
   validateEmail,
@@ -39,8 +34,8 @@ app.post('/user',
   userCreate);
 
 app.post('/login',
-  validateEmailLogin,
-  validatePasswordLogin,
+  validateEmail,
+  validatePassword,
   makeLogin);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
