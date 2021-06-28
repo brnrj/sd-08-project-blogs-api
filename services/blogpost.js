@@ -1,6 +1,5 @@
 const { BlogPost, Categorie, PostsCategories } = require('../models');
 
-const models = require('../models');
 const validations = require('../validations/blogpost');
 const decodeToken = require('../helper/decodeToken');
 

@@ -21,7 +21,7 @@ module.exports = {
     NAME_REQUIRED: '"name" is required',
     TITLE_REQUIRED: '"title" is required',
     CONTENT_REQUIRED: '"content" is required',
-    CAT_ID_REQUIRED: '"categoryId" is required',
+    CAT_ID_REQUIRED: '"categoryIds" is required',
     CAT_ID_NOT_FOUND: '"categoryIds" not found',
   },
 };
