@@ -16,7 +16,6 @@ const getCategory = async (req, res, next) => {
   try {
     const categoryFound = await categoriesService.getCategory();
     if (!categoryFound) throw new CustomErr(httpStatusCode.NOT_FOUND, 'Category not found');
-    console.log(categoryFound);
     return res.status(httpStatusCode.OK).send(categoryFound);
   } catch (error) {
     return next(error);
