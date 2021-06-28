@@ -1,11 +1,7 @@
 const Joi = require('joi');
-const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-require('dotenv').config();
 
 const loginService = require('./LoginService');
-
-const secret = process.env.JWT_SECRET;
 
 const validateUser = (data) => {
   const schema = Joi.object({
@@ -27,12 +23,6 @@ const checkRegistered = async (emailUser) => {
   }
 };
 
-const verifyToken = (token) => jwt.verify(token, secret, (error, decoded) => {
-    if (error) return null;
-
-    return decoded;
-  });
-
 const addUser = async ({ displayName, email, password, image }) => {
   const { error } = validateUser({ displayName, email, password, image });
   if (error) return { statusCode: 400, json: { message: error.details[0].message } };
@@ -49,17 +39,7 @@ const addUser = async ({ displayName, email, password, image }) => {
   }
 };
 
-const getAllUsers = async (token) => {
-  if (!token) {
-    return { statusCode: 401, json: { message: 'Token not found' } };
-  }
-
-  const decoded = verifyToken(token);
-
-  if (!decoded) {
-    return { statusCode: 401, json: { message: 'Expired or invalid token' } };
-  }
-
+const getAllUsers = async () => {
   try {
     const getAllUser = await User.findAll();
     return { statusCode: 200, json: getAllUser };
@@ -69,7 +49,21 @@ const getAllUsers = async (token) => {
   }
 };
 
+const getUserById = async (id) => {
+  try {
+    const getUserId = await User.findByPk(id);
+    if (!getUserId) {
+      return { statusCode: 404, json: { message: 'User does not exist' } };
+    }
+    return { statusCode: 200, json: getUserId.dataValues };
+  } catch (err) {
+    console.log(err.message);
+    return { statusCode: 500, json: { message: 'Algo deu errado' } };
+  }
+};
+
 module.exports = {
   addUser,
   getAllUsers,
+  getUserById,
 };
