@@ -2,6 +2,14 @@ const createError = require('../utils/createError');
 const { Categorie } = require('../models');
 const validateCategorie = require('../middleware/categorieValidade');
 
+const getAll = async () => {
+    try {
+        return await Categorie.findAll();        
+    } catch (e) {
+        console.log(e.message);
+    }
+};
+
 const create = async (categories) => {
     const { error } = validateCategorie.validate(categories);
 
@@ -16,4 +24,5 @@ const create = async (categories) => {
 
 module.exports = {
     create,
+    getAll,
 };
