@@ -13,4 +13,16 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  const token = req.headers.authorization;
+
+  try {
+    const result = await userService.getAllUsers(token);
+    res.status(result.statusCode).json(result.json);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: 'Algo deu errado' });
+  }
+});
+
 module.exports = router;
