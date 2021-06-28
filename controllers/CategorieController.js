@@ -14,4 +14,14 @@ router.post('/', middlewareVerifyToken, async (req, res) => {
   }
 });
 
+router.get('/', middlewareVerifyToken, async (__req, res) => {
+  try {
+    const result = await categorieService.getAllCategories();
+    res.status(result.statusCode).json(result.json);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: 'Algo deu errado' });
+  }
+});
+
 module.exports = router;

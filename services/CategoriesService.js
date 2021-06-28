@@ -22,6 +22,17 @@ const addCategorie = async ({ name }) => {
   }
 };
 
+const getAllCategories = async () => {
+  try {
+    const getAllCategorie = await Categorie.findAll();
+    return { statusCode: 200, json: getAllCategorie };
+  } catch (err) {
+    console.log(err.message);
+    return { statusCode: 500, json: { message: 'Algo deu errado' } };
+  }
+};
+
 module.exports = {
   addCategorie,
+  getAllCategories,
 };
