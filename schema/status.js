@@ -3,6 +3,7 @@ const status = {
   badRequest: 400,
   conflict: 409,
   OK: 200,
+  unauthorized: 401,
 };
 
 const message = {
@@ -15,6 +16,8 @@ const message = {
   invalidFields: 'Invalid fields',
   emptyEmail: '"email" is not allowed to be empty',
   emptyPassword: '"password" is not allowed to be empty',
+  tokenNotFound: 'Token not found',
+  invalidToken: 'Expired or invalid token',
 };
 
 module.exports = {

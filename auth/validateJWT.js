@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const { status, message } = require('../schema/status');
+// const { User } = require('../models');
 
 require('dotenv/config');
 
@@ -14,6 +16,19 @@ const getToken = async (email) => {
   return token;
 };
 
+const validationToken = async (req, res, next) => {
+  const token = req.headers.authorization;
+  try {
+  if (!token) return res.status(status.unauthorized).json({ message: message.tokenNotFound });
+  const verifyToken = jwt.verify(token, SECRET);
+  req.user = verifyToken;
+  next();
+  } catch (err) {
+    return res.status(status.unauthorized).json({ message: message.invalidToken });
+  }
+};
+
 module.exports = {
   getToken,
+  validationToken,
 };
