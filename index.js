@@ -15,6 +15,7 @@ app.get('/', (request, response) => {
 
 app.post('/user', userValidation, usersController.createNewUser);
 app.get('/user', validateJWT, usersController.getAllUsers);
+app.get('/user/:id', validateJWT, usersController.getUser);
 
 app.post('/login', loginController.validateLogin);
 

@@ -21,7 +21,15 @@ const getAllUsers = async (req, res, _next) => {
   res.status(200).json(users);
 };
 
+const getUser = async (req, res, next) => {
+  const { id } = req.params;
+  const user = await Users.findByPk(parseInt(id, 10));
+  if (!user) return next({ status: 404, message: 'User does not exist' });
+  return res.status(200).json(user);
+};
+
 module.exports = {
   createNewUser,
   getAllUsers,
+  getUser,
 };
