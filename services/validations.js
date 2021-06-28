@@ -1,42 +1,47 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { User } = require('../models');
-const { generateToken } = require('./jwt');
 const {
   BAD_REQUEST,
   CONFLICT,
 } = require('./consts');
+const { requestError } = require('./requestError');
 
 const app = express();
 app.use(bodyParser.json());
-
-const requestError = (message, status) => {
-  throw Object.assign(
-    new Error(message),
-    { status },
- );
-};
 
 const isValidEmail = (email) => {
   const emailRegex = /^([a-zA-Z0-9_-]+)@([a-zA-Z_-]+)/;
   return emailRegex.test(email);
 };
 
-const isConflictEmail = async (email) => {
+const isExistingEmail = async (email) => {
   const userFound = await User.findOne({ where: { email } });
+  console.log(userFound);
   return userFound !== null;
 };
 
-const emailValidations = async (email) => {
+const decisionAboutExistingEmail = async (email, type) => {
+  const existingEmail = await isExistingEmail(email);
+  if (existingEmail && type === 'register') {
+    requestError('User already registered', CONFLICT);
+  }
+  if (!existingEmail && type === 'login') {
+    requestError('Invalid fields', BAD_REQUEST);
+  }
+};
+
+const emailValidations = async (email, type) => {
+  if (email === '') {
+    requestError('"email" is not allowed to be empty', BAD_REQUEST);
+  }
   if (!email) {
     requestError('"email" is required', BAD_REQUEST);
   }
   if (!isValidEmail(email)) {
     requestError('"email" must be a valid email', BAD_REQUEST);
   }
-  if (await isConflictEmail(email)) {
-    requestError('User already registered', CONFLICT);    
-  }
+  await decisionAboutExistingEmail(email, type);
 };
 
 const isValidDisplayName = (displayName) => displayName.length >= 8;
@@ -50,6 +55,9 @@ const displayValidation = (displayName) => {
 const isValidPassWord = (password) => password.length >= 6;
 
 const passwordValidation = (password) => {
+  if (password === '') {
+    requestError('"password" is not allowed to be empty', BAD_REQUEST);
+  }
   if (!password) {
     requestError('"password" is required', BAD_REQUEST);
   }
@@ -58,22 +66,23 @@ const passwordValidation = (password) => {
   }
 };
 
-const Validations = async (body) => {
-  const { email, displayName, password } = body;
-  await emailValidations(email);
-  displayValidation(displayName);
-  passwordValidation(password);
+const userRegisterValidations = async (req, res, next) => {
+  const { email, displayName, password } = req.body;
+  try {
+    await emailValidations(email, 'register');
+    displayValidation(displayName);
+    passwordValidation(password);
+    next();
+  } catch (error) {
+    return res.status(error.status).json({ message: error.message });
+  }
 };
 
-// 1 - Crie um endpoint para o cadastro de usuários
-const tryAddUser = async (req, res, next) => {
+const loginValidations = async (req, res, next) => {
+  const { email, password } = req.body;
   try {
-    const { body } = req;
-    await Validations(body);
-    const { password, ...remainingbody } = body;
-    await User.create(body);
-    const token = generateToken({ ...remainingbody });
-    req.token = token;
+    await emailValidations(email, 'login');
+    passwordValidation(password);
     next();
   } catch (error) {
     return res.status(error.status).json({ message: error.message });
@@ -81,5 +90,6 @@ const tryAddUser = async (req, res, next) => {
 };
 
 module.exports = {
-  tryAddUser,
+  userRegisterValidations,
+  loginValidations,
 };

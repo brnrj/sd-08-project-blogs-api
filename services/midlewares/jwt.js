@@ -3,8 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {
   UNAUTHORIZED,
-} = require('./consts');
-const { User } = require('../models');
+} = require('../consts');
+const { User } = require('../../models');
 // const { getUser } = require('../models/recipesModel');
 
 const app = express();
