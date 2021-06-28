@@ -1,29 +1,23 @@
 const { httpStatusCode } = require('../../constants');
 const { BlogPosts, PostsCategories, Users, Categories } = require('../models');
 const CustomErr = require('../utils');
-const { postValidations, categoriesValidations } = require('../validations');
+const { postValidations } = require('../validations');
 
 const createPost = async (email, title, categoryIds, content) => {
   postValidations.titleValidate(title);
   postValidations.categoryIdsValidate(categoryIds);
   postValidations.contentValidate(content);
 
-  categoryIds.forEach((categoryId) => {
-    const categoryIdFound = Categories.findOne({ where: { id: categoryId } })
-      .then((data) => console.log('Data: ', data))
-        .catch((err) => console.log('Erro: ', err));
-    categoriesValidations.existCategoryValidate(categoryIdFound);
-  });
-
   const user = await Users.findOne({ where: { email } });
   const { id } = user;
   const newPost = await BlogPosts.create({ title, content, userId: id });
-  
-  categoryIds.forEach(async (category) => {
-    const postId = newPost.id;
-    const categoryId = category;
-    await PostsCategories.create({ postId, categoryId });
+
+  categoryIds.forEach(async (categoryId) => {
+    const categoryIdFound = await Categories.findOne({ where: { id: categoryId } });
+    if (!categoryIdFound) throw new CustomErr(httpStatusCode.NOT_FOUND, '"categoryIds" not found');
+    await PostsCategories.create({ postId: newPost.id, categoryId });
   });
+
   return newPost.dataValues;
 };
 

@@ -7,13 +7,6 @@ const nameValidate = (displayName) => {
   }
 };
 
-const existCategoryValidate = (categoryId) => {
-  if (categoryId === '' || categoryId === undefined) {
-    throw new CustomErr(httpStatusCode.NOT_FOUND, '"categoryIds" not found');
-  }
-};
-
 module.exports = {
   nameValidate,
-  existCategoryValidate,
 };
