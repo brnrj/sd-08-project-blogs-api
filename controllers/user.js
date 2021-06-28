@@ -3,11 +3,17 @@ const { User } = require('../models');
 const createJWT = require('../services/createJWT');
 
 const router = express.Router();
-const { userValidation } = require('../services/user');
+const { 
+  userValidation,
+  tokenValidation,
+} = require('../services/user');
 
-router.use(userValidation);
+router.get('/', tokenValidation, async (req, res) => {
+  const users = await User.findAll();
+  res.status(200).json(users);
+});
 
-router.post('/', async (req, res) => {
+router.post('/', userValidation, async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ where: { email } });
