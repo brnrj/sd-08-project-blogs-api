@@ -10,9 +10,8 @@ const jwtConfig = {
 };
 
 const getToken = (user) => jwt.sign(({ data: user }), secret, jwtConfig);
-
-const decodeToken = (token) => jwt.verify(token, secret);
-
+const verifyToken = (token) => jwt.verify(token, secret);
+const decodeToken = (token) => jwt.decode(token, secret);
 module.exports = {
-  getToken, decodeToken,
+  getToken, verifyToken, decodeToken,
 };

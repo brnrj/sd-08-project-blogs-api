@@ -1,9 +1,9 @@
-const { decodeToken } = require('./jwtValidation');
+const { verifyToken } = require('./jwtValidation');
 
 const checkTokenExist = (token) => !!token;
 const checkTokenValid = (token) => {
   try {
-    return !!decodeToken(token);
+    return !!verifyToken(token);
   } catch (error) {
     console.log(error);
   }

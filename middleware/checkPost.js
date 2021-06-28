@@ -6,8 +6,8 @@ const checkCategoryIdsExist = (categoryIds) => !!categoryIds;
 
 const checkCategoryIdsValid = async (categoryIds) => {
   const data = await Category.findAll();
-  const categoriesIds = data.map((element) => element.dataValues.id);
-  return categoryIds.every((id) => categoriesIds.includes(id));
+  const dataCategoriesIds = data.map(({ dataValues: { id } }) => id);
+  return categoryIds.every((id) => dataCategoriesIds.includes(id));
 };
 
 async function checkPost(req, res, next) {
@@ -21,7 +21,7 @@ async function checkPost(req, res, next) {
   if (!checkCategoryIdsExist(categoryIds)) {
     return res.status(400).json({ message: '"categoryIds" is required' });
   }
-  if (await checkCategoryIdsValid(categoryIds) === false) {
+  if (!await checkCategoryIdsValid(categoryIds)) {
     return res.status(400).json({ message: '"categoryIds" not found' });
   }
   next();
