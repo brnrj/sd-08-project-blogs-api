@@ -20,6 +20,7 @@ const message = {
   tokenNotFound: 'Token not found',
   invalidToken: 'Expired or invalid token',
   userNotExist: 'User does not exist',
+  requiredName: '"name" is required',
 };
 
 module.exports = {
