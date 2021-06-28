@@ -19,4 +19,13 @@ routes.post('/', validateName, validationToken, async (req, res) => {
   }
 });
 
+routes.get('/', validationToken, async (req, res) => {
+  try {
+    const categories = await categoriesServices.findAllCategories();
+    return res.status(status.OK).json(categories);
+  } catch (err) {
+    return res.status(status.badRequest).json({ message: 'Algo deu errado' });
+  }
+});
+
 module.exports = routes;
