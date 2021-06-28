@@ -14,13 +14,14 @@ module.exports = {
         type: Sequelize.STRING,
 
       }, userId: {
+        defaultValue: 1,
         allowNull: false,
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
         type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          foreignkey: "id"
+        references: { //faz ref
+          model: "Users", // ao modelo Users
+          foreignkey: "id" // na chave id
         }
       },
       published: {

@@ -1,4 +1,4 @@
-const { BlogPosts, Categories } = require('../models');
+const { BlogPosts, Categories, Users } = require('../models');
 
 const validation = ({ title, content, categoryIds }) => {
 if (!title) return '"title" is required';
@@ -25,4 +25,12 @@ const addPost = async (req, res) => {
   }
 };
 
-module.exports = { addPost };
+const listPosts = async (req, res) => {
+const posts = await BlogPosts.findAll({ include: [ // pega toda a lista dos posts incluindo as infos dos usuarios e categorues mas excluindo o atributo password 
+  { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+  { model: Categories, as: 'categories', through: { attributes: [] } },
+] });
+res.status(200).json(posts);
+};
+
+module.exports = { addPost, listPosts };

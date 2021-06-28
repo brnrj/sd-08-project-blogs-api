@@ -16,6 +16,7 @@ app.get('/user', valiToken, USER.getAll);
  app.post('/categories', valiToken, CATEGORIE.categoryCreate);
  app.get('/categories', valiToken, CATEGORIE.getAllCategories); 
  app.post('/post', valiToken, POSTS.addPost); 
+ app.get('/post', valiToken, POSTS.listPosts); 
  
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
