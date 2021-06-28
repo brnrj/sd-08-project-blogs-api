@@ -1,17 +1,25 @@
-const Op = require('sequelize');
+const jwt = require('jsonwebtoken');
 const { BlogPost } = require('../models');
+const { create } =  require('../services/postServices');
+
+const SECRET = process.env.JWT_SECRET;
 
 const createPost = async (req, res) => {
-  const { displayedName, email, password, image } = req.body;
-  const createPost = await BlogPost.create({ displayedName, email, password, image });
-  
-  res.status(200).json(createPost);
+  const { title, categoryIds, content } = req.body;
+  const token = req.headers.authorization;
+  const result = await create({ title, categoryIds, content });
+  if (result !== true) {
+    return res.status(result.status).json({ message: result.message });
+  }
+  const userId = jwt.verify(token, SECRET).id;
+  const createdP = await BlogPost.create({ userId, title, categoryIds, content });
+  return res.status(201).json(createdP);
 };
 
 const getAllPosts = async (_req, res) => {
   const getAllPosts = await BlogPost.findAll();
 
-  res.status(200).json(getAllPosts);
+  return res.status(200).json(getAllPosts);
 };
 
 const getPostById = async (req, res) => {
