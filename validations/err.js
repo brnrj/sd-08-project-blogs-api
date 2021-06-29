@@ -3,6 +3,7 @@ module.exports = {
     OK: 200,
     CREATED: 201,
     BAD_REQ: 400,
+    UNAUTHORIZED: 401,
     NOT_FOUND: 404,
     CONFLICT: 409,
   },
@@ -24,5 +25,7 @@ module.exports = {
     CAT_ID_REQUIRED: '"categoryIds" is required',
     CAT_ID_NOT_FOUND: '"categoryIds" not found',
     POST_DOESNT_EXIST: 'Post does not exist',
+    CATEGORIES_CANNOT_BE_EDITED: 'Categories cannot be edited',
+    UNAUTH_USER: 'Unauthorized user',
   },
 };

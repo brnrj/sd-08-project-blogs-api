@@ -9,8 +9,6 @@ const isTokenValid = async (token) => {
 
   const userExists = await User.findOne({ where: { email } });
 
-  console.log('usuario', userExists.dataValues);
-
   if (!userExists) throw new Error('Expired or invalid token');
 };
 

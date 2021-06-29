@@ -8,5 +8,6 @@ const jwtVerify = require('../middlewares/jwtVeryfy');
 blog.post('/', jwtVerify, blogpostControllers.createPost);
 blog.get('/:id', jwtVerify, blogpostControllers.getPostById);
 blog.get('/', jwtVerify, blogpostControllers.getPosts);
+blog.put('/:id', jwtVerify, blogpostControllers.updatePostById);
 
 module.exports = blog;

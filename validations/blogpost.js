@@ -25,6 +25,16 @@ const postDoesntExist = {
   message: error.message.POST_DOESNT_EXIST,
 };
 
+const catCantBeEdited = {
+  code: error.code.BAD_REQ,
+  message: error.message.CATEGORIES_CANNOT_BE_EDITED,
+};
+
+const unauthorizedUser = {
+  code: error.code.UNAUTHORIZED,
+  message: error.message.UNAUTH_USER,
+};
+
 const titleVerify = (title) => {
   if (!title) throw new Error(JSON.stringify(titleRequired));
 };
@@ -51,8 +61,26 @@ const blogExists = (blog) => {
   if (!blog) throw new Error(JSON.stringify(postDoesntExist));
 };
 
+const updatePostBody = (post) => {
+  if (!Object.keys(post).every((elem) => elem === 'title' || elem === 'content')) {
+    throw new Error(JSON.stringify(catCantBeEdited));
+  }
+
+  titleVerify(post.title);
+  contentVerify(post.content);
+};
+
+const userHavePermission = (blogPost, user) => {
+  const { dataValues: { userId } } = blogPost;
+  const { data: { id } } = user;
+
+  if (userId !== id) throw new Error(JSON.stringify(unauthorizedUser));
+};
+
 module.exports = {
   verifyBodyRequest,
   categoriesExists,
   blogExists,
+  updatePostBody,
+  userHavePermission,
 };

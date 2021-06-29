@@ -4,8 +4,6 @@ const validations = require('../validations/blogpost');
 const decodeToken = require('../helper/decodeToken');
 
 const createPost = async (post, token) => {
-  console.log(post);
-
   validations.verifyBodyRequest(post);
 
   const categories = await Categorie.findAll({ where: { id: post.categoryIds } });
@@ -54,8 +52,30 @@ const getPostById = async (id) => {
   return blogpost;
 };
 
+const updatePostById = async (id, token, newPost) => {
+  const user = decodeToken(token);
+  const blogPost = await getPostById(id);
+
+  validations.updatePostBody(newPost);
+  validations.userHavePermission(blogPost, user);
+
+  await BlogPost.update(
+    { ...newPost },
+    { where: { id } },
+  );
+
+  const abc = {
+    ...blogPost.dataValues,
+    ...newPost,
+    user: blogPost.dataValues.user.dataValues,
+  };
+
+  return abc;
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
+  updatePostById,
 };
