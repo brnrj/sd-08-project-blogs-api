@@ -14,5 +14,6 @@ module.exports = {
     unauthorized: 401,
     notFound: 404,
     conflict: 409,
+    fatalErr: 500,
   },
 };
