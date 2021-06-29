@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const { BlogPosts, Categories } = require('../models');
+const { BlogPosts, Categories, User, PostsCategories } = require('../models');
 const tokenValidation = require('../middlewares/tokenAuth');
 const { postValidation } = require('../services/postValidation');
 
@@ -22,11 +22,33 @@ router.post('/', tokenValidation, async (req, res) => {
   const decoded = jwt.decode(token, secret);
   const userId = decoded.data.id;
 
-  const blogPost = await BlogPosts.create({ title, content, userId });
+  const blogPost = await BlogPosts.create(
+    { title, content, userId },
+  );
 
-  await blogPost.addCategory(categoryIds, { through: {} });
+  // await blogPost.addCategory(categoryIds, { through: {} });
+  await PostsCategories.bulkCreate(
+    categoryIds.map((catId) => ({ categoryId: catId, postId: blogPost.id })),
+  );
 
   return res.status(201).json(blogPost);
+});
+
+router.get('/', tokenValidation, async (_req, res) => {
+  const posts = await BlogPosts.findAll({
+    include: [
+      { model: User, as: 'user' },
+      {
+        model: Categories,
+        as: 'categories',
+        attributes: ['id', 'name'],
+        through: { attributes: [] },
+      },
+    ],
+
+  });
+
+  return res.status(200).json(posts);
 });
 
 module.exports = router;
