@@ -3,7 +3,7 @@ const usersServices = require('../services/userServ');
 const statusCode = require('../utils/statuscode');
 // const { User } = require('../../models');
 const { validJWT } = require('../middlewares/validateJWT');
-const { injectUser } = require('../middlewares/injectUser');
+const { generateUser } = require('../middlewares/generateUser');
 
 const router = express.Router();
 
@@ -32,13 +32,13 @@ router.post('/', async (req, res) => {
   return res.status(statusCode.code.c201).json({ token: createToken });
 });
 
-router.get('/', validJWT, injectUser, async (req, res) => {
+router.get('/', validJWT, generateUser, async (req, res) => {
   const findAllUser = req.users;
   console.log('findAllUser', findAllUser);
   return res.status(statusCode.code.c200).json(findAllUser);
 });
 
-router.get('/:id', validJWT, injectUser, async (req, res) => {
+router.get('/:id', validJWT, generateUser, async (req, res) => {
   const { id } = req.params;
   // console.log('id', id);
 

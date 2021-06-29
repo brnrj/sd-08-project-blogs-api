@@ -1,6 +1,6 @@
 const { User } = require('../../models');
 
-const injectUser = async (req, res, next) => {
+const generateUser = async (req, res, next) => {
   const { email } = req;
   console.log('email', email);
 
@@ -13,5 +13,5 @@ const injectUser = async (req, res, next) => {
 };
 
 module.exports = {
-  injectUser,
+  generateUser,
 };

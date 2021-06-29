@@ -3,11 +3,11 @@ const categoryServices = require('../services/categoriesServ');
 const statusCode = require('../utils/statuscode');
 // const { User } = require('../../models');
 const { validJWT } = require('../middlewares/validateJWT');
-const { injectUser } = require('../middlewares/injectUser');
+const { managerCategory } = require('../middlewares/managerCategory');
 
 const router = express.Router();
 
-router.post('/', validJWT, injectUser, async (req, res) => {
+router.post('/', validJWT, async (req, res) => {
   const { name } = req.body;
   console.log('req.body categories line 10', name);
 
@@ -22,6 +22,12 @@ router.post('/', validJWT, injectUser, async (req, res) => {
   console.log('createCategory', createCategory);
 
    return res.status(statusCode.code.c201).json(createCategory);
+});
+
+router.get('/', validJWT, managerCategory, async (req, res) => {
+  const findAllCategories = req.categories;
+
+  return res.status(statusCode.code.c200).json(findAllCategories);
 });
 
 module.exports = router;
