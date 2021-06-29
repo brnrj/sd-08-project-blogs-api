@@ -1,4 +1,4 @@
-const { createUser, findUser, getUsers, getUserById } = require('./user');
+const { createUser, findUser, getUsers, getUserById, deleteUser } = require('./user');
 const { login } = require('./login');
 const { createCategory, getCategories } = require('./category');
 const { createPost, getPosts, getPostById, updatePost, deletePost } = require('./post');
@@ -16,4 +16,5 @@ getPosts,
 getPostById,
 updatePost,
 deletePost,
+deleteUser,
 };

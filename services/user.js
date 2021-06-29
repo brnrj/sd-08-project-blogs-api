@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { getToken } = require('../middleware');
+const { getToken, decodeToken } = require('../middleware');
 
 async function createUser(body) {
   const { email } = body;
@@ -25,6 +25,12 @@ async function getUserById(id) {
   return data;
 }
 
+async function deleteUser(token) {
+  const { data: { id } } = decodeToken(token);
+  await User.destroy({ where: { id } });
+  return true;
+}
+
 module.exports = {
-  createUser, findUser, getUsers, getUserById,
+  createUser, findUser, getUsers, getUserById, deleteUser,
 };
