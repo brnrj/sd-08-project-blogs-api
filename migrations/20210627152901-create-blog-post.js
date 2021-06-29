@@ -25,15 +25,13 @@ module.exports = {
           foreignKey: "id",
         },
       },
-      createdAt: {
-        allowNull: false,
+      published: {
         type: Sequelize.DATE,
-        field: "published",
+        isDate: true,
       },
-      updatedAt: {
-        allowNull: false,
+      updated: {
         type: Sequelize.DATE,
-        field: "updated",
+        isDate: true,
       },
     });
   },
