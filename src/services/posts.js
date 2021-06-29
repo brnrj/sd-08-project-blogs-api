@@ -7,7 +7,6 @@ const postsCategoriesAssossiations = async (categoryIds) => {
   const allCategories = await Categories.findAll();
   const allCategoriesIds = allCategories.map((category) => category.dataValues.id);
   const idsFound = categoryIds.every((id) => allCategoriesIds.includes(id));
-  console.log('Ids Found: ', idsFound);
 
   if (!idsFound) throw new CustomErr(httpStatusCode.BAD_REQUEST, '"categoryIds" not found');
   return true;
@@ -23,7 +22,8 @@ const createPost = async (email, title, categoryIds, content) => {
   const { id } = user;
   const newPost = await BlogPosts.create({ title, content, userId: id });
 
-  categoryIds.forEach(async (categoryId) => PostsCategories.create({ postId: newPost.id, categoryId }));
+  categoryIds.forEach(async (categoryId) =>
+    PostsCategories.create({ postId: newPost.id, categoryId }));
 
   return newPost.dataValues;
 };
