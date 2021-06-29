@@ -13,6 +13,10 @@ const {
     categoryCreate,
     getCategories,
   },
+  postsController: {
+    postCreate,
+    // getPosts,
+  },
 } = require('./controlers');
 
 const {
@@ -21,6 +25,11 @@ const {
     validateEmail,
     validatePassword,
     validateToken,
+  },
+  blogPostMiddlewares: {
+    validateTitle,
+    validateContent,
+    validateCategoryIds,
   },
 } = require('./middlewares');
 
@@ -52,5 +61,12 @@ app.post('/login',
 app.post('/categories', validateToken, categoryCreate);
 
 app.get('/categories', validateToken, getCategories);
+
+app.post('/post',
+  validateTitle,
+  validateContent,
+  validateCategoryIds,
+  validateToken,
+  postCreate);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
