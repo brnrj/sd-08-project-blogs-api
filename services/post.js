@@ -1,3 +1,4 @@
+const { ERR } = require('../config/messages');
 const { BlogPosts, PostsCategories, Users, Categories } = require('../models');
 const { validateNewPost, validateCategoryIds } = require('./postValidates');
 
@@ -37,7 +38,21 @@ const getAll = async () => BlogPosts.findAll(
   },
 );
 
+const getById = async (id) => {
+  const result = await BlogPosts.findOne({
+    where: { id },
+    include:
+    [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  if (result === null) throw new Error(ERR.postDoesNotExist);
+  return result;
+};
+
 module.exports = {
   createPost,
   getAll,
+  getById,
 };
