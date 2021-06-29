@@ -9,7 +9,7 @@ const schema = Joi.object({
 });
 
 const jwtConfig = {
-  expiresIn: '1h',
+  expiresIn: '24h',
   algorithm: 'HS256',
 };
 const jwtSecret = process.env.JWT_SECRET;

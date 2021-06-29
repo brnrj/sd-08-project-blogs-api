@@ -3,6 +3,7 @@ const express = require('express');
 const usersController = require('./controllers/usersController');
 const loginController = require('./controllers/loginController');
 const categoriesController = require('./controllers/categoriesController');
+const blogPostsController = require('./controllers/blogPostsController');
 
 const { error, userValidation, validateJWT } = require('./middlewares');
 
@@ -22,6 +23,8 @@ app.post('/categories', validateJWT, categoriesController.createNewCategory);
 app.get('/categories', validateJWT, categoriesController.getAllCategories);
 
 app.post('/login', loginController.validateLogin);
+
+app.post('/post', validateJWT, blogPostsController.createNewPost);
 
 app.use(error);
 
