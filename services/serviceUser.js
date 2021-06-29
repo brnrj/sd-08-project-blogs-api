@@ -1,6 +1,7 @@
 const { User } = require('../models');
 const schema = require('../schema');
 const CustomError = require('../utils/customError');
+const generateToken = require('../utils/generateToken');
 
 const { err, code, msg } = new CustomError();
 
@@ -16,8 +17,9 @@ const checkListNewUser = async (data) => {
 const addUser = async (data) => {
   const resultData = await checkListNewUser(data);
   if (resultData.err) return resultData;
-  const user = await User.create(data);
-  return { user };
+  const { displayName, email, id } = await User.create(data);
+  const token = generateToken({ displayName, email, id });
+  return { token };
 };
 
 module.exports = {

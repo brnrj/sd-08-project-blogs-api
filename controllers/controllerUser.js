@@ -4,8 +4,8 @@ const code = require('../utils/code');
 const controllerAdd = async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
   const resultService = await ServiceUser.addUser({ displayName, email, password, image });
-  if (!resultService.user) return next(resultService);
-  return res.status(code.created).json(resultService.user);
+  if (!resultService.token) return next(resultService);
+  return res.status(code.created).json(resultService);
 };
 
 module.exports = {
