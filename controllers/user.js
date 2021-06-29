@@ -27,8 +27,8 @@ const getAllUsers = async (req, res) => {
 };
 
 const getUserById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
     const result = await user.getUserById(id);
     res.status(STATUS.ok).json(result);
   } catch (error) {

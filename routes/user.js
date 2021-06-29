@@ -8,6 +8,6 @@ userRoute.route('/user')
   .post(createUser)
   .get(validateToken, getAllUsers);
 
-userRoute.route('./user/:id').get(validateToken, getUserById);
+userRoute.route('/user/:id').get(validateToken, getUserById);
   
 module.exports = userRoute;
