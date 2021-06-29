@@ -19,21 +19,13 @@ module.exports = {
          allowNull: false,
        },
        password: {
-         type: Sequelize.INTEGER,
+         type: Sequelize.STRING,
          allowNull: false,
        },
        image: {
          type: Sequelize.STRING,
          allowNull: true,
        },
-       createdAt: {
-         type: Sequelize.DATE,
-         allowNull: false,
-       },
-       updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
     });
   },
 
