@@ -1,18 +1,18 @@
 const rescue = require('express-rescue');
 const jwt = require('jsonwebtoken');
 
-const { SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 
 const UNAUTHORIZED_STATUS = 401;
 
 const error = {
   status: UNAUTHORIZED_STATUS,
-  message: 'jwt malformed',
+  message: 'Expired or invalid token',
 };
 
 const JWT = {
   status: UNAUTHORIZED_STATUS,
-  message: 'missing auth token',
+  message: 'Token not found',
 };
 
 const auth = rescue((req, res, next) => {
@@ -20,14 +20,12 @@ const auth = rescue((req, res, next) => {
   if (!token) return next({ err: JWT });
 
   try {
-    const decoded = jwt.verify(token, SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     const {
-      data: { id, role, userEmail },
+      data: { email },
     } = decoded;
     
-    req.email = userEmail;
-    req.userId = id;
-    req.role = role;
+    req.email = email;
   } catch (e) {
     next({ err: error });
   }

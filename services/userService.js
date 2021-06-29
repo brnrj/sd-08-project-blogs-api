@@ -25,6 +25,16 @@ const insertUser = async (displayName, email, password, image) => {
   }
 };
 
+const getAllUsers = async () => {
+  try {
+    const users = await User.findAll();
+    return users;
+  } catch (e) {
+    return { message: 'erro verifique o console' };
+  }
+};
+
 module.exports = {
   insertUser,
+  getAllUsers,
 };
