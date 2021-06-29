@@ -12,6 +12,17 @@ const createPost = async (req, res) => {
   }
 };
 
+const getAllPost = async (req, res) => {
+  try {
+    const allPosts = await post.getAll();
+    res.status(STATUS.ok).json(allPosts);
+  } catch (error) {
+    console.log(error);
+    res.status(STATUS.fatalErr).json({ message: 'Algo deu errado.' });
+  }
+};
+
 module.exports = {
   createPost,
+  getAllPost,
 };

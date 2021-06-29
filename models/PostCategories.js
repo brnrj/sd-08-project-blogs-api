@@ -1,22 +1,22 @@
 module.exports = (sequelize, DataTypes) => {
-  const PostCategories = sequelize.define('PostCategories',
+  const PostsCategories = sequelize.define('PostsCategories',
   {
     categoryId: { type: DataTypes.INTEGER, primaryKey: true },
-    postId: { type: DataTypes.INTEGER, primareyKey: true },
+    postId: { type: DataTypes.INTEGER, primaryKey: true },
   }, { timestamps: false });
-  PostCategories.associate = (models) => {
+  PostsCategories.associate = (models) => {
     models.BlogPosts.belongsToMany(models.Categories, { as: 'categories',
-      through: PostCategories,
+      through: PostsCategories,
       foreignKey: 'postId',
       otherKey: 'categoryId',
     });
     models.Categories.belongsToMany(models.BlogPosts, { as: 'blogPosts',
-        through: PostCategories,
+        through: PostsCategories,
         foreignKey: 'categoryId',
         otherKey: 'postId',
     });
   };      
-    return PostCategories;
+    return PostsCategories;
 };
 
 // Seguindo o conteúdo do course o lint reclamava. Solução encontrada no PR:
