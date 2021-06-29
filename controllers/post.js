@@ -1,8 +1,9 @@
 const PostSevices = require('../services/post');
 
 const add = async (req, res) => {
-  const { body, user: { dataValues: userData } } = req;
-  const response = await PostSevices.add(body, userData);
+  const { body, user } = req;
+  const response = await PostSevices.add(body, user);
+
   res.status(201).json(response);
 };
 
@@ -17,8 +18,16 @@ const getById = async (req, res) => {
   res.status(200).json(response);
 };
 
-module.exports = { 
+const updateById = async (req, res) => {
+  const { id: postId } = req.params;
+  const { body: newPostData, user } = req;
+  const response = await PostSevices.updateById(postId, newPostData, user.id);
+  res.status(200).json(response);
+};
+
+module.exports = {
   add,
   getAll,
   getById,
+  updateById,
 };

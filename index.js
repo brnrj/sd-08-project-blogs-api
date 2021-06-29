@@ -31,6 +31,7 @@ app.get('/categories', validateJWT, rescue(Categories.getAll));
 app.post('/post', validateJWT, rescue(Post.add));
 app.get('/post', validateJWT, rescue(Post.getAll));
 app.get('/post/:id', validateJWT, rescue(Post.getById));
+app.put('/post/:id', validateJWT, rescue(Post.updateById));
 
 app.use((err, req, res, _next) => {
   const { code, message } = err;

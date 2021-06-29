@@ -9,16 +9,19 @@ const createUserDataSchema = Joi.object({
   password: Joi.string().length(6).required(),
 });
 
-const login = async (userData) => {
+const checkFields = (userData) => {
   const { error } = createUserDataSchema.validate(userData);
   if (error) {
     const { message } = error.details[0];
     throw new Error400(message);
   }
+};
 
+const login = async (loginData) => {
+  checkFields(loginData);
   try {
-    const response = await User.findOne({ where: { email: userData.email } });
-    const token = createJWT(response);
+    const response = await User.findOne({ where: { email: loginData.email } });
+    const token = createJWT(response.toJSON());
     return token;
   } catch (_err) {
     throw new Error400('Invalid fields');
