@@ -32,7 +32,34 @@ const create = async (reqBody) => {
   return token;
 };
 
+const validateLogin = async (email, password) => {
+  validateEmail.missingEmail(email);
+  validatePassword.missingPassword(password);
+
+  validateEmail.emptyEmail(email);
+  validatePassword.emptyPassword(password);
+
+  const user = await User.findAll({ where: { email } });
+  if (user.length === EMPTY) throw new Error('Invalid fields$400');
+};
+
+const login = async (email) => {
+  const user = await User.findAll({
+    where: {
+      email,
+    },
+  });
+
+  const { password: ignore, ...otherInfo } = user;
+
+  const token = jwt.sign({ data: otherInfo }, process.env.JWT_SECRET, jwtConfig);
+
+  return token;
+};
+
 module.exports = {
   validate,
   create,
+  validateLogin,
+  login,
 };
