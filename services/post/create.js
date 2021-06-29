@@ -1,8 +1,8 @@
 const boom = require('@hapi/boom');
-const { Post: PostModel, sequelize } = require('../models');
-const PostSchema = require('../schema/post');
+const { Post: PostModel, sequelize } = require('../../models');
+const PostSchema = require('../../schema/post');
 
-const create = async (newPost) => {
+module.exports = async (newPost) => {
   const { error } = PostSchema.validate(newPost);
   
   if (error) throw error;
@@ -23,25 +23,4 @@ const create = async (newPost) => {
 
     return { id: post.id, userId, title, content };
   });
-};
-
-const findAll = async () => PostModel.findAll({
-  include: ['user', 'categories'],
-});
-
-const findById = async (id) => {
-  const result = await PostModel.findOne({
-    where: { id },
-    include: ['user', 'categories'],
-  });
-
-  if (!result) throw boom.notFound('Post does not exist');
-  
-  return result;
-};
-
-module.exports = {
-  create,
-  findAll,
-  findById,
 };
