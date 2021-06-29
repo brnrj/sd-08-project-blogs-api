@@ -38,7 +38,7 @@ const update = async (req, res) => {
   const { user, body } = req;
   try {
     const result = await post.update(user, body, id);
-    return result;
+    res.status(STATUS.ok).json(result);
   } catch (error) {
     console.log(error);
     res.status(STATUS).json({ message: error.message });
