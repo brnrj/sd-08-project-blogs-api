@@ -8,9 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       title: DataTypes.STRING,
       content: DataTypes.STRING,
-      punlished: DataTypes.DATE,
+      published: DataTypes.DATE,
       updated: DataTypes.DATE,
-    });
+      userId: DataTypes.INTEGER,
+    }, { timestamps: false });
   BlogPost.associate = (models) => {
     BlogPost.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
   };

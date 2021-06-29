@@ -11,14 +11,14 @@ const checkDisplayName = (value) => {
 };
 
 const checkEmail = (value) => {
-  if (!value) return err(msg.requiredEmail, code.badRequest);
+  if (value === undefined) return err(msg.requiredEmail, code.badRequest);
   if (isEmpty(value)) return err(msg.emptyEmail, code.badRequest);
   if (!isEmail(value)) return err(msg.invalidEmail, code.badRequest);
   return true;
 };
 
 const checkPassword = (value) => {
-  if (!value) return err(msg.requiredPassword, code.badRequest); 
+  if (value === undefined) return err(msg.requiredPassword, code.badRequest); 
   if (isEmpty(value)) return err(msg.emptyPassword, code.badRequest);
   if (!isLength(value, { min: 6, max: 100 })) {
     return err(msg.invalidLengthPassword, code.badRequest);
