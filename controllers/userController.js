@@ -4,6 +4,7 @@ require('dotenv').config();
 const { User } = require('../models');
 const userValidation = require('../services/userValidation');
 const tokenValidation = require('../middlewares/tokenAuth');
+const { userIdFromToken } = require('../services/userIdFromToken');
 
 const secret = process.env.SECRET;
 const router = express.Router();
@@ -41,6 +42,14 @@ router.get('/:id', tokenValidation, async (req, res) => {
   if (!user) return res.status(404).json({ message: 'User does not exist' });
 
   return res.status(200).json(user);
+});
+
+router.delete('/me', tokenValidation, async (req, res) => {
+  const userId = userIdFromToken(req.headers.authorization);
+
+  await User.destroy({ where: { id: userId } });
+
+  return res.status(204).json();
 });
 
 module.exports = router;
