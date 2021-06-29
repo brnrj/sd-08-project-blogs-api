@@ -14,6 +14,19 @@ const insertCategory = async (name) => {
   }
 };
 
+const getAllCategories = async () => {
+    try {
+      const response = Category.findAll();
+      
+      if (!response) return { err: { message: 'erro na consulta ao banco', status: 500 } };
+      
+      return response;
+    } catch (e) {
+      return { message: 'erro, olhe o console' };
+    }
+  };
+
 module.exports = {
   insertCategory,
+  getAllCategories,
 };
