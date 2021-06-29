@@ -1,5 +1,5 @@
 const { BlogPost, Category, User } = require('../models');
-const { validateCategory } = require('../middlewares/validateFormPost');
+const { validateCategory, validateExistPost } = require('../middlewares/validateFormPost');
 
 const createPost = async (body, user) => {
   const categoryExist = await validateCategory(body);
@@ -24,7 +24,20 @@ const getAllPosts = async () => {
   return allPosts;
 };
 
+const getPostById = async (id) => {
+  const existPost = await validateExistPost(id);
+  if (!existPost) throw new Error('Post does not exist');
+  const post = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return post;
+};
+
 module.exports = {
   createPost,
   getAllPosts,
+  getPostById,
 };

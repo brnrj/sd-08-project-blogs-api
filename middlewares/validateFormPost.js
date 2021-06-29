@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { code } = require('../helpers/messages');
-const { Category } = require('../models');
+const { Category, BlogPost } = require('../models');
 
 const validatePost = (data) =>
 Joi.object({
@@ -20,6 +20,11 @@ const validateCategory = async (data) => {
   if (allCategories !== 0) return true;  
 };
 
+const validateExistPost = async (postId) => {
+  const posts = await BlogPost.count({ where: { id: postId } });
+  if (posts !== 0) return true;
+};
+
 const validateFormPost = async (req, res, next) => {
   const data = req.body;
   const { error } = validatePost(data);
@@ -34,4 +39,8 @@ const validateFormPost = async (req, res, next) => {
   }
 };
 
-module.exports = { validateFormPost, validateCategory };
+module.exports = {
+  validateFormPost,
+  validateCategory,
+  validateExistPost,
+};
