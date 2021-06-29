@@ -8,7 +8,6 @@ const createUser = async (req, res) => {
     const newUser = await user.validUser(displayName, email, password, image);
     return res.status(OK).json(newUser);
   } catch (e) {
-    console.log(e);
     if (e.message === 'User already registered') {
       return res.status(409).json({
         message: e.message,
