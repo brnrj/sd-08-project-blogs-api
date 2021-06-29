@@ -19,6 +19,15 @@ const create = async (blogPost, userId) => {
   return createdBlogPost;
 };
 
+// https://sequelize.org/master/manual/eager-loading.html#fetching-an-aliased-association
+const getAll = async () => BlogPost.findAll({
+  include: [
+      { association: 'user' },
+      { association: 'categories', through: { attributes: [] } },
+    ],
+});
+
 module.exports = {
   create,
+  getAll,
 };
