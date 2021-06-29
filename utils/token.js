@@ -7,6 +7,15 @@ const token = (email, password) => jwt.sign(
   { expiresIn: '1d', algorithm: 'HS256' },
 );
 
+const decoded = (recivedToken) => {
+  try {
+     return jwt.verify(recivedToken, process.env.JWT_SECRET);
+  } catch (err) {
+    return false;
+  }
+};
+
 module.exports = {
   token,
+  decoded,
 };

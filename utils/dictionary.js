@@ -9,6 +9,7 @@ const STATUS_401 = 401;
 const STATUS_404 = 404;
 const STATUS_409 = 409;
 const STATUS_500 = 500;
+const MILLISECONDS_FACTOR = 1000;
 const ERRORS = {
   eDisplayLength: {
     status: STATUS_400,
@@ -107,5 +108,6 @@ module.exports = {
   STATUS_401,
   STATUS_404,
   STATUS_409,
+  MILLISECONDS_FACTOR,
   ERRORS,
 };

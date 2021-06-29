@@ -1,6 +1,6 @@
 const express = require('express');
 const { STATUS_200 } = require('../utils/dictionary');
-const { token } = require('../utils/tokenGenerator');
+const { token } = require('../utils/token');
 const invalidLoginValidation = require('../validations/Login/invalidLoginValidation');
 const loginValidationMiddleware = require('../validations/Login/loginValidationMiddleware');
 
