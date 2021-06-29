@@ -14,7 +14,7 @@ const insertPost = rescue(async (req, res, next) => {
   return res.status(CREATED_STATUS).json(result);
 });
 
-const getAllPosts = rescue(async (req, res, next) => {
+const getAllPosts = rescue(async (_req, res, next) => {
   const result = await postService.getAllPosts();
 
   if (result.err) return next(result);
