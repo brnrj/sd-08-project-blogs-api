@@ -7,6 +7,7 @@ const {
   createUser,
   loginUser,
   findUser,
+  findIdUser,
 } = require('../../controller/user/user');
 
 router.post('/user', createUser);
@@ -14,5 +15,7 @@ router.post('/user', createUser);
 router.post('/login', loginUser);
 
 router.get('/user', validateJwt, findUser);
+
+router.get('/user/:id', validateJwt, findIdUser);
 
 module.exports = router;

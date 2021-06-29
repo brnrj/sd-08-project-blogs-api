@@ -54,8 +54,15 @@ const findServices = async () => {
   return result;
 };
 
+const findIdServices = async (id) => {
+  const result = await User.findOne({ where: { id } });
+  if (result === null) return { status: helpers.QOQ, message: 'User does not exist' };
+  return result;
+};
+
 module.exports = {
   createServices,
   loginServices,
   findServices,
+  findIdServices,
 };

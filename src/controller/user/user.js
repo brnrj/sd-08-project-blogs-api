@@ -5,6 +5,7 @@ const {
   createServices,
   loginServices,
   findServices,
+  findIdServices,
 } = require('../../sevices/user/user');
 
 const createUser = rescue(async (req, res, next) => {
@@ -21,8 +22,15 @@ const loginUser = rescue(async (req, res, next) => {
   res.status(helpers.DOO).json({ token });
 });
 
-const findUser = rescue(async (req, res) => {
+const findUser = rescue(async (_req, res) => {
   const result = await findServices();
+  res.status(helpers.DOO).json(result);
+});
+
+const findIdUser = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await findIdServices(id);
+  if (result.status) return next(result);
   res.status(helpers.DOO).json(result);
 });
 
@@ -30,4 +38,5 @@ module.exports = {
   createUser,
   loginUser,
   findUser,
+  findIdUser,
 };
