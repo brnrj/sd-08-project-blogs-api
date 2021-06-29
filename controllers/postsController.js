@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 
 const { BlogPosts, Categories, User, PostsCategories } = require('../models');
 const tokenValidation = require('../middlewares/tokenAuth');
@@ -42,6 +43,28 @@ router.get('/', tokenValidation, async (_req, res) => {
       },
     ],
 
+  });
+
+  return res.status(200).json(posts);
+});
+
+router.get('/search', tokenValidation, async (req, res) => {
+  const searchTerm = req.query.q;
+
+  const posts = await BlogPosts.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.substring]: searchTerm } }, { content: { [Op.substring]: searchTerm } }],
+    },
+    include: [
+      { model: User, as: 'user' },
+      {
+        model: Categories,
+        as: 'categories',
+        attributes: ['id', 'name'],
+        through: { attributes: [] },
+      },
+    ],
   });
 
   return res.status(200).json(posts);
