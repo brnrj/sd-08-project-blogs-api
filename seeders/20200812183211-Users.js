@@ -22,3 +22,5 @@ module.exports = {
     await queryInterface.bulkDelete('Users', null, {});
   },
 };
+
+// alo alo inicia o projeto
