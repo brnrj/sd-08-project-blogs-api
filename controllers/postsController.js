@@ -93,4 +93,19 @@ router.put('/:id', tokenValidation, async (req, res) => {
   return res.status(200).json(updatedPost);
 });
 
+router.delete('/:id', tokenValidation, async (req, res) => {
+  const { id } = req.params;
+
+  const post = await BlogPosts.findByPk(id);
+  if (!post) return res.status(404).json({ message: 'Post does not exist' });
+
+  if (post.userId !== userIdFromToken(req.headers.authorization)) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+
+  await BlogPosts.destroy({ where: { id } });
+
+  return res.status(204).json();
+});
+
 module.exports = router;
