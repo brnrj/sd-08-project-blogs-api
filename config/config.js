@@ -7,7 +7,7 @@ module.exports = {
     database: 'blogs_api',
     host: process.env.HOSTNAME,
     dialect: 'mysql',
-    secret: process.env.SECRET,
+    secret: 'VamoQueVamo8',
   },
   test: {
     username: process.env.MYSQL_USER,
@@ -15,7 +15,7 @@ module.exports = {
     database: 'blogs_api',
     host: process.env.HOSTNAME,
     dialect: 'mysql',
-    secret: process.env.SECRET,
+    secret: 'VamoQueVamo8',
   },
   production: {
     username: process.env.MYSQL_USER,
@@ -23,6 +23,6 @@ module.exports = {
     database: 'blogs_api',
     host: process.env.HOSTNAME,
     dialect: 'mysql',
-    secret: process.env.SECRET,
+    secret: 'VamoQueVamo8',
   },
 };
