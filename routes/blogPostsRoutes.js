@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('/', validateJWT, blogPostsController.create);
 router.get('/', validateJWT, blogPostsController.getAll);
 router.get('/:id', validateJWT, blogPostsController.getById);
+router.put('/:id', validateJWT, blogPostsController.updateById);
 
 module.exports = router;

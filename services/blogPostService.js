@@ -33,8 +33,31 @@ const getById = async (blogPostId) => {
   return blogPostFound;
 };
 
+const updateById = async (blogPost, blogPostIdParam, reqUserId) => {
+  const { title, content, categoryIds } = blogPost;
+
+  BlogPostValidation.validateTryUpdateBlogPostCategories(categoryIds);
+  BlogPostValidation.validateUpdateBlogPost(blogPost);
+  await BlogPostValidation.validateOwnUser(blogPostIdParam, reqUserId);
+
+  await BlogPost.update(
+    { title, content },
+    { where: { id: blogPostIdParam } },
+  );
+  
+  return BlogPost.findByPk(
+    blogPostIdParam, 
+    {
+      include: {
+        association: 'categories', through: { attributes: [] },
+      },
+    },
+  );
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  updateById,
 };

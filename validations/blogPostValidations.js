@@ -12,9 +12,27 @@ const validateSchemaNewPost = joi.object({
   userId: joi.number().required(),
 });
 
+const validateSchemaUpdateBlogPost = joi.object({
+  title: joi.string().required(),
+  content: joi.string().required(),
+});
+
 const validateNewBlogPost = (blogPost, userId) => {
   const { title, content, categoryIds } = blogPost;
   const { error } = validateSchemaNewPost.validate({ title, content, categoryIds, userId });
+
+  if (error) {
+    const { details: [{ message }] } = error;
+    throw new CustomError(
+      message,
+      StatusCode.BAD_REQUEST,
+    );
+  }
+};
+
+const validateUpdateBlogPost = (blogPost) => {
+  const { title, content } = blogPost;
+  const { error } = validateSchemaUpdateBlogPost.validate({ title, content });
 
   if (error) {
     const { details: [{ message }] } = error;
@@ -57,8 +75,31 @@ const validateBlogPostExists = async (blogPostId) => {
   return blogPostFound;
 };
 
+const validateTryUpdateBlogPostCategories = (categoryIds) => {
+  if (categoryIds) {
+    throw new CustomError(
+      ErrorMessages.blogPostCategoryNotUpdate,
+      StatusCode.BAD_REQUEST,
+    );
+  }
+};
+
+const validateOwnUser = async (id, reqUserId) => {
+  const { userId } = await BlogPost.findByPk(id);
+  
+  if (String(reqUserId) !== String(userId)) {
+    throw new CustomError(
+      ErrorMessages.userNotUnauthorized,
+      StatusCode.UNAUTHORIZED,
+    );
+  }
+};
+
 module.exports = {
   validateNewBlogPost,
+  validateUpdateBlogPost,
   validateAllCategoriesExists,
   validateBlogPostExists,
+  validateTryUpdateBlogPostCategories,
+  validateOwnUser,
 };

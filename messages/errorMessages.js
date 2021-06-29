@@ -5,6 +5,8 @@ const invalidFields = 'Invalid fields';
 const userNotExists = 'User does not exist';
 const categoryNotFound = '"categoryIds" not found';
 const blogPostNotExist = 'Post does not exist';
+const blogPostCategoryNotUpdate = 'Categories cannot be edited';
+const userNotUnauthorized = 'Unauthorized user';
 
 module.exports = {
   userEmailAlreadyExists,
@@ -14,4 +16,6 @@ module.exports = {
   userNotExists,
   categoryNotFound,
   blogPostNotExist,
+  blogPostCategoryNotUpdate,
+  userNotUnauthorized,
 };
