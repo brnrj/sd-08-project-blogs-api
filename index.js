@@ -25,7 +25,11 @@ app.get('/categories', validateJWT, categoriesController.getAllCategories);
 app.post('/login', loginController.validateLogin);
 
 app.post('/post', validateJWT, blogPostsController.createNewPost);
-app.get('/post', validateJWT, blogPostsController.getPostsWithUserAndCategories);
+app.get('/post', validateJWT, blogPostsController
+  .getPostsWithUserAndCategories);
+app.get('/post/:id', validateJWT, blogPostsController
+  .getPostWithUserAndCategories);
+app.put('/post/:id', validateJWT, blogPostsController.editPost);
 
 app.use(error);
 
