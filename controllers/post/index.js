@@ -3,6 +3,7 @@ const findAll = require('./findAll');
 const findById = require('./findById');
 const update = require('./update');
 const destroy = require('./destroy');
+const search = require('./search');
 
 module.exports = {
   create,
@@ -10,4 +11,5 @@ module.exports = {
   findById,
   update,
   destroy,
+  search,
 };
