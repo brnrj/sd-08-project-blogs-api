@@ -99,9 +99,40 @@ const editPost = async (req, res, next) => {
   res.status(200).json(editedPost);
 };
 
+const verifyDataForDelete = async (id, userId) => {
+  const post = await BlogPosts.findOne({ where: { id } });
+  if (!post) {
+    return {
+      error: {
+        status: 404,
+        message: 'Post does not exist',
+      },
+    };
+  }
+  if (post.userId !== userId) {
+    return {
+      error: {
+        status: 401,
+        message: 'Unauthorized user',
+      },
+    };
+  }
+  return {};
+};
+
+const deletePost = async (req, res, next) => {
+  const { id } = req.params;
+  const { id: userId } = req.user;
+  const isValid = await verifyDataForDelete(id, userId);
+  if (isValid.error) return next(isValid.error);
+  await BlogPosts.destroy({ where: { id } });
+  res.status(204).send();
+};
+
 module.exports = {
   createNewPost,
   getPostsWithUserAndCategories,
   getPostWithUserAndCategories,
   editPost,
+  deletePost,
 };

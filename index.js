@@ -30,6 +30,7 @@ app.get('/post', validateJWT, blogPostsController
 app.get('/post/:id', validateJWT, blogPostsController
   .getPostWithUserAndCategories);
 app.put('/post/:id', validateJWT, blogPostsController.editPost);
+app.delete('/post/:id', validateJWT, blogPostsController.deletePost);
 
 app.use(error);
 
