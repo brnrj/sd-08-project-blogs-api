@@ -11,5 +11,6 @@ app.get('/', (request, response) => {
 });
 
 app.use(routes.userRoute);
+app.use(routes.categorieRoute);
 
 app.listen(PORT, () => console.log('ouvindo porta 3000!'));
