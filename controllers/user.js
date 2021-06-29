@@ -31,8 +31,17 @@ const getUserById = async (req, res) => {
     });
 };
 
+const deleteAccount = (req, res) => {
+  const token = req.headers.authorization;
+
+  userServices.deleteAccount(token)
+    .then(() => res.status(204).json())
+    .catch((err) => res.status(500).json(err.message));
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  deleteAccount,
 };
