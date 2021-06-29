@@ -5,16 +5,16 @@ const validateJwt = require('../../middlewares/jwt/validateJwt');
 
 const {
   createCategories,
+  findCategories,
   // loginCategories,
-  // findCategories,
   // findIdCategories,
 } = require('../../controller/categories/categories');
 
 router.post('/categories', validateJwt, createCategories);
 
+router.get('/categories', validateJwt, findCategories);
 // router.post('/login', loginCategories);
 
-// router.get('/categories', validateJwt, findCategories);
 
 // router.get('/categories/:id', validateJwt, findIdCategories);
 

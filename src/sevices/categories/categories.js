@@ -13,6 +13,11 @@ const createServices = async (data) => {
   return result;
 };
 
+const findServices = async () => {
+  const result = await Categorie.findAll();
+  return result;
+};
+
 // const findIdServices = async (id) => {
 //   console.log('linha 6', id);
 //   const result = await Categories.findOne({ where: { id } });
@@ -39,14 +44,11 @@ const createServices = async (data) => {
 //   return token;
 // };
 
-// const findServices = async () => {
-//   const result = await User.findAll();
-//   return result;
-// };
+
 
 module.exports = {
-  // findIdServices,
   createServices,
+  findServices,
+  // findIdServices,
   // loginServices,
-  // findServices,
 };

@@ -3,8 +3,8 @@ const helpers = require('../../helpers/helpers');
 
 const {
   createServices,
+  findServices,
   // loginServices,
-  // findServices,
   // findIdServices,
 } = require('../../sevices/categories/categories');
 
@@ -15,6 +15,11 @@ const createCategories = rescue(async (req, res, next) => {
   res.status(helpers.DOU).json(result);
 });
 
+const findCategories = rescue(async (_req, res) => {
+  const result = await findServices();
+  res.status(helpers.DOO).json(result);
+});
+
 // const loginUser = rescue(async (req, res, next) => {
 //   const { email, password } = req.body;
 //   const token = await loginServices({ email, password });
@@ -22,10 +27,6 @@ const createCategories = rescue(async (req, res, next) => {
 //   res.status(helpers.DOO).json({ token });
 // });
 
-// const findUser = rescue(async (_req, res) => {
-//   const result = await findServices();
-//   res.status(helpers.DOO).json(result);
-// });
 
 // const findIdUser = rescue(async (req, res, next) => {
 //   const { id } = req.params;
@@ -36,7 +37,5 @@ const createCategories = rescue(async (req, res, next) => {
 
 module.exports = {
   createCategories,
-  // loginUser,
-  // findUser,
-  // findIdUser,
+  findCategories,
 };
