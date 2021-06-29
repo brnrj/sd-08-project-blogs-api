@@ -45,6 +45,21 @@ const controlValidation = (displayName, email, password) => {
   return true;
 };
 
+const validationLogin = (email, password) => {
+  const isEmailValid = emailValidation(email);
+  const isPasswordValid = passwordValidation(password);
+
+  if (!isEmailValid) {
+    return { message: '"email" must be a valid email' };
+  }
+  if (!isPasswordValid) {
+    return { message: '"password" length must be 6 characters long' };
+  }
+
+  return true;
+};
+
 module.exports = {
   controlValidation,
+  validationLogin,
 };
