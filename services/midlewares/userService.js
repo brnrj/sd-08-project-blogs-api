@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { User } = require('../../models');
 const { generateToken } = require('./jwt');
-// const { validations } = require('../validations');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +16,15 @@ const addUser = async (req, res, next) => {
     next();
 };
 
+// 3 - Sua aplicação deve ter o endpoint GET /user
+
+const findAllUsers = async (req, res, next) => {
+  const allUsers = await User.findAll();
+  req.allUsers = allUsers;
+  next();
+};
+
 module.exports = {
   addUser,
+  findAllUsers,
 };

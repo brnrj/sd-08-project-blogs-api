@@ -5,6 +5,7 @@ const {
   OK,
 } = require('../services/consts');
 const { loginValidations } = require('../services/validations');
+const { login } = require('../services/midlewares/loginService');
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,6 +16,7 @@ const router = express.Router();
 
 router.post('/',
 rescue(loginValidations),
+rescue(login),
 async (req, res) => {
   const { token } = req;
   return res.status(OK).json({ token });

@@ -15,14 +15,13 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 
-const isExistingEmail = async (email) => {
+const isExistingEmailInDB = async (email) => {
   const userFound = await User.findOne({ where: { email } });
-  console.log(userFound);
   return userFound !== null;
 };
 
-const decisionAboutExistingEmail = async (email, type) => {
-  const existingEmail = await isExistingEmail(email);
+const decisionAboutExistingEmailInDB = async (email, type) => {
+  const existingEmail = await isExistingEmailInDB(email);
   if (existingEmail && type === 'register') {
     requestError('User already registered', CONFLICT);
   }
@@ -41,7 +40,7 @@ const emailValidations = async (email, type) => {
   if (!isValidEmail(email)) {
     requestError('"email" must be a valid email', BAD_REQUEST);
   }
-  await decisionAboutExistingEmail(email, type);
+  await decisionAboutExistingEmailInDB(email, type);
 };
 
 const isValidDisplayName = (displayName) => displayName.length >= 8;

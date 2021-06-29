@@ -5,6 +5,7 @@ const {
   UNAUTHORIZED,
 } = require('../consts');
 const { User } = require('../../models');
+const { requestError } = require('../requestError');
 // const { getUser } = require('../models/recipesModel');
 
 const app = express();
@@ -26,29 +27,31 @@ const generateToken = (data) => {
 const getToken = (headers) => {
   const token = headers.authorization;
   if (!token) {
-    throw Object.assign(
-      new Error('missing auth token'),
-      { status: UNAUTHORIZED },
-   );
+    requestError('Token not found', UNAUTHORIZED);
   }
   return token;
 };
 
+const verifyToken = async (headers) => {
+  const token = getToken(headers);
+  const decodedToken = jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      requestError('Expired or invalid token', UNAUTHORIZED);
+    }
+    return decoded;
+  });
+  const { email } = decodedToken;
+  const userFound = await User.findOne({ where: { email } });
+  return userFound;
+};
+
 const decodeToken = async (req, res, next) => {
   try {
-    const token = getToken(req.headers);
-    const decodedToken = jwt.verify(token, secret);
-    const { email } = decodedToken;
-    const userFound = await User.findOne({ where: { email } });
+    const userFound = await verifyToken(req.headers);
     req.user = userFound;
     next();
   } catch (err) {
-    if (err.message === 'missing auth token') {
-      return res.status(err.status).json({ message: err.message });
-    } 
-      // Por algum motivo não estou conseguindo lançar o erro lá no getUser do recipesModel
-      // Deve ser pq ele já lança o erro do verify primeiro.
-      return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
+    return res.status(err.status).json({ message: err.message });
   }
 };
 
