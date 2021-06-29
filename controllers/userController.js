@@ -1,12 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const config = require('../config/config');
 const { User } = require('../models');
 const userValidation = require('../services/userValidation');
 const tokenValidation = require('../middlewares/tokenAuth');
 const { userIdFromToken } = require('../services/userIdFromToken');
 
-const secret = process.env.SECRET;
+const { secret } = config.development;
 const router = express.Router();
 
 router.post('/', async (req, res) => {

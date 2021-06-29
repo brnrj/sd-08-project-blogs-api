@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const config = require('../config/config');
 
-const secret = process.env.SECRET;
+const { secret } = config.development;
 
 const userIdFromToken = (token) => {
   const decoded = jwt.decode(token, secret);
