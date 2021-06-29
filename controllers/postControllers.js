@@ -8,7 +8,9 @@ const router = express.Router();
 const CREATED = 201;
 
 router.post('/', getToken, postValidation, categoryValidation, async (req, res) => {
-  const post = await BlogPost.create(req.body);
+  const { userId } = req;
+  const { title, content } = req.body;
+  const post = await BlogPost.create({ title, content, userId });
   res.status(CREATED).json(post);
 });
 
