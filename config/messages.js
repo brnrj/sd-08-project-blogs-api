@@ -8,6 +8,7 @@ module.exports = {
     tokenDoNotValid: 'Expired or invalid token',
     categoryIdsNotFound: '"categoryIds" not found',
     postDoesNotExist: 'Post does not exist',
+    unauthorizedUser: 'Unauthorized user',
   },
   STATUS: {
     ok: 200,

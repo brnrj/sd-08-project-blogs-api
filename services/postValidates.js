@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { Categories } = require('../models');
+const { Categories, BlogPosts } = require('../models');
 const { ERR } = require('../config/messages');
 
 const validateNewPost = (data) => {
@@ -21,7 +21,24 @@ const validateCategoryIds = async (categories) => {
   if (!validId) throw new Error(ERR.categoryIdsNotFound);
 };
 
+const validateUpdatePost = (data) => {
+  const validation = Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+  }).validate(data);
+  // Sugestão do Thadeu (github.com/thadeucbr) de como enviar a resposta:
+  if (validation.error) throw validation.error.details[0];
+};
+
+const validatePostUser = async (userId, postId) => {
+  const blogPostId = await BlogPosts.findByPk(postId);
+  if (blogPostId === null) throw Error(ERR.postDoesNotExist);
+  if (blogPostId.dataValues.userId !== userId) throw Error(ERR.unauthorizedUser);
+};
+
 module.exports = {
   validateNewPost,
   validateCategoryIds,
+  validateUpdatePost,
+  validatePostUser,
 };

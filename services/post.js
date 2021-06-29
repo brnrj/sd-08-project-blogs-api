@@ -1,6 +1,10 @@
 const { ERR } = require('../config/messages');
 const { BlogPosts, PostsCategories, Users, Categories } = require('../models');
-const { validateNewPost, validateCategoryIds } = require('./postValidates');
+const {
+  validateNewPost,
+  validateCategoryIds,
+  validateUpdatePost,
+  validatePostUser } = require('./postValidates');
 
   // Adicionando as categorias na tabela de PostCategories
   // Utilizando map para adicionar cada id junto ao postId da publicação
@@ -51,8 +55,19 @@ const getById = async (id) => {
   return result;
 };
 
+const update = async (user, body, id) => {
+  await validateUpdatePost(body);
+  await validatePostUser(user.dataValues.id, id);
+  const { title, content } = body;
+  await BlogPosts.update({ title, content }, { where: { id } });
+  const result = await BlogPosts.findByPk(id,
+  { include: [{ model: Categories, as: 'categories', through: { attributes: [] } }] });
+  return result;
+};
+
 module.exports = {
   createPost,
   getAll,
   getById,
+  update,
 };
