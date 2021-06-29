@@ -17,7 +17,6 @@ Joi.object({
 
 const validateCategory = async (data) => {
   const allCategories = await Category.count({ where: { id: data.categoryIds } });
-  // console.log(allCategories);
   if (allCategories !== 0) return true;  
 };
 

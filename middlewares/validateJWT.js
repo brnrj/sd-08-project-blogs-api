@@ -10,7 +10,6 @@ const validateJWT = (req, res, next) => {
     }
     const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
     req.user = verifyToken;
-    // console.log('validateJWT', req.user.id);
     next();
   } catch (error) {
     return res.status(code.UNAUTHORIZED).json({ message: 'Expired or invalid token' });

@@ -2,7 +2,6 @@ const usersServices = require('../services/usersServices');
 const { code } = require('../helpers/messages');
 
 const createUser = async (req, res) => {
-  // console.log(req.body);
   try {
     const { displayName, email, password, image } = req.body;
     const user = await usersServices.createUser({ displayName, email, password, image });

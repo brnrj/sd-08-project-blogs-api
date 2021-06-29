@@ -3,7 +3,6 @@ const { code } = require('../helpers/messages');
 
 const loginController = async (req, res) => {
   const { body } = req;
-  // console.log(req.body);
   try {
     const token = await loginServices(body);
     return res.status(code.OK).json(token);

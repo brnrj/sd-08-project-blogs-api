@@ -20,7 +20,6 @@ const login = {
   id: user.id,
   email: user.email,
 };
-// console.log(login);
 const token = jwt.sign(login, process.env.JWT_SECRET, JWTConfig);
   return { token }; 
 };
