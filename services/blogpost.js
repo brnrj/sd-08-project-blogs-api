@@ -73,9 +73,22 @@ const updatePostById = async (id, token, newPost) => {
   return abc;
 };
 
+const deletePostById = async (id, token) => {
+  const user = decodeToken(token);
+  const blogPost = await getPostById(id);
+
+  validations.userHavePermission(blogPost, user);
+
+  const deleted = await BlogPost.destroy({ where: { id } });
+
+  console.log('deleted ----------------------------------------------------',
+  deleted);
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   updatePostById,
+  deletePostById,
 };

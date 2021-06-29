@@ -51,9 +51,24 @@ const updatePostById = (req, res) => {
     });
 };
 
+const deletePostById = (req, res) => {
+  const { id } = req.params;
+  const token = req.headers.authorization;
+
+  postServices.deletePostById(id, token)
+  .then(() => res.status(204).json())
+  .catch((err) => {
+    console.log(err, 'delete');
+
+    const { code, message } = JSON.parse(err.message);
+    res.status(code).json({ message });
+  });
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   updatePostById,
+  deletePostById,
 };
