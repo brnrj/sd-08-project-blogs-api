@@ -64,3 +64,17 @@ exports.excludePost = async ({ userId, postId }) => {
   await BlogPost.destroy({
     where: { id: postId } });
 };
+
+exports.searchPost = async ({ search }) => {
+  if (!search) {
+    return BlogPost.findAll({ include: [
+      { model: User, as: 'user' }, 
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ] });
+  } 
+    return BlogPost.findAll({
+      where: { [Op.or]: [{ title: { [Op.like]: `%${search}%` } },
+        { content: { [Op.like]: `%${search}%` } }] },
+      include: [{ model: User, as: 'user' }, 
+        { model: Category, as: 'categories', through: { attributes: [] } }] });
+};

@@ -22,6 +22,16 @@ const { BlogPost, User, Category } = require('../models');
       } catch (error) {
         res.status(404).json({ message: error.message });
       }
+    };
+    
+    exports.postSearch = async (req, res) => {
+      try {
+        const { q: search } = req.query;
+        const searchResult = await postsUseCasesService.searchPost({ search }); 
+        res.status(200).json(searchResult);
+      } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   };
   
   exports.postRegister = async (req, res) => {
@@ -52,11 +62,9 @@ const { BlogPost, User, Category } = require('../models');
   };
 
   exports.postExclude = async (req, res) => {
-    const { id } = req.params;
-    const userId = req.user.id;
     try {
     await postsUseCasesService.excludePost({
-      userId, postId: id,
+      userId: req.user.id, postId: req.params,
     });
       res.status(204).json({});
     } catch (error) {

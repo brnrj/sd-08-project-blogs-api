@@ -5,6 +5,8 @@ const { validadeNotCategories } = require('../middlewares/invalidedField');
 const auth = require('../middlewares/isAuthenticated');
 
 const routes = express.Router();
+
+routes.get('/search', auth, postsController.postSearch);
 routes.get('/', auth, postsController.postsAll);
 
 routes.post('/', auth, celebrate({
