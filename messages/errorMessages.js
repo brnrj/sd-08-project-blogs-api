@@ -4,6 +4,7 @@ const tokenExpiredOrInvalid = 'Expired or invalid token';
 const invalidFields = 'Invalid fields';
 const userNotExists = 'User does not exist';
 const categoryNotFound = '"categoryIds" not found';
+const blogPostNotExist = 'Post does not exist';
 
 module.exports = {
   userEmailAlreadyExists,
@@ -12,4 +13,5 @@ module.exports = {
   invalidFields,
   userNotExists,
   categoryNotFound,
+  blogPostNotExist,
 };

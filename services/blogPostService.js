@@ -27,7 +27,14 @@ const getAll = async () => BlogPost.findAll({
     ],
 });
 
+const getById = async (blogPostId) => {
+  const blogPostFound = await BlogPostValidation.validateBlogPostExists(blogPostId);  
+  
+  return blogPostFound;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };

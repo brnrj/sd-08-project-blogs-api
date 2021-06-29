@@ -2,7 +2,7 @@ const joi = require('joi');
 const ErrorMessages = require('../messages/errorMessages');
 const StatusCode = require('../messages/statusCodeMessages');
 const CustomError = require('../error/customError');
-const { Categorie } = require('../models');
+const { Categorie, BlogPost } = require('../models');
 
 // https://joi.dev/api/?v=17.4.0
 const validateSchemaNewPost = joi.object({
@@ -39,7 +39,26 @@ const validateAllCategoriesExists = async (categoriesIds) => {
   }
 };
 
+const validateBlogPostExists = async (blogPostId) => {
+  const blogPostFound = await BlogPost.findByPk(blogPostId, {
+    include: [
+        { association: 'user' },
+        { association: 'categories', through: { attributes: [] } },
+      ],
+  });
+
+  if (!blogPostFound) {
+    throw new CustomError(
+      ErrorMessages.blogPostNotExist,
+      StatusCode.NOT_FOUND,
+    );
+  }
+
+  return blogPostFound;
+};
+
 module.exports = {
   validateNewBlogPost,
   validateAllCategoriesExists,
+  validateBlogPostExists,
 };
