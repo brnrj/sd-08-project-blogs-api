@@ -22,6 +22,7 @@ app.get('/', (request, response) => {
 app.post('/user', rescue(Users.add));
 app.get('/user', validateJWT, rescue(Users.getAll));
 app.get('/user/:id', validateJWT, rescue(Users.getById));
+app.delete('/user/me', validateJWT, rescue(Users.deleteSelf));
 
 app.post('/login', rescue(Login.login));
 

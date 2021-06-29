@@ -55,8 +55,17 @@ const getById = async (id) => {
   return response;
 };
 
+const deleteSelf = async (id) => {
+  try {
+    await User.destroy({ where: { id } });
+  } catch (err) {
+    throw new Error500('Internal Error');
+  }
+};
+
 module.exports = {
   add,
   getAll,
   getById,
+  deleteSelf,
 };

@@ -17,8 +17,15 @@ const getById = async (req, res) => {
   res.status(200).json(response);
 };
 
+const deleteSelf = async (req, res) => {
+  const { user } = req;
+  await UserServices.deleteSelf(user.id);
+  res.status(204).json();
+};
+
 module.exports = {
   add,
   getAll,
   getById,
+  deleteSelf,
 };
