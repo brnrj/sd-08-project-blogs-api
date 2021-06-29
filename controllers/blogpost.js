@@ -63,10 +63,18 @@ const deletePostById = (req, res) => {
   });
 };
 
+const searchPost = (req, res) => {
+  const { q } = req.query;
+
+  postServices.searchPost(q)
+    .then((response) => res.json(response));
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   updatePostById,
   deletePostById,
+  searchPost,
 };

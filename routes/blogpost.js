@@ -6,9 +6,13 @@ const blogpostControllers = require('../controllers/blogpost');
 const jwtVerify = require('../middlewares/jwtVeryfy');
 
 blog.post('/', jwtVerify, blogpostControllers.createPost);
+
+blog.get('/search', jwtVerify, blogpostControllers.searchPost);
 blog.get('/:id', jwtVerify, blogpostControllers.getPostById);
 blog.get('/', jwtVerify, blogpostControllers.getPosts);
+
 blog.put('/:id', jwtVerify, blogpostControllers.updatePostById);
+
 blog.delete('/:id', jwtVerify, blogpostControllers.deletePostById);
 
 module.exports = blog;
