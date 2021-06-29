@@ -1,12 +1,6 @@
-const PostsCategories = (sequelize, DataTypes) => {
-  const postsCategories = sequelize.define('PostsCategories', {
-    postId: { type: DataTypes.INTEGER, primaryKey: true },
-    categoryId: { type: DataTypes.INTEGER, primaryKey: true },
-  }, 
-  { timestamps: false });
-
-  
-  postsCategories.associate = (models) => {
+const association = (postsCategories) => {
+  const PostsCategories = postsCategories;
+  PostsCategories.associate = (models) => {
     models.BlogPosts.belongsToMany(models.Categories, {
       foreignKey: 'postId',
       as: 'categories',
@@ -21,7 +15,16 @@ const PostsCategories = (sequelize, DataTypes) => {
       otherKey: 'postId',
     });
   };
+};
 
+const PostsCategories = (sequelize, DataTypes) => {
+  const postsCategories = sequelize.define('PostsCategories', {
+    postId: { type: DataTypes.INTEGER, primaryKey: true },
+    categoryId: { type: DataTypes.INTEGER, primaryKey: true },
+  }, 
+  { timestamps: false });
+
+  association(postsCategories);
 
   return postsCategories;
 };

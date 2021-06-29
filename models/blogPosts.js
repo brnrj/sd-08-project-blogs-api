@@ -26,20 +26,12 @@ const BlogPosts = (sequelize, DataTypes) => {
   }, { 
     timestamps: false,
     // https://sequelize.org/v5/manual/hooks.html
-    hooks: {
-      afterCreate: afterCreate(),
-    },
+    hooks: { afterCreate: afterCreate() },
   });
-
   blogPosts.associate = (models) => {
-    blogPosts.belongsTo(models.Users, {
-      foreignKey: 'userId',
-      as: 'user',
-    });
+    blogPosts.belongsTo(models.Users, { foreignKey: 'userId', as: 'user' });
   };
-
   blogPosts.prototype.filterInfo = filterInfo;
-
   return blogPosts;
 };
 
