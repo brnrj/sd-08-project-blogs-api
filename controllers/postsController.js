@@ -33,4 +33,19 @@ const posts = await BlogPosts.findAll({ include: [ // pega toda a lista dos post
 res.status(200).json(posts);
 };
 
-module.exports = { addPost, listPosts };
+const getPost = async (req, res) => {
+ try {
+   const { id } = req.params;
+   const post = await BlogPosts.findByPk(id, {
+     include: 
+     [{ model: Users, as: 'user', attributes: { exclude: ['password'] } }, 
+     { model: Categories, as: 'categories' }],
+   });
+   if (!post) return res.status(404).json({ message: 'Post does not exist' });
+  return res.status(200).json(post);
+ } catch (error) {
+   return res.status(500).json(error.message);
+ }
+  };
+
+module.exports = { addPost, listPosts, getPost };
