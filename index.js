@@ -25,6 +25,7 @@ app.get('/categories', validateJWT, categoriesController.getAllCategories);
 app.post('/login', loginController.validateLogin);
 
 app.post('/post', validateJWT, blogPostsController.createNewPost);
+app.get('/post', validateJWT, blogPostsController.getPostsWithUserAndCategories);
 
 app.use(error);
 

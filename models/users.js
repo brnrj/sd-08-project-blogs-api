@@ -9,14 +9,14 @@ const Users = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  return users;
-};
+  users.associate = (models) => {
+    users.hasMany(models.BlogPosts, {
+      foreignKey: 'userId',
+      as: 'user',
+    });
+  };
 
-Users.associate = (models) => {
-  Users.hasMany(models.BlogPosts, {
-    foreignKey: 'id',
-    as: 'userId',
-  });
+  return users;
 };
 
 module.exports = Users;

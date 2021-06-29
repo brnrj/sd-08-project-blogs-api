@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { BlogPosts, sequelize } = require('../models');
+const { BlogPosts, Categories, Users, sequelize } = require('../models');
 
 const schema = Joi.object({
   title: Joi.string().required(),
@@ -36,6 +36,17 @@ const createNewPost = async (req, res, next) => {
   res.status(201).json(newPost);
 };
 
+const getPostsWithUserAndCategories = async (req, res, _next) => {
+  const users = await BlogPosts.findAll({
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } }, 
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return res.status(200).json(users);
+};
+
 module.exports = {
   createNewPost,
+  getPostsWithUserAndCategories,
 };

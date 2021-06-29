@@ -19,7 +19,6 @@ const validateLogin = async (req, res, next) => {
   const { error } = schema.validate({ email, password });
   if (error) return next(error);
   const loginValid = await Users.findOne({ where: { email } });
-  console.log(loginValid);
   if (!loginValid) return next({ status: 400, message: 'Invalid fields' });
   if (loginValid.password !== password) return next({ status: 400, message: 'Invalid fields' });
   const token = jwt.sign({ data: email, password }, jwtSecret, jwtConfig);

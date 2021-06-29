@@ -31,16 +31,16 @@ const BlogPosts = (sequelize, DataTypes) => {
     },
   });
 
+  blogPosts.associate = (models) => {
+    blogPosts.belongsTo(models.Users, {
+      foreignKey: 'userId',
+      as: 'user',
+    });
+  };
+
   blogPosts.prototype.filterInfo = filterInfo;
 
   return blogPosts;
-};
-
-BlogPosts.associate = (models) => {
-  BlogPosts.belongsTo(models.Users, {
-    foreignKey: 'id',
-    as: 'userId',
-  });
 };
 
 module.exports = BlogPosts;
