@@ -25,9 +25,17 @@ const updateById = async (req, res) => {
   res.status(200).json(response);
 };
 
+const deleteById = async (req, res) => {
+  const { id: postId } = req.params;
+  const { user } = req;
+  await PostSevices.deleteById(postId, user.id);
+  res.status(204).json();
+};
+
 module.exports = {
   add,
   getAll,
   getById,
   updateById,
+  deleteById,
 };

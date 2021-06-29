@@ -105,16 +105,29 @@ const updateById = async (postId, newPostData, userId) => {
   if (newPostData.categoryIds) throw new Error400('Categories cannot be edited');
   checkFields(newPostData, editPostDataSchema);
   await validateUser(postId, userId);
-  await BlogPost.update(
-    { ...newPostData, updated: new Date() },
-    { where: { id: postId } },
-  );
-  const response = await BlogPost.findOne({
-    where: { id: postId },
-    attributes: { exclude: ['published', 'updated'] },
-    include: { model: Category, as: 'categories' },
-  });
-  return response;
+  try {
+    await BlogPost.update(
+      { ...newPostData, updated: new Date() },
+      { where: { id: postId } },
+    );
+    const response = await BlogPost.findOne({
+      where: { id: postId },
+      attributes: { exclude: ['published', 'updated'] },
+      include: { model: Category, as: 'categories' },
+    });
+    return response;
+  } catch (err) {
+    throw new Error500(ERROR_500_MESSAGE);
+  }
+};
+
+const deleteById = async (postId, userId) => {
+  await validateUser(postId, userId);
+  try {
+    await BlogPost.destroy({ where: { id: postId } });
+  } catch (err) {
+    throw new Error500(ERROR_500_MESSAGE);
+  }
 };
 
 module.exports = {
@@ -122,4 +135,5 @@ module.exports = {
   getAll,
   getById,
   updateById,
+  deleteById,
 };
