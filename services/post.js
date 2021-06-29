@@ -1,6 +1,7 @@
 const Joi = require('joi');
-const { Error400, Error500, Error404, Error401 } = require('../errors');
+const { Op } = require('sequelize');
 
+const { Error400, Error500, Error404, Error401 } = require('../errors');
 const { BlogPost, Category, User } = require('../models');
 
 const ERROR_500_MESSAGE = 'Internal Error';
@@ -55,7 +56,6 @@ const add = async (postData, userData) => {
   await checkCategoryIds(postData.categoryIds);
   try {
     const { categoryIds, ...toAddPostDetails } = postData;
-    console.log('pre create');
     const post = await BlogPost.create({
       ...toAddPostDetails,
       userId: userData.id,
@@ -66,7 +66,6 @@ const add = async (postData, userData) => {
     const { published, updated, ...showPostData } = post.toJSON();
     return showPostData;
   } catch (err) {
-    // console.log(err);
     throw new Error500(ERROR_500_MESSAGE);
   }
 };
@@ -76,7 +75,7 @@ const getAll = async () => {
     const response = await BlogPost.findAll({
       include: [
         { model: User, as: 'user', attributes: { excludes: ['password'] } },
-        { model: Category, as: 'categories' },
+        { model: Category, as: 'categories', through: { attributes: [] } },
       ],
     });
     return response;
@@ -91,7 +90,7 @@ const getById = async (id) => {
     response = await BlogPost.findByPk(id, {
       include: [
         { model: User, as: 'user', attributes: { excludes: ['password'] } },
-        { model: Category, as: 'categories' },
+        { model: Category, as: 'categories', through: { attributes: [] } },
       ],
     });
   } catch (err) {
@@ -99,6 +98,26 @@ const getById = async (id) => {
   }
   if (!response) throw new Error404('Post does not exist');
   return response;
+};
+
+const getBySearchTerm = async (query) => {
+  try {
+    const response = await BlogPost.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: `%${query}%` } },
+          { content: { [Op.like]: `%${query}%` } },
+        ],
+      },
+      include: [
+        { model: User, as: 'user', attributes: { excludes: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    return response;
+  } catch (err) {
+    throw new Error500(ERROR_500_MESSAGE);
+  }
 };
 
 const updateById = async (postId, newPostData, userId) => {
@@ -113,7 +132,7 @@ const updateById = async (postId, newPostData, userId) => {
     const response = await BlogPost.findOne({
       where: { id: postId },
       attributes: { exclude: ['published', 'updated'] },
-      include: { model: Category, as: 'categories' },
+      include: { model: Category, as: 'categories', through: { attributes: [] } },
     });
     return response;
   } catch (err) {
@@ -134,6 +153,7 @@ module.exports = {
   add,
   getAll,
   getById,
+  getBySearchTerm,
   updateById,
   deleteById,
 };

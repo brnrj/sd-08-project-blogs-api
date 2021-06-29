@@ -19,21 +19,22 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+app.delete('/user/me', validateJWT, rescue(Users.deleteSelf));
+app.get('/user/:id', validateJWT, rescue(Users.getById));
 app.post('/user', rescue(Users.add));
 app.get('/user', validateJWT, rescue(Users.getAll));
-app.get('/user/:id', validateJWT, rescue(Users.getById));
-app.delete('/user/me', validateJWT, rescue(Users.deleteSelf));
 
 app.post('/login', rescue(Login.login));
 
 app.post('/categories', validateJWT, rescue(Categories.add));
 app.get('/categories', validateJWT, rescue(Categories.getAll));
 
-app.post('/post', validateJWT, rescue(Post.add));
-app.get('/post', validateJWT, rescue(Post.getAll));
+app.get('/post/search', validateJWT, rescue(Post.getBySearchTerm));
 app.get('/post/:id', validateJWT, rescue(Post.getById));
 app.put('/post/:id', validateJWT, rescue(Post.updateById));
 app.delete('/post/:id', validateJWT, rescue(Post.deleteById));
+app.post('/post', validateJWT, rescue(Post.add));
+app.get('/post', validateJWT, rescue(Post.getAll));
 
 app.use((err, req, res, _next) => {
   const { code, message } = err;
