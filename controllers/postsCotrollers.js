@@ -16,8 +16,7 @@ const createPost = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
   try {
-    const { user } = req;
-    const allPosts = await postsServices.getAllPosts(user);
+    const allPosts = await postsServices.getAllPosts();
     return res.status(code.OK).json(allPosts);
   } catch (error) {
     res.status(code.SERVER_ERROR).json({ message: error.message });
