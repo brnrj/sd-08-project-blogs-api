@@ -7,6 +7,7 @@ const router = express.Router();
 
 const OK = 200;
 const CREATED = 201;
+const NOT_FOUND = 404;
 
 router.post('/', getToken, postValidation, categoryValidation, async (req, res) => {
   const { userId } = req;
@@ -23,6 +24,19 @@ router.get('/', getToken, async (_req, res) => {
     ] },
   );
   res.status(OK).json(posts);
+});
+
+router.get('/:id', getToken, async (req, res) => {
+  const { id } = req.params;
+  const post = await BlogPost.findOne(
+    { where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ] },
+    );
+  if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
+  res.status(OK).json(post);
 });
 
 module.exports = router;
