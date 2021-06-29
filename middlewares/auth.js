@@ -22,11 +22,10 @@ const getToken = async (req, res, next) => {
     const user = await User.findOne({ where: { email: decoded.data } });
     if (!user) return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
     req.userId = user.id;
+    next();
   } catch (error) {
     res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
   }
-  
-  next();
 };
 
 module.exports = {
