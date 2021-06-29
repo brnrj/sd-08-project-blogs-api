@@ -51,4 +51,24 @@ router.get('/', tokenValidation, async (_req, res) => {
   return res.status(200).json(posts);
 });
 
+router.get('/:id', tokenValidation, async (req, res) => {
+  const { id } = req.params;
+
+  const post = await BlogPosts.findByPk(id, {
+    include: [
+      { model: User, as: 'user' },
+      {
+        model: Categories,
+        as: 'categories',
+        attributes: ['id', 'name'],
+        through: { attributes: [] },
+      },
+    ],
+  });
+
+  if (!post) return res.status(404).json({ message: 'Post does not exist' });
+
+  return res.status(200).json(post);
+});
+
 module.exports = router;
