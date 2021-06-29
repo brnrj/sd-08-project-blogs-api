@@ -58,23 +58,10 @@ exports.editPost = async ({ userId, postId, title, content }) => {
 };
 
 exports.excludePost = async ({ userId, postId }) => {
-  const [postContent] = await BlogPost.findAll({ where: { id: Number(postId) } });
+  const postContent = await BlogPost.findByPk(postId);
   if (!postContent) throw new HandleError('Post does not exist', 404);
   if (postContent.userId !== userId) throw new HandleError('Unauthorized user', 401);
   await BlogPost.destroy({
     where: { id: postId } });
-};
-
-exports.searchPost = async ({ search }) => {
-  if (!search) {
-    return BlogPost.findAll({ include: [
-      { model: User, as: 'user' }, 
-      { model: Category, as: 'categories', through: { attributes: [] } },
-    ] });
-  } 
-    return BlogPost.findAll({
-      where: { [Op.or]: [{ title: { [Op.like]: `%${search}%` } },
-        { content: { [Op.like]: `%${search}%` } }] },
-      include: [{ model: User, as: 'user' }, 
-        { model: Category, as: 'categories', through: { attributes: [] } }] });
+  return true;
 };
