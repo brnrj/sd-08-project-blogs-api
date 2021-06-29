@@ -27,7 +27,6 @@ const findCategories = rescue(async (_req, res) => {
 //   res.status(helpers.DOO).json({ token });
 // });
 
-
 // const findIdUser = rescue(async (req, res, next) => {
 //   const { id } = req.params;
 //   const result = await findIdServices(id);

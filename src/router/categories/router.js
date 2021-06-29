@@ -15,7 +15,6 @@ router.post('/categories', validateJwt, createCategories);
 router.get('/categories', validateJwt, findCategories);
 // router.post('/login', loginCategories);
 
-
 // router.get('/categories/:id', validateJwt, findIdCategories);
 
 module.exports = router;
