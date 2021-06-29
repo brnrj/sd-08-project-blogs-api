@@ -1,5 +1,9 @@
 const { BlogPost, Category, User } = require('../models');
-const { validateCategory, validateExistPost } = require('../middlewares/validateFormPost');
+const {
+  validateCategory,
+  validateExistPost,
+  validatePostUpdate,
+} = require('../middlewares/validateFormPost');
 
 const createPost = async (body, user) => {
   const categoryExist = await validateCategory(body);
@@ -36,8 +40,23 @@ const getPostById = async (id) => {
   return post;
 };
 
+const updatePost = async (id, body, userId) => {
+  const { title, content } = body;
+  validatePostUpdate(body);
+  const getPost = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  if (getPost.userId !== userId) throw new Error('Unauthorized user');
+  await BlogPost.update({ title, content }, { where: { id } });
+  return { title, content, userId, categories: getPost.categories };
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };

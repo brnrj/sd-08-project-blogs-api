@@ -39,8 +39,24 @@ const validateFormPost = async (req, res, next) => {
   }
 };
 
+const validatePostUpdate = (data) => {
+  if (data.categoryIds) {
+    const categoryError = { code: 400, message: 'Categories cannot be edited' };
+    throw categoryError;
+  }
+  const { error } = Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+  }).validate(data);
+  if (error) {
+    const postInfoResponse = { code: 400, message: error.message };
+    throw postInfoResponse;
+  }
+};
+
 module.exports = {
   validateFormPost,
   validateCategory,
   validateExistPost,
+  validatePostUpdate,
 };
