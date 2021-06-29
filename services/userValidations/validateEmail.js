@@ -11,15 +11,16 @@ const messageReturn = (message, status = BAD_REQUEST_STATUS) => ({
 });
 
 const isValidEmail = async (email) => {
-  if (!email) return messageReturn('"email" is required');
+  if (email === undefined) return messageReturn('"email" is required');
+  if (email === '') return messageReturn('"email" is not allowed to be empty');
 
   const re = /.+@[A-z]+[.]com/;
   if (!re.test(email)) return messageReturn('"email" must be a valid email');
 
   const allUsers = await User.findAll();
-  const emailAlreadyExists = allUsers.some((user) => user.email === email);
+  const emailExists = allUsers.some((user) => user.email === email);
   
-  if (emailAlreadyExists) return messageReturn('User already registered', USER_EXISTS_STATUS);
+  if (emailExists) return messageReturn('User already registered', USER_EXISTS_STATUS);
   
   return true;
 };
