@@ -8,5 +8,6 @@ router.get('/:id', middlewares.auth, PostController.findById);
 router.get('/', middlewares.auth, PostController.findAll);
 router.post('/', middlewares.auth, PostController.create);
 router.put('/:id', middlewares.auth, PostController.update);
+router.delete('/:id', middlewares.auth, PostController.destroy);
 
 module.exports = router;
