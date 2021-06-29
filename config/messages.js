@@ -6,6 +6,7 @@ module.exports = {
     invalidFields: 'Invalid fields',
     tokenMissing: 'Token not found',
     tokenDoNotValid: 'Expired or invalid token',
+    categoryIdsNotFound: '"categoryIds" not found',
   },
   STATUS: {
     ok: 200,
