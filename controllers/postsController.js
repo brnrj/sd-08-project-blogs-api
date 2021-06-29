@@ -1,32 +1,28 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 const { BlogPosts, Categories, User, PostsCategories } = require('../models');
 const tokenValidation = require('../middlewares/tokenAuth');
-const { postValidation } = require('../services/postValidation');
+const { postCreateValidation, postUpdateValidation } = require('../services/postValidation');
+const { userIdFromToken } = require('../services/userIdFromToken');
 
-const secret = process.env.SECRET;
 const router = express.Router();
 
 router.post('/', tokenValidation, async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const token = req.headers.authorization;
 
-  const validation = postValidation(title, content, categoryIds);
+  const validation = postCreateValidation({ title, content, categoryIds });
   if (validation) return res.status(validation.code).json({ message: validation.message });
 
   const categories = await Categories.findAll({ where: { id: categoryIds } });
   if (categories.length === 0) return res.status(400).json({ message: '"categoryIds" not found' });
 
-  const decoded = jwt.decode(token, secret);
-  const userId = decoded.data.id;
+  const userId = userIdFromToken(token);
 
   const blogPost = await BlogPosts.create(
     { title, content, userId },
   );
 
-  // await blogPost.addCategory(categoryIds, { through: {} });
   await PostsCategories.bulkCreate(
     categoryIds.map((catId) => ({ categoryId: catId, postId: blogPost.id })),
   );
@@ -69,6 +65,32 @@ router.get('/:id', tokenValidation, async (req, res) => {
   if (!post) return res.status(404).json({ message: 'Post does not exist' });
 
   return res.status(200).json(post);
+});
+
+router.put('/:id', tokenValidation, async (req, res) => {
+  const { title, content } = req.body;
+
+  const validation = postUpdateValidation(req.body);
+  if (validation) return res.status(validation.code).json({ message: validation.message });
+
+  const post = await BlogPosts.findByPk(req.params.id);
+
+  if (post.userId !== userIdFromToken(req.headers.authorization)) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+
+  await BlogPosts.update({ title, content }, { where: { id: req.params.id } });
+
+  const updatedPost = await BlogPosts.findByPk(req.params.id, {
+    include: [{
+        model: Categories,
+        as: 'categories',
+        attributes: ['id', 'name'],
+        through: { attributes: [] },
+      }],
+  });
+
+  return res.status(200).json(updatedPost);
 });
 
 module.exports = router;
