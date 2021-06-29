@@ -40,12 +40,3 @@ const { User } = require('../models');
       res.status(error.statusCode).json({ message: error.message });
     }
   };
-
-  exports.excludeUser = async (req, res) => {
-    try {
-    await usersUseCasesService.excludeUser({ id: req.user.id });
-      res.status(204).json({});
-    } catch (error) {
-      res.status(error.statusCode).json({ message: error.message });
-    }
-  };

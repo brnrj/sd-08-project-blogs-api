@@ -16,6 +16,5 @@ routes.post('/', celebrate({
 }), usersController.createUser);
 
 routes.get('/:id', auth, usersController.userById);
-routes.delete('/me', auth, usersController.excludeUser);
 
 module.exports = routes;

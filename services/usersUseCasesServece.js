@@ -52,11 +52,3 @@ exports.findByUser = async ({ id }) => {
   if (!user) throw new HandleError('User does not exist', 404);
   return user;
 };
-
-exports.excludeUser = async ({ id }) => {
-  const [userContent] = await User.findAll({ where: { id } });
-  if (!userContent) throw new HandleError('user does not exist', 404);
-  if (userContent.id !== id) throw new HandleError('Unauthorized user', 401);
-  await User.destroy({
-    where: { id } });
-};
