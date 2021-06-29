@@ -8,6 +8,7 @@ const { createCategory } = require('./createCategory');
 const { getPosts } = require('./getAllPosts');
 const { getPostById } = require('./getPostById');
 const { updatePost } = require('./updatePost');
+const { deletePost } = require('./deletePost');
 
 module.exports = {
 createUser,
@@ -20,4 +21,5 @@ createCategory,
 getPosts,
 getPostById,
 updatePost,
+deletePost,
 };

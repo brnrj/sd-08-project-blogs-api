@@ -48,6 +48,16 @@ async function updatePost(id, body, authorization) {
   });
   return data;
 }
+
+async function deletePost(id, authorization) {
+  const { data: { id: userId } } = decodeToken(authorization);
+  const data = await BlogPost.findOne({ where: { id } });
+  if (!data) throw new Error('Post does not exist');
+  if (userId !== data.userId) throw new Error('Unauthorized user');
+  await BlogPost.destroy({ where: { id } });
+  return true;
+}
+
 module.exports = {
-  createPost, getPosts, getPostById, updatePost,
+  createPost, getPosts, getPostById, updatePost, deletePost,
 };
