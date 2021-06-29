@@ -63,10 +63,21 @@ const createToken = (email) => {
   return token;
 };
 
+const filterUserById = async (id) => {
+  const searchUser = await User.findOne({ where: { id } });
+
+  if (searchUser === null) {
+    return { message: 'User does not exist' };
+  }
+
+  return searchUser;
+};
+
 module.exports = {
   verifyValidation,
   checkEmail,
   filterAllUserByEmail,
   createUser,
   createToken,
+  filterUserById,
 };

@@ -38,4 +38,18 @@ router.get('/', validJWT, injectUser, async (req, res) => {
   return res.status(statusCode.code.c200).json(findAllUser);
 });
 
+router.get('/:id', validJWT, injectUser, async (req, res) => {
+  const { id } = req.params;
+  // console.log('id', id);
+
+  const findUserById = await usersServices.filterUserById(id);
+  // console.log('findUserById', findUserById);
+
+  if (findUserById.message) {
+    return res.status(statusCode.code.c404).json(findUserById);
+  }
+
+  return res.status(statusCode.code.c200).json(findUserById);
+});
+
 module.exports = router;
