@@ -1,5 +1,5 @@
 const express = require('express');
-const loginServices = require('../services/loginSer');
+const loginServices = require('../services/loginServ');
 const statusCode = require('../utils/statuscode');
 // const { User } = require('../../models');
 
