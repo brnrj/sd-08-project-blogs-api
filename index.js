@@ -18,6 +18,7 @@ app.get('/', (request, response) => {
 app.post('/user', userValidation, usersController.createNewUser);
 app.get('/user', validateJWT, usersController.getAllUsers);
 app.get('/user/:id', validateJWT, usersController.getUser);
+app.delete('/user/me', validateJWT, usersController.deleteUser);
 
 app.post('/categories', validateJWT, categoriesController.createNewCategory);
 app.get('/categories', validateJWT, categoriesController.getAllCategories);
@@ -25,6 +26,7 @@ app.get('/categories', validateJWT, categoriesController.getAllCategories);
 app.post('/login', loginController.validateLogin);
 
 app.post('/post', validateJWT, blogPostsController.createNewPost);
+app.get('/post/search', validateJWT, blogPostsController.findPostsByQuery);
 app.get('/post', validateJWT, blogPostsController
   .getPostsWithUserAndCategories);
 app.get('/post/:id', validateJWT, blogPostsController

@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const Joi = require('joi');
 const { BlogPosts, Categories, Users, sequelize } = require('../models');
 
@@ -129,10 +130,28 @@ const deletePost = async (req, res, next) => {
   res.status(204).send();
 };
 
+const findPostsByQuery = async (req, res, _next) => {
+  const query = req.query.q;
+  const posts = await BlogPosts.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.substring]: query } },
+        { content: { [Op.substring]: query } },
+      ],
+    },
+    include: [
+      { model: Users, as: 'user' },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  res.status(200).json(posts);
+};
+
 module.exports = {
   createNewPost,
   getPostsWithUserAndCategories,
   getPostWithUserAndCategories,
   editPost,
   deletePost,
+  findPostsByQuery,
 };
