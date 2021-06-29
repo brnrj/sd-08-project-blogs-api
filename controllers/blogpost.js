@@ -29,10 +29,8 @@ const getPostById = (req, res) => {
     .catch((err) => {
       console.log(err);
 
-      res.status(400).json(err.message);
-
-      // const { code, message } = JSON.parse(err.message);
-      // res.status(code).json({ message });
+      const { code, message } = JSON.parse(err.message);
+      res.status(code).json({ message });
     });
 };
 
