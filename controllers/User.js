@@ -31,4 +31,21 @@ router.get('/', authentication, async (_req, res) => {
   }
 });
 
+router.get('/:id', authentication, async (req, res) => {
+  const { e500, eUserNotFound } = ERRORS;
+  const { id } = req.params;
+  const inputId = +id;
+
+  try {
+    const user = await User.findOne({ where: { id: inputId } });
+    console.log(user);
+    if (user === null) {
+      return res.status(eUserNotFound.status).json({ message: eUserNotFound.message });
+    }
+    return res.status(STATUS_200).json(user.dataValues);
+  } catch (err) {
+    return res.status(e500.status).json({ message: e500.message });
+  }
+});
+
 module.exports = router;
