@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 const userValidation = require('../validation/userValidation');
 // const statusCode = require('../utils/statuscode');
 const { User } = require('../../models');
-
-const secret = 'cookmaster';
+const secret = require('../utils/secretJWT');
 
 const filterAllUserByEmail = async (email) => {
   const searchEmail = await User.findOne({ where: { email } });

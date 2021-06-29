@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../../models');
 const loginValidation = require('../validation/loginValidation');
-
-const secret = 'cookmaster';
+const secret = require('../utils/secretJWT');
 
 const filterAllUserBy = async (email, password) => {
   const searchEmail = await User.findOne({ where: { email, password } });

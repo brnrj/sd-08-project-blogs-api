@@ -2,6 +2,8 @@ const express = require('express');
 const usersServices = require('../services/userServ');
 const statusCode = require('../utils/statuscode');
 // const { User } = require('../../models');
+const { validJWT } = require('../middlewares/validateJWT');
+const { injectUser } = require('../middlewares/injectUser');
 
 const router = express.Router();
 
@@ -28,6 +30,12 @@ router.post('/', async (req, res) => {
   const createToken = await usersServices.createToken(email);
 
   return res.status(statusCode.code.c201).json({ token: createToken });
+});
+
+router.get('/', validJWT, injectUser, async (req, res) => {
+  const findAllUser = req.users;
+  console.log('findAllUser', findAllUser);
+  return res.status(statusCode.code.c200).json(findAllUser);
 });
 
 module.exports = router;
