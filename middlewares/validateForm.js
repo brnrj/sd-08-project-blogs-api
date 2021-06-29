@@ -19,8 +19,8 @@ const validateUserForm = (data) =>
     image: Joi.string(),
   }).validate(data);
 
-const validateUserEmail = async (data) => {
-  const allUsers = await User.count({ where: { email: data.email } });
+const validateUserEmail = async ({ email }) => {
+  const allUsers = await User.count({ where: { email } });
   if (allUsers !== 0) return true;  
 };
 
