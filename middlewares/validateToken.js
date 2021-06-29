@@ -17,7 +17,10 @@ const valToken = async (req, res, next) => {
     const userData = await User.findOne({ where: { email } });
   
     if (!userData) return res.status(UNAUTHORIZED).json(INVALID_TOKEN);
-    req.email = userData.email;
+    req.user = {
+      id: userData.id,
+      email: userData.email,
+    };
   } catch (err) {
     return res.status(UNAUTHORIZED).json(INVALID_TOKEN);
   }
