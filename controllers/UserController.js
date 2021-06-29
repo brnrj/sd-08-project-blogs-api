@@ -18,4 +18,20 @@ module.exports = {
     const { code, token } = await UserService.generateToken(user);
     return res.status(code).json({ token });
   },
+  login: async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const { code, message } = errors.errors[0].msg;
+      return res.status(code).json({ message });
+    }
+    const data = matchedData(req);
+    const user = await User.findAll({
+      where: { email: data.email, password: data.password },
+    });
+    if (user.length === 0) {
+      return res.status(400).json({ message: 'Invalid fields' });
+    }
+    const { token } = await UserService.generateToken(user);
+    return res.status(200).json({ token });
+  },
 };
