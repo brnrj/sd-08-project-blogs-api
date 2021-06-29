@@ -1,6 +1,6 @@
 const message = {
   userExists: 'User already registered',
-  invalidLengthName: '"displayName" length must be at least 8 charaters long',
+  invalidLengthName: '"displayName" length must be at least 8 characters long',
   invalidEmail: '"email" must be a valid email',
   requiredEmail: '"email" is required',
   invalidLengthPassword: '"password" length must be 6 characters long',
