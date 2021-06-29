@@ -6,7 +6,7 @@ const auth = require('../middlewares/isAuthenticated');
 
 const routes = express.Router();
 
-routes.get('/search', auth, postsController.postSearch);
+routes.get('/search/', auth, postsController.postSearch);
 routes.get('/', auth, postsController.postsAll);
 
 routes.post('/', auth, celebrate({
@@ -24,7 +24,7 @@ routes.put('/:id', auth, validadeNotCategories, celebrate({
   }, 
 }), postsController.postEdit);
 
-routes.delete('/:id', auth, postsController.postExclude);
+// routes.delete('/:id', auth, postsController.postExclude);
 
 routes.get('/:id', auth, postsController.postById);
 

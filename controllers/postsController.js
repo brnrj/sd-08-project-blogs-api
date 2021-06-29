@@ -68,6 +68,6 @@ const { BlogPost, User, Category } = require('../models');
     });
       res.status(204).json({});
     } catch (error) {
-      res.status(error.statusCode).json({ message: error.message });
+      res.status(404).json({ message: error.message });
     }
   };
