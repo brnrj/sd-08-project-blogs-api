@@ -3,6 +3,7 @@ const { User } = require('../models');
 const validateEntries = require('./userValidations/validateEntries');
 
 const { JWT_SECRET } = process.env;
+const NOT_FOUND = 404;
 
 const insertUser = async (displayName, email, password, image) => {
   try {
@@ -34,7 +35,20 @@ const getAllUsers = async () => {
   }
 };
 
+const getUserById = async (id) => {
+  try {
+    const user = await User.findByPk(id);
+
+    if (user === null) return { err: { status: NOT_FOUND, message: 'User does not exist' } };
+    
+    return user;
+  } catch (e) {
+    return { message: 'erro, verifique o console' };
+  }
+};
+
 module.exports = {
   insertUser,
   getAllUsers,
+  getUserById,
 };

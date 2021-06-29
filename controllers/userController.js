@@ -13,12 +13,25 @@ const insertUser = rescue(async (req, res, next) => {
   return res.status(CREATED_STATUS).json(result);
 });
 
-const getAllUsers = rescue(async (_req, res, _next) => {
+const getAllUsers = rescue(async (_req, res, next) => {
   const result = await userService.getAllUsers();
+
+  if (result.err) return next(result);
+  
+  return res.status(OK_STATUS).json(result);
+});
+
+const getUserById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await userService.getUserById(id);
+
+  if (result.err) return next(result);
+  
   return res.status(OK_STATUS).json(result);
 });
 
 module.exports = {
   insertUser,
   getAllUsers,
+  getUserById,
 };
