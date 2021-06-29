@@ -33,6 +33,21 @@ include: [
   if (!data) throw new Error('Post does not exist');
   return data;
 }
+
+async function updatePost(id, body, authorization) {
+  const { data: { id: userId } } = decodeToken(authorization);
+  const { userId: postUserId } = await BlogPost.findOne({ where: { id } });
+  if (userId !== postUserId) throw new Error('Unauthorized user');
+  await BlogPost.update({ ...body, updated: new Date() }, {
+    where: { id },
+  });
+  const data = await BlogPost.findOne({
+    where: { id },
+    attributes: { exclude: ['published', 'updated'] },
+    include: { model: Category, as: 'categories' },
+  });
+  return data;
+}
 module.exports = {
-  createPost, getPosts, getPostById,
+  createPost, getPosts, getPostById, updatePost,
 };
