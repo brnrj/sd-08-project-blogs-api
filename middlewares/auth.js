@@ -24,7 +24,7 @@ const getToken = async (req, res, next) => {
     req.userId = user.id;
     next();
   } catch (error) {
-    res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
+    return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
   }
 };
 
