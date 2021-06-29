@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, User, Category } = require('../models');
 const { decodeToken } = require('../middleware');
 
@@ -58,6 +59,23 @@ async function deletePost(id, authorization) {
   return true;
 }
 
+async function searchPost(q) {
+  if (!q) {
+    return BlogPost.findAll({ include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ] });
+  }
+  return BlogPost.findAll({
+    where: {
+    [Op.or]: [{ title: q }, { content: q }],
+    },
+    include: [
+    { model: User, as: 'user' },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ] });
+}
+
 module.exports = {
-  createPost, getPosts, getPostById, updatePost, deletePost,
+  createPost, getPosts, getPostById, updatePost, deletePost, searchPost,
 };
