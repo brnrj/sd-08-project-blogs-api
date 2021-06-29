@@ -50,3 +50,16 @@ const { BlogPost, User, Category } = require('../models');
       res.status(401).json({ message: error.message });
     }
   };
+
+  exports.postExclude = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.user.id;
+    try {
+    await postsUseCasesService.excludePost({
+      userId, postId: id,
+    });
+      res.status(204).json({});
+    } catch (error) {
+      res.status(error.statusCode).json({ message: error.message });
+    }
+  };

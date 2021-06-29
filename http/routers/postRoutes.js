@@ -22,6 +22,8 @@ routes.put('/:id', auth, validadeNotCategories, celebrate({
   }, 
 }), postsController.postEdit);
 
+routes.delete('/:id', auth, postsController.postExclude);
+
 routes.get('/:id', auth, postsController.postById);
 
 module.exports = routes;

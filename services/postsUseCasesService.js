@@ -56,3 +56,11 @@ exports.editPost = async ({ userId, postId, title, content }) => {
   });
   return reuslt;
 };
+
+exports.excludePost = async ({ userId, postId }) => {
+  const [postContent] = await BlogPost.findAll({ where: { id: Number(postId) } });
+  if (!postContent) throw new HandleError('Post does not exist', 404);
+  if (postContent.userId !== userId) throw new HandleError('Unauthorized user', 401);
+  await BlogPost.destroy({
+    where: { id: postId } });
+};
