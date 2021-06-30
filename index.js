@@ -4,6 +4,7 @@ const bodyParses = require('body-parser');
 const usersController = require('./src/controllers/userCont');
 const loginController = require('./src/controllers/loginCont');
 const categoriesController = require('./src/controllers/categoriesCont');
+const postController = require('./src/controllers/postCont');
 
 const app = express();
 
@@ -19,3 +20,4 @@ app.get('/', (request, response) => {
 app.use('/user', usersController);
 app.use('/login', loginController);
 app.use('/categories', categoriesController);
+app.use('/post', postController);

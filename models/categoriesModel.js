@@ -5,6 +5,13 @@ const Category = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
+  // CategoryTable.associate = (models) => {
+  //   CategoryTable.hasMany(models.Post,
+  //     {
+  //       foreignkey: 'userId', as: 'user',
+  //     });
+  // };
+
   return CategoryTable;
 };
 
