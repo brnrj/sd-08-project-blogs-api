@@ -17,4 +17,15 @@ const postCategory = async (req, res) => {
   }
 };
 
-module.exports = { postCategory };
+const getCategories = async (req, res) => {
+  try {
+    const categories = await Category.findAll();
+    return res.status(200).json(categories);
+  } catch (err) {
+    res.status(401).json({
+      message: err.message,
+    });
+  }
+};
+
+module.exports = { postCategory, getCategories };
