@@ -1,4 +1,4 @@
-const { Category } = require('../models');
+const { Categories } = require('../models');
 const codes = require('../services/codes');
 
 const validateTitle = (req, res, next) => {
@@ -20,7 +20,7 @@ const validateCategoryIds = async (req, res, next) => {
     return res.status(codes.BAD_REQUEST).json({ message: '"categoryIds" is required' });
   }
 
-  const categoriesArray = await Category.findAll();
+  const categoriesArray = await Categories.findAll();
   
   const registeredCategories = categoriesArray.map((cat) => cat.id);
   

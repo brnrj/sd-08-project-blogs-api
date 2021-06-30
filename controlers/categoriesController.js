@@ -9,8 +9,9 @@ const code = require('../services/codes');
 const categoryCreate = async (req, res) => {
   try {
     const { name } = req.body;
-
+    console.log(name);
     const result = await createCategory(name);
+    console.log(result);
 
     if (result.error) {
       return res.status(result.statusCode).json({

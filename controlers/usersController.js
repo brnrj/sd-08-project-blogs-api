@@ -43,7 +43,10 @@ const getUsersById = async (req, res) => {
     const { id } = req.params;
     const result = await listUserById(id);
     if (!result) return res.status(code.NOT_FOUND).json({ message: 'User does not exist' });
-    if (result.error) return res.status(result.statusCode).json({ message: result.error.message });
+    if (result.error) {
+      console.log(result.error);
+      return res.status(result.statusCode).json({ message: result.error.message });
+    }
     return res.status(code.OK).json(result);
   } catch (error) {
     console.error(error);
