@@ -1,4 +1,4 @@
 /tests
-/migrations/
-/seeders/
-/models/index.js
+sequelize/migrations/
+sequelize/seeders/
+sequelize/models/index.js
