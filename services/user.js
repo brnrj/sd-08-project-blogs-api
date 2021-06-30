@@ -26,12 +26,23 @@ const isValidUser = (displayName, email) => {
 const isValidPassword = (password) => {
   if (!password) return '"password" is required';
 
+  if (typeof password !== 'string' || password.length === 0) {
+    return '"password" is not allowed to be empty';
+  }
+
   if (password.length < SIX) return '"password" length must be 6 characters long';
+  
+  return undefined;
+};
+
+const isValidEmail = (email) => {
+  if (!email) return '"email" is required';
+  if (email.length === 0) return '"email" is not allowed to be empty';
+
   return undefined;
 };
 
 const validUser = async (displayName, email, password, image) => {
-  console.log(displayName, email, password, image);
   const notUser = isValidUser(displayName, email);
   const notPassword = isValidPassword(password);
   
@@ -49,4 +60,24 @@ const validUser = async (displayName, email, password, image) => {
   return token; // obj com a chave token arrumar 
 };
 
-module.exports = { validUser };
+const login = async (email, password) => {
+  const isValidUserEmail = isValidEmail(email);
+  const isValidUserPassword = isValidPassword(password);
+
+  if (isValidUserEmail) throw new Error(isValidUserEmail);
+  
+  if (isValidUserPassword) throw new Error(isValidUserPassword);
+
+  const findEmail = await User.findOne({ where: { email } });
+  
+  if (!findEmail) throw new Error('Invalid fields');
+
+  const newToken = jwt.sign({ email, password }, secret, jwtConfig);
+
+  return newToken; 
+};
+
+module.exports = { 
+  validUser,
+  login,
+ };

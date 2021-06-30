@@ -1,6 +1,7 @@
 const user = require('../services/user');
 
 const OK = 201;
+const SUCCESS = 200;
 
 const createUser = async (req, res) => {
   try {
@@ -19,4 +20,19 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser };
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const userLogin = await user.login(email, password);
+    return res.status(SUCCESS).json({ token: userLogin });
+  } catch (e) {
+    return res.status(400).json({
+      message: e.message,
+    });
+  }
+};
+
+module.exports = { 
+  createUser,
+  login,
+};

@@ -15,3 +15,4 @@ app.get('/', (request, response) => {
 });
 
 app.post('/user', controller.createUser);
+app.post('/login', controller.login);
