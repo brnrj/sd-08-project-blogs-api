@@ -4,10 +4,12 @@ const UserModel = (sequelize, DataTypes) => {
     displayName: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
-      unique: true,
+      // unique: true, // desfeito porque ao esbarrar, joga erro do próprio sequelize. Mais fácil fazer pelo express
     }, // tem quer ser único
     password: DataTypes.STRING,
     image: DataTypes.STRING,
+  }, {
+    timestamps: false,
   });
   return User;
 };
