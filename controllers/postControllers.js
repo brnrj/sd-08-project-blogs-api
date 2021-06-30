@@ -1,5 +1,9 @@
 const express = require('express');
-const { postValidation, categoryValidation } = require('../middlewares');
+const {
+  postValidation,
+  categoryValidation,
+  updatePostValidation,
+  validUser } = require('../middlewares');
 const { getToken } = require('../middlewares/auth');
 const { BlogPost, User, Categories } = require('../models');
 
@@ -37,6 +41,16 @@ router.get('/:id', getToken, async (req, res) => {
     );
   if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
   res.status(OK).json(post);
+});
+
+router.put('/:id', getToken, updatePostValidation, validUser, async (req, res) => {
+  const { id } = req.params;
+  await BlogPost.update({ ...req.body }, { where: { id } });
+  const updatedPost = await BlogPost.findOne({ where: { id },
+    include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
+    attributes: { exclude: ['id', 'published', 'updated'] },
+  });
+  res.status(OK).json(updatedPost);
 });
 
 module.exports = router;

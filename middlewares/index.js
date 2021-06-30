@@ -1,5 +1,4 @@
-const { Categories } = require('../models');
-const { User } = require('../models');
+const { Categories, User, BlogPost } = require('../models');
 
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
@@ -101,6 +100,30 @@ const categoryValidation = async (req, res, next) => {
   next();
 };
 
+const categoriesValidation = (categories) => {
+  if (categories) return 'Categories cannot be edited';
+  return false;
+};
+
+const updatePostValidation = async (req, res, next) => {
+  const { title, content, categoryIds } = req.body;
+  const validation = titleValidation(title) || contentValidation(content)
+    || categoriesValidation(categoryIds) || false;
+  if (validation) return res.status(BAD_REQUEST).json({ message: validation });
+  next();
+};
+
+const validUser = async (req, res, next) => {
+  const { userId } = req;
+  const { id } = req.params;
+  const post = await BlogPost.findOne({ where: { id } });
+  console.log(post);
+  if (post.userId !== userId) {
+    return res.status(UNAUTHORIZED).json({ message: 'Unauthorized user' });
+  }
+  next();
+};
+
 module.exports = {
   userValidation,
   loginValidation,
@@ -108,4 +131,6 @@ module.exports = {
   tokenValidation,
   postValidation,
   categoryValidation,
+  updatePostValidation,
+  validUser,
 };
