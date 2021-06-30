@@ -4,6 +4,8 @@ const router = express.Router();
 const postService = require('../services/PostService');
 const middlewareVerifyToken = require('../middleware/verifyToken');
 
+const ALGO_DEU_ERRADO = 'Algo deu errado';
+
 router.post('/', middlewareVerifyToken, async (req, res) => {
   const { userId } = req;
 
@@ -12,7 +14,7 @@ router.post('/', middlewareVerifyToken, async (req, res) => {
     res.status(result.statusCode).json(result.json);
   } catch (err) {
     console.log(err.message);
-    res.status(500).json({ message: 'Algo deu errado' });
+    res.status(500).json({ message: ALGO_DEU_ERRADO });
   }
 });
 
@@ -22,7 +24,7 @@ router.get('/', middlewareVerifyToken, async (req, res) => {
     res.status(result.statusCode).json(result.json);
   } catch (err) {
     console.log(err.message);
-    res.status(500).json({ message: 'Algo deu errado' });
+    res.status(500).json({ message: ALGO_DEU_ERRADO });
   }
 });
 
@@ -34,7 +36,7 @@ router.get('/:id', middlewareVerifyToken, async (req, res) => {
     res.status(result.statusCode).json(result.json);
   } catch (err) {
     console.log(err.message);
-    res.status(500).json({ message: 'Algo deu errado' });
+    res.status(500).json({ message: ALGO_DEU_ERRADO });
   }
 });
 
@@ -47,7 +49,7 @@ router.put('/:id', middlewareVerifyToken, async (req, res) => {
     res.status(result.statusCode).json(result.json);
   } catch (err) {
     console.log(err.message);
-    res.status(500).json({ message: 'Algo deu errado' });
+    res.status(500).json({ message: ALGO_DEU_ERRADO });
   }
 });
 
@@ -60,7 +62,7 @@ router.delete('/:id', middlewareVerifyToken, async (req, res) => {
     res.status(result.statusCode).json(result.json);
   } catch (err) {
     console.log(err.message);
-    res.status(500).json({ message: 'Algo deu errado' });
+    res.status(500).json({ message: ALGO_DEU_ERRADO });
   }
 });
 

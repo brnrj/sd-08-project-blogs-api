@@ -62,8 +62,19 @@ const getUserById = async (id) => {
   }
 };
 
+const deleteUser = async (userId) => {
+  try {
+    await User.destroy({ where: { id: userId } });
+    return { statusCode: 204, json: {} };
+  } catch (err) {
+    console.log(err.message);
+    return { statusCode: 500, json: { message: 'Algo deu errado' } };
+  }
+};
+
 module.exports = {
   addUser,
   getAllUsers,
   getUserById,
+  deleteUser,
 };
