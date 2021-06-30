@@ -9,6 +9,7 @@ const jwtConfig = {
 };
 
 const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 const UNAUTHORIZED = 401;
 const EXISTS = 409;
 const CREATED = 201;
@@ -85,6 +86,13 @@ const getAllUsers = async (req, res) => {
   return res.status(OK_STATUS).json(users);
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findByPk(id);
+  if (!user) return res.status(NOT_FOUND).json({ message: 'User does not exist' });
+  return res.status(OK_STATUS).json(user);
+};
+
 module.exports = {
   checkName,
   checkEmail,
@@ -92,4 +100,5 @@ module.exports = {
   createUser,
   checkToken,
   getAllUsers,
+  getUserById,
 };
