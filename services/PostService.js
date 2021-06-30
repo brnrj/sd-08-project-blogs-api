@@ -57,7 +57,24 @@ const getAllPost = async () => {
   }
 };
 
+const getPostById = async (id) => {
+  try {
+    const getPostId = await BlogPost.findByPk(id, { include: [{ model: User, as: 'user' },
+      { model: Categorie, as: 'categories', through: { attributes: [] } }],
+      attributes: ['id', 'title', 'content', 'userId', 'published', 'updated'],
+    });
+    if (!getPostId) {
+      return { statusCode: 404, json: { message: 'Post does not exist' } };
+    }
+    return { statusCode: 200, json: getPostId };
+  } catch (err) {
+    console.log(err.message);
+    return { statusCode: 500, json: { message: 'Algo deu errado' } };
+  }
+};
+
 module.exports = {
   addPost,
   getAllPost,
+  getPostById,
 };
