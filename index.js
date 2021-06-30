@@ -17,3 +17,4 @@ app.get('/', (request, response) => {
 app.post('/user', controller.createUser);
 app.post('/login', controller.login);
 app.get('/user', auth, controller.findAllUsers);
+app.get('/user/:id', auth, controller.findOneUser);

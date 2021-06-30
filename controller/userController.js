@@ -43,8 +43,27 @@ const findAllUsers = async (req, res) => {
   }
 };
 
+const findOneUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+   
+    const oneUser = await user.findOneUserById(id);
+    return res.status(SUCCESS).json(oneUser);
+  } catch (e) {
+    if (e.message === 'User does not exist') {
+      return res.status(404).json({
+        message: e.message,
+      });
+    }
+    return res.status(401).json({
+      message: e.message,
+    });
+  }
+};
+
 module.exports = { 
   createUser,
   login,
   findAllUsers,
+  findOneUser,
 };
