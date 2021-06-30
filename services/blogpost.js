@@ -1,7 +1,17 @@
 const { BlogPost, User, Category } = require('../models/index');
 
 const OK = 200;
+const CREATED = 201;
 const INTERNAL = 500;
+
+const post = async (req, res) => {
+    const { id: userId } = req.user;
+    const { title, content, categoryIds } = req.body;
+    const createdPost = await BlogPost.create({
+      title, content, categoryIds, userId,
+    });
+    res.status(CREATED).json(createdPost);
+};
 
 const getAll = async (_req, res) => {
   try {
@@ -18,5 +28,6 @@ const getAll = async (_req, res) => {
 };
 
 module.exports = {
+  post,
   getAll,
 };
