@@ -63,21 +63,21 @@ const ERRORS = {
     status: STATUS_400,
     message: '"name" is required',
   },
-  ePostTitleEmpty: {
+  eTitleEmpty: {
     status: STATUS_400,
     message: '"title" is required',
   },
-  ePostContentEmpty: {
+  eContentEmpty: {
     status: STATUS_400,
     message: '"content" is required',
   },
-  ePostCategoryIdEmpty: {
+  eCategoryIdEmpty: {
     status: STATUS_400,
-    message: '"categoryId" is required',
+    message: '"categoryIds" is required',
   },
-  ePostCatedoryIdNotFound: {
+  eCategoryIdNotFound: {
     status: STATUS_400,
-    message: '"categoryId" not found',
+    message: '"categoryIds" not found',
   },
   ePostNotFound: {
     status: STATUS_404,

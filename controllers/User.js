@@ -24,7 +24,7 @@ router.post('/',
 router.get('/', authentication, async (_req, res) => {
   const { e500 } = ERRORS;
   try {
-    const allUsers = await User.findAll();
+    const allUsers = await User.findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
     return res.status(STATUS_200).json(allUsers);
   } catch (err) {
     return res.status(e500.status).json({ message: e500.message });
@@ -37,7 +37,12 @@ router.get('/:id', authentication, async (req, res) => {
   const inputId = +id;
 
   try {
-    const user = await User.findOne({ where: { id: inputId } });
+    const user = await User.findOne(
+      {
+        where: { id: inputId },
+        attributes: ['id', 'displayName', 'email', 'image'],
+      },
+      );
     if (user === null) {
       return res.status(eUserNotFound.status).json({ message: eUserNotFound.message });
     }
