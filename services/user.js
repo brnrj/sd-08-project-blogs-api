@@ -24,7 +24,7 @@ const isValidUser = (displayName, email) => {
 };
 
 const isValidPassword = (password) => {
-  if (!password) return '"password" is required';
+  if (password === undefined) return '"password" is required';
 
   if (typeof password !== 'string' || password.length === 0) {
     return '"password" is not allowed to be empty';
@@ -36,7 +36,7 @@ const isValidPassword = (password) => {
 };
 
 const isValidEmail = (email) => {
-  if (!email) return '"email" is required';
+  if (email === undefined) return '"email" is required';
   if (email.length === 0) return '"email" is not allowed to be empty';
 
   return undefined;
@@ -77,7 +77,14 @@ const login = async (email, password) => {
   return newToken; 
 };
 
+const findAllUsers = async () => {
+  const findUsers = await User.findAll();
+  console.log(findUsers);
+  return findUsers;
+};
+
 module.exports = { 
   validUser,
   login,
+  findAllUsers,
  };

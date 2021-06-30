@@ -32,7 +32,19 @@ const login = async (req, res) => {
   }
 };
 
+const findAllUsers = async (req, res) => {
+  try {
+    const allUsers = await user.findAllUsers();
+    return res.status(SUCCESS).json(allUsers);
+  } catch (e) {
+    return res.status(401).json({
+      message: e.message,
+    });
+  }
+};
+
 module.exports = { 
   createUser,
   login,
+  findAllUsers,
 };

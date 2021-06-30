@@ -1,7 +1,7 @@
 const express = require('express');
 // const rescue = require('express-rescue');
 const bodyParser = require('body-parser');
-// const auth = require('./middleware/jwt');
+const auth = require('./middleware/jwt');
 const controller = require('./controller/userController');
 
 const app = express();
@@ -16,3 +16,4 @@ app.get('/', (request, response) => {
 
 app.post('/user', controller.createUser);
 app.post('/login', controller.login);
+app.get('/user', auth, controller.findAllUsers);
