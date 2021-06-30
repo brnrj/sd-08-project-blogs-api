@@ -6,15 +6,12 @@ const { createToken } = require('../../validations/token');
 
 const findUserByEmail = async (userEmail) => {
   const foundUser = await User.findOne({ where: { email: userEmail } });
-  console.log('FOUND', foundUser);
   return foundUser;
 };
 
 const createUser = async (userInfos) => {
   const { email } = userInfos;
-  console.log('EMAIL', email);
   const foundUser = await findUserByEmail(email);
-  // console.log()
   if (foundUser !== null) {
     return generateError(CONFLICT, ALREADY_REGISTERED);
   }
@@ -23,7 +20,13 @@ const createUser = async (userInfos) => {
   return { token: createToken(email) };
 };
 
+const getAllUsers = async () => {
+  const allUsers = await User.findAll({ attributes: { exclude: ['password'] } });
+  return allUsers.map(({ dataValues }) => dataValues);
+};
+
 module.exports = {
   createUser,
   findUserByEmail,
+  getAllUsers,
 };
