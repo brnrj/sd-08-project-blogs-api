@@ -2,6 +2,7 @@ const { Categories, User, BlogPost } = require('../models');
 
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
+const NOT_FOUND = 404;
 
 const displayNameValidation = (displayName) => {
   if (displayName.length < 8) return '"displayName" length must be at least 8 characters long';
@@ -117,7 +118,7 @@ const validUser = async (req, res, next) => {
   const { userId } = req;
   const { id } = req.params;
   const post = await BlogPost.findOne({ where: { id } });
-  console.log(post);
+  if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
   if (post.userId !== userId) {
     return res.status(UNAUTHORIZED).json({ message: 'Unauthorized user' });
   }

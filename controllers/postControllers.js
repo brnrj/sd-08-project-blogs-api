@@ -11,6 +11,7 @@ const router = express.Router();
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 
 router.post('/', getToken, postValidation, categoryValidation, async (req, res) => {
@@ -51,6 +52,12 @@ router.put('/:id', getToken, updatePostValidation, validUser, async (req, res) =
     attributes: { exclude: ['id', 'published', 'updated'] },
   });
   res.status(OK).json(updatedPost);
+});
+
+router.delete('/:id', getToken, validUser, async (req, res) => {
+  const { id } = req.params;
+  await BlogPost.destroy({ where: { id } });
+  res.status(NO_CONTENT).json();
 });
 
 module.exports = router;
