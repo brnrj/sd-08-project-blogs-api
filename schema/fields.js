@@ -3,7 +3,7 @@ const CustomError = require('../utils/customError');
 
 const { msg, code, err } = new CustomError();
 
-const { isLength, isEmail, isEmpty } = validator;
+const { isLength, isEmail, isEmpty, isInt } = validator;
 
 const checkDisplayName = (value) => {
   const validLength = isLength(value, { min: 8, max: 30 });
@@ -26,8 +26,15 @@ const checkPassword = (value) => {
   return true;
 };
 
+const checkId = (value) => {
+  // if (value === undefined) return err()
+  if (!isInt(value)) return err('ID inválido', code.badRequest);
+  return true;
+};
+
 module.exports = {
   checkDisplayName,
   checkEmail,
   checkPassword,
+  checkId,
 };

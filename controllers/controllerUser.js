@@ -8,8 +8,15 @@ const controllerAdd = async (req, res, next) => {
   return res.status(code.created).json(resultService);
 };
 
-const getAll = async (req, res, next) => {
+const getAll = async (_req, res, next) => {
   const resultService = await ServiceUser.getAllUser();
+  if (!resultService.user) return next(resultService);
+  return res.status(code.ok).json(resultService.user);
+};
+
+const getById = async (req, res, next) => {
+  const { id } = req.params;
+  const resultService = await ServiceUser.getById(id);
   if (!resultService.user) return next(resultService);
   return res.status(code.ok).json(resultService.user);
 };
@@ -17,4 +24,5 @@ const getAll = async (req, res, next) => {
 module.exports = {
   controllerAdd,
   getAll,
+  getById,
 };

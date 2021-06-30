@@ -33,7 +33,17 @@ const getAllUser = async () => {
   return { user };
 };
 
+const getById = async (id) => {
+  const validateId = schema.fields.checkId(id);
+  if (validateId.err) return validateId;
+  const getUser = await User.findByPk(id);
+  if (!getUser) return err(msg.userNotExists, code.badRequest);
+  delete getUser.password;
+  return { user: getUser };
+};
+
 module.exports = {
   addUser,
   getAllUser,
+  getById,
 };

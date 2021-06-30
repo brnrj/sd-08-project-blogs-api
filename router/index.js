@@ -7,5 +7,6 @@ const controllerLogin = require('../controllers/controllerLogin');
 router.post('/user', rescue(controllerUser.controllerAdd));
 router.post('/login', rescue(controllerLogin.login));
 router.get('/user', [rescue(middleware.authentication), rescue(controllerUser.getAll)]);
+router.get('/user/:id', [rescue(middleware.authentication), rescue(controllerUser.getById)]);
 
 module.exports = router;
