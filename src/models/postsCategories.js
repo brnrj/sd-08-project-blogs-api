@@ -1,6 +1,7 @@
-const PostsCategories = (sequelize, _DataTypes) => {
+const PostsCategories = (sequelize, DataTypes) => {
   const PostsCategoriesTable = sequelize.define('UserBook',
-    {}, { timestamps: false });
+    { postId: DataTypes.INTEGER, categoryId: DataTypes.INTEGER },
+    { timestamps: false });
 
     PostsCategoriesTable.associate = (models) => {
     models.Categories.belongsToMany(models.BlogPosts, {
@@ -16,7 +17,6 @@ const PostsCategories = (sequelize, _DataTypes) => {
       otherKey: 'categoryId',
     });
   };
-
   return PostsCategoriesTable;
 };
 

@@ -1,5 +1,5 @@
 const Categories = (sequelize, DataTypes) => {
-  const CategoriesTable = sequelize.define('User', {
+  const CategoriesTable = sequelize.define('Categories', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: DataTypes.STRING,
   });
