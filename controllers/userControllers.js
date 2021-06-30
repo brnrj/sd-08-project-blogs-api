@@ -7,6 +7,7 @@ const router = express.Router();
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const NOT_FOUND = 404;
 const CONFLICT = 409;
 const INTERNAL_SERVER_ERROR = 500;
@@ -33,6 +34,12 @@ router.get('/:id', getToken, async (req, res) => {
   const user = await User.findOne({ where: { id } });
   if (!user) return res.status(NOT_FOUND).json({ message: 'User does not exist' });
   res.status(OK).json(user); 
+});
+
+router.delete('/me', getToken, async (req, res) => {
+  const id = req.userId;
+  await User.destroy({ where: { id } });
+  res.status(NO_CONTENT).json();
 });
 
 module.exports = router;
