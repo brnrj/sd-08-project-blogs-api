@@ -1,7 +1,7 @@
 const {
   postsServices: {
     createPost,
-    // showPosts,
+    showPosts,
   },
 } = require('../services');
 const code = require('../services/codes');
@@ -20,20 +20,19 @@ const postCreate = async (req, res) => {
   }
 };
 
-// const getPosts = async (req, res) => {
-//   try {
-//     const { name } = req.body;
+const getPosts = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    const result = await showPosts(authorization);
 
-//     const result = await showPosts(name);
-
-//     return res.status(code.OK).json(result);
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(code.INTERNAL_ERROR).json({ message: error.message });
-//   }
-// };
+    return res.status(code.OK).json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(code.INTERNAL_ERROR).json({ message: error.message });
+  }
+};
 
 module.exports = {
   postCreate,
-  // getPosts,
+  getPosts,
 };

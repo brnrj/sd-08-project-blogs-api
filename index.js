@@ -15,7 +15,7 @@ const {
   },
   postsController: {
     postCreate,
-    // getPosts,
+    getPosts,
   },
 } = require('./controlers');
 
@@ -68,5 +68,9 @@ app.post('/post',
   validateCategoryIds,
   validateToken,
   postCreate);
+
+app.get('/post',
+  validateToken,
+  getPosts);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));

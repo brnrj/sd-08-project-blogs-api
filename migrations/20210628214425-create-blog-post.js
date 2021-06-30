@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const BlogPostsTable = queryInterface.createTable("BlogPost", {
+    const BlogPostsTable = queryInterface.createTable("BlogPosts", {
       id:{
         allowNull: false,
         autoIncrement: true,
@@ -23,16 +23,21 @@ module.exports = {
         references: {
           model: 'Users',
           key: 'id'
-        }
+        },
       },
-    },
-    {
-      initialAutoIncrement: 3
+      published: {
+        type: Sequelize.DATE,
+        isDate: true,
+      },
+      updated: {
+        type: Sequelize.DATE,
+        isDate: true,
+      },
     });
     return BlogPostsTable;
   },
 
   down: async (queryInterface, Sequelize) => {
-    queryInterface.dropTable("BlogPost");
+    queryInterface.dropTable("BlogPosts");
   }
 };
