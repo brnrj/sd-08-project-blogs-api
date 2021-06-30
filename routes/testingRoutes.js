@@ -13,7 +13,7 @@ routerTest.get('/test1', (req, res) => {
 });
 
 routerTest.get('/getAll', (req, res) => {
-  User.findAll({ include: { model: BlogPosts, as: 'blogposts' } })
+  User.findAll({ include: [{ model: BlogPosts, as: 'blogposts' }] })
     .then((posts) => res.send({ find: posts }));
 });
 
