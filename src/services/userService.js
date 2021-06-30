@@ -2,6 +2,7 @@ const { CONFLICT } = require('../../common/constants/statusCodes');
 const { ALREADY_REGISTERED } = require('../../common/constants/statusMessages');
 const { generateError } = require('../../validations/errors/generateError');
 const { User } = require('../../models');
+const { createToken } = require('../../validations/token');
 
 const findUserByEmail = async (userEmail) => {
   const foundUser = await User.findOne({ where: { email: userEmail } });
@@ -18,8 +19,8 @@ const createUser = async (userInfos) => {
     return generateError(CONFLICT, ALREADY_REGISTERED);
   }
 
-  const created = User.create(userInfos);
-  return created;
+  await User.create(userInfos);
+  return { token: createToken(email) };
 };
 
 module.exports = {
