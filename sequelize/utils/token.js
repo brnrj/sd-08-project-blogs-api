@@ -1,24 +1,23 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET = 'meusegredo';
+const SECRET = 'privatekey';
 
 const jwtConfig = {
-  expiresIn: '1h',
+  expiresIn: '30m',
   algorithm: 'HS256',
 };
 
 function tokenGenerator(user) {
   const payload = {
-    iss: 'BlogsAPI',
-    aud: 'indentity',
-    userData: user,
+    id: user.id,
+    email: user.email,
   };
   return jwt.sign(payload, SECRET, jwtConfig);
 }
 
 function getTokenUser(token) {
-  const decode = jwt.verify(token, SECRET, jwtConfig);
-  return decode.userData;
+  const decode = jwt.verify(token, SECRET);
+  return decode;
 }
 
 module.exports = {

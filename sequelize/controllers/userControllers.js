@@ -1,5 +1,6 @@
 const express = require('express');
 const { validateUserRegister } = require('../middlewares/userValidations');
+const validateToken = require('../middlewares/validateToken');
 
 const { Users } = require('../models');
 
@@ -19,7 +20,7 @@ router.post('/', validateUserRegister, (req, res) => {
   // res.locals.user = token;
 });
 
-router.get('/', (req, res) => {
+router.get('/', validateToken, (req, res) => {
   Users.findAll()
   .then((users) => {
     res.status(200).json(users);
