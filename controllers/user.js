@@ -65,10 +65,25 @@ const getAll = async (req, res) => {
   }
 };
 
+const getById = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const user = await usersService.getById(authorization, id);
+    res.status(OK).json(user[0]);
+  } catch (e) {
+    const error = e.message.split('$');
+    const message = error[0];
+    const status = error[1] || 500;
+    return res.status(status).json({ message });
+  }
+};
+
 module.exports = {
   validate,
   create,
   validateLogin,
   login,
   getAll,
+  getById,
 };

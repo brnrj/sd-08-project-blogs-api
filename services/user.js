@@ -67,12 +67,31 @@ const getAll = async (token) => {
 
   const users = await User.findAll();
 
-  const hidePassword = users.map((item) => {
+  const userData = users.map((item) => {
     const { dataValues: { password: ignore, ...user } } = item;
     return user;
   });
 
-  return hidePassword;
+  return userData;
+};
+
+const getById = async (token, id) => {
+  validateToken(token);
+
+  const user = await User.findAll({
+    where: {
+      id,
+    },
+  });
+
+  if (user.length === EMPTY) throw new Error('User does not exist$404');
+
+  const userData = user.map((item) => {
+    const { dataValues: { password: ignore, ...userInfo } } = item;
+    return userInfo;
+  });
+  
+  return userData;
 };
 
 module.exports = {
@@ -81,4 +100,5 @@ module.exports = {
   validateLogin,
   login,
   getAll,
+  getById,
 };
