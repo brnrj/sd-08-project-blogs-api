@@ -16,6 +16,7 @@ app.get('/user', User.getAll);
 app.get('/user/:id', User.getById);
 
 app.post('/categories', Category.create);
+app.get('/categories', Category.getAll);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {

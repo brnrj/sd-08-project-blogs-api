@@ -13,6 +13,17 @@ const create = async (token, reqBody) => {
   return category;
 };
 
+const getAll = async (token) => {
+  validateToken(token);
+
+  const categories = await Category.findAll();
+
+  const categoriesData = categories.map((item) => item.dataValues);
+
+  return categoriesData;
+};
+
 module.exports = {
   create,
+  getAll,
 };

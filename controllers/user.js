@@ -19,7 +19,7 @@ const validate = async (req, res, next) => {
 const create = async (req, res) => {
   try {
     const token = await User.create(req.body);
-    res.status(CREATED).json({ token });
+    return res.status(CREATED).json({ token });
   } catch (e) {
     const error = e.message.split('$');
     const message = error[0];
@@ -44,7 +44,7 @@ const validateLogin = async (req, res, next) => {
 const login = async (req, res) => {
   try {
     const token = await User.login(req.body.email);
-    res.status(OK).json({ token });
+    return res.status(OK).json({ token });
   } catch (e) {
     const error = e.message.split('$');
     const message = error[0];
@@ -56,7 +56,7 @@ const login = async (req, res) => {
 const getAll = async (req, res) => {
   try {
     const users = await User.getAll(req.headers.authorization);
-    res.status(OK).json(users);
+    return res.status(OK).json(users);
   } catch (e) {
     const error = e.message.split('$');
     const message = error[0];
@@ -70,7 +70,7 @@ const getById = async (req, res) => {
     const { authorization } = req.headers;
     const { id } = req.params;
     const user = await User.getById(authorization, id);
-    res.status(OK).json(user[0]);
+    return res.status(OK).json(user[0]);
   } catch (e) {
     const error = e.message.split('$');
     const message = error[0];
