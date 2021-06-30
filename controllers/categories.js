@@ -1,6 +1,5 @@
 const express = require('express');
 const { Category } = require('../models');
-// const createJWT = require('../services/createJWT');
 
 const router = express.Router();
 
