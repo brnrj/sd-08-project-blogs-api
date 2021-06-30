@@ -2,22 +2,12 @@
 
 # Ask for commit message
 clear
-echo "enter commit message" 
-read message
-echo "commit message will be  >> Update: $message << is that right?"
-read response
-if [[ $response == "n" ]]; then
-echo "commit procedure aborted"
-else
-echo "starting commit procedure"
+read -p "enter commit message: " message 
+read -p "commit message will be  >> Update: $message <<. Push to github? " response 
 git add . 
 git commit -m "Update: $message"
-echo "push to github?"
-read shouldpush
-if [[ $shouldpush == "y" ]]; then
-echo "pushing to github"
+if [[ $response == "y" ]]; then
 git push
 else
 echo "not pushing to github"
-fi
 fi 
