@@ -6,7 +6,6 @@ const UserModel = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     image: DataTypes.STRING,
   });
-
   return User;
 };
 
