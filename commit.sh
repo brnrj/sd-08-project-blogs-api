@@ -12,5 +12,12 @@ else
 echo "starting commit procedure"
 git add . 
 git commit -m "Update: $message"
-git push
+echo "push to github?"
+read shouldpush
+  if [[ $shouldpush ]]; then
+  echo "pushing to github"
+  git push
+  else
+  echo "not pushing to github"
+  fi
 fi 
