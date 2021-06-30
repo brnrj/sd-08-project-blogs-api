@@ -9,13 +9,9 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-const BAD_REQUEST = 400;
 const OK_STATUS = 200;
-
-
 const BAD_REQUEST = 400;
 const EXISTS = 409;
-const CREATED = 201;
 
 const checkLoginEmail = async (req, res, next) => {
   const { email } = req.body;
@@ -67,4 +63,4 @@ const Login = async (req, res) => {
 module.exports = {
   checkLoginEmail,
   checkLoginPassword,
-  Login};
+  Login };
