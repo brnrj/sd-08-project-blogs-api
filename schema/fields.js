@@ -32,9 +32,15 @@ const checkId = (value) => {
   return true;
 };
 
+const checkNameCategory = (value) => {
+  if (!value || isEmpty(value)) return err(msg.requiredName, code.badRequest);
+  return true;
+};
+
 module.exports = {
   checkDisplayName,
   checkEmail,
   checkPassword,
   checkId,
+  checkNameCategory,
 };
