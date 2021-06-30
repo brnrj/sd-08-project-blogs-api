@@ -9,6 +9,13 @@ const addNewCategorie = async (data) => {
   return { categorie: resultModel };
 };
 
+const getAll = async () => {
+  const listCategories = await Categorie.findAll();
+  if (listCategories.length === 0) return { categorie: [] };
+  return { categorie: listCategories }; 
+};
+
 module.exports = {
   addNewCategorie,
+  getAll,
 };

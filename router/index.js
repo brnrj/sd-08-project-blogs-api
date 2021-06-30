@@ -10,6 +10,13 @@ router.post('/login', rescue(controllerLogin.login));
 router.get('/user', [rescue(middleware.authentication), rescue(controllerUser.getAll)]);
 router.get('/user/:id', [rescue(middleware.authentication), rescue(controllerUser.getById)]);
 router.post('/categories', 
-[rescue(middleware.authentication), rescue(controllerCategorie.addCategorie)]);
-
+  [
+    rescue(middleware.authentication), 
+    rescue(controllerCategorie.addCategorie),
+  ]);
+router.get('/categories',
+  [
+    rescue(middleware.authentication),
+    rescue(controllerCategorie.getAll),
+  ]);
 module.exports = router;
