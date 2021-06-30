@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { BlogPost } = require('../models');
-const { PostsCategorie } = require('../models');
+const { PostsCategorie, User, Categorie } = require('../models');
 
 const CategorieService = require('./CategoriesService');
 
@@ -16,7 +16,7 @@ const validatePost = (data) => {
 
 const addPostCategorie = async (categoryIds, postId) => {
   try {
-    await categoryIds.map((categorie) => PostsCategorie.create({ categorieId: categorie, postId }));
+    await categoryIds.map((categorie) => PostsCategorie.create({ categoryId: categorie, postId }));
   } catch (err) {
     console.log(err.message);
     return { statusCode: 500, json: { message: 'Algo deu errado' } };
@@ -44,6 +44,20 @@ const addPost = async ({ title, content, categoryIds, userId }) => {
   }
 };
 
+const getAllPost = async () => {
+  try {
+    const getPost = await BlogPost.findAll({ include: [{ model: User, as: 'user' },
+      { model: Categorie, as: 'categories', through: { attributes: [] } }],
+      attributes: ['id', 'title', 'content', 'userId', 'published', 'updated'],
+    });
+    return { statusCode: 200, json: getPost };
+  } catch (err) {
+    console.log(err.message);
+    return { statusCode: 500, json: { message: 'Algo deu errado' } };
+  }
+};
+
 module.exports = {
   addPost,
+  getAllPost,
 };
