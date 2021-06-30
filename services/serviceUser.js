@@ -22,6 +22,18 @@ const addUser = async (data) => {
   return { token };
 };
 
+const getAllUser = async () => {
+  const all = await User.findAll();
+  if (all.length === 0) return { user: [] };
+  const user = all.map((el) => {
+    const temp = el.dataValues;
+    delete temp.password;
+    return temp;
+  });
+  return { user };
+};
+
 module.exports = {
   addUser,
+  getAllUser,
 };
