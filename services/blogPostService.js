@@ -55,9 +55,17 @@ const updateById = async (blogPost, blogPostIdParam, reqUserId) => {
   );
 };
 
+const excludeById = async (blogPostIdParam, reqUserId) => {  
+  await BlogPostValidation.validateBlogPostExists(blogPostIdParam);
+  await BlogPostValidation.validateOwnUser(blogPostIdParam, reqUserId);
+  
+  await BlogPost.destroy({ where: { id: blogPostIdParam } });
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
+  excludeById,
 };

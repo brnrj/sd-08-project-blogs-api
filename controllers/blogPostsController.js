@@ -1,5 +1,10 @@
 const blogPostService = require('../services/blogPostService');
-const { OK, CREATED, INTERNAL_SERVER_ERROR } = require('../messages/statusCodeMessages');
+const {
+  OK,
+  CREATED,
+  INTERNAL_SERVER_ERROR,
+  NO_CONTENT,
+} = require('../messages/statusCodeMessages');
 
 const create = async (req, res) => {
   try {
@@ -73,9 +78,29 @@ const updateById = async (req, res) => {
   }
 };
 
+const excludeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { id: reqUserId } = req.user;
+    
+    await blogPostService.excludeById(id, reqUserId);
+
+    res.status(NO_CONTENT).json();
+  } catch (error) {
+    const { message, code } = error;
+
+    if (code) return res.status(code).json({ message });
+
+    return res.status(500).json({
+      message,
+    });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
+  excludeById,
 };
