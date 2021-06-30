@@ -16,5 +16,6 @@ router.post(
   UserController.login,
 );
 router.get('/user', UserController.listAll);
+router.get('/user/:id', UserController.listOne);
 
 module.exports = router;
