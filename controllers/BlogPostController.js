@@ -51,4 +51,17 @@ router.put('/:id', middlewareVerifyToken, async (req, res) => {
   }
 });
 
+router.delete('/:id', middlewareVerifyToken, async (req, res) => {
+  const { userId } = req;
+  const { id } = req.params;
+
+  try {
+    const result = await postService.deletePost({ userId, id });
+    res.status(result.statusCode).json(result.json);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: 'Algo deu errado' });
+  }
+});
+
 module.exports = router;

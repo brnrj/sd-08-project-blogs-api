@@ -110,9 +110,24 @@ const editPost = async ({ title, content, userId, id, categoryIds = null }) => {
   }
 };
 
+const deletePost = async ({ userId, id }) => {
+  try {
+    const postExist = await BlogPost.findByPk(id);
+    if (!postExist) return { statusCode: 404, json: { message: 'Post does not exist' } };
+    const user = await verifyPostUser(userId, id);
+    if (!user) return { statusCode: 401, json: { message: 'Unauthorized user' } };
+    await BlogPost.destroy({ where: { id } });
+    return { statusCode: 204, json: '' };
+  } catch (err) {
+    console.log(err.message);
+    return { statusCode: 500, json: { message: ALGO_DEU_ERRADO } };
+  }
+};
+
 module.exports = {
   addPost,
   getAllPost,
   getPostById,
   editPost,
+  deletePost,
 };
