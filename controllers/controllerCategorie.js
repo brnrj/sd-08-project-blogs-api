@@ -11,7 +11,7 @@ const addCategorie = async (req, res, next) => {
 const getAll = async (req, res, next) => {
  const service = await ServiceCategorie.getAll();
  if (!service.categorie) return next(service);
- return res.status(code.ok).json(service);  
+ return res.status(code.ok).json(service.categorie);  
 };
 
 module.exports = {
