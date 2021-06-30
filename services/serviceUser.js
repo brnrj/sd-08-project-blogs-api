@@ -37,7 +37,7 @@ const getById = async (id) => {
   const validateId = schema.fields.checkId(id);
   if (validateId.err) return validateId;
   const getUser = await User.findByPk(id);
-  if (!getUser) return err(msg.userNotExists, code.badRequest);
+  if (!getUser) return err(msg.userNotExists, code.notFound);
   delete getUser.password;
   return { user: getUser };
 };
