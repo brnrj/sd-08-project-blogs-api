@@ -50,23 +50,33 @@ const getPostById = async (id) => {
   return post.dataValues;
 };
 
-const editPost = async (id, mail) => {
-  const user = await Users.findOne({ where: { email: mail } });
-  const posts = BlogPosts.findOne({ where: { userId: id } });
-  const post = await BlogPosts.update({ where: { id },
-    include: [
-      { model: Users, as: 'user', through: { attributes: ['email'], where: { email } } },
-    ],
-  });
+const cantBeEdited = new CustomErr(httpStatusCode.BAD_GATEWAY, 'Categories cannot be edited');
+const unauthorizedUser = new CustomErr(httpStatusCode.UNAUTHORIZED, 'Unauthorized user');
+
+const editPost = async (id, email, updateInfo) => {
+  postValidations.titleValidate(updateInfo.title);
+  postValidations.contentValidate(updateInfo.content);
+  if (updateInfo.categoryIds) throw cantBeEdited;
+  const user = await Users.findOne({ where: { email } });
+  const post = await BlogPosts.findOne({ where: { userId: id } });
   if (!post) throw new CustomErr(httpStatusCode.NOT_FOUND, 'Post does not exist');
-  return post.dataValues;
+  const { userId } = post.dataValues;
+  if (user.dataValues.id !== userId) throw unauthorizedUser;
+  await BlogPosts
+    .update({ title: updateInfo.title, content: updateInfo.content }, { where: { id } });
+    const postEdited = await BlogPosts.findByPk(id,
+      { include: [{ model: Users, as: 'user' }, 
+        { model: Categories, as: 'categories', through: { attributes: [] } }] });
+    return postEdited.dataValues;
 };
 const deletePost = async (id, email) => {
   const user = await Users.findOne({ where: { email } });
   const post = await BlogPosts.findOne({ where: { id } });
   if (!post) throw new CustomErr(httpStatusCode.NOT_FOUND, 'Post does not exist');
   const { userId } = post.dataValues;
-  if (user.dataValues.id !== userId) throw new CustomErr(httpStatusCode.UNAUTHORIZED, 'Unauthorized user');
+  if (user.dataValues.id !== userId) {
+    throw new CustomErr(httpStatusCode.UNAUTHORIZED, 'Unauthorized user');
+  }
   await BlogPosts.destroy({ where: { id } });
 };
 

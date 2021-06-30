@@ -36,9 +36,10 @@ const getPostById = async (req, res, next) => {
 const editPost = async (req, res, next) => {
   const { id } = req.params;
   const { email } = req.user;
+  const updateInfo = req.body;
   try {
-    const postFound = await postsService.editPost(id, email);
-    return res.status(httpStatusCode.OK).send(postFound);
+    const postEdited = await postsService.editPost(id, email, updateInfo);
+    return res.status(httpStatusCode.OK).send(postEdited);
   } catch (error) {
     return next(error);
   }
