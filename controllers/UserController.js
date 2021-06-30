@@ -25,36 +25,30 @@ const checkName = (req, res, next) => {
 
 const checkEmail = async (req, res, next) => {
   const { email } = req.body;
-  if (!email) {
-    return res.status(BAD_REQUEST).json({
-      message: '"email" is required',
-    });
+  if (email === '') {
+    return res
+    .status(BAD_REQUEST).json({ message: '"email" is not allowed to be empty' });
   }
+  if (!email) return res.status(BAD_REQUEST).json({ message: '"email" is required' });
   const re = /.+@[A-z]+[.]com/;
   const isValidEmail = re.test(email);
   if (!isValidEmail) {
-    return res.status(BAD_REQUEST).json({
-        message: '"email" must be a valid email',
-      });
+    return res.status(BAD_REQUEST).json({ message: '"email" must be a valid email' });
   }
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    return res.status(EXISTS).json({ message: 'User already registered' });
-  }
+  const userExists = await User.findOne({ where: { email } });
+  console.log('userExists: ', userExists);
+  if (userExists) return res.status(EXISTS).json({ message: 'User already registered' });
   next();
 };
 
 const checkPassword = (req, res, next) => {
   const { password } = req.body;
-  if (!password) {
-    return res.status(BAD_REQUEST).json({
-      message: '"password" is required',
-    });
+  if (password === '') {
+    return res.status(BAD_REQUEST).json({ message: '"password" is not allowed to be empty' });
   }
+  if (!password) return res.status(BAD_REQUEST).json({ message: '"password" is required' });
   if (password.length < 6) {
-    return res.status(BAD_REQUEST).json({
-      message: '"password" length must be 6 characters long',
-    });
+    return res.status(BAD_REQUEST).json({ message: '"password" length must be 6 characters long' });
   }
   next();
 };
