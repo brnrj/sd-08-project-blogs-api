@@ -1,4 +1,4 @@
-const usersService = require('../services/user');
+const { User } = require('../services');
 
 const OK = 200;
 const CREATED = 201;
@@ -6,7 +6,7 @@ const CREATED = 201;
 const validate = async (req, res, next) => {
   try {
     const { displayName, email, password } = req.body;
-    await usersService.validate(displayName, email, password);
+    await User.validate(displayName, email, password);
     next();
   } catch (e) {
     const error = e.message.split('$');
@@ -18,7 +18,7 @@ const validate = async (req, res, next) => {
 
 const create = async (req, res) => {
   try {
-    const token = await usersService.create(req.body);
+    const token = await User.create(req.body);
     res.status(CREATED).json({ token });
   } catch (e) {
     const error = e.message.split('$');
@@ -31,7 +31,7 @@ const create = async (req, res) => {
 const validateLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    await usersService.validateLogin(email, password);
+    await User.validateLogin(email, password);
     next();
   } catch (e) {
     const error = e.message.split('$');
@@ -43,7 +43,7 @@ const validateLogin = async (req, res, next) => {
 
 const login = async (req, res) => {
   try {
-    const token = await usersService.login(req.body.email);
+    const token = await User.login(req.body.email);
     res.status(OK).json({ token });
   } catch (e) {
     const error = e.message.split('$');
@@ -55,7 +55,7 @@ const login = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const users = await usersService.getAll(req.headers.authorization);
+    const users = await User.getAll(req.headers.authorization);
     res.status(OK).json(users);
   } catch (e) {
     const error = e.message.split('$');
@@ -69,7 +69,7 @@ const getById = async (req, res) => {
   try {
     const { authorization } = req.headers;
     const { id } = req.params;
-    const user = await usersService.getById(authorization, id);
+    const user = await User.getById(authorization, id);
     res.status(OK).json(user[0]);
   } catch (e) {
     const error = e.message.split('$');

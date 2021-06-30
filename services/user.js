@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 require('dotenv').config();
 const { 
-  validateName,
+  validateDisplayName,
   validateEmail,
   validatePassword,
   validateToken,
@@ -23,7 +23,7 @@ const validate = async (displayName, email, password) => {
   const user = await User.findAll({ where: { email } });
   if (user.length > EMPTY) throw new Error('User already registered$409');
 
-  validateName.validateLength(displayName);
+  validateDisplayName.validateLength(displayName);
   validatePassword.passwordLength(password);
 };
 
