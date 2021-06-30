@@ -7,8 +7,9 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/user', usersControllers.validate, usersControllers.create);
-
 app.post('/login', usersControllers.validateLogin, usersControllers.login);
+
+app.get('/user', usersControllers.getAll);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {

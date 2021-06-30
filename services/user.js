@@ -1,7 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 require('dotenv').config();
-const { validateName, validateEmail, validatePassword } = require('../validations');
+const { 
+  validateName,
+  validateEmail,
+  validatePassword,
+  validateToken,
+} = require('../validations');
 
 const EMPTY = 0;
 
@@ -57,9 +62,23 @@ const login = async (email) => {
   return token;
 };
 
+const getAll = async (token) => {
+  validateToken(token);
+
+  const users = await User.findAll();
+
+  const hidePassword = users.map((item) => {
+    const { dataValues: { password: ignore, ...user } } = item;
+    return user;
+  });
+
+  return hidePassword;
+};
+
 module.exports = {
   validate,
   create,
   validateLogin,
   login,
+  getAll,
 };
