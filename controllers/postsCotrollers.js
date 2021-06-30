@@ -52,9 +52,24 @@ const updatePost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  const { id: userId } = req.user;
+  try {
+    await postsServices.deletePost(id, userId);
+    return res.status(code.NO_CONTENT).json({});
+  } catch (error) {
+    if (error.message === 'Unauthorized user') {
+      res.status(code.UNAUTHORIZED).json({ message: error.message });
+    }
+    res.status(code.NOT_FOUND).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 };

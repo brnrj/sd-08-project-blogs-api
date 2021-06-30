@@ -10,5 +10,6 @@ router.post('/post', validateJWT, validateFormPost, rescue(postsControllers.crea
 router.get('/post', validateJWT, rescue(postsControllers.getAllPosts));
 router.get('/post/:id', validateJWT, rescue(postsControllers.getPostById));
 router.put('/post/:id', validateJWT, rescue(postsControllers.updatePost));
+router.delete('/post/:id', validateJWT, rescue(postsControllers.deletePost));
 
 module.exports = router;

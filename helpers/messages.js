@@ -6,6 +6,7 @@ const code = {
   CONFLICT: 409,
   UNAUTHORIZED: 401,
   NOT_FOUND: 404,
+  NO_CONTENT: 204,
 };
 
 module.exports = { code };
