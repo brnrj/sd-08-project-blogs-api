@@ -49,4 +49,19 @@ const getAll = async (_req, res) => {
   }
 };
 
-module.exports = { signUp, login, getAll };
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const findUser = await User.findOne({ where: { id } });
+    if (!findUser) {
+      return res.status(404).json({ message: 'User does not exist' });
+    }
+    return res.status(200).json(findUser);
+  } catch (err) {
+    res.status(401).json({
+      message: err.message,
+    });
+  }
+};
+
+module.exports = { signUp, login, getAll, getById };
