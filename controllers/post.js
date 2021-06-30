@@ -1,5 +1,5 @@
 const post = require('../services/post');
-const { STATUS } = require('../config/messages');
+const { STATUS, ERR } = require('../config/messages');
 
 const createPost = async (req, res) => {
   const { body, user } = req;
@@ -41,7 +41,16 @@ const update = async (req, res) => {
     res.status(STATUS.ok).json(result);
   } catch (error) {
     console.log(error);
-    res.status(STATUS).json({ message: error.message });
+    if (error.message === ERR.unauthorizedUser) {
+      res.status(STATUS.unauthorized).json({ message: ERR.unauthorizedUser });
+    }
+    if (error.message === '"title" is required') {
+      res.status(STATUS.badRequest).json({ message: ERR.titleRequired });
+    }
+    if (error.message === '"content" is required') {
+      res.status(STATUS.badRequest).json({ message: ERR.contentRequired });
+    }
+    return res.status(STATUS.badRequest).json({ message: ERR.categoriesNotEdited });
   }
 };
 

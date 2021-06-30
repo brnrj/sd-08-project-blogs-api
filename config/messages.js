@@ -9,6 +9,9 @@ module.exports = {
     categoryIdsNotFound: '"categoryIds" not found',
     postDoesNotExist: 'Post does not exist',
     unauthorizedUser: 'Unauthorized user',
+    categoriesNotEdited: 'Categories cannot be edited',
+    titleRequired: '"title" is required',
+    contentRequired: '"content" is required',
   },
   STATUS: {
     ok: 200,
