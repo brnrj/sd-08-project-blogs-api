@@ -1,6 +1,8 @@
 const createError = require('../utils/createError');
 const { User } = require('../models');
 
+const createJWT = require('../utils/createJWT');
+
 const validateUser = require('../middleware/userValidade');
 
 const getAll = async () => {
@@ -25,7 +27,9 @@ const create = async (user) => {
     if (error) return createError(error.details[0].message);
 
     try {
-       return await User.create(user);
+       const response = await User.create(user);
+       const token = createJWT(response);
+       return token;
     } catch (err) {
        return { err: 'User already registered' };
     }

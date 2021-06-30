@@ -1,5 +1,4 @@
 const loginService = require('../services/login');
-const token = require('../utils/token');
 const userService = require('../services/user');
 
 const create = async (req, res) => {
@@ -12,7 +11,7 @@ const create = async (req, res) => {
 
     if (result.message) return res.status(400).json(result);
     if (!findEmail) return res.status(400).json({ message: 'Invalid fields' });
-    return res.status(200).json({ token: token() });
+    return res.status(200).json({ token: result });
 };
 
 module.exports = {

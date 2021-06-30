@@ -5,6 +5,16 @@ const User = (sequelize, DataTypes) => {
         password: DataTypes.STRING,
         image: DataTypes.STRING,
     }, { timestamps: false });
+
+    Users.associate = (models) => {
+        Users.hasMany(models.Post, {
+          foreignKey: 'userId', 
+          as: 'posts',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+        });
+    };
+    
     return Users;
 };
 
