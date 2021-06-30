@@ -15,5 +15,6 @@ router.post(
   UserValidator.loginPasswordEmpty,
   UserController.login,
 );
+router.get('/user', UserController.listAll);
 
 module.exports = router;

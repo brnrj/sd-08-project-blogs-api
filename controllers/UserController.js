@@ -34,4 +34,15 @@ module.exports = {
     const { token } = await UserService.generateToken(user);
     return res.status(200).json({ token });
   },
+  listAll: async (req, res) => {
+    const token = req.headers.authorization;
+    const auth = await UserService.verifyToken(token);
+    if (auth.code !== undefined) {
+      const { code, message } = auth;
+      return res.status(code).json({ message });
+    }
+    const users = await User.findAll();
+
+    res.status(200).json(users);
+  },
 };

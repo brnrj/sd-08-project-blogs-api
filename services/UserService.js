@@ -11,15 +11,15 @@ module.exports = {
     const token = JWT.sign({ data: user }, SECRET, JWTConfig);
     return { code: 201, token };
   },
-  //   verifyToken: async (token) => {
-  //     if (!token) {
-  //       return { code: msg.status.unauthorized, message: msg.errorJWT };
-  //     }
-  //     try {
-  //       const decoded = JWT.verify(token, SECRET);
-  //       return decoded.data;
-  //     } catch (err) {
-  //       return { code: msg.status.unauthorized, message: msg.errorJWT };
-  //     }
-  //   },
+  verifyToken: async (token) => {
+    if (!token) {
+      return { code: 401, message: 'Token not found' };
+    }
+    try {
+      const decoded = JWT.verify(token, SECRET);
+      return decoded.data;
+    } catch (err) {
+      return { code: 401, message: 'Expired or invalid token' };
+    }
+  },
 };
