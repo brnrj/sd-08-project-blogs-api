@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { Op } = require('sequelize');
 const { Categorie } = require('../models');
 
 const validateCategorie = (data) => {
@@ -32,7 +33,21 @@ const getAllCategories = async () => {
   }
 };
 
+const verifyCategory = async (categoryIds) => {
+  try {
+    const categorie = await Categorie.findAll({ where: { id: { [Op.or]: categoryIds } } });
+    if (categorie.length !== categoryIds.length) {
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.log(err.message);
+    return { statusCode: 500, json: { message: 'Algo deu errado' } };
+  }
+};
+
 module.exports = {
   addCategorie,
   getAllCategories,
+  verifyCategory,
 };

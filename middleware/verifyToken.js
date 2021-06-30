@@ -9,9 +9,10 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: 'Token not found' });
   }
 
-  jwt.verify(token, secret, (error, __decoded) => {
+  jwt.verify(token, secret, (error, decoded) => {
     if (error) return res.status(401).json({ message: 'Expired or invalid token' });
 
+    req.userId = decoded.data.id;
     return next();
   });
 };
