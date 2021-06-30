@@ -12,6 +12,18 @@ const create = async (req, res) => {
   }
 };
 
+const findAllCat = async (req, res) => {
+  try {
+    const allUsers = await cat.findAllCat();
+    return res.status(200).json(allUsers);
+  } catch (e) {
+    return res.status(401).json({
+      message: e.message,
+    });
+  }
+};
+
 module.exports = {
   create,
+  findAllCat,
 };

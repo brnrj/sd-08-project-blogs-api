@@ -21,3 +21,4 @@ app.get('/user', auth, controller.findAllUsers);
 app.get('/user/:id', auth, controller.findOneUser);
 
 app.post('/categories', auth, cont.create);
+app.get('/categories', auth, cont.findAllCat);
