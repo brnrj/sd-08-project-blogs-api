@@ -13,6 +13,14 @@ const addCategory = async (req, res, next) => {
     next();
 };
 
+// 6 - Sua aplicação deve ter o endpoint GET /categories
+const findAllCategories = async (req, res, next) => {
+  const allCategories = await Category.findAll();
+  req.allCategories = allCategories;
+  next();
+};
+
 module.exports = {
   addCategory,
+  findAllCategories,
 };

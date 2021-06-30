@@ -3,9 +3,11 @@ const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 const {
   addCategory,
+  findAllCategories,
 } = require('../services/midlewares/categoriesService');
 const {
   CREATED,
+  OK,
 } = require('../services/consts');
 const { fieldValidation } = require('../services/midlewares/categoriesValidations');
 const { decodeToken } = require('../services/midlewares/jwt');
@@ -23,6 +25,15 @@ rescue(addCategory),
 (req, res) => {
   const { categoryData } = req;
   return res.status(CREATED).json(categoryData);
+});
+
+// 6 - Sua aplicação deve ter o endpoint GET /categories
+router.get('/',
+rescue(decodeToken),
+rescue(findAllCategories),
+(req, res) => {
+  const { allCategories } = req;
+  return res.status(OK).json(allCategories);
 });
 
 module.exports = { router };
