@@ -7,8 +7,11 @@ const {
   checkEmail,
   checkPassword,
   createUser,
+  checkToken,
+  getAllUsers,
 } = require('../controllers/UserController');
 
 router.post('/', checkName, checkEmail, checkPassword, createUser);
+router.get('/', checkToken, getAllUsers);
 
 module.exports = router;

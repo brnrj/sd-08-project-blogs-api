@@ -9,8 +9,10 @@ const jwtConfig = {
 };
 
 const BAD_REQUEST = 400;
+const UNAUTHORIZED = 401;
 const EXISTS = 409;
 const CREATED = 201;
+const OK_STATUS = 200;
 
 const checkName = (req, res, next) => {
   const { displayName } = req.body;
@@ -60,9 +62,34 @@ const createUser = async (req, res) => {
   return res.status(CREATED).json({ token });
 };
 
+const checkToken = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token || token === '') {
+    return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
+  }
+  try {
+    const decoded = jwt.verify(token, secret);
+    console.log('decoded: ', decoded);
+    const user = await User.findOne({ where: { email: decoded.data.email } });
+    if (!user) {
+      return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
+    }
+    next();
+  } catch (error) {
+    return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  const users = await User.findAll();
+  return res.status(OK_STATUS).json(users);
+};
+
 module.exports = {
   checkName,
   checkEmail,
   checkPassword,
   createUser,
+  checkToken,
+  getAllUsers,
 };

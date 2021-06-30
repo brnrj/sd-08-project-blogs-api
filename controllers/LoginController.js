@@ -34,7 +34,7 @@ const Login = async (req, res) => {
   if (!user || user.password !== password) {
     return res.status(BAD_REQUEST).json({ message: 'Invalid fields' });
   }
-  const token = jwt.sign({ email }, secret, jwtConfig);
+  const token = jwt.sign({ data: { email } }, secret, jwtConfig);
   console.log('token: ', token);
   return res.status(OK_STATUS).json({ token });
 };
