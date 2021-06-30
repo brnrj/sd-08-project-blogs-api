@@ -5,8 +5,6 @@ const emptyPasswordValidation = require('./emptyPasswordValidation');
 module.exports = (req, res, next) => {
   const { email, password } = req.body;
   const { eEmailEmpty, ePasswordEmpty, eLoginEmail, eLoginPassword } = ERRORS;
-  console.log(`email: ${email}`);
-  console.log(`password: ${password}`);
 
   if (email === undefined) {
     return res.status(eEmailEmpty.status).json({ message: eEmailEmpty.message });
