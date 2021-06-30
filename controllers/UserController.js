@@ -62,7 +62,7 @@ const checkPassword = (req, res, next) => {
 const createUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
   await User.create({ displayName, email, password, image });
-  const token = jwt.sign({ data: { displayName, email, password, image } }, secret, jwtConfig);
+  const token = jwt.sign({ data: { displayName, email, image } }, secret, jwtConfig);
   return res.status(CREATED).json({ token });
 };
 
