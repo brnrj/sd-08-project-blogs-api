@@ -3,7 +3,7 @@ const BlogPostsModel = (sequelize, DataTypes) => {
     // id: DataTypes.STRING, // gera automaticamente
     name: DataTypes.STRING,
     content: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
+    userId: { type: DataTypes.INTEGER, foreignKey: true }, // A declaração da Foreign Key é opcional no model
     published: DataTypes.DATE,
     updated: DataTypes.DATE,
   }, {
