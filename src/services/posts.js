@@ -50,8 +50,30 @@ const getPostById = async (id) => {
   return post.dataValues;
 };
 
+const editPost = async (id, mail) => {
+  const user = await Users.findOne({ where: { email: mail } });
+  const posts = BlogPosts.findOne({ where: { userId: id } });
+  const post = await BlogPosts.update({ where: { id },
+    include: [
+      { model: Users, as: 'user', through: { attributes: ['email'], where: { email } } },
+    ],
+  });
+  if (!post) throw new CustomErr(httpStatusCode.NOT_FOUND, 'Post does not exist');
+  return post.dataValues;
+};
+const deletePost = async (id, email) => {
+  const user = await Users.findOne({ where: { email } });
+  const post = await BlogPosts.findOne({ where: { id } });
+  if (!post) throw new CustomErr(httpStatusCode.NOT_FOUND, 'Post does not exist');
+  const { userId } = post.dataValues;
+  if (user.dataValues.id !== userId) throw new CustomErr(httpStatusCode.UNAUTHORIZED, 'Unauthorized user');
+  await BlogPosts.destroy({ where: { id } });
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  editPost,
+  deletePost,
 };

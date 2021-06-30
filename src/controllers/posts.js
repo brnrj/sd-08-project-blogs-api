@@ -33,8 +33,32 @@ const getPostById = async (req, res, next) => {
   }
 };
 
+const editPost = async (req, res, next) => {
+  const { id } = req.params;
+  const { email } = req.user;
+  try {
+    const postFound = await postsService.editPost(id, email);
+    return res.status(httpStatusCode.OK).send(postFound);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deletePost = async (req, res, next) => {
+  const { id } = req.params;
+  const { email } = req.user;
+  try {
+    await postsService.deletePost(id, email);
+    return res.status(httpStatusCode.NO_CONTENT).send();
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  editPost,
+  deletePost,
 };

@@ -10,7 +10,7 @@ router.use('/login', login);
 
 router.use('/user', user);
  
- router.use('/categories', categories);
+router.use('/categories', categories);
 
 router.use('/post', posts);
 
