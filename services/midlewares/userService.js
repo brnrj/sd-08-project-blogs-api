@@ -15,16 +15,39 @@ const addUser = async (req, res, next) => {
     req.token = token;
     next();
 };
+// 4 - Sua aplicação deve ter o endpoint GET /user/:id
+const hideUserPassword = (data) => {
+  const { password, ...infoWithoutPass } = data.dataValues;
+  return infoWithoutPass;
+};
+
+const findUser = async (req, res, next) => {
+  const { user } = req;
+  const tratedUser = hideUserPassword(user); 
+  req.tratedUser = tratedUser;
+  next();
+};
 
 // 3 - Sua aplicação deve ter o endpoint GET /user
 
+const hideUsersPassword = (data) => {
+  const tratedUsers = data.map((user) => {
+    const all = user.dataValues;
+    const { password, ...infoWithoutPass } = all;
+    return infoWithoutPass;
+  });
+  return tratedUsers;
+};
+
 const findAllUsers = async (req, res, next) => {
   const allUsers = await User.findAll();
-  req.allUsers = allUsers;
+  const tratedUsers = hideUsersPassword(allUsers); 
+  req.tratedUsers = tratedUsers;
   next();
 };
 
 module.exports = {
   addUser,
   findAllUsers,
+  findUser,
 };

@@ -1,11 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { User } = require('../models');
+const { User } = require('../../models');
 const {
   BAD_REQUEST,
   CONFLICT,
-} = require('./consts');
-const { requestError } = require('./requestError');
+  NOT_FOUND,
+} = require('../consts');
+const { requestError } = require('../requestError');
 
 const app = express();
 app.use(bodyParser.json());
@@ -88,7 +89,26 @@ const loginValidations = async (req, res, next) => {
   }
 };
 
+const isValidId = (user) => {
+  if (!user) {
+    requestError('User does not exist', NOT_FOUND);
+  }
+};
+
+const findUserByIdValidation = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+  const user = await User.findByPk(id);
+  isValidId(user);
+  req.user = user;
+  next();
+  } catch (error) {
+    return res.status(error.status).json({ message: error.message });
+  }
+};
+
 module.exports = {
   userRegisterValidations,
   loginValidations,
+  findUserByIdValidation,
 };

@@ -4,7 +4,7 @@ const rescue = require('express-rescue');
 const {
   OK,
 } = require('../services/consts');
-const { loginValidations } = require('../services/validations');
+const { loginValidations } = require('../services/midlewares/userValidations');
 const { login } = require('../services/midlewares/loginService');
 
 const app = express();
