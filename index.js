@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { router: userRouter } = require('./controllers/usersController');
 const { router: loginRouter } = require('./controllers/loginController');
+const { router: categoriesRouter } = require('./controllers/categoriesController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,3 +17,5 @@ app.get('/', (request, response) => {
 app.use('/user', userRouter);
 
 app.use('/login', loginRouter);
+
+app.use('/categories', categoriesRouter);
