@@ -14,8 +14,21 @@ module.exports = {
       content: {
         type: Sequelize.STRING
       },
-      categoryIds: {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        references: { model: "Users", key: "id" },
+      },
+      published: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW()'),
+        // isDate: true, 
+      },
+      updated: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW()'),
       },
     });
   },

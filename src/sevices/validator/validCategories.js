@@ -3,7 +3,7 @@ const joi = require('joi');
 const msg = '"displayName" length must be at least 8 characters long';
 const msg1 = '"name" is required';
 
-const validUser = joi.object({
+const validCategories = joi.object({
   name: joi
     .string()
     .messages({ 
@@ -13,4 +13,4 @@ const validUser = joi.object({
     .required(),
 });
 
-module.exports = validUser;
+module.exports = validCategories;

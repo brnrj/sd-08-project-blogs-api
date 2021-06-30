@@ -18,7 +18,11 @@ const validateJwt = async (req, res, next) => {
     
     if (!exists) return res.status(helpers.QOO).json({ message: msg });
     
-    req.users = decoded;
+    const { id } = exists;
+
+    const result = { ...decoded, id };
+
+    req.users = result;
 
     next();
   } catch (err) {
