@@ -1,5 +1,5 @@
-const { userSchema } = require('../schema/UserSchema');
-const { userExists } = require('./validations');
+const { userSchema, loginSchema } = require('../schema/UserSchema');
+const { userExists, loginValidate } = require('./validations');
 
 const validateUserRegister = async (req, res, next) => {
   try {
@@ -12,6 +12,18 @@ const validateUserRegister = async (req, res, next) => {
   next();
 };
 
+const validateLogin = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    await loginSchema.validate({ email, password });
+    await loginValidate(req, res, next);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+  next();
+};
+
 module.exports = {
   validateUserRegister,
+  validateLogin,
 };
