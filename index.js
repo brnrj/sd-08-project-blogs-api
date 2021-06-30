@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userController = require('./controllers/userController');
+const categoryController = require('./controllers/categoryController');
 const authJwt = require('./middlewares/authJwt');
 
 const app = express();
@@ -16,5 +17,6 @@ app.post('/user', userController.signUp);
 app.post('/login', userController.login);
 app.get('/user', authJwt, userController.getAll);
 app.get('/user/:id', authJwt, userController.getById);
+app.post('/categories', authJwt, categoryController.postCategory);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
