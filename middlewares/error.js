@@ -1,15 +1,14 @@
-/* eslint-disable camelcase */
 const { STATUS } = require('../constants');
 
 const ERRORS = {
-  invalid_data: STATUS.BAD_REQUEST,
+  invalidData: STATUS.BAD_REQUEST,
   conflict: STATUS.CONFLICT,
-  invalid_login: STATUS.UNAUTHORIZED,
-  missing_token: STATUS.UNAUTHORIZED,
-  invalid_token: STATUS.UNAUTHORIZED,
-  invalid_recipe: STATUS.BAD_REQUEST,
-  not_found: STATUS.NOT_FOUND,
-  access_denied: STATUS.UNAUTHORIZED,
+  invalidLogin: STATUS.UNAUTHORIZED,
+  missingToken: STATUS.UNAUTHORIZED,
+  invalidToken: STATUS.UNAUTHORIZED,
+  invalidRecipe: STATUS.BAD_REQUEST,
+  notFound: STATUS.NOT_FOUND,
+  accessDenied: STATUS.UNAUTHORIZED,
   forbidden: STATUS.FORBIDDEN,
 };
 

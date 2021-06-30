@@ -6,7 +6,7 @@ const { customError } = require('../utils/index');
 const createOne = async (newUser) => {
   const { error } = UserSchema.validate(newUser);
 
-  if (error) return customError(error.details[0].message, 'invalid_data');
+  if (error) return customError(error.details[0].message, 'invalidData');
 
   const user = await UserModel.findOne({ where: { email: newUser.email } });
 
