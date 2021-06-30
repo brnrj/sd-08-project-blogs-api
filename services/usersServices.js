@@ -38,10 +38,26 @@ const testToken = async (auth) => jwt.verify(auth, SECRET);
 
 const listUserById = async (id) => User.findOne({ where: { id } });
 
+const destroyUserById = async (authorization) => {
+  const { data: { email } } = jwt.verify(authorization, SECRET);
+  const user = await User.findOne({ where: { email } });
+  const userId = user.toJSON().id;
+  
+  const searchUser = await listUserById(userId);
+  if (!searchUser.toJSON()) return null;
+  
+  const userIdToDelete = searchUser.toJSON().id;
+  
+  const result = await User.destroy({ where: { id: userIdToDelete } });
+
+  return result;
+};
+
 module.exports = {
   registerUser,
   listUsers,
   existsToken,
   testToken,
   listUserById,
+  destroyUserById,
 };

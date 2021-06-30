@@ -3,6 +3,7 @@ const {
     registerUser,
     listUsers,
     listUserById,
+    destroyUserById,
   },
 } = require('../services');
 
@@ -54,8 +55,27 @@ const getUsersById = async (req, res) => {
   }
 };
 
+const deleteUserById = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    const result = await destroyUserById(authorization);
+    if (!result) return res.status(code.NOT_FOUND).json({ message: 'User does not exist' });
+    if (result.message) {
+      console.log(result.message);
+      return res.status(result.UNAUTHORIZED).json({ message: result.message });
+    }
+    return res.status(code.NO_CONTENT).json();
+  } catch (error) {
+    console.error(error);
+    return res.status(code.UNAUTHORIZED).json({
+      message: 'Algo de errado não está certo na usersControler - deleteUserById',
+    });
+  }
+};
+
 module.exports = {
   userCreate,
   getUsers,
   getUsersById,
+  deleteUserById,
 };

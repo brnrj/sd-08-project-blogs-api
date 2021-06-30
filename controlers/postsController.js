@@ -86,9 +86,10 @@ const deletePostsById = async (req, res) => {
     if (!result) {
       return res.status(code.NOT_FOUND).json({ message: 'Post does not exist' });
     }
-    
+
     if (result.message === 'Unauthorized user') return res.status(code.UNAUTHORIZED).json(result);
 
+    console.log(result);
     return res.status(code.NO_CONTENT).json();
   } catch (error) {
     console.error(error);

@@ -5,6 +5,7 @@ const {
     userCreate,
     getUsers,
     getUsersById,
+    deleteUserById,
   },
   loginController: {
     makeLogin,
@@ -55,6 +56,8 @@ app.post('/user',
 app.get('/user', validateToken, getUsers);
 
 app.get('/user/:id', validateToken, getUsersById);
+
+app.delete('/user/me', validateToken, deleteUserById);
 
 app.post('/login',
   validateEmail,
