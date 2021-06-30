@@ -20,4 +20,14 @@ module.exports = {
     const category = await Category.create(data);
     res.status(201).json(category);
   },
+  listAll: async (req, res) => {
+    const token = req.headers.authorization;
+    const auth = await UserService.verifyToken(token);
+    if (auth.code !== undefined) {
+      const { code, message } = auth;
+      return res.status(code).json({ message });
+    }
+    const categories = await Category.findAll();
+    res.status(200).json(categories);
+  },
 };

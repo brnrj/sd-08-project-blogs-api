@@ -7,5 +7,6 @@ router.post(
   CategoryValidator.createCategory,
   CategoryController.addCategory,
 );
+router.get('/categories', CategoryController.listAll);
 
 module.exports = router;
