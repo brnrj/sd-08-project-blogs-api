@@ -8,7 +8,7 @@ const validate = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded.data;
     next();
   } catch (error) {

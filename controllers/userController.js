@@ -37,4 +37,16 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { signUp, login };
+const getAll = async (_req, res) => {
+  try {
+    const users = await User.findAll();
+    console.log(users);
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(401).json({
+      message: err.message,
+    });
+  }
+};
+
+module.exports = { signUp, login, getAll };

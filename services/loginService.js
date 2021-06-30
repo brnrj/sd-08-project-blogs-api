@@ -10,7 +10,6 @@ const jwtConfig = {
 };
 
 const validateUser = (email, password) => {
-  console.log(email, password);
   if (email === undefined) {
     return '"email" is required';
   }
@@ -37,10 +36,8 @@ const validateUser = (email, password) => {
 // };
 
 const login = async (email, password) => {
-  console.log('entra');
   const invalidUser = validateUser(email, password);
   // const empty = validateEmpty(email, password);
-  console.log('invalidUser:', invalidUser);
 
   if (invalidUser) {
     throw new Error(invalidUser);

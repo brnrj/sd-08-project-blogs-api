@@ -25,7 +25,6 @@ const validateUser = (displayName, email) => {
     return '"displayName" length must be at least 8 characters long';
   }
   if (!email) {
-    console.log('entra na verificaçao de email');
     return '"email" is required';
   }
   if (!regex.test(email)) {
@@ -35,10 +34,8 @@ const validateUser = (displayName, email) => {
 };
 
 const signUp = async (displayName, email, password, image) => {
-  console.log('entra');
   const invalidUser = validateUser(displayName, email);
   const invalidPassword = validatePassword(password);
-  console.log('invalidUser:', invalidUser);
 
   if (invalidUser) {
     throw new Error(invalidUser);
