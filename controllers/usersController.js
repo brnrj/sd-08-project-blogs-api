@@ -64,8 +64,8 @@ const excludeMyUser = async (req, res) => {
     await userService.excludeMyUser(reqUserId);
 
     res.status(NO_CONTENT).json();
-  } catch (error) {
-    const { message, code } = error;
+  } catch (err) {
+    const { message, code } = err;
 
     if (code) return res.status(code).json({ message });
 

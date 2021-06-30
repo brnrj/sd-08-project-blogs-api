@@ -86,12 +86,30 @@ const excludeById = async (req, res) => {
     await blogPostService.excludeById(id, reqUserId);
 
     res.status(NO_CONTENT).json();
-  } catch (error) {
-    const { message, code } = error;
+  } catch (err) {
+    const { message, code } = err;
 
     if (code) return res.status(code).json({ message });
 
-    return res.status(500).json({
+    return res.status(INTERNAL_SERVER_ERROR).json({
+      message,
+    });
+  }
+};
+
+const searchTerms = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const postsFound = await blogPostService.searchTerms(q);
+
+    res.status(OK).json(postsFound);
+  } catch (err) {
+    const { message, code } = err;
+    
+    if (code) return res.status(code).json({ message });
+
+    return res.status(INTERNAL_SERVER_ERROR).json({
       message,
     });
   }
@@ -103,4 +121,5 @@ module.exports = {
   getById,
   updateById,
   excludeById,
+  searchTerms,
 };

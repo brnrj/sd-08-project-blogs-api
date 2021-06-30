@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, PostsCategorie } = require('../models');
 const BlogPostValidation = require('../validations/blogPostValidations');
 
@@ -29,7 +30,7 @@ const getAll = async () => BlogPost.findAll({
 
 const getById = async (blogPostId) => {
   const blogPostFound = await BlogPostValidation.validateBlogPostExists(blogPostId);  
-  
+
   return blogPostFound;
 };
 
@@ -55,12 +56,26 @@ const updateById = async (blogPost, blogPostIdParam, reqUserId) => {
   );
 };
 
-const excludeById = async (blogPostIdParam, reqUserId) => {  
+const excludeById = async (blogPostIdParam, reqUserId) => {
   await BlogPostValidation.validateBlogPostExists(blogPostIdParam);
   await BlogPostValidation.validateOwnUser(blogPostIdParam, reqUserId);
-  
+
   await BlogPost.destroy({ where: { id: blogPostIdParam } });
 };
+
+// https://sequelize.org/master/manual/model-querying-basics.html#examples-with--code-op-and--code--and--code-op-or--code-
+const searchTerms = async (terms) => BlogPost.findAll({
+  where: {
+    [Op.or]: [
+      { title: { [Op.like]: `%${terms}%` } },
+      { content: { [Op.like]: `%${terms}%` } },
+    ],
+  },
+  include: [
+    { association: 'user' },
+    { association: 'categories', through: { attributes: [] } },
+  ],
+});
 
 module.exports = {
   create,
@@ -68,4 +83,5 @@ module.exports = {
   getById,
   updateById,
   excludeById,
+  searchTerms,
 };
