@@ -1,4 +1,4 @@
-const { BlogPost, User, Category } = require('../models/index');
+const { BlogPost, User, Category, PostCategory } = require('../models/index');
 
 const OK = 200;
 const CREATED = 201;
@@ -8,8 +8,10 @@ const post = async (req, res) => {
     const { id: userId } = req.user;
     const { title, content, categoryIds } = req.body;
     const createdPost = await BlogPost.create({
-      title, content, categoryIds, userId,
+      title, content, userId,
     });
+    Promise.all(categoryIds.map(async (categoryId) => PostCategory
+      .create({ categoryId, postId: createdPost.id })));
     res.status(CREATED).json(createdPost);
 };
 
