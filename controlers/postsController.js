@@ -4,6 +4,7 @@ const {
     showPosts,
     showPostsById,
     subscribePostsById,
+    destroyPostsById,
   },
 } = require('../services');
 const code = require('../services/codes');
@@ -75,9 +76,30 @@ const putPostsById = async (req, res) => {
   }
 };
 
+const deletePostsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+
+    const result = await destroyPostsById({ id, authorization });
+
+    if (!result) {
+      return res.status(code.NOT_FOUND).json({ message: 'Post does not exist' });
+    }
+    
+    if (result.message === 'Unauthorized user') return res.status(code.UNAUTHORIZED).json(result);
+
+    return res.status(code.NO_CONTENT).json();
+  } catch (error) {
+    console.error(error);
+    return res.status(code.INTERNAL_ERROR).json({ message: error.message });
+  }
+};
+
 module.exports = {
   postCreate,
   getPosts,
   getPostsById,
   putPostsById,
+  deletePostsById,
 };

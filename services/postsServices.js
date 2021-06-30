@@ -46,7 +46,7 @@ const subscribePostsById = async ({ id, title, content, authorization }) => {
   const userId = user.toJSON().id;
 
   const searchPost = await BlogPost.findOne({ where: { id } });
-  
+
   const compareIds = searchPost.toJSON().userId !== userId;
   if (compareIds) return { message: 'Unauthorized user' };
   
@@ -60,9 +60,26 @@ const subscribePostsById = async ({ id, title, content, authorization }) => {
   return result;
 };
 
+const destroyPostsById = async ({ id, authorization }) => {
+  const { data: { email } } = jwt.verify(authorization, SECRET);
+  const user = await User.findOne({ where: { email } });
+  const userId = user.toJSON().id;
+
+  const searchPost = await BlogPost.findOne({ where: { id } });
+  if (!searchPost) return null;
+
+  const compareIds = searchPost.toJSON().userId !== userId;
+  if (compareIds) return { message: 'Unauthorized user' };
+
+  await BlogPost.destroy({ where: { id } });
+
+  return { message: 'deleted post' };
+};
+
 module.exports = {
   createPost,
   showPosts,
   showPostsById,
   subscribePostsById,
+  destroyPostsById,
 };

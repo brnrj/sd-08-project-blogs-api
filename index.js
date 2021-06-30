@@ -18,6 +18,7 @@ const {
     getPosts,
     getPostsById,
     putPostsById,
+    deletePostsById,
   },
 } = require('./controlers');
 
@@ -84,5 +85,9 @@ app.put('/post/:id',
   validateTitle,
   validateContent,
   putPostsById);
+
+app.delete('/post/:id',
+  validateToken,
+  deletePostsById);
 
 app.listen(PORT, () => console.log(`ouvindo porta ${PORT}!`));
