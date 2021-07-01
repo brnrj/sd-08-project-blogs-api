@@ -1,7 +1,21 @@
 const createError = require('../utils/createError');
-const { BlogPost } = require('../models');
+const { BlogPost, Categorie, User } = require('../models');
 
 const validatePost = require('../middleware/postValidade');
+
+const getAll = async () => {
+    try {
+        const result = await BlogPost.findAll({
+            include: [
+                { model: User, as: 'user', attributes: { exclude: ['password'] } },
+                { model: Categorie, as: 'categories', through: { attributes: [] } },
+            ],
+        }); 
+        return result;       
+    } catch (e) {
+        console.log(e.message);
+    }
+};
 
 const create = async (body, user) => {
     const { error } = validatePost.validate(body);
@@ -26,5 +40,6 @@ const create = async (body, user) => {
 };
 
 module.exports = {
+    getAll,
     create,
 };

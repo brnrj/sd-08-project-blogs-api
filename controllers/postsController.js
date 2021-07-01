@@ -1,5 +1,10 @@
 const postService = require('../services/post');
 
+const getAll = async (req, res) => {
+    const result = await postService.getAll();
+    res.status(200).json(result);
+};
+
 const create = async (req, res) => {
     const { data: { dataValues: { id: userId } } } = req.user;
     const result = await postService.create(req.body, userId);
@@ -9,4 +14,5 @@ const create = async (req, res) => {
 
 module.exports = {
     create,
+    getAll,
 };
