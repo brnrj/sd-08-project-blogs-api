@@ -1,5 +1,5 @@
 const express = require('express');
-const { BlogPost } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 
 const router = express.Router();
 
@@ -10,7 +10,21 @@ const {
   categoryValidation,
 } = require('../middlewares/postsValidations');
 
-const { tokenValidation } = require('../services/user');
+const tokenValidation = require('../middlewares/tokenValidation');
+
+router.get(
+  '/',
+  tokenValidation,
+  async (req, res) => {
+    const response = await BlogPost.findAll({
+      include: [
+        { model: User, as: 'user' }, 
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    res.status(200).json(response);
+  },
+);
 
 router.post(
   '/',

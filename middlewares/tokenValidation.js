@@ -2,20 +2,6 @@ require('dotenv/config');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-const {
-  nameValidation,
-  emailValidation,
-  passwordValidation,
-} = require('../middlewares/validations');
-
-const userValidation = (req, res, next) => {
-  const { displayName, email, password } = req.body;
-  const validation = nameValidation(displayName) || emailValidation(email)
-    || passwordValidation(password) || false;
-  if (validation) return res.status(400).json({ message: validation });
-  next();
-};
-
 const tokenValidation = async (req, res, next) => {
   const { authorization: token } = req.headers;
   if (!token) {
@@ -31,7 +17,4 @@ const tokenValidation = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  userValidation,
-  tokenValidation,
-};
+module.exports = tokenValidation;

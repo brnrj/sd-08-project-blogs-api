@@ -3,7 +3,7 @@ const { Category } = require('../models');
 
 const router = express.Router();
 
-const { tokenValidation } = require('../services/user');
+const tokenValidation = require('../middlewares/tokenValidation');
 
 const {
   nameValidation,
