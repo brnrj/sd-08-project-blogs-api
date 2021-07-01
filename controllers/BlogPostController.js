@@ -1,5 +1,5 @@
 const { validationResult, matchedData } = require('express-validator');
-const { BlogPost } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 const PostService = require('../services/PostService');
 
 module.exports = {
@@ -20,5 +20,18 @@ module.exports = {
     const post = await BlogPost.create(fields);
     console.log(data);
     res.status(201).json(post);
+  },
+  listAll: async (req, res) => {
+    const posts = await BlogPost.findAll({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'displayName', 'email', 'image'],
+        },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    res.send(posts);
   },
 };

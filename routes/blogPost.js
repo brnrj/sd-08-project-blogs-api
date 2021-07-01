@@ -9,5 +9,6 @@ router.post(
   BlogPostValidator.createPost,
   BlogPostController.add,
 );
+router.get('/post', authVerification, BlogPostController.listAll);
 
 module.exports = router;
