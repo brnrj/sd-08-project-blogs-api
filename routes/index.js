@@ -6,6 +6,7 @@ const { eMiddleware } = require('../middlewares');
 const router = express.Router();
 router.use(express.json());
 router.use('/test', routerTest);
+router.post('/user');
 
 router.use(eMiddleware);
 

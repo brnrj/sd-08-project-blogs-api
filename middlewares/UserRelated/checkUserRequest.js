@@ -13,12 +13,18 @@ const minDNameLength = 8;
 const minPasswordLength = 6;
 
 const verifyRequestCampsExists = async (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email) {
-    throw new Error(stringyErr(BAD_REQUEST, emailRequired));
-  }
-  if (!password) {
-    throw new Error(stringyErr(BAD_REQUEST, passwordRequired));
+  try {
+    const { email, password } = req.body;
+    if (!email) {
+      throw new Error(stringyErr(BAD_REQUEST, emailRequired));
+    }
+    if (!password) {
+      throw new Error(stringyErr(BAD_REQUEST, passwordRequired));
+    }
+    next(req, res);
+  } catch (e) {
+    const errorCore = JSON.parse(e.message);
+    res.status(errorCore.status).send(errorCore.message);
   }
 };
 
@@ -45,8 +51,9 @@ const verifyIfNewUser = async (req, res, next) => {
     const { email } = req.body;
     const searchUserEmail = await UserModel.findOne({ where: { email } });
     if (searchUserEmail !== null) throw new Error(stringyErr(CONFLICT, emailNotUnique));
-    next(req, res);
+    return next();
   } catch (e) {
+    console.log(e.message, 'verifyIfNewUser');
     const errorCore = JSON.parse(e.message);
     res.status(errorCore.status).send(errorCore.message);
   }
@@ -58,4 +65,4 @@ const validateUserRegister = (req, res, next) => {
   verifyRequestCampsExists(req, res, checkValid);
 };
 
-module.exports = { validateUserRegister, verifyRequestCampsExists };
+module.exports = validateUserRegister;

@@ -1,5 +1,5 @@
 const express = require('express');
-const { validateUserRegister, verifyRequestCampsExists } = require('../middlewares');
+const { validateUserRegister } = require('../middlewares');
 const stringify = require('../utils/stringfy');
 const { eMiddleware } = require('../middlewares');
 
@@ -9,6 +9,7 @@ const notLegal = { status: 400 };
 const theMessage = { message: '"this message"' };
 
 const { User: UserModel, BlogPosts: BlogPostsModel } = require('../models');
+const { createUser } = require('../controllers/UserController');
 
 const routerTest = express.Router();
 routerTest.use(eMiddleware);
@@ -17,16 +18,7 @@ routerTest.get('/', (req, res) => {
   res.send('Teste0');
 });
 
-routerTest.post('/test1', async (req, res) => {
-  try {
-    xablau;
-  } catch (e) {
-    console.log(e.message);
-    res.send(e.message);
-  }
-});
-
-routerTest.get('/test2', validateUserRegister);
+routerTest.post('/test2', validateUserRegister, createUser);
 
 routerTest.get('/getAll', (req, res) => {
   UserModel.findAll({ include: [{ model: BlogPostsModel, as: 'blogposts' }] })
