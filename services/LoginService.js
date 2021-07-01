@@ -39,7 +39,7 @@ const loginService = async ({ email, password }) => {
   try {
     const user = await findUser(email);
     if (!user) return { statusCode: 400, json: { message: 'Invalid fields' } };
-    const token = tokenLogin(user.dataValues);
+    const token = tokenLogin(user);
     return { statusCode: 200, json: { token } };
   } catch (err) {
     console.log(err.message);

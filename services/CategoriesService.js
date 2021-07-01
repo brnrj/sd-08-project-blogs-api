@@ -16,7 +16,7 @@ const addCategorie = async ({ name }) => {
 
   try {
     const createCategorie = await Categorie.create({ name });
-    return { statusCode: 201, json: createCategorie.dataValues };
+    return { statusCode: 201, json: createCategorie };
   } catch (err) {
     console.log(err.message);
     return { statusCode: 500, json: { message: 'Algo deu errado' } };

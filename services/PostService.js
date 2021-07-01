@@ -58,7 +58,7 @@ const addPost = async ({ title, content, categoryIds, userId }) => {
     delete createPost.dataValues.published;
     delete createPost.dataValues.updated;
     await addPostCategorie(categoryIds, createPost.dataValues.id);
-    return { statusCode: 201, json: createPost.dataValues };
+    return { statusCode: 201, json: createPost };
   } catch (err) {
     console.log(err.message);
     return { statusCode: 500, json: { message: ALGO_DEU_ERRADO } };
@@ -124,10 +124,26 @@ const deletePost = async ({ userId, id }) => {
   }
 };
 
+const searchPost = async (search = '') => {
+  try {
+    const getPost = await BlogPost.findAll({ include: [{ model: User, as: 'user' },
+      { model: Categorie, as: 'categories', through: { attributes: [] } }],
+      attributes: ['id', 'title', 'content', 'userId', 'published', 'updated'],
+      where: { [Op.or]: [{ title: { [Op.like]: `%${search}%` } },
+        { content: { [Op.like]: `%${search}%` } }] },
+    });
+    return { statusCode: 200, json: getPost };
+  } catch (err) {
+    console.log(err.message);
+    return { statusCode: 500, json: { message: ALGO_DEU_ERRADO } };
+  }
+};
+ 
 module.exports = {
   addPost,
   getAllPost,
   getPostById,
   editPost,
   deletePost,
+  searchPost,
 };

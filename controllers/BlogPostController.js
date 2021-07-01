@@ -28,6 +28,18 @@ router.get('/', middlewareVerifyToken, async (req, res) => {
   }
 });
 
+router.get('/search', middlewareVerifyToken, async (req, res) => {
+  const { q } = req.query; 
+  
+  try {
+    const result = await postService.searchPost(q);
+    res.status(result.statusCode).json(result.json);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: ALGO_DEU_ERRADO });
+  }
+});
+
 router.get('/:id', middlewareVerifyToken, async (req, res) => {
   const { id } = req.params;
 

@@ -31,7 +31,7 @@ const addUser = async ({ displayName, email, password, image }) => {
     const findUser = await checkRegistered(email);
     if (findUser) return { statusCode: 409, json: { message: 'User already registered' } };
     const createUser = await User.create({ displayName, email, password, image });
-    const login = loginService.tokenLogin(createUser.dataValues);
+    const login = loginService.tokenLogin(createUser);
     return { statusCode: 201, json: { token: login } };
   } catch (err) {
     console.log(err.message);
@@ -55,7 +55,7 @@ const getUserById = async (id) => {
     if (!getUserId) {
       return { statusCode: 404, json: { message: 'User does not exist' } };
     }
-    return { statusCode: 200, json: getUserId.dataValues };
+    return { statusCode: 200, json: getUserId };
   } catch (err) {
     console.log(err.message);
     return { statusCode: 500, json: { message: 'Algo deu errado' } };
