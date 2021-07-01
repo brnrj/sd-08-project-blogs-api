@@ -4,6 +4,7 @@ const middleware = require('../middlewares');
 const controllerUser = require('../controllers/controllerUser');
 const controllerLogin = require('../controllers/controllerLogin');
 const controllerCategorie = require('../controllers/controllerCategorie');
+const controllerBlogPosts = require('../controllers/controllerBlogPost');
 
 router.post('/user', rescue(controllerUser.controllerAdd));
 router.post('/login', rescue(controllerLogin.login));
@@ -18,5 +19,10 @@ router.get('/categories',
   [
     rescue(middleware.authentication),
     rescue(controllerCategorie.getAll),
+  ]);
+router.post('/post',
+  [
+    rescue(middleware.authentication),
+    rescue(controllerBlogPosts.addPost),
   ]);
 module.exports = router;

@@ -27,13 +27,29 @@ const checkPassword = (value) => {
 };
 
 const checkId = (value) => {
+  if (!value) return err('ID inválido', code.badRequest);
+  return true;
+};
+
+const checkCategoryIds = (value) => {
   // if (value === undefined) return err()
-  if (!isInt(value)) return err('ID inválido', code.badRequest);
+  const arrValue = Array.isArray(value) ? value : [value];
+  if (arrValue.find((el) => !isInt(el.toString()))) return err('ID inválido', code.badRequest);
   return true;
 };
 
 const checkNameCategory = (value) => {
   if (!value || isEmpty(value)) return err(msg.requiredName, code.badRequest);
+  return true;
+};
+
+const checkTitle = (value) => {
+  if (value === undefined || isEmpty(value)) return err(msg.requiredTitle, code.badRequest);
+  return true;
+};
+
+const checkContent = (value) => {
+  if (value === undefined || isEmpty(value)) return err(msg.requiredContent, code.badRequest);
   return true;
 };
 
@@ -43,4 +59,7 @@ module.exports = {
   checkPassword,
   checkId,
   checkNameCategory,
+  checkTitle,
+  checkContent,
+  checkCategoryIds,
 };
