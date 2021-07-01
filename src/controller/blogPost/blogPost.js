@@ -3,7 +3,7 @@ const helpers = require('../../helpers/helpers');
 
 const {
   createServices,
-  // findServices,
+  findServices,
 } = require('../../sevices/blogPost/blogPost');
 
 const createBlogPost = rescue(async (req, res, next) => {
@@ -14,12 +14,12 @@ const createBlogPost = rescue(async (req, res, next) => {
   res.status(helpers.DOU).json(result);
 });
 
-// const findCategories = rescue(async (_req, res) => {
-//   const result = await findServices();
-//   res.status(helpers.DOO).json(result);
-// });
+const findBlogPost = rescue(async (_req, res) => {
+  const result = await findServices();
+  res.status(helpers.DOO).json(result);
+});
 
 module.exports = {
   createBlogPost,
-  // findCategories,
+  findBlogPost,
 };

@@ -1,9 +1,9 @@
 const BlogPost = (sequelize, DataTypes) => {
   const blogPost = sequelize.define('BlogPost', {
-    name: DataTypes.STRING,
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-    // published: DataTypes.DATE,
+    published: DataTypes.DATE,
+    updated: DataTypes.DATE,
   },
   {
     timestamps: false,
