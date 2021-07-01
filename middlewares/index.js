@@ -1,5 +1,3 @@
-const { User } = require('../models');
-
 const BAD_REQUEST = 400;
 
 const validateName = (displayName) => {
