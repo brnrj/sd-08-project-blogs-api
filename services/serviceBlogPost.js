@@ -10,7 +10,7 @@ const checkListForAddingNewPost = async (data) => {
   const ids = await Categorie.findAll({
     where: { id: data.categoryIds },
   });
-  console.log(ids);
+  console.log(ids.length);
   if (ids.length !== data.categoryIds.length) {
     return err(msg.categoryIdsNotExists, code.badRequest);
   }
@@ -27,7 +27,7 @@ const addPostsCategories = async (postId, categoryIds) => {
   const value = categoryIds.reduce((cur, prev) => (
     cur.concat({ postId, categoryId: Number(prev) })
   ), []);
-  await PostsCategories.create(value);
+  await PostsCategories.bulkCreate(value);
 };
 
 const addPost = async (data) => {
