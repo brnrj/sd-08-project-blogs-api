@@ -1,11 +1,13 @@
 const express = require('express');
-const { validateUserRegister } = require('../middlewares/UserRelated/checkUserRequest');
+const { validateUserRegister } = require('../middlewares');
 const stringify = require('../utils/stringfy');
 
+const goodStatus = { CREATED: 201, OK: 200 };
+const { CREATED, OK } = goodStatus;
 const notLegal = { status: 400 };
 const theMessage = { message: '"this message"' };
 
-const { User, BlogPosts } = require('../models');
+const { User: UserModel, BlogPosts: BlogPostsModel } = require('../models');
 
 const routerTest = express.Router();
 
@@ -13,20 +15,21 @@ routerTest.get('/', (req, res) => {
   res.send('Teste0');
 });
 
-routerTest.get('/test1', validateUserRegister, (req, res) => {
+routerTest.post('/test1', validateUserRegister, async (req, res) => {
   try {
-    if (!req.body.displayName) throw new Error(stringify(notLegal, theMessage));
-    // res.send({ message: req.body.displayName });
+    const { displayName, email, password, image } = req.body;
+    const newUser = await UserModel.create({ displayName, email, password, image });
+    res.send(CREATED).send(newUser);
   } catch (error) {
     console.log(error);
-    res.send(JSON.parse(error.message));
+    res.status(500).send('Erro interno');
   }
 });
 
 routerTest.get('/test2', validateUserRegister);
 
 routerTest.get('/getAll', (req, res) => {
-  User.findAll({ include: [{ model: BlogPosts, as: 'blogposts' }] })
+  UserModel.findAll({ include: [{ model: BlogPostsModel, as: 'blogposts' }] })
     .then((posts) => res.send({ find: posts }));
 });
 

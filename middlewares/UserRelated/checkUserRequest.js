@@ -66,4 +66,4 @@ const validateUserRegister = (req, res, next) => {
   verifyRequestCampsExists(req, res, checkValid);
 };
 
-module.exports = { validateUserRegister };
+module.exports = validateUserRegister;
