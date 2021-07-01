@@ -5,7 +5,6 @@ const { eMiddleware } = require('../middlewares');
 
 const router = express.Router();
 router.use(express.json());
-
 router.use('/test', routerTest);
 
 router.use(eMiddleware);

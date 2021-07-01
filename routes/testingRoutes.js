@@ -1,6 +1,7 @@
 const express = require('express');
-const { validateUserRegister } = require('../middlewares');
+const { validateUserRegister, verifyRequestCampsExists } = require('../middlewares');
 const stringify = require('../utils/stringfy');
+const { eMiddleware } = require('../middlewares');
 
 const goodStatus = { CREATED: 201, OK: 200 };
 const { CREATED, OK } = goodStatus;
@@ -10,19 +11,18 @@ const theMessage = { message: '"this message"' };
 const { User: UserModel, BlogPosts: BlogPostsModel } = require('../models');
 
 const routerTest = express.Router();
+routerTest.use(eMiddleware);
 
 routerTest.get('/', (req, res) => {
   res.send('Teste0');
 });
 
-routerTest.post('/test1', validateUserRegister, async (req, res) => {
+routerTest.post('/test1', async (req, res) => {
   try {
-    const { displayName, email, password, image } = req.body;
-    const newUser = await UserModel.create({ displayName, email, password, image });
-    res.send(CREATED).send(newUser);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('Erro interno');
+    xablau;
+  } catch (e) {
+    console.log(e.message);
+    res.send(e.message);
   }
 });
 
