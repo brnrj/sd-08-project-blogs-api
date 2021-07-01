@@ -34,8 +34,19 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const results = await UserService.getUserById(id);
+    return res.status(OK).json(results);
+  } catch (err) {
+    res.status(SERVER_ERROR).json({ message: 'Erro brabo' });
+  }
+};
+
 module.exports = {
   addUser,
   userLogin,
   getAllUsers,
+  getUserById,
 };

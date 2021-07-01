@@ -16,8 +16,14 @@ const userLogin = async (email, password) => {
 
 const getAllUsers = async () => Users.findAll();
 
+const getUserById = async (id) => {
+  const data = await Users.findOne({ where: { id } });
+  return data;
+};
+
 module.exports = {
   addUser,
   userLogin,
   getAllUsers,
+  getUserById,
 };

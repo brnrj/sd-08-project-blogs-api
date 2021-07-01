@@ -1,6 +1,7 @@
 const { Users } = require('../models');
 
 const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 const CONFLICT = 409;
 const MIN_DISPLAYNAME_LENGTH = 8;
 const MIN_PASSWORD_LENGTH = 6;
@@ -12,6 +13,7 @@ const errors = {
   requiredPassword: '"password" is required',
   passwordLength: '"password" length must be 6 characters long',
   registeredUser: 'User already registered',
+  notFound: 'User does not exist',
 };
 
 const verifyEmail = async (req, res, next) => {
@@ -50,9 +52,19 @@ const verifyIfUserExists = async (req, res, next) => {
   next();
 };
 
+const verifyUserId = async (req, res, next) => {
+  const { id } = req.params;
+  const findUserId = await Users.findOne({ where: { id } });
+  if (!findUserId) {
+    return res.status(NOT_FOUND).json({ message: errors.notFound });
+  }
+  next();
+};
+
 module.exports = {
   verifyEmail,
   verifyDisplayName,
   verifyPassword,
   verifyIfUserExists,
+  verifyUserId,
 };

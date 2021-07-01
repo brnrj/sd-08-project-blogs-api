@@ -7,6 +7,7 @@ const {
   verifyDisplayName,
   verifyPassword,
   verifyIfUserExists,
+  verifyUserId,
 } = require('../middlewares/userMiddleware');
 
 const { authUser } = require('../middlewares/authMiddleware');
@@ -21,5 +22,6 @@ router.post('/',
   UserController.addUser);
 
 router.get('/', authUser, UserController.getAllUsers);
+router.get('/:id', verifyUserId, authUser, UserController.getUserById);
 
 module.exports = router;
