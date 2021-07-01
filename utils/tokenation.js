@@ -8,7 +8,6 @@ const jwtConfig = {
 };
 
 const tokenGenerateForLogin = async (userData) => {
-  console.log(privateKey);
   const token = jwt.sign({ data: userData }, privateKey, jwtConfig);
   return ({ token });
 };

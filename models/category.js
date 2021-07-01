@@ -6,6 +6,12 @@ const CategoryModel = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
+  Category.associate = (models) => {
+    Category.belongsToMany(models.BlogPosts, {
+      through: 'PostsCategories',
+      as: 'blogposts',
+    });
+  };
   return Category;
 };
 

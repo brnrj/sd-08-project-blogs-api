@@ -1,3 +1,4 @@
 const { createNewUser } = require('./UserServices');
+const loggedIn = require('./LoginServices');
 
-module.exports = { createNewUser };
+module.exports = { createNewUser, loggedIn };

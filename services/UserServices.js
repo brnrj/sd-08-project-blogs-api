@@ -11,7 +11,7 @@ const createNewUser = async ({ displayName, email, password, image }) => {
     const userData = { displayName, email, password, image };
     await UserModel.create((userData),
       { transaction });
-    const tokenGenerated = tokenGenerateForLogin(userData);
+    const tokenGenerated = tokenGenerateForLogin({ email, password });
     return tokenGenerated;
   } catch (e) {
     console.log(e.message, 'createNewUser');

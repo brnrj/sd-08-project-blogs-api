@@ -6,8 +6,8 @@ const createUser = async (req, res, _next) => {
     const userCreation = await createNewUser({ displayName, email, password, image });
     res.status(201).send(userCreation);
   } catch (e) {
-    console.log(e.message, 'createUser');
-    res.send(e.message);
+    console.log(e.message, 'Controllers, createUser.js');
+    res.status(500).send(e.message);
   }
 };
 
