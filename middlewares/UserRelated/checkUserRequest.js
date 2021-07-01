@@ -52,17 +52,16 @@ const verifyValidCamps = (req, res, next) => {
 const verifyIfNewUser = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const searchUserEmail = await UserModel.findOne({ where: email });
-    const userAll = await UserModel.findAll();
-    console.log(userAll);
-    if (searchUserEmail) {
+    const searchUserEmail = await UserModel.findOne({ where: { email } });
+    // const userAll = await UserModel.findAll({ where: { displayName: 'Michael Schumacher' } });
+    console.log(searchUserEmail);
+    if (searchUserEmail !== null) {
       throw new Error(JSON.stringify({ status: CONFLICT.status, message: emailNotUnique }));
     }
     next(req, res);
   } catch (e) {
-    // const errorCore = JSON.parse(error.message);
-    // res.status(errorCore.status).send(errorCore.message);
-    res.send(e.message);
+    const errorCore = JSON.parse(e.message);
+    res.status(errorCore.status).send(errorCore.message);
   }
 };
 
