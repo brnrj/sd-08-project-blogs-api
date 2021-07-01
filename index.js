@@ -1,8 +1,10 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.json());
 
-const { User } = require('./models');
+const userController = require('./src/controllers/userController');
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
@@ -11,11 +13,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.get('/users', (req, res) => {
-  User.findAll().then((users) => {
-    res.status(200).json(users);
-  }).catch((err) => {
-    console.log(err);
-    res.status(404).send('ops');
-  });
-});
+app.get('/user', userController.getAllUsers);
+app.post('/user', userController.createUser);
+
+module.exports = app;
