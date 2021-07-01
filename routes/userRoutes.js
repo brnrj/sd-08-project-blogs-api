@@ -1,9 +1,9 @@
 const express = require('express');
 
-const userRouter = express.Router();
-userRouter.use(express.json());
+const userRoutes = express.Router();
+userRoutes.use(express.json());
 const { createUser } = require('../controllers/UserControllers');
 
-userRouter.post('/', createUser);
+userRoutes.post('/', createUser);
 
-module.exports = userRouter;
+module.exports = userRoutes;

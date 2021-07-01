@@ -1,11 +1,10 @@
 const express = require('express');
-const { validateUserRegister } = require('../middlewares');
-const stringify = require('../utils/stringfy');
+// const { validateUserRegister } = require('../middlewares');
+// const stringify = require('../utils/stringfy');
 const { eMiddleware } = require('../middlewares');
 
 const goodStatus = { CREATED: 201, OK: 200 };
 const { CREATED, OK } = goodStatus;
-const notLegal = { status: 400 };
 const theMessage = { message: '"this message"' };
 
 const { User: UserModel, BlogPosts: BlogPostsModel } = require('../models');
@@ -14,6 +13,10 @@ const routerTest = express.Router();
 routerTest.use(eMiddleware);
 
 routerTest.get('/', (req, res) => {
+  res.status(OK).send({ message1: `${OK},${CREATED}`, message2: theMessage });
+});
+
+routerTest.post('/', (req, res) => {
   res.send('Teste0');
 });
 
