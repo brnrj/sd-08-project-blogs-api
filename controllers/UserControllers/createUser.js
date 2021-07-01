@@ -1,4 +1,4 @@
-const { createNewUser } = require('../services');
+const { createNewUser } = require('../../services');
 
 const createUser = async (req, res, _next) => {
   try {
@@ -11,4 +11,4 @@ const createUser = async (req, res, _next) => {
   }
 };
 
-module.exports = { createUser };
+module.exports = createUser;
