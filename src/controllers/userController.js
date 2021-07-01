@@ -1,5 +1,5 @@
 const { CREATED, OK } = require('../../common/constants/statusCodes');
-const { createUser, getAllUsers } = require('../services/userService');
+const { createUser, getAllUsers, getUserById } = require('../services/userService');
 
 const createsUser = async (req, res) => {
   const userInfos = req.body;
@@ -18,7 +18,18 @@ const getsAllUsers = async (_req, res) => {
   res.status(OK).json(allUsers);
 };
 
+const getsUserById = async (req, res) => {
+  const { id } = req.params;
+  const user = await getUserById(id);
+  const { error } = user;
+  if (error) {
+    return res.status(error.statusCode).json({ message: error.message });
+  }
+  return res.status(OK).json(user);
+};
+
 module.exports = {
   createsUser,
   getsAllUsers,
+  getsUserById,
 };

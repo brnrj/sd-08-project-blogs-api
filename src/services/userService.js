@@ -1,5 +1,5 @@
-const { CONFLICT } = require('../../common/constants/statusCodes');
-const { ALREADY_REGISTERED } = require('../../common/constants/statusMessages');
+const { CONFLICT, NOT_FOUND } = require('../../common/constants/statusCodes');
+const { ALREADY_REGISTERED, USER_NOT_FOUND } = require('../../common/constants/statusMessages');
 const { generateError } = require('../../validations/errors/generateError');
 const { User } = require('../../models');
 const { createToken } = require('../../validations/token');
@@ -25,8 +25,21 @@ const getAllUsers = async () => {
   return allUsers.map(({ dataValues }) => dataValues);
 };
 
+const getUserById = async (userId) => {
+  const foundUser = await User.findOne(
+    { where: { id: userId },
+    attributes: { exclude: ['password'] },
+    },
+  );
+  if (!foundUser) {
+    return generateError(NOT_FOUND, USER_NOT_FOUND);
+  }
+  return foundUser.dataValues;
+};
+
 module.exports = {
   createUser,
   findUserByEmail,
   getAllUsers,
+  getUserById,
 };

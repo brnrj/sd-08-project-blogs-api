@@ -14,6 +14,7 @@ const MISSING_PASSWORD = '"password" is required';
 const PASSWORD_IS_EMPTY = '"password" is not allowed to be empty';
 const INVALID_FIELDS = 'Invalid fields';
 const INVALID_TOKEN = 'Expired or invalid token';
+const USER_NOT_FOUND = 'User does not exist';
 
 module.exports = {
   // INVALID_ENTRIES,
@@ -33,4 +34,5 @@ module.exports = {
   ALREADY_REGISTERED,
   INVALID_FIELDS,
   INVALID_TOKEN,
+  USER_NOT_FOUND,
 };
