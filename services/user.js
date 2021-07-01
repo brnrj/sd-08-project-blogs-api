@@ -72,7 +72,8 @@ const login = async (email, password) => {
   
   if (!findEmail) throw new Error('Invalid fields');
 
-  const newToken = jwt.sign({ email, password }, secret, jwtConfig);
+  const newToken = jwt.sign({ email, id: findEmail.id }, secret, jwtConfig);
+  // console.log(newToken);
 
   return newToken; 
 };

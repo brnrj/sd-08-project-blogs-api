@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const auth = require('./middleware/jwt');
 const controller = require('./controller/userController');
 const cont = require('./controller/categoryController');
+const bp = require('./controller/blogPostController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -22,3 +23,5 @@ app.get('/user/:id', auth, controller.findOneUser);
 
 app.post('/categories', auth, cont.create);
 app.get('/categories', auth, cont.findAllCat);
+
+app.post('/post', auth, bp.createBp);
