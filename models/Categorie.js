@@ -3,12 +3,6 @@ const Categorie = (sequelize, DataTypes) => {
         name: DataTypes.STRING,
     }, { timestamps: false });
 
-    Categories.associate = (models) => {
-        Categories.belongsToMany(models.Post, {
-          through: 'CategoriesPosts', as: 'posts',
-        });
-      };
-
     return Categories;
 };
 
