@@ -1,5 +1,5 @@
 const Category = (sequelize, DataTypes) => {
-  const defineUser = sequelize.define('Category', {
+  const defineCategory = sequelize.define('Category', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: DataTypes.STRING,
   },
@@ -7,7 +7,7 @@ const Category = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  return defineUser;
+  return defineCategory;
 };
 
 module.exports = Category;
