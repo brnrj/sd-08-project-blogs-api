@@ -1,4 +1,5 @@
 const { BlogPost, User, Category } = require('../models');
+const { status, message } = require('../schema/status');
 
 const createBlogPosts = async (body, user) => {
   const { id } = user;
@@ -22,7 +23,22 @@ const findAllPosts = async () => {
   return posts;
 };
 
+const findPostById = async (id) => {
+  const findPost = await BlogPost.findOne({ where: { id } });
+  if (!findPost) {
+    return { isError: true, status: status.notFound, message: message.postNotExist };
+  }
+  const getPostById = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return getPostById;
+};
+
 module.exports = {
   createBlogPosts,
   findAllPosts,
+  findPostById,
 };

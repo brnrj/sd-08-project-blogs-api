@@ -25,6 +25,7 @@ const message = {
   requiredContent: '"content" is required',
   requiredCategoryIds: '"categoryIds" is required',
   categoryIdsNotFound: '"categoryIds" not found',
+  postNotExist: 'Post does not exist',
 };
 
 module.exports = {
