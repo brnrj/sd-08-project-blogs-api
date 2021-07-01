@@ -4,23 +4,16 @@ require('dotenv').config();
 
 const secret = process.env.JWT_SECRET || 'minhasenha';
 
-const genToken = ({ id, displayName, email, image }) => {
-  const token = jwt.sign({ id, displayName, email, image }, secret);
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
+
+const genToken = (data) => {
+  const token = jwt.sign({ data }, secret, jwtConfig);
   return token;
 };
 
-const verifyToken = (token) => {
-  try {
-    jwt.verify(token, secret);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-const decodeToken = (token) => jwt.decode(token);
-
 module.exports = {
   genToken,
-  verifyToken,
-  decodeToken,
 };

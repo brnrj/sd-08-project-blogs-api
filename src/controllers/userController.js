@@ -18,9 +18,17 @@ const addUser = async (req, res) => {
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password);
     const token = await UserService.userLogin(email, password);
     return res.status(OK).json({ token });
+  } catch (err) {
+    res.status(SERVER_ERROR).json({ message: 'Erro brabo' });
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const results = await UserService.getAllUsers();
+    return res.status(OK).json(results);
   } catch (err) {
     res.status(SERVER_ERROR).json({ message: 'Erro brabo' });
   }
@@ -29,4 +37,5 @@ const userLogin = async (req, res) => {
 module.exports = {
   addUser,
   userLogin,
+  getAllUsers,
 };

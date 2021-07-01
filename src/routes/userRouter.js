@@ -8,6 +8,9 @@ const {
   verifyPassword,
   verifyIfUserExists,
 } = require('../middlewares/userMiddleware');
+
+const { authUser } = require('../middlewares/authMiddleware');
+
 const UserController = require('../controllers/userController');
 
 router.post('/',
@@ -16,5 +19,7 @@ router.post('/',
   verifyPassword,
   verifyIfUserExists,
   UserController.addUser);
+
+router.get('/', authUser, UserController.getAllUsers);
 
 module.exports = router;
