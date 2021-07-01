@@ -1,10 +1,10 @@
-const postsCategory = (sequelize) => {
-  const PostsCategory = sequelize.define('PostsCategory', { }, { timestamps: false });
+module.exports = (sequelize) => {
+  const PostsCategory = sequelize.define('PostsCategory', {}, { timestamps: false });
 
   PostsCategory.associate = (models) => {
     models.Category.belongsToMany(models.BlogPost, {
       onDelete: 'CASCADE',
-      as: 'posts',
+      as: 'blogposts',
       through: PostsCategory,
       foreignKey: 'categoryId',
       otherKey: 'postId',
@@ -21,5 +21,3 @@ const postsCategory = (sequelize) => {
 
   return PostsCategory;
 };
-
-module.exports = postsCategory;

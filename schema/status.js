@@ -21,6 +21,10 @@ const message = {
   invalidToken: 'Expired or invalid token',
   userNotExist: 'User does not exist',
   requiredName: '"name" is required',
+  requiredTitle: '"title" is required',
+  requiredContent: '"content" is required',
+  requiredCategoryIds: '"categoryIds" is required',
+  categoryIdsNotFound: '"categoryIds" not found',
 };
 
 module.exports = {

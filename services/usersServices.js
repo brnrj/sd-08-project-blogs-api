@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-const { getToken } = require('../auth/validateJWT');
+require('dotenv/config');
+// const { getToken } = require('../auth/validateJWT');
 const { status, message } = require('../schema/status');
 
 const findUserByEmail = async (email) => {
@@ -7,24 +9,18 @@ const findUserByEmail = async (email) => {
   return userByEmail;
 };
 
-const createUser = async (displayName, email, password, image) => {
-  if (password.length < 6) {
-    return {
-      isError: true,
-      status: status.badRequest,
-      message: message.passwordSize,
-    };
-  }
-  const { dataValues: { id } } = await User.create({ displayName, email, password, image });
-  const token = await getToken({ email, id });
-  return token;
+const createUser = async (data) => {
+  const createdUser = await User.create(data);
+  const { email, id } = createdUser;
+  const token = jwt.sign({ email, id }, process.env.JWT_SECRET);
+  return { token };
 };
 
 const findAllUsers = async () => {
-  const users = await User.findAll({
+  const user = await User.findAll({
     attributes: ['id', 'displayName', 'email', 'image'],
   });
-  return users;
+  return user;
 };
 
 const findUserById = async (id) => {

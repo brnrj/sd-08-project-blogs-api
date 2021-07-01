@@ -10,20 +10,32 @@ const validateDisplayName = async (req, res, next) => {
   next();
 };
 
-const emailRequired = async (req, res, next) => {
-  const { email } = req.body;
-  if (email === undefined) {
-    return res.status(status.badRequest).json({ message: message.requiredEmail });
-  }
-  next();
-};
-
 const validateEmail = async (req, res, next) => {
   const { email } = req.body;
   const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
   const emailIsValid = emailRegex.test(email);
+  if (email === '') {
+    return res.status(status.badRequest).json({ message: message.emptyEmail });
+  }
+  if (email === undefined) {
+    return res.status(status.badRequest).json({ message: message.requiredEmail });
+  }
   if (!emailIsValid) {
     return res.status(status.badRequest).json({ message: message.invalidEmail });
+  }
+  next();
+};
+
+const validatePassword = async (req, res, next) => {
+  const { password } = req.body;
+  if (password === '') {
+    return res.status(status.badRequest).json({ message: message.emptyPassword });
+  }
+  if (password === undefined) {
+    return res.status(status.badRequest).json({ message: message.requiredPassword });
+   }
+   if (password.length < 6) {
+    return res.status(status.badRequest).json({ message: message.passwordSize });
   }
   next();
 };
@@ -37,17 +49,6 @@ const validateEmailExists = async (req, res, next) => {
   next();
 };
 
-const validatePassword = async (req, res, next) => {
-  const { password } = req.body;
-  if (password === undefined) {
-    return res.status(status.badRequest).json({ message: message.requiredPassword });
-   }
-   if (password === '') {
-     return res.status(status.badRequest).json({ message: message.emptyPassword });
-   }
-  next();
-};
-
 const validateUserEmailExists = async (req, res, next) => {
   const { email } = req.body;
   const user = await User.findOne({ where: { email } });
@@ -57,20 +58,10 @@ const validateUserEmailExists = async (req, res, next) => {
   next();
 };
 
-const validateNotEmptyEmail = async (req, res, next) => {
-  const { email } = req.body;
-  if (email === '') {
-    return res.status(status.badRequest).json({ message: message.emptyEmail });
-  }
-  next();
-};
-
 module.exports = {
   validateDisplayName,
-  emailRequired,
   validateEmail,
   validateEmailExists,
   validatePassword,
   validateUserEmailExists,
-  validateNotEmptyEmail,
 };

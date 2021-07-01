@@ -3,6 +3,7 @@ require('dotenv/config');
 const usersControllers = require('./controllers/usersControllers');
 const loginControllers = require('./controllers/loginControllers');
 const categoriesControllers = require('./controllers/categoriesControllers');
+const blogPostsControllers = require('./controllers/blogPostsControllers');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get('/', (request, response) => {
 app.use('/user', usersControllers);
 app.use('/login', loginControllers);
 app.use('/categories', categoriesControllers);
+app.use('/post', blogPostsControllers);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

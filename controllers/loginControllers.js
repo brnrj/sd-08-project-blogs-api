@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { emailRequired, validatePassword, validateNotEmptyEmail,
+const { validateEmail, validatePassword,
   validateUserEmailExists } = require('../middlewares/usersValidation');
 
 const { status } = require('../schema/status');
@@ -8,7 +8,7 @@ const { getToken } = require('../auth/validateJWT');
 
 const routes = express.Router();
 
-routes.post('/', emailRequired, validatePassword, validateNotEmptyEmail,
+routes.post('/', validateEmail, validatePassword, 
  validateUserEmailExists, async (req, res) => {
   try {
     const { email, password } = req.body;
