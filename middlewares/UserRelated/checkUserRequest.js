@@ -1,5 +1,6 @@
 const { BAD_REQUEST, CONFLICT } = require('../../utils/errors');
 const { User: UserModel } = require('../../models');
+const stringyErr = require('../../utils/stringfy');
 
 const { User: {
   Registration: {
@@ -15,17 +16,17 @@ const verifyRequestCampsExists = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email) {
-      throw new Error(JSON.stringify({ status: BAD_REQUEST.status, message: emailRequired }));
+      throw new Error(stringyErr(BAD_REQUEST, emailRequired));
     }
     if (!password) {
-      throw new Error(JSON.stringify({ status: BAD_REQUEST.status, message: passwordRequired }));
+      throw new Error(stringyErr(BAD_REQUEST, passwordRequired));
     }
+    next(req, res);
   } catch (e) {
     console.log(e.message);
     const errorCore = JSON.parse(e.message);
-    if (errorCore) res.status(errorCore.status).send(errorCore.message);
+    res.status(errorCore.status).send(errorCore.message);
   }
-  next(req, res);
 };
 
 const verifyValidCamps = (req, res, next) => {
@@ -33,13 +34,11 @@ const verifyValidCamps = (req, res, next) => {
     const { displayName, email, password } = req.body;
     const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+?$/gi;
     if (displayName.length < minDNameLength) {
-      throw new Error(JSON.stringify({ status: BAD_REQUEST.status, message: nameMinLength }));
+      throw new Error(stringyErr(BAD_REQUEST, nameMinLength));
     }
-    if (!emailRegex.test(email)) {
-      throw new Error(JSON.stringify({ status: BAD_REQUEST.status, message: invalidEmail }));
-    }
+    if (!emailRegex.test(email)) throw new Error(stringyErr(BAD_REQUEST, invalidEmail));
     if (password.length < minPasswordLength) {
-      throw new Error(JSON.stringify({ status: BAD_REQUEST.status, message: passwordMinLength }));
+      throw new Error(stringyErr(BAD_REQUEST, passwordMinLength));
     }
     next(req, res);
   } catch (e) {
@@ -53,11 +52,7 @@ const verifyIfNewUser = async (req, res, next) => {
   try {
     const { email } = req.body;
     const searchUserEmail = await UserModel.findOne({ where: { email } });
-    // const userAll = await UserModel.findAll({ where: { displayName: 'Michael Schumacher' } });
-    console.log(searchUserEmail);
-    if (searchUserEmail !== null) {
-      throw new Error(JSON.stringify({ status: CONFLICT.status, message: emailNotUnique }));
-    }
+    if (searchUserEmail !== null) throw new Error(stringyErr(CONFLICT, emailNotUnique));
     next(req, res);
   } catch (e) {
     const errorCore = JSON.parse(e.message);
