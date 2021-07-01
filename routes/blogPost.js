@@ -10,5 +10,6 @@ router.post(
   BlogPostController.add,
 );
 router.get('/post', authVerification, BlogPostController.listAll);
+router.get('/post/:id', authVerification, BlogPostController.listOne);
 
 module.exports = router;

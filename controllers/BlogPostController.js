@@ -34,4 +34,21 @@ module.exports = {
     });
     res.send(posts);
   },
+  listOne: async (req, res) => {
+    const { id } = req.params;
+    const post = await BlogPost.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'displayName', 'email', 'image'],
+        },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    if (!post) {
+      return res.status(404).json({ message: 'Post does not exist' });
+    }
+    return res.status(200).json(post);
+  },
 };
