@@ -34,7 +34,8 @@ const checkId = (value) => {
 const checkCategoryIds = (value) => {
   // if (value === undefined) return err()
   const arrValue = Array.isArray(value) ? value : [value];
-  if (arrValue.find((el) => !isInt(el.toString()))) return err('ID inválido', code.badRequest);
+  if (!value
+    || arrValue.find((el) => !isInt(`${el}`))) return err(msg.requiredCategoryId, code.badRequest);
   return true;
 };
 

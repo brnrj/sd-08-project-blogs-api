@@ -31,8 +31,9 @@ const addPostsCategories = async (postId, categoryIds) => {
 };
 
 const addPost = async (data) => {
-  const result = checkListForAddingNewPost(data);
+  const result = await checkListForAddingNewPost(data);
   const { userId, title, content, categoryIds } = data;
+  console.log(result);
   if (result.err) return result;
   const blogPost = await BlogPost.create({
     title, content, userId, published: new Date(), updated: new Date(),

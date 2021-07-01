@@ -15,7 +15,7 @@ const message = {
   requiredName: '"name" is required',
   requiredTitle: '"title" is required',
   requiredContent: '"content" is required',
-  requiredCategoryId: '"categoryId" is required',
+  requiredCategoryId: '"categoryIds" is required',
   categoryIdsNotExists: '"categoryIds" not found',
   postNotExists: 'Post does not exist',
   noPermissionEditCategorys: 'Categories cannot be edited',
