@@ -5,4 +5,4 @@ const ErrorMiddleware = async (err, _req, res) => {
 
 module.exports = {
   ErrorMiddleware,
-}
+};
