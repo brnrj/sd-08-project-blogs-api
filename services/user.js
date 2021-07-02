@@ -1,6 +1,6 @@
-const { User: UserModel } = require('../models');
 const { sequelize } = require('../models');
-const UserSchema = require('../schema/user');
+const { User: UserModel } = require('../models');
+const { UserSchema } = require('../schema');
 const { customError } = require('../utils/index');
 
 const createOne = async (newUser) => {

@@ -1,12 +1,15 @@
 const express = require('express');
 const middlewares = require('./middlewares');
 const routes = require('./routes');
+// const login = require('./controllers/login');
 
 const app = express();
 
 app.use(express.json());
 
 app.use('/user', routes.user);
+
+app.use('/login', routes.login);
 
 app.use(middlewares.error);
 

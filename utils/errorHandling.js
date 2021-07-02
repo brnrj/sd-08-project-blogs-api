@@ -1,4 +1,4 @@
-const erroHandling = (callback) =>
+const errorHandling = (callback) =>
   async (...args) => {
     try {
       return callback(...args);
@@ -8,4 +8,4 @@ const erroHandling = (callback) =>
     }
   };
 
-module.exports = erroHandling;
+module.exports = errorHandling;

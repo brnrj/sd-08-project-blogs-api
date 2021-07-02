@@ -6,6 +6,6 @@ const middlewares = require('../middlewares');
 const UserController = require('../controllers/user');
 
 router.get('/', middlewares.auth, UserController.findAll);
-router.post('/', UserController.createOne);
+router.post('/', UserController.login);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const customError = (message, code = 'invalid_data') => ({
+const customError = (message, code = 'invalidData') => ({
   err: {
     code,
     message,
