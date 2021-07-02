@@ -1,4 +1,5 @@
-const { Users } = require('../models');
+const { Op } = require('sequelize');
+const { Users, Categories } = require('../models');
 
 const userExists = async (req, res, _next) => {
   const { email } = req.body;
@@ -17,7 +18,16 @@ const loginValidate = async (req, res, _next) => {
   res.locals.user = user.dataValues;
 };
 
+const categoryExists = async (req, res, _next) => {
+  const { categoryIds } = req.body;
+  const categories = await Categories.findAll({ where: { id: { [Op.in]: categoryIds } } });
+  if (!categories || categories.length < 1) {
+    return res.status(400).json({ message: '"categoryIds" not found' });
+  }
+};
+
 module.exports = {
   userExists,
   loginValidate,
+  categoryExists,
 };

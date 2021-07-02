@@ -1,11 +1,14 @@
 const yup = require('yup');
 
-const categorySchema = yup.object().shape({
-  name: yup.string()
-    .min(1, '"name" is required')
-    .required('"name" is required'),
+const postSchema = yup.object().shape({
+  title: yup.string()
+    .required('"title" is required'),
+  content: yup.string()
+    .required('"content" is required'),
+  categoryIds: yup.array().of(yup.number())
+    .required('"categoryIds" is required'),
 });
 
 module.exports = {
-  categorySchema,
+  postSchema,
 };

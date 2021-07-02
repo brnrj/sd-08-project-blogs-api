@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const userControllers = require('./controllers/userControllers');
 const loginControllers = require('./controllers/loginControllers');
 const categoriesControllers = require('./controllers/categoriesControllers');
+const postControllers = require('./controllers/postControllers');
 const { ErrorMiddleware } = require('./middlewares/ErrorMiddleware');
 
 const app = express();
@@ -19,6 +20,7 @@ app.listen(PORT, () => {
 app.use('/user', userControllers);
 app.use('/login', loginControllers);
 app.use('/categories', categoriesControllers);
+app.use('/post', postControllers);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
