@@ -33,15 +33,11 @@ const newBlogPost = async (req, res) => {
     const userId = await findUserId(token);
     const { title, content, categoryIds } = req.body;
     blogPostService.newBlogPost(title, content, categoryIds);
-    // const categoryExists = await Category.findAll();
-    // const ids = categoryExists.map((category) => category.id);
     const idsAreValid = await isCategoryValid(categoryIds);
-    console.log('o que vem no create:', idsAreValid);
     if (!idsAreValid) {
       return res.status(400).json({ message: '"categoryIds" not found' });
     }
     const createBlogPost = await createPost(userId, title, content, categoryIds);
-    // const newPost = await BlogPost.findOne({ where: { title } });
     return res.status(201).json(createBlogPost);
   } catch (err) {
     return res.status(400).json({
@@ -50,4 +46,20 @@ const newBlogPost = async (req, res) => {
   }
 };
 
-module.exports = { newBlogPost };
+const getAllPosts = async (_req, res) => {
+  try {
+    const posts = await BlogPost.findAll({
+      include: [
+        { model: User, as: 'user', attributes: { excludes: ['password'] } },
+        { model: Category, as: 'categories' },
+      ],
+    });
+    return res.status(200).json(posts);
+  } catch (err) {
+    res.status(401).json({
+      message: err.message,
+    });
+  }
+};
+
+module.exports = { newBlogPost, getAllPosts };
