@@ -12,4 +12,11 @@ router.post('/', validateToken, validateCategory, (req, res) => {
   }));
 });
 
+router.get('/', validateToken, (req, res) => {
+  Categories.findAll()
+  .then(((category) => {
+    res.status(200).json(category);
+  }));
+});
+
 module.exports = router;
