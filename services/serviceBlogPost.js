@@ -1,4 +1,4 @@
-const { BlogPost, Categorie, PostsCategories } = require('../models');
+const { BlogPost, Categorie, PostsCategories, User } = require('../models');
 const schema = require('../schema');
 const CustomError = require('../utils/customError');
 
@@ -42,6 +42,18 @@ const addPost = async (data) => {
   return { blogPost };
 };
 
+const getAllPost = async () => {
+  const result = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  console.log(result);
+  return { post: result };
+};
+
 module.exports = {
   addPost,
+  getAllPost,
 };

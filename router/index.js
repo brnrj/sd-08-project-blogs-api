@@ -25,4 +25,9 @@ router.post('/post',
     rescue(middleware.authentication),
     rescue(controllerBlogPosts.addPost),
   ]);
+router.get('/post', 
+  [
+    rescue(middleware.authentication),
+    rescue(controllerBlogPosts.getAll),
+  ]);
 module.exports = router;
