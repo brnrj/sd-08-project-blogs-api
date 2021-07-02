@@ -5,12 +5,6 @@ const createCategory = (sequelize, DataTypes) => {
   {
     timestamps: false,
   });
-  // Category.associate = (models) => {
-  //   Category.belongsToMany(models.BlogPost, {
-  //     as: 'blogs',
-  //     through: 'PostsCategories',
-  //   });
-  // };
   return Category;
 };
 
