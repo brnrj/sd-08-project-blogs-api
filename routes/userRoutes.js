@@ -1,9 +1,11 @@
 const express = require('express');
+const { createUser, searchAllTheUsers } = require('../controllers/UserControllers');
+const { validateUserRegister } = require('../middlewares');
 
 const userRoutes = express.Router();
 userRoutes.use(express.json());
-const { createUser } = require('../controllers/UserControllers');
 
-userRoutes.post('/', createUser);
+userRoutes.post('/', validateUserRegister, createUser);
+userRoutes.get('/', searchAllTheUsers);
 
 module.exports = userRoutes;

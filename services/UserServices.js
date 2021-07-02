@@ -14,13 +14,19 @@ const createNewUser = async ({ displayName, email, password, image }) => {
     const tokenGenerated = tokenGenerateForLogin({ email, password });
     return tokenGenerated;
   } catch (e) {
-    console.log(e.message, 'createNewUser');
+    console.log(e.message, 'UserServices, createNewUser');
     return e.message;
   }
 };
 
 const searchAllUsers = async () => {
-
+  try {
+    const gettingAll = await UserModel.findAll();
+    return gettingAll;
+  } catch (e) {
+    console.log(e.message, 'UserServices, searchAllUsers');
+    return e.message;
+  }
 };
 
-module.exports = { createNewUser };
+module.exports = { createNewUser, searchAllUsers };
