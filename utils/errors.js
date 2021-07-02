@@ -57,6 +57,9 @@ const errors = {
         categoryIdRequired: {
           message: '"categoryId" is required',
         },
+        categoryIdsNotFound: {
+          message: '"categoryIds" not found',
+        },
       },
       Editing: {
         cantEditCateg: {
@@ -91,8 +94,8 @@ const errors = {
       },
     },
     Category: {
-      categoryIdNotFound: {
-        message: '"categoryIds" not found',
+      categoryNotFound: {
+        message: 'category does not exist',
       },
     },
   },

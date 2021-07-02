@@ -1,15 +1,17 @@
 const validateUserRegister = require('./UserRelated/checkUserRequest');
 const validateLogin = require('./LoginRelated/checkLoginRequest');
-const verifyIfIdMatches = require('./UserRelated/checkIdParams');
+const verifyIfUserIdMatches = require('./UserRelated/checkUserIdParams');
 const verifyCategoryRequest = require('./CategoryRelated/checkCategoryRequest');
+const verifyIfCatgIdMatches = require('./CategoryRelated/checkCategoryIdParams');
 const verifyToken = require('./auth/checkToken');
 const eMiddleware = require('./Error/errorMiddleware');
 
 module.exports = {
   validateUserRegister,
   validateLogin,
-  verifyIfIdMatches,
+  verifyIfUserIdMatches,
   verifyCategoryRequest,
+  verifyIfCatgIdMatches,
   eMiddleware,
   verifyToken,
 };

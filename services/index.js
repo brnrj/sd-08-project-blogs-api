@@ -1,6 +1,6 @@
 const { createNewUser, searchAllUsers, searchUserById } = require('./UserServices');
 const loggedIn = require('./LoginServices');
-const { createNewCategory } = require('./CategoryServices');
+const { createNewCategory, searchAllCatgs, searchSpecificCatg } = require('./CategoryServices');
 
 module.exports = {
   createNewUser,
@@ -8,4 +8,6 @@ module.exports = {
   searchUserById,
   loggedIn,
   createNewCategory,
+  searchAllCatgs,
+  searchSpecificCatg,
 };

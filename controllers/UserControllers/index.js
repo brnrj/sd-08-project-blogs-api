@@ -1,5 +1,5 @@
 const createUser = require('./createUser');
-const searchAllTheUsers = require('./searchAll');
-const searchTheUserById = require('./searchById');
+const searchAllTheUsers = require('./searchAllUsers');
+const searchTheUserById = require('./searchUserById');
 
 module.exports = { createUser, searchAllTheUsers, searchTheUserById };
