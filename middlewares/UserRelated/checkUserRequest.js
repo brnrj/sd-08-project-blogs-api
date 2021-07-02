@@ -23,6 +23,7 @@ const verifyRequestCampsExists = async (req, res, next) => {
     }
     next(req, res);
   } catch (e) {
+    console.log(e.message, 'Middlewares, checkUserRequest1');
     const errorCore = JSON.parse(e.message);
     res.status(errorCore.status).send(errorCore.message);
   }
@@ -41,6 +42,7 @@ const verifyValidCamps = (req, res, next) => {
     }
     next(req, res);
   } catch (e) {
+    console.log(e.message, 'Middlewares, checkUserRequest2');
     const errorCore = JSON.parse(e.message);
     res.status(errorCore.status).send(errorCore.message);
   }
@@ -53,7 +55,7 @@ const verifyIfNewUser = async (req, res, next) => {
     if (searchUserEmail !== null) throw new Error(stringyErr(CONFLICT, emailNotUnique));
     return next();
   } catch (e) {
-    console.log(e.message, 'verifyIfNewUser');
+    console.log(e.message, 'Middlewares, checkUserRequest3');
     const errorCore = JSON.parse(e.message);
     res.status(errorCore.status).send(errorCore.message);
   }
