@@ -2,7 +2,7 @@ const express = require('express');
 
 const routerTest = express.Router();
 
-routerTest.post('/', (req, res) => {
+routerTest.get('/', (req, res) => {
   res.send('Teste0');
 });
 
