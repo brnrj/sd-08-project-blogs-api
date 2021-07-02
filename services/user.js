@@ -1,12 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 require('dotenv').config();
-const { 
-  validateDisplayName,
-  validateEmail,
-  validatePassword,
-  validateToken,
-} = require('../validations');
+const { validateUser, validateToken } = require('../validations');
 
 const EMPTY = 0;
 
@@ -16,15 +11,15 @@ const jwtConfig = {
 };
 
 const validate = async (displayName, email, password) => {
-  validateEmail.missingEmail(email);
-  validatePassword.missingPassword(password);
-  validateEmail.validateFormat(email);
+  validateUser.missingEmail(email);
+  validateUser.missingPassword(password);
+  validateUser.validateFormat(email);
 
   const user = await User.findAll({ where: { email } });
   if (user.length > EMPTY) throw new Error('User already registered$409');
 
-  validateDisplayName.validateLength(displayName);
-  validatePassword.passwordLength(password);
+  validateUser.validateLength(displayName);
+  validateUser.passwordLength(password);
 };
 
 const create = async (reqBody) => {
@@ -38,27 +33,29 @@ const create = async (reqBody) => {
 };
 
 const validateLogin = async (email, password) => {
-  validateEmail.missingEmail(email);
-  validatePassword.missingPassword(password);
+  validateUser.missingEmail(email);
+  validateUser.missingPassword(password);
 
-  validateEmail.emptyEmail(email);
-  validatePassword.emptyPassword(password);
+  validateUser.emptyEmail(email);
+  validateUser.emptyPassword(password);
 
   const user = await User.findAll({ where: { email } });
   if (user.length === EMPTY) throw new Error('Invalid fields$400');
 };
 
 const login = async (email) => {
-  const user = await User.findAll({
+  const users = await User.findAll({
     where: {
       email,
     },
   });
 
-  const { password: ignore, ...otherInfo } = user;
-
-  const token = jwt.sign({ data: otherInfo }, process.env.JWT_SECRET, jwtConfig);
-
+  const userData = users.map((item) => {
+    const { dataValues: { password: ignore, ...user } } = item;
+    return user;
+  });
+ 
+  const token = jwt.sign({ data: userData[0] }, process.env.JWT_SECRET, jwtConfig);
   return token;
 };
 

@@ -1,12 +1,9 @@
 const { Category } = require('../models');
-const { 
-  validateToken,
-  validateName,
-} = require('../validations');
+const { validateToken, validateCategory } = require('../validations');
 
 const create = async (token, reqBody) => {
   validateToken(token);
-  validateName.missingName(reqBody.name);
+  validateCategory.missingName(reqBody.name);
 
   const category = await Category.create(reqBody);
 
