@@ -19,9 +19,9 @@ const createNewUser = async ({ displayName, email, password, image }) => {
   }
 };
 
-const searchAllUsers = async () => {
+const searchAllUsers = async (options = { attributes: { exclude: ['password'] } }) => {
   try {
-    const gettingAll = await UserModel.findAll();
+    const gettingAll = await UserModel.findAll(options);
     return gettingAll;
   } catch (e) {
     console.log(e.message, 'UserServices, searchAllUsers');
@@ -29,4 +29,14 @@ const searchAllUsers = async () => {
   }
 };
 
-module.exports = { createNewUser, searchAllUsers };
+const searchUserById = async (id) => {
+  try {
+    const getSpecific = await UserModel.findByPk(id, { attributes: { exclude: ['password'] } });
+    return getSpecific;
+  } catch (e) {
+    console.log(e.message, 'UserServices, searchAllUsers');
+    return e.message;
+  }
+};
+
+module.exports = { createNewUser, searchAllUsers, searchUserById };
