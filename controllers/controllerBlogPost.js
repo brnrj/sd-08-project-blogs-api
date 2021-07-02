@@ -42,10 +42,20 @@ const deletePost = async (req, res, next) => {
   return res.status(code.notContent).json();
 };
 
+const search = async (req, res, next) => {
+  const { query } = req;
+  const service = await ServiceBlogPost.searchPost(query);
+  if (!Array.isArray(service)) {
+    return next(service);
+  }
+  return res.status(code.ok).json(service);
+};
+
 module.exports = {
   addPost,
   getAll,
   getById,
   postUpdate,
   deletePost,
+  search,
 };

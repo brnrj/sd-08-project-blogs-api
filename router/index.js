@@ -25,6 +25,11 @@ router.post('/post',
     rescue(middleware.authentication),
     rescue(controllerBlogPosts.addPost),
   ]);
+router.get('/post/search', 
+  [
+    rescue(middleware.authentication),
+    rescue(controllerBlogPosts.search),
+  ]);
 router.get('/post', 
   [
     rescue(middleware.authentication),

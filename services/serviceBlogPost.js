@@ -1,6 +1,7 @@
 const { BlogPost, Categorie, PostsCategories, User } = require('../models');
 const schema = require('../schema');
 const CustomError = require('../utils/customError');
+const { Op } = require("sequelize");
 
 const { err, code, msg } = new CustomError();
 
@@ -126,10 +127,27 @@ const deletePost = async (ids) => {
   return true;
 };
 
+const searchPost = async (query) => {
+  const result = await BlogPost.findAll({
+    where: {
+      [Op.or]: {
+        title: { [Op.substring]: query.q },
+        content: { [Op.substring]: query.q },
+      },
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return result;
+};
+
 module.exports = {
   addPost,
   getAllPost,
   getPostById,
   updatePost,
   deletePost,
+  searchPost,
 };
