@@ -2,21 +2,19 @@ const express = require('express');
 const { Op } = require('sequelize');
 
 const { BlogPosts, Categories, User, PostsCategories } = require('../models');
-const tokenValidation = require('../middlewares/tokenAuth');
-const { postCreateValidation, postUpdateValidation } = require('../services/postValidation');
+const {
+  tokenValidation,
+  postCreateDataValidation,
+  postUpdateDataValidation,
+  postDeleteValidation,
+} = require('../middlewares');
 const { userIdFromToken } = require('../services/userIdFromToken');
 
 const router = express.Router();
 
-router.post('/', tokenValidation, async (req, res) => {
+router.post('/', tokenValidation, postCreateDataValidation, async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const token = req.headers.authorization;
-
-  const validation = postCreateValidation({ title, content, categoryIds });
-  if (validation) return res.status(validation.code).json({ message: validation.message });
-
-  const categories = await Categories.findAll({ where: { id: categoryIds } });
-  if (categories.length === 0) return res.status(400).json({ message: '"categoryIds" not found' });
 
   const userId = userIdFromToken(token);
 
@@ -90,41 +88,26 @@ router.get('/:id', tokenValidation, async (req, res) => {
   return res.status(200).json(post);
 });
 
-router.put('/:id', tokenValidation, async (req, res) => {
+router.put('/:id', tokenValidation, postUpdateDataValidation, async (req, res) => {
   const { title, content } = req.body;
+  const { id } = req.params;
 
-  const validation = postUpdateValidation(req.body);
-  if (validation) return res.status(validation.code).json({ message: validation.message });
+  await BlogPosts.update({ title, content }, { where: { id } });
 
-  const post = await BlogPosts.findByPk(req.params.id);
-
-  if (post.userId !== userIdFromToken(req.headers.authorization)) {
-    return res.status(401).json({ message: 'Unauthorized user' });
-  }
-
-  await BlogPosts.update({ title, content }, { where: { id: req.params.id } });
-
-  const updatedPost = await BlogPosts.findByPk(req.params.id, {
+  const updatedPost = await BlogPosts.findByPk(id, {
     include: [{
-        model: Categories,
-        as: 'categories',
-        attributes: ['id', 'name'],
-        through: { attributes: [] },
-      }],
+      model: Categories,
+      as: 'categories',
+      attributes: ['id', 'name'],
+      through: { attributes: [] },
+    }],
   });
 
   return res.status(200).json(updatedPost);
 });
 
-router.delete('/:id', tokenValidation, async (req, res) => {
+router.delete('/:id', tokenValidation, postDeleteValidation, async (req, res) => {
   const { id } = req.params;
-
-  const post = await BlogPosts.findByPk(id);
-  if (!post) return res.status(404).json({ message: 'Post does not exist' });
-
-  if (post.userId !== userIdFromToken(req.headers.authorization)) {
-    return res.status(401).json({ message: 'Unauthorized user' });
-  }
 
   await BlogPosts.destroy({ where: { id } });
 

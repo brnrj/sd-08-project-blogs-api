@@ -1,16 +1,18 @@
 const express = require('express');
+
 const { Categories } = require('../models');
-const tokenValidation = require('../middlewares/tokenAuth');
+const { tokenValidation } = require('../middlewares');
 
 const router = express.Router();
 
 router.post('/', tokenValidation, async (req, res) => {
-    const { name } = req.body;
+  const { name } = req.body;
 
-    if (!name) return res.status(400).json({ message: '"name" is required' });
-    const newCategory = await Categories.create({ name });
+  if (!name) return res.status(400).json({ message: '"name" is required' });
 
-    return res.status(201).json(newCategory);
+  const newCategory = await Categories.create({ name });
+
+  return res.status(201).json(newCategory);
 });
 
 router.get('/', tokenValidation, async (_req, res) => {
