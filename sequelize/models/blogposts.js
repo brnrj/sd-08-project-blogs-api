@@ -11,6 +11,7 @@ const BlogPosts = (sequelize, DataTypes) => {
   });
   posts.associate = (models) => {
     posts.belongsTo(models.Users, { as: 'user' });
+    posts.belongsToMany(models.Categories, { through: 'PostCategories', as: 'categories' });
   };
   return posts;
 };
