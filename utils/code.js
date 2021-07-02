@@ -6,6 +6,7 @@ const code = {
   notFound: 404,
   conflict: 409,
   internalServerError: 500,
+  notContent: 204,
 };
 
 module.exports = code;

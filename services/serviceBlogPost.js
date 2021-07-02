@@ -103,9 +103,33 @@ const updatePost = async (data, id, userId) => {
   return { post: postAfterUpdate };
 };
 
+const authorizationToDelete = async ({ id, userId }) => {
+  const postById = await BlogPost.findOne({ where: { id } });
+  if (!postById) {
+    return err(msg.postNotExists, code.notFound);
+  }
+
+  if (postById.userId !== userId) {
+    return err(msg.withoutAuthorization, code.unauthorized);
+  }
+
+  return true;
+};
+
+const deletePost = async (ids) => {
+  const authDelete = await authorizationToDelete(ids);
+
+  if (authDelete.err) return authDelete;
+  
+  await BlogPost.destroy({ where: { id: ids.id } });
+
+  return true;
+};
+
 module.exports = {
   addPost,
   getAllPost,
   getPostById,
   updatePost,
+  deletePost,
 };

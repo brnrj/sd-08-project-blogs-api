@@ -34,9 +34,18 @@ const postUpdate = async (req, res, next) => {
   return res.status(code.ok).json(service.post);
 };
 
+const deletePost = async (req, res, next) => {
+  const { id } = req.params;
+  const { id: userId } = req.payload;
+  const service = await ServiceBlogPost.deletePost({ id, userId });
+  if (service.err) return next(service);
+  return res.status(code.notContent).json();
+};
+
 module.exports = {
   addPost,
   getAll,
   getById,
   postUpdate,
+  deletePost,
 };

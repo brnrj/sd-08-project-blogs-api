@@ -40,5 +40,10 @@ router.put('/post/:id',
     rescue(middleware.authentication),
     rescue(controllerBlogPosts.postUpdate),
   ]);
+router.delete('/post/:id',
+  [
+    rescue(middleware.authentication),
+    rescue(controllerBlogPosts.deletePost),
+  ]);
 
 module.exports = router;
