@@ -1,9 +1,9 @@
 const userRouter = require('./userRouter');
 const loginRouter = require('./loginRouter');
-const categoryRouter = require('./categoryRouter');
+const categoriesRouter = require('./categoriesRouter');
 
 module.exports = {
   userRouter,
   loginRouter,
-  categoryRouter,
+  categoriesRouter,
 };
