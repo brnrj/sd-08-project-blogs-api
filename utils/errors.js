@@ -95,7 +95,7 @@ const errors = {
     },
     Category: {
       categoryNotFound: {
-        message: 'category does not exist',
+        message: 'Category does not exist',
       },
     },
   },
