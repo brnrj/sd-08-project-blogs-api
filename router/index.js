@@ -45,5 +45,9 @@ router.delete('/post/:id',
     rescue(middleware.authentication),
     rescue(controllerBlogPosts.deletePost),
   ]);
-
+router.delete('/user/me', 
+  [
+    rescue(middleware.authentication),
+    rescue(controllerUser.deleteUse),
+  ]);
 module.exports = router;

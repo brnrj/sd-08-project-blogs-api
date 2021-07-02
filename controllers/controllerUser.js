@@ -21,8 +21,16 @@ const getById = async (req, res, next) => {
   return res.status(code.ok).json(resultService.user);
 };
 
+const deleteUse = async (req, res, next) => {
+  const { id } = req.payload;
+  const service = await ServiceUser.deleteMe(id);
+  if (!service.post) return next(service);
+  res.status(code.notContent).json(service.post);
+};
+
 module.exports = {
   controllerAdd,
   getAll,
   getById,
+  deleteUse,
 };
