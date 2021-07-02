@@ -7,11 +7,14 @@ const BlogPostsModel = (sequelize, DataTypes) => {
     published: DataTypes.DATE,
     updated: DataTypes.DATE,
   }, {
-    timestamps: false,
+    timestamps: true, createdAt: 'published', updatedAt: 'updated',
   });
   BlogPosts.associate = (models) => {
     BlogPosts.belongsTo(models.User, {
       foreignKey: 'userId', as: 'users', onDelete: 'CASCADE', onUpdate: 'CASCADE',
+    });
+    BlogPosts.belongsToMany(models.Category, {
+      through: 'PostsCategories', as: 'categories',
     });
   };
   return BlogPosts;
