@@ -8,6 +8,6 @@ userRoutes.use(express.json());
 
 userRoutes.post('/', validateUserRegister, createUser);
 userRoutes.get('/', verifyToken, searchAllTheUsers);
-userRoutes.get('/:id', searchTheUserById);
+userRoutes.get('/:id', verifyToken, searchTheUserById);
 
 module.exports = userRoutes;
