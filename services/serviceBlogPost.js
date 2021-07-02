@@ -1,7 +1,7 @@
+const { Op } = require('sequelize');
 const { BlogPost, Categorie, PostsCategories, User } = require('../models');
 const schema = require('../schema');
 const CustomError = require('../utils/customError');
-const { Op } = require("sequelize");
 
 const { err, code, msg } = new CustomError();
 
