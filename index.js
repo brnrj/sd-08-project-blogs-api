@@ -2,6 +2,7 @@ const express = require('express');
 
 const UserRouter = require('./src/routes/userRouter');
 const LoginRouter = require('./src/routes/loginRouter');
+const CategoryRouter = require('./src/routes/categoryRouter');
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
 app.use('/user', UserRouter);
 app.use('/login', LoginRouter);
+app.use('/categories', CategoryRouter);
 // 🎸
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
