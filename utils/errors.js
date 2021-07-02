@@ -72,12 +72,17 @@ const errors = {
         message: 'User already registered',
       },
     },
+    Category: {
+      categoryNotUnique: {
+        message: 'Category already registered',
+      },
+    },
   },
   NOT_FOUND: {
     status: 404,
     User: {
       userNotFound: {
-        message: 'User not found',
+        message: 'User does not exist',
       },
     },
     Post: {

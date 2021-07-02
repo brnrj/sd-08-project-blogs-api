@@ -1,15 +1,16 @@
 const express = require('express');
 
+const router = express.Router();
+router.use(express.json());
+const { eMiddleware } = require('../middlewares');
 const routerTest = require('./testingRoutes');
 const userRoutes = require('./userRoutes');
 const loginRoutes = require('./loginRoutes');
+const categoryRoutes = require('./categoryRoutes');
 
-const router = express.Router();
-const { eMiddleware } = require('../middlewares');
-
-router.use(express.json());
 router.use('/user', userRoutes);
 router.use('/login', loginRoutes);
+router.use('/categories', categoryRoutes);
 
 router.use('/test', routerTest);
 router.use(eMiddleware);

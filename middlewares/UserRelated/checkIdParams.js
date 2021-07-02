@@ -1,4 +1,5 @@
 const { NOT_FOUND } = require('../../utils/errors');
+
 const { User: { userNotFound } } = NOT_FOUND;
 const { User: UserModel } = require('../../models');
 const stringyErr = require('../../utils/stringfy');
