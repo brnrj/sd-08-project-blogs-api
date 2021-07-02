@@ -53,7 +53,25 @@ const getAllPost = async () => {
   return { post: result };
 };
 
+const getPostById = async (id) => {
+  const schemaValid = schema.fields.checkId(id);
+  if (schemaValid.err) return schemaValid;
+  const result = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  console.log(result);
+  if (!result || result.length === 0) {
+    return err(msg.postNotExists, code.notFound);
+  }
+  return { post: result };
+};
+
 module.exports = {
   addPost,
   getAllPost,
+  getPostById,
 };

@@ -30,4 +30,9 @@ router.get('/post',
     rescue(middleware.authentication),
     rescue(controllerBlogPosts.getAll),
   ]);
+router.get('/post/:id',
+  [
+    rescue(middleware.authentication),
+    rescue(controllerBlogPosts.getById),
+  ]);
 module.exports = router;

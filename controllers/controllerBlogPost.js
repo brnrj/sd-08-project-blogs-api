@@ -17,7 +17,16 @@ const getAll = async (req, res, next) => {
   res.status(code.ok).json(service.post);
 };
 
+const getById = async (req, res, next) => {
+  const { id } = req.params;
+  const service = await ServiceBlogPost.getPostById(id);
+  console.log(service);
+  if (!service.post) return next(service);
+  return res.status(code.ok).json(service.post); 
+};
+
 module.exports = {
   addPost,
   getAll,
+  getById,
 };
