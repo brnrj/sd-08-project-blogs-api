@@ -4,12 +4,13 @@ const { User } = require('../models');
 const router = express.Router();
 
 const { validateNewUser } = require('../middlewares/users');
+const { auth } = require('../middlewares/authorization');
 
 const badRequest = 400;
 const conflict = 409;
 
 // Este endpoint usa o método findAll do Sequelize para retorno todos os users.
-router.get('/', async (_req, res) => {
+router.get('/', auth, async (_req, res) => {
   try {
     const users = await User.findAll();
 
