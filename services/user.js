@@ -19,7 +19,16 @@ const createOne = async (newUser) => {
 
 const findAll = async () => UserModel.findAll();
 
+const findById = async (options) => {
+  const result = await UserModel.findOne(options);
+
+  if (!result) return customError('User does not exist', 'notFound');
+
+  return result;
+};
+
 module.exports = {
   createOne,
   findAll,
+  findById,
 };
