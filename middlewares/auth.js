@@ -4,7 +4,7 @@ const { customError } = require('../utils');
 module.exports = (req, _res, next) => {
   const { authorization: token } = req.headers;
 
-  if (!token) return next(customError('Token not found', 'notFound'));
+  if (!token) return next(customError('Token not found', 'missingToken'));
 
   let payload = null;
   try {
