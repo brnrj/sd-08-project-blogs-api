@@ -35,4 +35,10 @@ router.get('/post/:id',
     rescue(middleware.authentication),
     rescue(controllerBlogPosts.getById),
   ]);
+router.put('/post/:id', 
+  [
+    rescue(middleware.authentication),
+    rescue(controllerBlogPosts.postUpdate),
+  ]);
+
 module.exports = router;

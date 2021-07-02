@@ -25,8 +25,18 @@ const getById = async (req, res, next) => {
   return res.status(code.ok).json(service.post); 
 };
 
+const postUpdate = async (req, res, next) => {
+  const { id } = req.params;
+  const { body } = req;
+  const { id: userId } = req.payload;
+  const service = await ServiceBlogPost.updatePost(body, id, userId);
+  if (!service.post) return next(service);
+  return res.status(code.ok).json(service.post);
+};
+
 module.exports = {
   addPost,
   getAll,
   getById,
+  postUpdate,
 };

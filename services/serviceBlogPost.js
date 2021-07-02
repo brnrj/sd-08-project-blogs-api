@@ -70,8 +70,42 @@ const getPostById = async (id) => {
   return { post: result };
 };
 
+const checkDataToUpdatePost = async (data, id, userId) => {
+  if (Object.keys(data).length > 2) {
+    return err(msg.noPermissionEditCategorys, code.badRequest);
+  }
+  const getPostByUser = await BlogPost.findOne({ where: { id } });
+  if (getPostByUser.userId !== userId) {
+    return err(msg.withoutAuthorization, code.unauthorized);
+  }
+  const { checkTitle, checkContent } = schema.fields;
+  if (checkTitle(data.title).err) {
+    return checkTitle(data.title);
+  }
+  if (checkContent(data.content).err) {
+    return checkContent(data.content);
+  }
+  return true;
+};
+
+const updatePost = async (data, id, userId) => {
+  const result = await checkDataToUpdatePost(data, id, userId);
+  if (result.err) return result;
+  await BlogPost.update(
+    { title: data.title, content: data.content }, { where: { id } },
+  );
+  const postAfterUpdate = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: Categorie, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return { post: postAfterUpdate };
+};
+
 module.exports = {
   addPost,
   getAllPost,
   getPostById,
+  updatePost,
 };
