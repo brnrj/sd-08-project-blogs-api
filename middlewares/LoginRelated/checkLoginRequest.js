@@ -28,8 +28,8 @@ const verifyRequestCampsExists = async (req, res, next) => {
 const verifyValidCamps = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (email.length > 1) throw new Error(stringyErr(BAD_REQUEST, emailEmpty));
-    if (password.length > 1) throw new Error(stringyErr(BAD_REQUEST, passwordEmpty));
+    if (email.length < 1) throw new Error(stringyErr(BAD_REQUEST, emailEmpty));
+    if (password.length < 1) throw new Error(stringyErr(BAD_REQUEST, passwordEmpty));
     next(req, res);
   } catch (e) {
     const errorCore = JSON.parse(e.message);
@@ -39,8 +39,8 @@ const verifyValidCamps = async (req, res, next) => {
 
 const verifyIfUserExists = async (req, res, next) => {
   try {
-    const { email } = req.body;
-    const searchUserEmail = await UserModel.findOne({ where: { email } });
+    const { email, password } = req.body;
+    const searchUserEmail = await UserModel.findOne({ where: { email, password } });
     if (searchUserEmail === null) throw new Error(stringyErr(BAD_REQUEST, userInexists));
     return next();
   } catch (e) {

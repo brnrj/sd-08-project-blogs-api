@@ -19,4 +19,8 @@ const createNewUser = async ({ displayName, email, password, image }) => {
   }
 };
 
+const searchAllUsers = async () => {
+
+};
+
 module.exports = { createNewUser };
