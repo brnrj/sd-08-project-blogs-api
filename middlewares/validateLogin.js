@@ -4,8 +4,6 @@ const loginValidation = require('../validations/loginValidation');
 const validateLogin = (req, res, next) => {
   const { email, password } = req.body;
 
-  console.log('VALIDATE_LOGIN');
-
   const { error } = loginValidation.validate({ email, password });
   if (error) {
     const errorMessage = error.details[0].message;
