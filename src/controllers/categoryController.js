@@ -1,7 +1,7 @@
 const CategoryService = require('../services/categoryService');
 
 const SERVER_ERROR = 500;
-// const OK = 200;
+const OK = 200;
 const CREATED = 201;
 
 const addCategory = async (req, res) => {
@@ -10,11 +10,20 @@ const addCategory = async (req, res) => {
     const result = await CategoryService.addCategory(name);
     return res.status(CREATED).json(result);
   } catch (err) {
-    console.log(err);
+    res.status(SERVER_ERROR).json({ message: 'Erro brabo' });
+  }
+};
+
+const getCategories = async (req, res) => {
+  try {
+    const results = await CategoryService.getCategories();
+    return res.status(OK).json(results);
+  } catch (err) {
     res.status(SERVER_ERROR).json({ message: 'Erro brabo' });
   }
 };
 
 module.exports = {
   addCategory,
+  getCategories,
 };
