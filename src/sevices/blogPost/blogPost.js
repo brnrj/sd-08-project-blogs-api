@@ -1,4 +1,4 @@
-const { BlogPost, Categorie, User } = require('../../models');
+const { BlogPost, Categories, User } = require('../../models');
 const helpers = require('../../helpers/helpers');
 
 const {
@@ -10,7 +10,7 @@ const createServices = async (data) => {
   if (error) return { status: helpers.QOO, message: error.details[0].message };
 
   const { categoryIds: id } = data;
-  const exist = await Categorie.findOne({ where: { id } });
+  const exist = await Categories.findOne({ where: { id } });
   if (!exist) return { status: helpers.QOO, message: '"categoryIds" not found' };
   const result = await BlogPost.create(data);
   await result.addCategorie(data.categoryIds, { through: {} });
@@ -21,14 +21,10 @@ const findServices = async () => {
   try {
     const result1 = await BlogPost.findAll({
       include: [
-        { model: User, as: 'user' },
-        // { model: Categorie, as: 'categories', through: { attributes: [] } },
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Categories, as: 'categories', through: { attributes: [] } },
       ],
     });
-    // const result2 = await User.findAll();
-    // const post = result1.toJSON();
-    // const user = result2.dataValues;
-    // console.log(post, user);
     console.log(result1);
     return result1;
     
