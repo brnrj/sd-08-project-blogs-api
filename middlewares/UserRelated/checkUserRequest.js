@@ -23,7 +23,7 @@ const verifyRequestCampsExists = async (req, res, next) => {
     }
     next(req, res);
   } catch (e) {
-    console.log(e.message, 'Middlewares, checkUserRequest1');
+    console.table('IT IS IN Middlewares: checkUserRequest1');
     const errorCore = JSON.parse(e.message);
     res.status(errorCore.status).send(errorCore.message);
   }

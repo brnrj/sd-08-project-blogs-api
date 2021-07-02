@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const privateKey = process.env.JWT_SECRET;
 const jwtConfig = {
-  expiresIn: '20m',
+  expiresIn: '1d',
   algorithm: 'HS256',
 };
 
