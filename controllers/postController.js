@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
-const { addPost } = require('../services/midlewares/postService');
+const { addPost,
+  findAllPosts } = require('../services/midlewares/postService');
 const {
   CREATED,
+  OK,
 } = require('../services/consts');
 const { fieldsValidation } = require('../services/midlewares/postValidations');
 const { decodeToken } = require('../services/midlewares/jwt');
@@ -22,6 +24,15 @@ rescue(addPost),
 (req, res) => {
   const { postData } = req;
   return res.status(CREATED).json(postData);
+});
+
+// 8 - Sua aplicação deve ter o endpoint GET /post
+router.get('/',
+rescue(decodeToken),
+rescue(findAllPosts),
+(req, res) => {
+  const { allPosts } = req;
+  return res.status(OK).json(allPosts);
 });
 
 module.exports = { router };
