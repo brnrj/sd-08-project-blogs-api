@@ -53,7 +53,6 @@ const verifyIfPostIdExist = async (req, res, next) => {
 const verifyBPostsRequestRegister = async (req, res, next) => {
   const checkCatId = async () => verifyIfCatIdExists(req, res, next);
   await verifyRequestCampExists(req, res, checkCatId);
-  checkCatId();
 };
 
 module.exports = { verifyBPostsRequestRegister, verifyIfPostIdExist };
