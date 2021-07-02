@@ -6,9 +6,11 @@ const Category = (sequelize, DataTypes) => {
   });
 
   // CategoryTable.associate = (models) => {
-  //   CategoryTable.hasMany(models.Post,
-  //     {
-  //       foreignkey: 'userId', as: 'user',
+  //   CategoryTable.belongsToMany(models.BlogPost, {
+  //       as: 'blogposts',
+  //       through: 'PostsCategories',
+  //       foreignKey: 'categoryId',
+  //       otherKey: 'categoryId',
   //     });
   // };
 

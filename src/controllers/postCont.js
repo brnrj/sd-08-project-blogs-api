@@ -1,5 +1,6 @@
 const express = require('express');
 const postServices = require('../services/postServ');
+const postCategServices = require('../services/postCategServ');
 const statusCode = require('../utils/statuscode');
 // const { User } = require('../../models');
 const { validJWT } = require('../middlewares/validateJWT');
@@ -11,7 +12,6 @@ router.post('/', validJWT, managerCategory, async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const findAllCategories = req.categories;
   const { email } = req;
-
   console.log('req.body post', title, content, categoryIds, email);
 
   const isPostValid = await postServices
@@ -34,6 +34,13 @@ router.post('/', validJWT, managerCategory, async (req, res) => {
   console.log('createPost', createPost);
 
   return res.status(statusCode.code.c201).json(createPost);
+});
+
+router.get('/', validJWT, async (req, res) => {
+  const getAllPosts = await postCategServices.getAllPosts();
+  console.log('getAllPosts', getAllPosts);
+
+  return res.status(statusCode.code.c200).json(getAllPosts);
 });
 
 module.exports = router;

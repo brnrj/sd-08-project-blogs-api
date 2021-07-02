@@ -2,7 +2,7 @@ const Post = (sequelize, DataTypes) => {
   const PostTable = sequelize.define('BlogPost', {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-    userId: { type: DataTypes.INTEGER, foreignkey: true },
+    userId: DataTypes.INTEGER,
   }, {
     timestamps: true,
     createdAt: 'published',
@@ -14,6 +14,12 @@ const Post = (sequelize, DataTypes) => {
       {
         foreignkey: 'userId', as: 'user',
       });
+    // PostTable.belongsToMany(models.Category, {
+    //     as: 'categories',
+    //     through: 'PostCategory',
+    //     foreignKey: 'postId',
+    //     // otherKey: 'categoryId',
+    //   });
   };
 
   return PostTable;
