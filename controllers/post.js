@@ -1,5 +1,6 @@
 const { Post } = require('../services');
 
+const OK = 200;
 const CREATED = 201;
 
 const validate = async (req, res, next) => {
@@ -30,7 +31,21 @@ const create = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    const post = await Post.getAll(authorization);
+    return res.status(OK).json(post);
+  } catch (e) {
+    const error = e.message.split('$');
+    const message = error[0];
+    const status = error[1] || 500;
+    return res.status(status).json({ message });
+  }
+};
+
 module.exports = {
   validate,
   create,
+  getAll,
 };
