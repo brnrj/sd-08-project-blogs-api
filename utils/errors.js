@@ -46,7 +46,7 @@ const errors = {
       // Listing: {
       // }
     },
-    Post: {
+    BlogPost: {
       Register: {
         titleRequired: {
           message: '"title" is required',
@@ -88,7 +88,7 @@ const errors = {
         message: 'User does not exist',
       },
     },
-    Post: {
+    BlogPost: {
       postNotFound: {
         message: 'Post does not exist',
       },

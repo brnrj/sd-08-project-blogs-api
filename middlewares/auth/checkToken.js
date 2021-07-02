@@ -18,6 +18,7 @@ const verifyToken = async (req, res, next) => {
       where: { email: decodedEmail, password: decodedPassword },
     });
     if (verifyIfValid === null) throw new Error(stringifyErr(UNAUTHORIZED, invalidToken));
+    req.user = { email: decodedEmail, userId: verifyIfValid.id };
     next();
   } catch (e) {
     console.log(e.message, 'verifyToken');
