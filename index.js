@@ -25,3 +25,4 @@ app.post('/categories', auth, cont.create);
 app.get('/categories', auth, cont.findAllCat);
 
 app.post('/post', auth, bp.createBp);
+app.get('/post', auth, bp.findAllPosts);

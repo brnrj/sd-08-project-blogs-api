@@ -1,4 +1,4 @@
-const { BlogPost, Category } = require('../models/index.js');
+const { BlogPost, Category, User } = require('../models/index.js');
 
 const isValidBlogPost = (title, content, categoryIds) => {
   if (!title) return '"title" is required';
@@ -27,4 +27,12 @@ const createBlogPost = async (title, content, categoryIds, userId) => {
   return newBlog;
 };
 
-module.exports = { createBlogPost };
+const findAllPosts = async () => {
+  const allPosts = await BlogPost.findAll({ include: [
+    { model: User, as: 'user', attributes: { excludes: ['password'] } },
+    { model: Category, as: 'categories' },
+  ] });
+  return allPosts;
+};
+
+module.exports = { createBlogPost, findAllPosts };

@@ -10,10 +10,6 @@ const BlogPost = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'user',
     });
-    createBlogPost.belongsToMany(models.Category, {
-      as: 'categories',
-      through: 'PostsCategories',
-    });
   };
   return createBlogPost;
 };
