@@ -37,10 +37,17 @@ const insertOne = tcw(async (req, res, next) => {
   res.status(STATUS_CREATED).json(result);
 });
 
+const login = tcw(async (req, res, next) => {
+  const { result, error } = await Service.login(req.body);
+  if (error) return next(error);
+  res.status(STATUS_OK).json(result);
+});
+
 module.exports = {
   getAll,
   findById,
   updateById,
   deleteById,
   insertOne,
+  login,
 };

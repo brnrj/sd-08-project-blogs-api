@@ -1,12 +1,13 @@
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-const { resources: { Users } } = require('../.env.js');
+const { resources: { Users }, api } = require('../.env.js');
 
 const getAll = async () => {
   const resources = await User.findAll();
   return { result: resources };
 };
 
-const findWhere = async (objOptions) => User.findOne({ where: objOptions });
+const findOneWhere = async (objOptions) => User.findOne({ where: objOptions });
 
 const findById = async (id) => {
   const resource = await User.findById(Users.tableOrCollec, id);
@@ -18,16 +19,16 @@ const findById = async (id) => {
 };
 
 const insertOne = async (obj) => {
-  const existingUser = await findWhere({ email: obj.email });
-  console.log('existing: ', existingUser);
+  const existingUser = await findOneWhere({ email: obj.email });
   if (existingUser) {
     return { error: {
       code: 'alreadyExists', message: 'User already registered',
     } };
   }
   const newUser = await User.create(obj);
-  console.log('newUser:', newUser);
-  return { result: newUser };
+  const { password, ...restUser } = newUser;
+  const token = jwt.sign(restUser, api.secret);
+  return { result: { token } };
 };
 
 const deleteById = async (id) => {
@@ -49,10 +50,23 @@ const updateById = async (id, obj) => {
   return findById(id);
 };
 
+const login = async (obj) => {
+  const existingUser = await findOneWhere(obj);
+  if (!existingUser) {
+    return { error: {
+      code: 'badRequest', message: 'Invalid fields',
+    } };
+  }
+  const { password, ...restUser } = existingUser;
+  const token = jwt.sign(restUser, api.secret);
+  return { result: { token } };
+};
+
 module.exports = {
   getAll,
   findById,
   insertOne,
   deleteById,
   updateById,
+  login,
 };

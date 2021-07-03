@@ -10,6 +10,10 @@ const insert = Joi.object({
   //   'any.required': 'The {#label} field is required.',
   //   'string.type': '{#label} needs to be a string',
   // });
+const login = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
 
 const update = Joi.object({
   label1: Joi.string(),
@@ -21,4 +25,5 @@ const update = Joi.object({
 module.exports = {
   insert,
   update,
+  login,
 };
