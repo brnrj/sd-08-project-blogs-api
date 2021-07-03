@@ -14,23 +14,31 @@ module.exports = {
       },
       content: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       userId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       published: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updated: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      },
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('BlogPosts');
   }
 };
+
+/*
+Adding CURRENT_TIMESTAMP as a "DEFAULT" and "ON UPDATE" for createdAt, updatedAt on migrations:
+https://github.com/sequelize/sequelize/issues/4896
+*/

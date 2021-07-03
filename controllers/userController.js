@@ -7,6 +7,7 @@ const { validateNewUser } = require('../middlewares/users');
 const { auth } = require('../middlewares/authorization');
 
 const ok = 200;
+const created = 201;
 const badRequest = 400;
 const notFound = 404;
 const conflict = 409;
@@ -17,7 +18,7 @@ router.get('/', auth, async (_req, res) => {
   try {
     const users = await User.findAll();
 
-    return res.status(200).json(users);
+    return res.status(ok).json(users);
   } catch (e) {
     console.log(e.message);
     res.status(internalServerError).json({ message: 'Algo deu errado' });
@@ -64,21 +65,20 @@ router.post('/', validateNewUser, async (req, res) => {
       return res.status(badRequest).json({ message: '"email" is required' }); 
     }
 
-    const useremail = await User.findOne({ where: { email } });
-
-    if (useremail) return res.status(conflict).json({ message: 'User already registered' });
-
     if (!password) { 
       return res.status(badRequest).json({ message: '"password" is required' }); 
     }
 
+    const userEmail = await User.findOne({ where: { email } });
+    if (userEmail) return res.status(conflict).json({ message: 'User already registered' });
+
   try {
     const newUser = await User.create({ displayName, email, password, image });
 
-    return res.status(201).json(newUser);
+    return res.status(created).json(newUser);
   } catch (e) {
     console.log(e.message);
-    res.status(500).json({ message: 'Algo deu errado' });
+    res.status(internalServerError).json({ message: 'Algo deu errado' });
   }
 });
 

@@ -24,13 +24,12 @@ router.post('/', validateLogin, async (req, res) => {
     return res.status(badRequest).json({ message: '"email" is required' }); 
   }
 
-  const useremail = await User.findOne({ where: { email } });
-
-  if (!useremail) return res.status(badRequest).json({ message: 'Invalid fields' });
-
   if (!password) { 
     return res.status(badRequest).json({ message: '"password" is required' }); 
   }
+
+  const userEmail = await User.findOne({ where: { email } });
+  if (!userEmail) return res.status(badRequest).json({ message: 'Invalid fields' });
 
   try {
     const user = await User.findOne({ where: { email } });

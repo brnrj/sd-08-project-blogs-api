@@ -5,6 +5,7 @@ const Categorie = (sequelize, DataTypes) => {
   {
     timestamps: false,
   });
+
   return categorie;
 };
 
