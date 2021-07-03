@@ -1,4 +1,4 @@
-const { Category, BlogPost } = require('../models');
+const { Category, BlogPost, PostsCategories } = require('../models');
 
 const CREATED = 201;
 const BAD_REQUEST = 400;
@@ -40,7 +40,7 @@ const createPost = async (req, res) => {
       updated: new Date(),
     });
     const { id } = newBlogPost.dataValues;
-    await categoryIds.forEach((catId) => Category.create({ categoryId: catId, postId: id }));
+    await categoryIds.forEach((catId) => PostsCategories.create({ categoryId: catId, postId: id }));
     return res.status(CREATED).json({ id, userId, title, content });
   } catch (error) {
     console.log('erro ao criar post: ', error);
