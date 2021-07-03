@@ -1,3 +1,5 @@
+const { Category } = require('../models');
+
 const BAD_REQUEST = 400;
 
 const checkPost = (req, res, next) => {
@@ -14,6 +16,9 @@ const checkPost = (req, res, next) => {
   next();
 };
 
-const checkCategoryIds = (req, res, next) => {
+const checkCategoryIds = async (req, res, next) => {
   const { categoryIds } = req.body;
+  const foundcategoriesPromises = categoryIds.map((id) => Category.findByPk(id));
+  const foundCategories = Promise.all(foundcategoriesPromises);
+  
 };
