@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
   development: {
     username: process.env.MYSQL_USER,
@@ -5,6 +7,10 @@ module.exports = {
     database: 'blogs_api',
     host: process.env.HOSTNAME,
     dialect: 'mysql',
+    // https://stackoverflow.com/a/20395054
+    define: {
+      timestamps: false,
+    },
   },
   test: {
     username: process.env.MYSQL_USER,
