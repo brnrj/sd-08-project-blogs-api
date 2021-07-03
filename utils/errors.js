@@ -55,7 +55,7 @@ const errors = {
           message: '"content" is required',
         },
         categoryIdRequired: {
-          message: '"categoryId" is required',
+          message: '"categoryIds" is required',
         },
         categoryIdsNotFound: {
           message: '"categoryIds" not found',

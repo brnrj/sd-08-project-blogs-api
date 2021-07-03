@@ -27,8 +27,8 @@ const verifyIfNewCategory = async (req, res, next) => {
   } catch (e) {
     console.log('Middlewares, CategoryRelated, verifyIfNewCategory');
     console.log(e.message);
-    // const errorCore = JSON.parse(e.message);
-    // res.status(errorCore.status).send(errorCore.message);
+    const errorCore = JSON.parse(e.message);
+    res.status(errorCore.status).send(errorCore.message);
   }
 };
 
