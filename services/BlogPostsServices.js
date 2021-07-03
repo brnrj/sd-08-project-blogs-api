@@ -1,4 +1,7 @@
-const { BlogPosts: BlogPostsModel } = require('../models');
+const {
+  BlogPosts: BlogPostsModel,
+  User: UserModel,
+  Category: CategoryModel } = require('../models');
 
 const createTheNewBlogPost = async ({ userId, title, content, categoryIds }) => {
   try {
@@ -10,7 +13,11 @@ const createTheNewBlogPost = async ({ userId, title, content, categoryIds }) => 
   }
 };
 
-const searchAllBPosts = async (options = { include: ['users', 'categories'] }) => {
+const searchAllBPosts = async (options = {
+  include: [{ model: UserModel, as: 'user', attributes: { excludes: ['password'] } },
+  { model: CategoryModel, as: 'categories' },
+  ],
+}) => {
   try {
     const searchAllPosts = await BlogPostsModel.findAll(options);
     return searchAllPosts;
@@ -23,7 +30,7 @@ const searchAllBPosts = async (options = { include: ['users', 'categories'] }) =
 const searchSpecificBpost = async (id) => {
   try {
     const searchSpecificPost = await BlogPostsModel.findOne({ where: { id } },
-      { include: ['users', 'categories'] });
+      { include: ['user', 'categories'] });
     return searchSpecificPost;
   } catch (e) {
     console.log(e.message, 'BlogPostsServices, searchSpecificCatg');

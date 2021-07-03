@@ -6,12 +6,10 @@ const BlogPostsModel = (sequelize, DataTypes) => {
     userId: { type: DataTypes.INTEGER, foreignKey: true }, // A declaração da Foreign Key é opcional no model
     published: DataTypes.DATE,
     updated: DataTypes.DATE,
-  }, {
-    timestamps: false,
-  });
+  }, { timestamps: false });
   BlogPosts.associate = (models) => {
     BlogPosts.belongsTo(models.User, {
-      foreignKey: 'userId', as: 'users', onDelete: 'CASCADE', onUpdate: 'CASCADE',
+      foreignKey: 'userId', as: 'user', onDelete: 'CASCADE', onUpdate: 'CASCADE',
     });
   };
   return BlogPosts;
