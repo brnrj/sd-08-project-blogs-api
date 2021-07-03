@@ -15,7 +15,7 @@ const createTheNewBlogPost = async ({ userId, title, content, categoryIds }) => 
 
 const searchAllBPosts = async (options = {
   include: [{ model: UserModel, as: 'user', attributes: { exclude: ['password'] } },
-  { model: CategoryModel, as: 'categories', attributes: { exclude: ['id'] } },
+  { model: CategoryModel, as: 'categories', attributes: { exclude: ['PostsCategories'] } },
   ],
 }) => {
   try {
