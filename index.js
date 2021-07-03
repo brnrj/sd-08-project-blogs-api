@@ -1,10 +1,7 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 
 const app = express();
-app.use(bodyParser.json());
-
-const userController = require('./src/controllers/userController');
+app.use(express.json());
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
@@ -13,7 +10,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.get('/user', userController.getAllUsers);
-app.post('/user', userController.createUser);
+app.use(require('./src/router'));
 
 module.exports = app;

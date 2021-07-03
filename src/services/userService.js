@@ -10,8 +10,11 @@ function getAllUsers() {
 }
 
 function createUser(user) {
-  const usercreated = User.create(user);
-  return usercreated;
+  try {
+    User.create(user);
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 module.exports = { getAllUsers, createUser };
