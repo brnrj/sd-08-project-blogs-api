@@ -16,7 +16,6 @@ router.post('/', validateToken, validatePost, (req, res) => {
 });
 
 router.get('/', validateToken, (req, res) => {
-  // const { id: userId } = getTokenUser(req.headers.authorization);
   BlogPosts.findAll({ include: 
     [
       { model: Users, as: 'user', attributes: { exclude: ['password'] } },
@@ -24,6 +23,23 @@ router.get('/', validateToken, (req, res) => {
     ],
   })
   .then((post) => {
+    res.status(200).json(post);
+  });
+});
+
+router.get('/:id', validateToken, (req, res) => {
+  const { id } = req.params;
+  BlogPosts.findOne({
+    where: { id },
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  })
+  .then((post) => {
+    if (!post) {
+      res.status(404).json({ message: 'Post does not exist' });
+    }
     res.status(200).json(post);
   });
 });
