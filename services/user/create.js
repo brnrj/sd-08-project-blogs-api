@@ -1,7 +1,7 @@
 const boom = require('@hapi/boom');
 
 const { User } = require('../../models');
-const getToken = require('../../utils/token');
+const { getToken } = require('../../utils/token');
 
 module.exports = async (newUser) => {
   const findEmail = await User.findOne({ where: { email: newUser.email } });
