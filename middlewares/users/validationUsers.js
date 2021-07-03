@@ -1,4 +1,4 @@
-const userSchema = require('../../schemas/users');
+const userSchema = require('../../schema/users');
 
 module.exports = (req, _res, next) => {
   const user = req.body;

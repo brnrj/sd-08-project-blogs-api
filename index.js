@@ -1,7 +1,7 @@
 const express = require('express');
 
 const routes = require('./routes');
-const middlewareError = require('./middlewares/error');
+const middleware = require('./middlewares');
 
 const app = express();
 
@@ -9,12 +9,14 @@ app.use(express.json());
 
 app.use('/user', routes.user);
 
+app.post('/login', middleware.login);
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
 
-app.use(middlewareError);
+app.use(middleware.error);
 
 const { PORT = 3000 } = process.env;
 
