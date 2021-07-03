@@ -19,7 +19,6 @@ function ValidateString(req, res, next) {
   const { displayName, email, password } = req.body;
   const validateData = schema.validate({ displayName, email, password });
   if (validateData.error) {
-    // console.log(validateData.error.message);
     return res.status(400).json({ message: validateData.error.message });
   }
   next();
