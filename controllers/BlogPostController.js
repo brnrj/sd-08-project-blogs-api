@@ -16,5 +16,4 @@ const checkPost = (req, res, next) => {
 
 const checkCategoryIds = (req, res, next) => {
   const { categoryIds } = req.body;
-  
-}
+};

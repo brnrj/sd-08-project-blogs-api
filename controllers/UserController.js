@@ -58,8 +58,10 @@ const checkPassword = (req, res, next) => {
 
 const createUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
-  await User.create({ displayName, email, password, image });
-  const token = jwt.sign({ data: { displayName, email, image } }, secret, jwtConfig);
+  const newUser = await User.create({ displayName, email, password, image });
+  console.log('New User: ', newUser);
+  const token = jwt
+    .sign({ data: { id: newUser.dataValues.id, displayName, email, image } }, secret, jwtConfig);
   return res.status(CREATED).json({ token });
 };
 
@@ -75,6 +77,7 @@ const checkToken = async (req, res, next) => {
     if (!user) {
       return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
     }
+    req.user = decoded.data;
     next();
   } catch (error) {
     return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
