@@ -15,7 +15,7 @@ const findById = async (id) => {
   const resource = await User.findByPk(id);
   if (!resource) {
     return { error: {
-    code: 'notFound', message: `${Users.singular} not found` } };
+    code: 'notFound', message: 'User does not exist' } };
   }
   return { result: resource };
 };
