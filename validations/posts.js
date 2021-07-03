@@ -16,8 +16,15 @@ const missingCategoryIds = (categoryIds) => {
   }
 };
 
+const cannotUpdateCategoryIds = (categoryIds) => {
+  if (categoryIds) {
+    throw new Error('Categories cannot be edited$400');
+  }
+};
+
 module.exports = {
   missingTitle,
   missingContent,
   missingCategoryIds,
+  cannotUpdateCategoryIds,
 };

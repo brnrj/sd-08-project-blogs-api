@@ -20,13 +20,10 @@ const validate = async (token, reqBody) => {
 
 const create = async (token, reqBody) => {
   const { title, content, categoryIds } = reqBody;
-
   const { data: { id: userId } } = jwt.verify(token, process.env.JWT_SECRET);
-
   const { id } = await BlogPost.create({ ...reqBody, userId });
 
   const categoriesPosts = categoryIds.map((categoryId) => ({ postId: id, categoryId }));
-
   await PostCategory.bulkCreate(categoriesPosts);
 
   return { id, title, content, userId };
@@ -45,7 +42,7 @@ const getAll = async (token) => {
 
 const getById = async (token, id) => {
   validateToken(token);
-  const posts = await BlogPost.findAll({
+  const posts = await BlogPost.findOne({
     where: {
       id,
     },
@@ -54,8 +51,34 @@ const getById = async (token, id) => {
       { model: Category, as: 'categories', attributes: ['id', 'name'] },
     ],
   });
-  if (posts.length === 0) throw new Error('Post does not exist$404');
-  return posts[0];
+  if (!posts) throw new Error('Post does not exist$404');
+  return posts;
+};
+
+const validateUpdate = async (token, reqBody, id) => {
+  validateToken(token);
+  validatePost.missingTitle(reqBody.title);
+  validatePost.missingContent(reqBody.content);
+  validatePost.cannotUpdateCategoryIds(reqBody.categoryIds);
+
+  const { data: { id: userId } } = jwt.verify(token, process.env.JWT_SECRET);
+
+  const post = await BlogPost.findOne({ where: { id } });
+  
+  if (post.id !== userId) throw new Error('Unauthorized user$401');
+};
+
+const update = async (reqBody, id) => {
+  await BlogPost.update(reqBody, { where: { id } });
+  const post = await BlogPost.findOne({
+    where: {
+      id,
+    },
+    include: [
+      { model: Category, as: 'categories', attributes: ['id', 'name'] },
+    ],
+  });
+  return post;
 };
 
 module.exports = {
@@ -63,4 +86,6 @@ module.exports = {
   create,
   getAll,
   getById,
+  validateUpdate,
+  update,
 };

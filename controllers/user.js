@@ -70,7 +70,7 @@ const getById = async (req, res) => {
     const { authorization } = req.headers;
     const { id } = req.params;
     const user = await User.getById(authorization, id);
-    return res.status(OK).json(user[0]);
+    return res.status(OK).json(user);
   } catch (e) {
     const error = e.message.split('$');
     const message = error[0];

@@ -58,9 +58,40 @@ const getById = async (req, res) => {
   }
 };
 
+const validateUpdate = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const { body } = req;
+    const { id } = req.params;
+    await Post.validateUpdate(authorization, body, id);
+    next();
+  } catch (e) {
+    const error = e.message.split('$');
+    const message = error[0];
+    const status = error[1] || 500;
+    return res.status(status).json({ message });
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    const { body } = req;
+    const { id } = req.params;
+    const post = await Post.update(body, id);
+    return res.status(OK).json(post);
+  } catch (e) {
+    const error = e.message.split('$');
+    const message = error[0];
+    const status = error[1] || 500;
+    return res.status(status).json({ message });
+  }
+};
+
 module.exports = {
   validate,
   create,
   getAll,
   getById,
+  validateUpdate,
+  update,
 };

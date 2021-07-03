@@ -44,51 +44,46 @@ const validateLogin = async (email, password) => {
 };
 
 const login = async (email) => {
-  const users = await User.findAll({
+  const user = await User.findOne({
     where: {
       email,
     },
-  });
-
-  const userData = users.map((item) => {
-    const { dataValues: { password: ignore, ...user } } = item;
-    return user;
+    attributes: { 
+      exclude: ['password'],
+    },
   });
  
-  const token = jwt.sign({ data: userData[0] }, process.env.JWT_SECRET, jwtConfig);
+  const token = jwt.sign({ data: user }, process.env.JWT_SECRET, jwtConfig);
   return token;
 };
 
 const getAll = async (token) => {
   validateToken(token);
 
-  const users = await User.findAll();
-
-  const userData = users.map((item) => {
-    const { dataValues: { password: ignore, ...user } } = item;
-    return user;
+  const users = await User.findAll({
+    attributes: { 
+      exclude: ['password'],
+    },
   });
 
-  return userData;
+  return users;
 };
 
 const getById = async (token, id) => {
   validateToken(token);
 
-  const user = await User.findAll({
+  const user = await User.findOne({
     where: {
       id,
     },
+    attributes: { 
+      exclude: ['password'],
+    },
   });
 
-  if (user.length === EMPTY) throw new Error('User does not exist$404');
-
-  const userData = user.map((item) => {
-    const { dataValues: { password: ignore, ...userInfo } } = item;
-    return userInfo;
-  });
+  if (!user) throw new Error('User does not exist$404');
   
-  return userData;
+  return user;
 };
 
 module.exports = {
