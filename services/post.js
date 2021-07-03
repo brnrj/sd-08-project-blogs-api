@@ -43,8 +43,24 @@ const getAll = async (token) => {
   return posts;
 };
 
+const getById = async (token, id) => {
+  validateToken(token);
+  const posts = await BlogPost.findAll({
+    where: {
+      id,
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', attributes: ['id', 'name'] },
+    ],
+  });
+  if (posts.length === 0) throw new Error('Post does not exist$404');
+  return posts[0];
+};
+
 module.exports = {
   validate,
   create,
   getAll,
+  getById,
 };

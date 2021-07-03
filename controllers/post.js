@@ -44,8 +44,23 @@ const getAll = async (req, res) => {
   }
 };
 
+const getById = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const post = await Post.getById(authorization, id);
+    return res.status(OK).json(post);
+  } catch (e) {
+    const error = e.message.split('$');
+    const message = error[0];
+    const status = error[1] || 500;
+    return res.status(status).json({ message });
+  }
+};
+
 module.exports = {
   validate,
   create,
   getAll,
+  getById,
 };

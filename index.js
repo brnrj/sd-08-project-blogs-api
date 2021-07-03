@@ -20,6 +20,7 @@ app.post('/categories', Category.create);
 app.get('/categories', Category.getAll);
 
 app.post('/post', Post.validate, Post.create);
+app.get('/post/:id', Post.getById);
 app.get('/post', Post.getAll);
 
 // não remova esse endpoint, e para o avaliador funcionar
