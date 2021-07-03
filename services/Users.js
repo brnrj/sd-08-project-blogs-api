@@ -1,13 +1,15 @@
-const { General } = require('../models');
-const { resources: { Users } } = require('../.env');
+const { User } = require('../models');
+const { resources: { Users } } = require('../.env.js');
 
 const getAll = async () => {
-  const resources = await General.getAll(Users.tableOrCollec);
+  const resources = await User.findAll();
   return { result: resources };
 };
 
+const findWhere = async (objOptions) => User.findOne({ where: objOptions });
+
 const findById = async (id) => {
-  const resource = await General.findById(Users.tableOrCollec, id);
+  const resource = await User.findById(Users.tableOrCollec, id);
   if (!resource) {
     return { error: {
     code: 'not_found', message: `${Users.singular} not found` } };
@@ -16,16 +18,20 @@ const findById = async (id) => {
 };
 
 const insertOne = async (obj) => {
-  const insertedId = await General.insertOne(Users.tableOrCollec, obj);
-  if (!insertedId) {
+  const existingUser = await findWhere({ email: obj.email });
+  console.log('existing: ', existingUser);
+  if (existingUser) {
     return { error: {
-    code: 'already_exists', message: `${Users.singular} already exists` } };
+      code: 'alreadyExists', message: 'User already registered',
+    } };
   }
-  return { result: { _id: insertedId, ...obj } };
+  const newUser = await User.create(obj);
+  console.log('newUser:', newUser);
+  return { result: newUser };
 };
 
 const deleteById = async (id) => {
-  const resp = await General.deleteById(Users.tableOrCollec, id);
+  const resp = await User.deleteById(Users.tableOrCollec, id);
   if (!resp) {
     return { error: {
     code: 'not_found', message: 'not_found message delete' } };
@@ -35,7 +41,7 @@ const deleteById = async (id) => {
 };
 
 const updateById = async (id, obj) => {
-  const resp = await General.updateById(Users.tableOrCollec, id, obj);
+  const resp = await User.updateById(Users.tableOrCollec, id, obj);
   if (!resp) {
     return { error: {
     code: 'not_found', message: `${Users.singular} not found` } };

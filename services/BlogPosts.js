@@ -1,5 +1,5 @@
 const { BlogPost } = require('../models');
-const { resources: { BlogPosts } } = require('../.env');
+const { resources: { BlogPosts } } = require('../.env.js');
 
 const getAll = async () => {
   const resources = await BlogPost.getAll(BlogPosts.tableOrCollec);

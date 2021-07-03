@@ -3,7 +3,7 @@ const resJson = (code, message) => {
   case 'bad_request':
     return { error: { code, message: 'invalid_data', data: message } };
   default:
-    return { error: { code, message } };
+    return { message };
   }
 };
 

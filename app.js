@@ -1,7 +1,7 @@
 const express = require('express');
 const { errorHandler, notFoundHandler } = require('./middlewares');
 const { Users, Categories, BlogPosts } = require('./routes');
-const { resources } = require('./.env');
+const { resources } = require('./.env.js');
 require('dotenv').config();
 
 const app = express();

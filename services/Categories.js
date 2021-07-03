@@ -1,5 +1,5 @@
 const { General } = require('../models');
-const { resources: { Categories } } = require('../.env');
+const { resources: { Categories } } = require('../.env.js');
 
 const getAll = async () => {
   const resources = await General.getAll(Categories.tableOrCollec);
