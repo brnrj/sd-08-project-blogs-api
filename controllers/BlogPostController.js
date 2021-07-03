@@ -19,19 +19,18 @@ const checkPost = (req, res, next) => {
 
 const checkCategoryIds = async (req, res, next) => {
   const { categoryIds } = req.body;
-  const foundcategories = categoryIds.map((id) => Category.findByPk(id).then((data) => data));
-  console.log('found categories: ', foundcategories);
-  const categoryNotFound = foundcategories.some((exists) => !exists);
-  if (categoryNotFound) {
+  const categoriesList = await Category.findAll();
+  const allCategoriesIds = categoriesList.map((category) => category.id);
+  const categoriesExist = categoryIds.every((id) => allCategoriesIds.includes(id));
+  if (!categoriesExist) {
     return res.status(BAD_REQUEST).json({ message: '"categoryIds" not found' });
   }
   next();
 };
 
 const createPost = async (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, categoryIds } = req.body;
   const userId = req.user.id;
-  console.log('userId: ', userId);
   try {
     const newBlogPost = await BlogPost.create({
       userId,
@@ -40,8 +39,8 @@ const createPost = async (req, res) => {
       published: new Date(),
       updated: new Date(),
     });
-    console.log('newBlogPost: ', newBlogPost);
     const { id } = newBlogPost.dataValues;
+    await categoryIds.forEach((catId) => Category.create({ categoryId: catId, postId: id }));
     return res.status(CREATED).json({ id, userId, title, content });
   } catch (error) {
     console.log('erro ao criar post: ', error);
