@@ -16,17 +16,15 @@ router.post('/', validateToken, validatePost, (req, res) => {
 });
 
 router.get('/', validateToken, (req, res) => {
-  const { title, content, categoryIds } = req.body;
-  const { id: userId } = getTokenUser(req.headers.authorization);
+  // const { id: userId } = getTokenUser(req.headers.authorization);
   BlogPosts.findAll({ include: 
     [
-      // { include: ['user', 'categories'] },
       { model: Users, as: 'user', attributes: { exclude: ['password'] } },
-      // { model: Categories, as: 'categories' },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
     ],
   })
   .then((post) => {
-    res.status(201).json(post);
+    res.status(200).json(post);
   });
 });
 
