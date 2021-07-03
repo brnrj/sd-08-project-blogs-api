@@ -68,6 +68,34 @@ const emputNameCategorie = {
     },
 };
 
+const emputTitle = {
+  code: 400,
+    value: {
+      message: '"title" is required',
+    },
+};
+
+const emputContent = {
+  code: 400,
+    value: {
+      message: '"content" is required',
+    },
+};
+
+const emputCategoryId = {
+  code: 400,
+    value: {
+      message: '"categoryIds" is required',
+    },
+};
+
+const notFoundCategoryId = {
+  code: 400,
+    value: {
+      message: '"categoryIds" not found',
+    },
+};
+
 module.exports = {
     errorName,
     errorEmail,
@@ -79,4 +107,8 @@ module.exports = {
     emputPassword,
     invalidFields,
     emputNameCategorie,
+    emputTitle,
+    emputContent,
+    emputCategoryId,
+    notFoundCategoryId,
 };
