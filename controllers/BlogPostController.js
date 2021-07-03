@@ -30,6 +30,7 @@ const checkCategoryIds = async (req, res, next) => {
 const createPost = async (req, res) => {
   const { title, content } = req.body;
   const userId = req.user.id;
+  console.log('userId: ', userId);
   const newBlogPost = await BlogPost.create({
     userId,
     title,
