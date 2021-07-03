@@ -3,17 +3,19 @@ const { User } = require('../models');
 const { resources: { Users }, api } = require('../.env.js');
 
 const getAll = async () => {
-  const resources = await User.findAll();
+  const resources = await User.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
   return { result: resources };
 };
 
 const findOneWhere = async (objOptions) => User.findOne({ where: objOptions });
 
 const findById = async (id) => {
-  const resource = await User.findById(Users.tableOrCollec, id);
+  const resource = await User.findByPk(id);
   if (!resource) {
     return { error: {
-    code: 'not_found', message: `${Users.singular} not found` } };
+    code: 'notFound', message: `${Users.singular} not found` } };
   }
   return { result: resource };
 };
@@ -26,8 +28,8 @@ const insertOne = async (obj) => {
     } };
   }
   const newUser = await User.create(obj);
-  const { password, ...restUser } = newUser;
-  const token = jwt.sign(restUser, api.secret);
+  const { password, ...restUser } = newUser.dataValues;
+  const token = jwt.sign({ data: restUser }, api.secret);
   return { result: { token } };
 };
 
@@ -57,8 +59,8 @@ const login = async (obj) => {
       code: 'badRequest', message: 'Invalid fields',
     } };
   }
-  const { password, ...restUser } = existingUser;
-  const token = jwt.sign(restUser, api.secret);
+  const { password, ...restUser } = existingUser.dataValues;
+  const token = jwt.sign({ data: restUser }, api.secret);
   return { result: { token } };
 };
 
