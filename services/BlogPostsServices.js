@@ -29,8 +29,12 @@ const searchAllBPosts = async (options = {
 
 const searchSpecificBpost = async (id) => {
   try {
-    const searchSpecificPost = await BlogPostsModel.findOne({ where: { id } },
-      { include: ['user', 'categories'] });
+    const searchSpecificPost = await BlogPostsModel.findOne({
+      where: { id },
+      include: [{ model: UserModel, as: 'user', attributes: { exclude: ['password'] } },
+      { model: CategoryModel, as: 'categories', attributes: { exclude: ['PostsCategories'] } },
+      ],
+    });
     return searchSpecificPost;
   } catch (e) {
     console.log(e.message, 'BlogPostsServices, searchSpecificCatg');
