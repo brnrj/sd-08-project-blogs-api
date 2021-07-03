@@ -29,13 +29,11 @@ const checkLoginEmail = async (req, res, next) => {
 const Login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ where: { email } });
-  console.log('user: ', user);
   if (!user || user.password !== password) {
     return res.status(BAD_REQUEST).json({ message: 'Invalid fields' });
   }
   const { id, displayName, image } = user.dataValues;
   const token = jwt.sign({ data: { id, displayName, email, image } }, secret, jwtConfig);
-  console.log('token: ', token);
   return res.status(OK_STATUS).json({ token });
 };
 

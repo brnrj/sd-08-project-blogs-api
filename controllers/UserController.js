@@ -39,7 +39,6 @@ const checkEmail = async (req, res, next) => {
     return res.status(BAD_REQUEST).json({ message: '"email" must be a valid email' });
   }
   const userExists = await User.findOne({ where: { email } });
-  console.log('userExists: ', userExists);
   if (userExists) return res.status(EXISTS).json({ message: 'User already registered' });
   next();
 };
@@ -59,7 +58,6 @@ const checkPassword = (req, res, next) => {
 const createUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
   const newUser = await User.create({ displayName, email, password, image });
-  console.log('New User: ', newUser);
   const token = jwt
     .sign({ data: { id: newUser.dataValues.id, displayName, email, image } }, secret, jwtConfig);
   return res.status(CREATED).json({ token });
@@ -72,7 +70,6 @@ const checkToken = async (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, secret);
-    console.log('decoded: ', decoded);
     const user = await User.findOne({ where: { email: decoded.data.email } });
     if (!user) {
       return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });

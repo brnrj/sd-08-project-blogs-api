@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     userId: { type: DataTypes.INTEGER, foreignKey: true },
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-
+    published: DataTypes.DATE,
+    updated: DataTypes.DATE,
   }, { timestamps: false });
 
   BlogPost.associate = (models) => {
