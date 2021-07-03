@@ -9,9 +9,11 @@ function getAllUsers() {
   }
 }
 
-function createUser(user) {
+async function createUser(user) {
   try {
-    User.create(user);
+    const isCreated = await User.create(user);
+    // console.log(isCreated);
+    return isCreated;
   } catch (err) {
     console.log(err.message);
   }

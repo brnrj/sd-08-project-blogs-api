@@ -7,8 +7,9 @@ async function getAllUsers(req, res) {
 
 function createUser(req, res) {
   const user = req.body;
-  const userCreated = serviceUser.createUser(user);
-  res.status(201).send(userCreated);
+  const { token } = req;
+  serviceUser.createUser(user);
+  res.status(201).json({ token });
 }
 
 module.exports = { getAllUsers, createUser };
