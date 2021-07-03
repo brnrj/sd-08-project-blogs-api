@@ -11,6 +11,11 @@ const BlogPostsModel = (sequelize, DataTypes) => {
     BlogPosts.belongsTo(models.User, {
       foreignKey: 'userId', as: 'user', onDelete: 'CASCADE', onUpdate: 'CASCADE',
     });
+    BlogPosts.belongsToMany(models.Category, {
+      foreignKey: 'categoryId',
+      through: 'PostsCategories',
+      as: 'categories',
+    });
   };
   return BlogPosts;
 };
