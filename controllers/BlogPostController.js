@@ -20,5 +20,4 @@ const checkCategoryIds = async (req, res, next) => {
   const { categoryIds } = req.body;
   const foundcategoriesPromises = categoryIds.map((id) => Category.findByPk(id));
   const foundCategories = Promise.all(foundcategoriesPromises);
-  
 };
