@@ -25,9 +25,10 @@ const verifyIfNewCategory = async (req, res, next) => {
     if (searchCatName !== null) throw new Error(stringyErr(CONFLICT, categoryNotUnique));
     next();
   } catch (e) {
-    console.table('Middlewares, CategoryRelated, verifyIfNewCategory');
-    const errorCore = JSON.parse(e.message);
-    res.status(errorCore.status).send(errorCore.message);
+    console.log('Middlewares, CategoryRelated, verifyIfNewCategory');
+    console.log(e.message);
+    // const errorCore = JSON.parse(e.message);
+    // res.status(errorCore.status).send(errorCore.message);
   }
 };
 
