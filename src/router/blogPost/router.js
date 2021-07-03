@@ -6,10 +6,13 @@ const validateJwt = require('../../middlewares/jwt/validateJwt');
 const {
   createBlogPost,
   findBlogPost,
+  findIdBlogPost,
 } = require('../../controller/blogPost/blogPost');
 
-router.post('/post', validateJwt, createBlogPost);
+router.post('/post', createBlogPost);
 
 router.get('/post', validateJwt, findBlogPost);
+
+router.get('/post/:id', validateJwt, findIdBlogPost);
 
 module.exports = router;

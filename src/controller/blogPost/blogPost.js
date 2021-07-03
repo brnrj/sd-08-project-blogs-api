@@ -4,6 +4,7 @@ const helpers = require('../../helpers/helpers');
 const {
   createServices,
   findServices,
+  findIdServices,
 } = require('../../sevices/blogPost/blogPost');
 
 const createBlogPost = rescue(async (req, res, next) => {
@@ -19,7 +20,15 @@ const findBlogPost = rescue(async (_req, res) => {
   res.status(helpers.DOO).json(result);
 });
 
+const findIdBlogPost = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await findIdServices(id);
+  if (result.status) return next(result);
+  res.status(helpers.DOO).json(result[0]);
+});
+
 module.exports = {
   createBlogPost,
   findBlogPost,
+  findIdBlogPost,
 };
