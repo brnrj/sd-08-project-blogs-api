@@ -8,12 +8,12 @@ const auth = async (req, res, next) => {
   try {
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     if (!decode) return res.status(STATUS_401).json({ message: 'token malformed' });
-    const { email, id } = decode;    
-    req.user = { email, id };
-    next();
+    const { email, id } = decode;
+    req.user = { email, id }; 
   } catch (error) {
     return res.status(STATUS_401).json({ message: 'Expired or invalid token' });
   }
+  next();
 };
 
 module.exports = {

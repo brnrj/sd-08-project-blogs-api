@@ -3,18 +3,23 @@ const { Router } = require('express');
 const UserController = Router();
 
 const { User } = require('../models');
+const { tokenCreate, validata } = require('../services');
+
+const STATUS_409 = 409;
 
 // create 
-UserController.post('/', async (req, res) => {
+UserController.post('/', validata, tokenCreate, async (req, res) => {
   const { displayName, email, password, image } = req.body;
-  const user = await User.create({ displayName, email, password, image });   
-  res.status(200).json(user);
+  const existUser = await User.findOne({ where: { email } });
+  if (existUser) res.status(STATUS_409).json({ message: 'User already registered' });
+  const user = await User.create({ displayName, email, password, image });
+  res.status(201).json(user);
 });
 
 // findAll
 UserController.get('/', async (req, res) => {
-  const users = await UserController.findAll();
-  res.status(200).json(users);
+  const users = await UserController.findAll({ attributes: { exclude: ['password'] } });
+  res.status(201).json(users);
 });
 
 // findByPK

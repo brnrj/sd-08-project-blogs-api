@@ -12,9 +12,9 @@ const tokenCreate = (req, _res, next) => {
     jwtConfig,
   );  
   req.headers.authorization = token;
-  next();
+next();
 };
 
 module.exports = {
-  tokenCreate, 
+  tokenCreate,
 };
