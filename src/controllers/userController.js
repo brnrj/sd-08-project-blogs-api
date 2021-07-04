@@ -17,4 +17,11 @@ function loginUser(req, res) {
   res.status(200).json({ token });
 }
 
-module.exports = { getAllUsers, createUser, loginUser };
+async function getById(req, res) {
+  const { id } = req.params;
+  const userById = await serviceUser.getById(id);
+  if (!userById) res.status(404).json({ message: 'User does not exist' });
+  res.status(200).json(userById);
+}
+
+module.exports = { getAllUsers, createUser, loginUser, getById };

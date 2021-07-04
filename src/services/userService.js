@@ -19,4 +19,13 @@ async function createUser(user) {
   }
 }
 
-module.exports = { getAllUsers, createUser };
+async function getById(id) {
+  try {
+    const userById = await User.findOne({ where: { id } });
+    return userById;
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+module.exports = { getAllUsers, createUser, getById };
