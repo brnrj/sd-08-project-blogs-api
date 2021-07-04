@@ -12,7 +12,6 @@ function getAllUsers() {
 async function createUser(user) {
   try {
     const isCreated = await User.create(user);
-    // console.log(isCreated);
     return isCreated;
   } catch (err) {
     console.log(err.message);
