@@ -50,10 +50,10 @@ const createPost = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await BlogPost.findAll({}, {
+    const posts = await BlogPost.findAll({
       include: [
-        { model: User, as: 'user', through: { attributes: { exclude: ['passowrd'] } } },
-        { model: Category, as: 'categories', through: { attributes: [] } },
+        { model: User, as: 'user', attributes: { excludes: ['password'] } },
+        { model: Category, as: 'categories' },
       ],
     });
     console.log(posts);
