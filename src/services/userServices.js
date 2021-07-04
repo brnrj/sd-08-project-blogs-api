@@ -21,7 +21,15 @@ const CreateUser = async (userInfos) => {
   return created;
 };
 
+const findAll = async () => {
+  const foundAll = await User.findAll();
+  // console.log('FOUND', foundAll);
+
+  return foundAll;
+};
+
 module.exports = {
   CreateUser,
   findUserByEmail,
+  findAll,
 };
