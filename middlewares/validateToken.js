@@ -9,7 +9,7 @@ const validateToken = (req, res, next) => {
   }
   try {
     const isValid = convertToken(token);
-    res.userEmail = isValid;
+    req.userData = isValid.data;
   } catch (_error) {
     return res.status(UNAUTHORIZED).json({ message: INVALID_TOKEN });
   }

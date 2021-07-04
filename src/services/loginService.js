@@ -10,7 +10,8 @@ const loginUser = async (email, password) => {
   if (!foundUser) {
     return generateError(BAD_REQUEST, INVALID_FIELDS);
   }
-  return { token: createToken(email) };
+  const { id } = foundUser.dataValues;
+  return { token: createToken({ email, id }) };
 };
 
 module.exports = {

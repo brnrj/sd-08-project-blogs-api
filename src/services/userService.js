@@ -16,8 +16,10 @@ const createUser = async (userInfos) => {
     return generateError(CONFLICT, ALREADY_REGISTERED);
   }
 
-  await User.create(userInfos);
-  return { token: createToken(email) };
+  const newUser = await User.create(userInfos);
+  const { id } = newUser.dataValues;
+  console.log('NEW_USER', email, id);
+  return { token: createToken({ email, id }) };
 };
 
 const getAllUsers = async () => {
