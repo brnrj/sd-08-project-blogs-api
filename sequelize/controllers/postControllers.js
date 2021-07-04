@@ -2,7 +2,7 @@ const express = require('express');
 const validateToken = require('../middlewares/validateToken');
 const { BlogPosts, Users, Categories } = require('../models');
 const { getTokenUser } = require('../utils/token');
-const { validatePost } = require('../middlewares/postValidation');
+const { validatePost, validateEditPost, verifyUser } = require('../middlewares/postValidation');
 
 const router = express.Router();
 router.post('/', validateToken, validatePost, (req, res) => {
@@ -40,6 +40,21 @@ router.get('/:id', validateToken, (req, res) => {
     if (!post) {
       res.status(404).json({ message: 'Post does not exist' });
     }
+    res.status(200).json(post);
+  });
+});
+
+router.put('/:id', validateToken, validateEditPost, verifyUser, (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  BlogPosts.update({ title, content }, { where: { id } }, { returning: true, where: { id } })
+  .then(() => 
+    BlogPosts.findOne({
+      where: { id }, 
+      attributes: { exclude: ['updated', 'published', 'id'] },
+      include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
+    }))
+  .then((post) => {
     res.status(200).json(post);
   });
 });
