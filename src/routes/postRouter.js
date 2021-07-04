@@ -19,7 +19,6 @@ router.post('/',
   verifyContent,
   verifyCategoryIds,
   verifyIfCategoryIdsExists,
-  verifyIfPostExist,
   PostController.addPost);
 
 router.get('/', authUser, PostController.getAllPosts);
