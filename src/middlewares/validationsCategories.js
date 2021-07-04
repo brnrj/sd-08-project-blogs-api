@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const schema = Joi.object({
     name: Joi.string()
-                .min(6)
+                .alphanum()
                 .message('"name" is required')
                 .required(),
 });

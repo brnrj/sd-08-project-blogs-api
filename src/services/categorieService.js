@@ -1,5 +1,13 @@
 const { Categorie } = require('../models');
 
+async function getAllCategorie() {
+  try {
+    const allCategories = await Categorie.findAll().then((categories) => categories);
+    return allCategories;
+  } catch (err) {
+    console.log(err.message);
+  }
+}
 async function createCategorie(data) {
   try {
     const categoryCreated = await Categorie.create(data);
@@ -9,4 +17,4 @@ async function createCategorie(data) {
   }
 }
 
-module.exports = { createCategorie };
+module.exports = { createCategorie, getAllCategorie };

@@ -16,6 +16,7 @@ router.post('/user', validations, tokenCreate, findUser, userController.createUs
 router.get('/user', auth, userController.getAllUsers);
 
 router.post('/categories', validationsCategories, auth, categoryController.createCategorie);
+router.get('/categories', auth, categoryController.getAllCategorie);
 
 router.post('/login', validationsPost, findUser, tokenCreate, userController.loginUser);
 
