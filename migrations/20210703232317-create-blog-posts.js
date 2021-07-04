@@ -23,6 +23,9 @@ module.exports = {
           key: 'id',
         }
       },
+      categoryIds: {
+        type: Sequelize.STRING
+      },
       published: {
         allowNull: false,
         type: Sequelize.DATE
