@@ -13,13 +13,10 @@ const getToken = (payload) => {
   return jwt.sign(payload, JWT_SECRET, jwtConfig);
 };
 
-const verifyToken = (token) => {
-  const decoded = jwt.verify(token, JWT_SECRET, (err, _decoded) => {
+const verifyToken = (token) => jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) throw boom.unauthorized('Expired or invalid token');
+    return decoded;
   });
-
-  return decoded;
-};
 
 module.exports = {
   getToken,

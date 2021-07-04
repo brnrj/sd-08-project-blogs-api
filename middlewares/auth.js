@@ -4,17 +4,15 @@ const boom = require('@hapi/boom');
 const { verifyToken } = require('../utils/token');
 
 module.exports = rescue((req, _res, next) => {
-  const { authorization: token } = req.headers;
+  const token = req.headers.authorization;
 
   if (!token) throw boom.unauthorized('Token not found');
 
   const decoded = verifyToken(token);
-  console.log(decoded);
-  if (decoded) {
-    const { id, email } = decoded;
 
-    req.user = { email, id };
-  }
+  const { id, email } = decoded;
+
+  req.user = { email, id };
 
   next();
 });
