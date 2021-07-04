@@ -12,4 +12,9 @@ function createUser(req, res) {
   res.status(201).json({ token });
 }
 
-module.exports = { getAllUsers, createUser };
+function loginUser(req, res) {
+  const { token } = req;
+  res.status(200).json({ token });
+}
+
+module.exports = { getAllUsers, createUser, loginUser };

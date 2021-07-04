@@ -10,7 +10,6 @@ const jwtConfig = {
 function TokenCreate(req, res, next) {
   const { displayName } = req.body;
   const token = jwt.sign({ displayName }, secret, jwtConfig);
-  // return { code: 201, message: { token } };
   req.token = token;
   next();
 }
