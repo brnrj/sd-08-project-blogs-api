@@ -11,7 +11,7 @@ route.put('/:id', isBodyValidFor('update'), Controller.updateById);
 
 route.delete('/:id', Controller.deleteById);
 
-route.get('/', Controller.getAll);
+route.get('/', jwtAuthentication('Users'), Controller.getAll);
 
 route.post('/', jwtAuthentication('Users'), isBodyValidFor('insert'), Controller.insertOne);
 
