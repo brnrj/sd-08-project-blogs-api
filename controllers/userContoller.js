@@ -31,14 +31,27 @@ const loginUser = async (req, res) => {
   // console.log(findEmail);
   if (userLogin) {
     return res.status(StatusCodes.OK).json({ token: userLogin });
-  } 
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: 'Invalid fields' });
+  }
+  return res
+    .status(StatusCodes.BAD_REQUEST)
+    .json({ message: 'Invalid fields' });
+};
+
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  const findId = await userService.findById(id);
+  if (findId !== null) {
+    return res.status(StatusCodes.OK).json(findId);
+  }
+  return res
+    .status(StatusCodes.NOT_FOUND)
+    .json({ message: 'User does not exist' });
 };
 
 module.exports = {
   getAllUsers,
   addUser,
   loginUser,
+  getUserById,
 };

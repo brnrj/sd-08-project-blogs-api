@@ -22,22 +22,11 @@ const findByEmail = async (email) => {
 };
 
 const add = async (displayName, email, password, image) => {
-  //   const data = { displayName, email, password, image };
-  //   const valName = validDisplayName(data);
-  //   const valEmail = validEmail(data);
-  //   const valPass = validPassword(data);
   const addedUser = await User.create({ displayName, email, password, image });
   return addedUser;
-  //   console.log(valPass);
-  //   //   return returnInfo;
 };
 const login = async (email, pass) => {
   const searchByEmail = await User.findOne({ where: { email } });
-  // const findEmailUser = await userModel.getByEmail(mail);
-  // if ([!mail, !pass].includes(true)) {
-  //   return undefined;
-  // }
-  //   return searchEmail;
 
   if (searchByEmail !== null) {
     const { email: mail, password } = searchByEmail;
@@ -45,14 +34,16 @@ const login = async (email, pass) => {
       const token = jwt.sign({ data: { mail, password } }, secret, jwtConfig);
       return token;
     }
-    // } else {
-    //   return 'not';
   }
 };
-
+const findById = async (id) => {
+    const searchEmail = await User.findOne({ where: { id } });
+    return searchEmail;
+  };
 module.exports = {
   getAll,
   findByEmail,
   add,
   login,
+  findById,
 };

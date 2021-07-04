@@ -17,6 +17,7 @@ router.post(
   userContoller.addUser,
 );
 router.get('/user', validToken, userContoller.getAllUsers);
+router.get('/user/:id', validToken, userContoller.getUserById);
 router.post('/login', validEmail, validPassword, userContoller.loginUser);
 
 module.exports = router;
