@@ -10,8 +10,10 @@ module.exports = async (req, _res, next) => {
   try {
     const decodedToken = decodeToken(token);
     const user = await User.findOne({ where: { email: decodedToken.data.email } });
-    console.log(user);
-    next();
+
+    req.userId = user.id;
+
+    return next();
   } catch (_err) {
     return next(boom.unauthorized('Expired or invalid token'));
   }

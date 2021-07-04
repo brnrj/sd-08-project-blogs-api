@@ -14,4 +14,8 @@ const signIn = joi.object({
   password: joi.string().length(6).required(),
 });
 
-module.exports = { signUp, signIn };
+const category = joi.object({
+  name: joi.string().required(),
+});
+
+module.exports = { signUp, signIn, category };

@@ -24,7 +24,7 @@ const createUser = async (newUser) => {
 
   const { email, password } = newUser;
   const isEmailUsed = await findUserByEmail({ email, password });
-  
+
   if (isEmailUsed && !isEmailUsed.error) return { error: boom.conflict('User already registered') };
 
   const user = await User.create(newUser);
@@ -38,4 +38,12 @@ const findAllUsers = async () => {
   return users;
 };
 
-module.exports = { createUser, findUserByEmail, findAllUsers };
+const findUserById = async (id) => {
+  const user = await User.findByPk(id);
+
+  if (!user) return { error: boom.notFound('User does not exist') };
+
+  return user;
+};
+
+module.exports = { createUser, findUserByEmail, findAllUsers, findUserById };
