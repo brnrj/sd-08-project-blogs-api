@@ -1,27 +1,56 @@
-const { BlogPost } = require('../models');
+const Sequelize = require('sequelize');
+const { BlogPost, Category, PostCategory } = require('../models');
 const { resources: { BlogPosts } } = require('../.env.js');
+const config = require('../config/config');
+
+const sequelize = new Sequelize(config.development);
 
 const getAll = async () => {
-  const resources = await BlogPost.getAll(BlogPosts.tableOrCollec);
+  const resources = await BlogPost.findAll({
+    include: [{ model: 'User', as: 'user', through: { attributes: [] } }],
+  });
   return { result: resources };
 };
 
 const findById = async (id) => {
-  const resource = await BlogPost.findById(BlogPosts.tableOrCollec, id);
+  const resource = await BlogPost.findByPk(id);
   if (!resource) {
     return { error: {
-    code: 'not_found', message: `${BlogPosts.singular} not found` } };
+    code: 'notFound', message: `${BlogPosts.singular} not found` } };
   }
   return { result: resource };
 };
 
+const mapCategories = (post) => (category) => ({
+  postId: post.id,
+  categoryId: category.id,
+});
+
 const insertOne = async (obj) => {
-  const insertedId = await BlogPost.insertOne(BlogPosts.tableOrCollec, obj);
-  if (!insertedId) {
-    return { error: {
-    code: 'already_exists', message: `${BlogPosts.singular} already exists` } };
+  const { categoryIds, ...post } = obj;
+  const categories = await Category.findAll({ where: { id: categoryIds } });
+  // const categories = categoriesSrc.map(({ dataValues }) => dataValues);
+  // console.log('categories: ', categories);
+  // console.log(categories[0]);
+  if (categoryIds.length !== categories.length) {
+    return { error: { code: 'badRequest', message: '"categoryIds" not found' } };
   }
-  return { result: { _id: insertedId, ...obj } };
+
+  const t = await sequelize.transaction();
+  try {
+    const now = new Date();
+    const newPost = await BlogPost.create({
+      ...post, published: now, updated: now }, { transaction: t });
+
+    const postCategories = categories.map(mapCategories(newPost));
+    await PostCategory.bulkCreate(postCategories, { transaction: t });
+    
+    t.commit();
+    return { result: newPost };
+  } catch (err) {
+    t.rollback();
+    return { error: { code: 'internalError', message: err.message } };
+  }
 };
 
 const deleteById = async (id) => {

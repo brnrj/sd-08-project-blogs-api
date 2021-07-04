@@ -1,13 +1,13 @@
 const NxNConfig = {
   blogPostConfig: {
     as: 'categories',
-    foreignKey: 'post_id',
-    otherKey: 'category_id',
+    foreignKey: 'postId',
+    otherKey: 'categoryId',
   },
   categoryConfig: {
     as: 'posts',
-    foreignKey: 'category_id',
-    otherKey: 'post_id',
+    foreignKey: 'categoryId',
+    otherKey: 'postId',
   },
 };
 
