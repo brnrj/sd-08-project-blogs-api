@@ -8,8 +8,8 @@ const auth = require('./middlewares/auth');
 
 const userController = require('./controllers/userController');
 
-router.get('/user/:id', auth, userController.getById);
 router.get('/user', auth, userController.getAllUsers);
+router.get('/user/:id', auth, userController.getById);
 router.post('/user', validations, tokenCreate, findUser, userController.createUser);
 router.post('/login', validationsPost, findUser, tokenCreate, userController.loginUser);
 
