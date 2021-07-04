@@ -1,5 +1,6 @@
-const { Category, BlogPost, PostsCategories } = require('../models');
+const { Category, BlogPost, PostsCategories, User } = require('../models');
 
+const OK_STATUS = 200;
 const CREATED = 201;
 const BAD_REQUEST = 400;
 
@@ -47,8 +48,24 @@ const createPost = async (req, res) => {
   }
 };
 
+const getAllPosts = async (req, res) => {
+  try {
+    const posts = await BlogPost.findAll({}, {
+      include: [
+        { model: User, as: 'user', through: { attributes: { exclude: ['passowrd'] } } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    console.log(posts);
+    return res.status(OK_STATUS).json(posts);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   checkPost,
   checkCategoryIds,
   createPost,
+  getAllPosts,
 };
