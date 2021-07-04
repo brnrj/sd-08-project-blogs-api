@@ -1,10 +1,23 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
+const userController = require('./controllers/userController');
+const middleware = require('./middlewares');
 
 const app = express();
 
-app.listen(3000, () => console.log('ouvindo porta 3000!'));
+app.use(bodyParser.json());
 
-// não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (request, response) => {
-  response.send();
-});
+app.get('/', (_request, response) => response.send());
+
+app.post('/user', userController.createUser);
+app.post('/login', userController.userLogin);
+
+app.use(middleware.auth);
+
+app.get('/user', userController.findAllUsers);
+
+app.use(middleware.error);
+
+const PORT = 3000;
+app.listen(PORT, () => console.log(`listening on port: ${PORT}`));
