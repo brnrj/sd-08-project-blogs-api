@@ -7,6 +7,7 @@ const {
   verifyContent,
   verifyCategoryIds,
   verifyIfCategoryIdsExists,
+  verifyIfPostExist,
 } = require('../middlewares/postMiddleware');
 const { authUser } = require('../middlewares/authMiddleware');
 
@@ -18,8 +19,10 @@ router.post('/',
   verifyContent,
   verifyCategoryIds,
   verifyIfCategoryIdsExists,
+  verifyIfPostExist,
   PostController.addPost);
 
 router.get('/', authUser, PostController.getAllPosts);
+router.get('/:id', authUser, verifyIfPostExist, PostController.getPostById);
 
 module.exports = router;

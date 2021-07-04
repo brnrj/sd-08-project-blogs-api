@@ -21,7 +21,16 @@ const getAllPosts = async (req, res) => {
     const results = await PostService.getAllPosts();
     return res.status(OK).json(results);
   } catch (err) {
-    console.log(err);
+    res.status(SERVER_ERROR).json({ message: 'Erro brabo' });
+  }
+};
+
+const getPostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await PostService.getPostsById(id);
+    return res.status(OK).json(result);
+  } catch (err) {
     res.status(SERVER_ERROR).json({ message: 'Erro brabo' });
   }
 };
@@ -29,4 +38,5 @@ const getAllPosts = async (req, res) => {
 module.exports = {
   addPost,
   getAllPosts,
+  getPostById,
 };

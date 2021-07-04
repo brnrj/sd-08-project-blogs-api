@@ -1,12 +1,14 @@
-const { Category } = require('../models');
+const { Category, BlogPost } = require('../models');
 
 const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 
 const errors = {
   requiredTitle: '"title" is required',
   requiredContent: '"content" is required',
   requiredCategoryIds: '"categoryIds" is required',
   categoryIdsNotFound: '"categoryIds" not found',
+  postDoesNotExists: 'Post does not exist',
 };
 
 const verifyTitle = async (req, res, next) => {
@@ -34,9 +36,19 @@ const verifyIfCategoryIdsExists = async (req, res, next) => {
   next();
 };
 
+const verifyIfPostExist = async (req, res, next) => {
+  const { id } = req.params;
+  const data = await BlogPost.findOne({ where: { id } });
+  if (data === null) {
+    return res.status(NOT_FOUND).json({ message: errors.postDoesNotExists });
+  }
+  next();
+};
+
 module.exports = {
   verifyTitle,
   verifyContent,
   verifyCategoryIds,
   verifyIfCategoryIdsExists,
+  verifyIfPostExist,
 };
