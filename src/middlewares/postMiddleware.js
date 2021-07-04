@@ -38,7 +38,7 @@ const verifyIfCategoryIdsExists = async (req, res, next) => {
 
 const verifyIfPostExist = async (req, res, next) => {
   const { id } = req.params;
-  const data = await BlogPost.findOne({ where: { id } });
+  const data = await BlogPost.findByPk(id);
   if (data === null) {
     return res.status(NOT_FOUND).json({ message: errors.postDoesNotExists });
   }
