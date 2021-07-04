@@ -13,13 +13,8 @@ router.get('/', (_req, res) => {
   });
 });
 
-router.post('/', async (req, res, next) => {
-  middleware.validateNewUser(req, res, next);
-  try {
-    await controllers.createsUser(req, res);
-  } catch (error) {
-    return error;
-  }
+router.post('/', middleware.validateNewUser, async (req, res) => {
+    await controllers.user(req, res);
 });
 
 module.exports = router;

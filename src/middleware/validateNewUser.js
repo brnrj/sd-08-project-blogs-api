@@ -3,7 +3,6 @@ require('dotenv').config({ path: './config.env' });
 const validation = require('../validation');
 
 const validateNewUser = (req, res, next) => {
-  console.log('Validate new user');
   const { displayName, email, password } = req.body;
 
   const { error } = validation.user.validate({ displayName, email, password });

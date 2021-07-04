@@ -1,11 +1,9 @@
 // codigo inspirado no do Douglas Cajueiro https://github.com/tryber/sd-08-project-blogs-api/pull/53/files
-require('dotenv').config({ path: './config.env' });
+// require('dotenv').config({ path: './config.env' });
 const Joi = require('joi');
 
 const MINIMUM_NAME_LENGTH = 8;
 const MINIMUM_PASSWORD_LENGTH = 6;
-// console.log('testeeeeeeeeee', typeof process.env.DISPLAY_NAME_TOO_SHORT);
-// console.log(MSG);
 const userValidation = Joi.object({
   displayName: Joi
     .string()
