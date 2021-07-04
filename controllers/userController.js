@@ -1,9 +1,11 @@
 const express = require('express');
 const { User } = require('../models');
 const { userValidation } = require('../middlewares');
+const { getToken } = require('../middlewares/auth');
 
 const router = express.Router();
 
+const OK = 200;
 const CREATED = 201;
 const CONFLICT = 409;
 const INTERNAL_SERVER_ERROR = 500;
@@ -18,6 +20,11 @@ router.post('/', userValidation, async (req, res) => {
   } catch (error) {
     res.status(INTERNAL_SERVER_ERROR).json({ message: error.message });
   }
+});
+
+router.get('/', getToken, async (req, res) => {
+    const users = await User.findAll();
+    res.status(OK).json(users);
 });
 
 module.exports = router;
