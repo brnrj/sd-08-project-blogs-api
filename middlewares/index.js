@@ -11,6 +11,18 @@ const validateName = (displayName) => {
     if (!regex.test(email)) return '"email" must be a valid email';
     return false;
   };
+
+  const emailIsValid = (email) => {
+    if (email === '') return '"email" is not allowed to be empty';
+    if (!email) return '"email" is required';
+    return false;
+  };
+
+  const passwordIsValid = (password) => {
+    if (password === '') return '"password" is not allowed to be empty';
+    if (!password) return '"password" is required';
+    return false;
+  };
   
   const validatePassword = (password) => {
     if (!password) return '"password" is required';
@@ -26,6 +38,14 @@ const userValidation = (req, res, next) => {
     next();
 };
 
+const loginValidation = (req, res, next) => {
+  const { email, password } = req.body;
+  const validate = emailIsValid(email) || passwordIsValid(password) || false;
+  if (validate) return res.status(BAD_REQUEST).json({ message: validate });
+  next();
+};
+
 module.exports = {
     userValidation,
+    loginValidation,
 };
