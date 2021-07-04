@@ -5,7 +5,6 @@ const userControllers = require('./controllers/userControllers');
 const loginControllers = require('./controllers/loginControllers');
 const categoriesControllers = require('./controllers/categoriesControllers');
 const postControllers = require('./controllers/postControllers');
-const { ErrorMiddleware } = require('./middlewares/ErrorMiddleware');
 
 const app = express();
 
@@ -26,5 +25,3 @@ app.use('/post', postControllers);
 app.get('/', (request, response) => {
   response.send();
 });
-
-app.use(ErrorMiddleware);
