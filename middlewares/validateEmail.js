@@ -5,10 +5,13 @@ const validEmail = (req, res, next) => {
   const emailValid = /^[A-Za-z0-9.-]+@[A-Za-z0-9]+(\.[A-Za-z]{3}|\.[A-Za-z]{3}\.[A-Za-z]{2})$/.test(
       email,
     );
-  if (email === '' || email === undefined) {
+  if (email === undefined) {
     return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: '"email" is required' });
+      .status(StatusCodes.BAD_REQUEST).json({ message: '"email" is required' });
+  }
+  if (email === '') {
+    return res
+      .status(StatusCodes.BAD_REQUEST).json({ message: '"email" is not allowed to be empty' });
   }
   if (emailValid === false) {
     return res

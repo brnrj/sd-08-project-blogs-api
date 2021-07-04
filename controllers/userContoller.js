@@ -17,13 +17,28 @@ const addUser = async (req, res) => {
 
   const findEmail = await userService.findByEmail(email);
   if (findEmail !== null) {
-    return res.status(StatusCodes.CONFLICT).json({ message: 'User already registered' });
+    return res
+      .status(StatusCodes.CONFLICT)
+      .json({ message: 'User already registered' });
   }
   const newUser = await userService.add(displayName, email, password, image);
   return res.status(StatusCodes.CREATED).send(newUser);
 };
 
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  const userLogin = await userService.login(email, password);
+  // console.log(findEmail);
+  if (userLogin) {
+    return res.status(StatusCodes.OK).json({ token: userLogin });
+  } 
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: 'Invalid fields' });
+};
+
 module.exports = {
   getAllUsers,
   addUser,
+  loginUser,
 };

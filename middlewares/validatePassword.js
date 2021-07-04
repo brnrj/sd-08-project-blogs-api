@@ -8,10 +8,15 @@ const validPassword = (req, res, next) => {
       message: '"password" length must be 6 characters long',
     });
   }
-  if (password === undefined || password === '') {
+  if (password === undefined) {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ message: '"password" is required' });
+  }
+  if (password === '') {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: '"password" is not allowed to be empty' });
   }
   next();
 };

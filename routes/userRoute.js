@@ -10,5 +10,6 @@ router.use(express.json());
 
 router.get('/user', userContoller.getAllUsers);
 router.post('/user', validDisplayName, validEmail, validPassword, userContoller.addUser);
+router.post('/login', validEmail, validPassword, userContoller.loginUser);
 
 module.exports = router;
