@@ -3,6 +3,7 @@ const { validateUserRegister } = require('../middlewares/userValidations');
 const validateToken = require('../middlewares/validateToken');
 
 const { Users } = require('../models');
+const { getTokenUser } = require('../utils/token');
 
 const router = express.Router();
 router.post('/', validateUserRegister, (req, res) => {
@@ -37,34 +38,14 @@ router.get('/:id', validateToken, (req, res) => {
   });
 });
 
-// router.delete('/:id', (req, res) => {
-//   Users.destroy({
-//     where: {
-//       id: req.params.id,
-//     },
-//   })
-//   .then((users) => {
-//     res.status(200).send({ message: 'Usuário excluído com sucesso.' });
-//   })
-//   .catch((e) => {
-//     console.log(e.message);
-//     res.status(500).send({ message: 'Algo deu errado' });
-//   });
-// })
-
-// router.put('/:id', (req, res) => {
-//   const { name, username, email, password } = req.body;
-//   Users.update(
-//     { name, username, email, password },
-//     { where:{ id: req.params.id } }
-//   )
-//   .then((users) => {
-//     res.status(200).send({ message: 'Usuário atualizado com sucesso.' });
-//   })
-//   .catch((e) => {
-//     console.log(e.message);
-//     res.status(500).send({ message: 'Algo deu errado' });
-//   });
-// })
+router.delete('/me', validateToken, (req, res) => {
+  const { id: userId } = getTokenUser(req.headers.authorization);
+  Users.destroy({
+    where: { id: userId },
+  })
+  .then(() => {
+    res.status(204).send();
+  });
+});
 
 module.exports = router;

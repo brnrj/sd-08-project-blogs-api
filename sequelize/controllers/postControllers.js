@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const validateToken = require('../middlewares/validateToken');
 const { BlogPosts, Users, Categories } = require('../models');
 const { getTokenUser } = require('../utils/token');
@@ -27,6 +28,25 @@ router.get('/', validateToken, (req, res) => {
   });
 });
 
+router.get('/search', validateToken, (req, res) => {
+  BlogPosts.findAll({
+    where: { 
+      [Op.or]: {
+       content: { [Op.like]: `%${req.query.q}%` },
+       title: { [Op.like]: `%${req.query.q}%` },
+      },
+    },
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  })
+  .then((post) => {
+    if (!post) return res.status(200).json([]);
+    res.status(200).json(post);
+  });
+});
+
 router.get('/:id', validateToken, (req, res) => {
   const { id } = req.params;
   BlogPosts.findOne({
@@ -37,9 +57,7 @@ router.get('/:id', validateToken, (req, res) => {
     ],
   })
   .then((post) => {
-    if (!post) {
-      res.status(404).json({ message: 'Post does not exist' });
-    }
+    if (!post) res.status(404).json({ message: 'Post does not exist' });
     res.status(200).json(post);
   });
 });
@@ -56,6 +74,15 @@ router.put('/:id', validateToken, validateEditPost, verifyUser, (req, res) => {
     }))
   .then((post) => {
     res.status(200).json(post);
+  });
+});
+
+router.delete('/:id', validateToken, verifyUser, (req, res) => {
+  const { id } = req.params;
+  BlogPosts.destroy({ where: { id } })
+  .then((post) => {
+    if (!post) res.status(404).json({ message: 'Post does not exist' });
+    res.status(204).send();
   });
 });
 
