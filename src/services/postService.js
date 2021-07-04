@@ -6,6 +6,7 @@ const {
   Category, 
   BlogPost,
   PostsCategory,
+  User,
 } = require('../../models');
 const { generateError } = require('../../validations/errors/generateError');
 
@@ -32,6 +33,21 @@ const createBlogPost = async (title, content, categoryIds, userId) => {
       });
       return createdBlogPost;
 };
+
+const getAllPosts = async () => {
+  const allPosts = await BlogPost.findAll({
+    include: [{
+      model: User, as: 'user', attributes: { exclude: ['password'] },
+    },
+    {
+      model: Category, as: 'categories', through: { attributes: [] },
+    },
+  ],
+  });
+  // console.log('ALL_POSTS', allPosts);
+  return allPosts;
+};
 module.exports = {
   createBlogPost,
+  getAllPosts,
 };

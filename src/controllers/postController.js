@@ -1,6 +1,6 @@
 // const { BAD_REQUEST } = require('../../common/constants/statusCodes');
-const { CREATED } = require('../../common/constants/statusCodes');
-const { createBlogPost } = require('../services/postService');
+const { CREATED, OK } = require('../../common/constants/statusCodes');
+const { createBlogPost, getAllPosts } = require('../services/postService');
 
 const createsBlogPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;
@@ -15,6 +15,12 @@ const createsBlogPost = async (req, res) => {
     res.status(CREATED).json(createdPost);
 };
 
+const getsAllPosts = async (_req, res) => {
+    const allPosts = await getAllPosts();
+    return res.status(OK).json(allPosts);
+};
+
 module.exports = {
   createsBlogPost,
+  getsAllPosts,
 };

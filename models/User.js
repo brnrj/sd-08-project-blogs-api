@@ -11,9 +11,9 @@ const User = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  UserFields.associate = (models) => {
-    UserFields.hasMany(models.BlogPost); 
-};
+//   UserFields.associate = (models) => {
+//     UserFields.hasMany(models.BlogPost); 
+// };
   return UserFields;
 };
 
