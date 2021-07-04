@@ -10,9 +10,9 @@ const tokenCreate = (req, _res, next) => {
     { email }, 
     process.env.JWT_SECRET, 
     jwtConfig,
-  ); 
- req.headers.authorization = token;
-next();
+  );  
+  req.headers.authorization = token;
+  next();
 };
 
 module.exports = {
