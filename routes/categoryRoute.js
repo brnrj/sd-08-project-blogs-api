@@ -11,14 +11,10 @@ router.use(express.json());
 
 router.post(
   '/categories',
-validCategoryName,
-validToken,
-//   validEmail,
-//   validPassword,
-categoryContoller.addCategory,
+  validCategoryName,
+  validToken,
+  categoryContoller.addCategory,
 );
 router.get('/categories', validToken, categoryContoller.getAllCategories);
-// router.get('/user/:id', validToken, userContoller.getUserById);
-// router.post('/login', validEmail, validPassword, userContoller.loginUser);
 
 module.exports = router;
