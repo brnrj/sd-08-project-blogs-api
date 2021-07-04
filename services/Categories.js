@@ -1,13 +1,15 @@
-const { General } = require('../models');
+const { Category } = require('../models');
 const { resources: { Categories } } = require('../.env.js');
 
 const getAll = async () => {
-  const resources = await General.getAll(Categories.tableOrCollec);
+  const resources = await Category.findAll();
   return { result: resources };
 };
 
+const findOneWhere = async (objOptions) => Category.findOne({ where: objOptions });
+
 const findById = async (id) => {
-  const resource = await General.findById(Categories.tableOrCollec, id);
+  const resource = await Category.findById(Categories.tableOrCollec, id);
   if (!resource) {
     return { error: {
     code: 'not_found', message: `${Categories.singular} not found` } };
@@ -16,16 +18,18 @@ const findById = async (id) => {
 };
 
 const insertOne = async (obj) => {
-  const insertedId = await General.insertOne(Categories.tableOrCollec, obj);
-  if (!insertedId) {
+  const existingCategory = await findOneWhere(obj);
+  if (existingCategory) {
     return { error: {
-    code: 'already_exists', message: `${Categories.singular} already exists` } };
+      code: 'alreadyExists', message: 'Category already registered',
+    } };
   }
-  return { result: { _id: insertedId, ...obj } };
+  const newCategory = await Category.create(obj);
+  return { result: newCategory };
 };
 
 const deleteById = async (id) => {
-  const resp = await General.deleteById(Categories.tableOrCollec, id);
+  const resp = await Category.deleteById(Categories.tableOrCollec, id);
   if (!resp) {
     return { error: {
     code: 'not_found', message: 'not_found message delete' } };
@@ -35,7 +39,7 @@ const deleteById = async (id) => {
 };
 
 const updateById = async (id, obj) => {
-  const resp = await General.updateById(Categories.tableOrCollec, id, obj);
+  const resp = await Category.updateById(Categories.tableOrCollec, id, obj);
   if (!resp) {
     return { error: {
     code: 'not_found', message: `${Categories.singular} not found` } };
