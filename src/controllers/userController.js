@@ -1,8 +1,9 @@
 // codigo inspirado no do Douglas Cajueiro https://github.com/tryber/sd-08-project-blogs-api/pull/53/files
 require('dotenv').config({ path: '../../config' });
 const boom = require('@hapi/boom');
-// const services = require('../services');
+const jwt = require('../auth/tokenGeneratis');
 const userServices = require('../services/userServices');
+// const services = require('../services');
 // const userServices = require('../../config');
 
 const createsUser = async (req, res) => {
@@ -19,7 +20,8 @@ const createsUser = async (req, res) => {
     return res.status(statusCode).json({ message: 'User already registered' });
   }
   // console.log('Created', process.env.STATUS_CREATED, createdUser);
-  return res.status(Number(process.env.STATUS_CREATED)).json(createdUser);
+  const token = await jwt.tokenGenerete(userInfos);
+  return res.status(Number(process.env.STATUS_CREATED)).json({ token });
 };
 
 module.exports = createsUser;

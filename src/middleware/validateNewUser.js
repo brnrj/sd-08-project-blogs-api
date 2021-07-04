@@ -9,7 +9,7 @@ const validateNewUser = (req, res, next) => {
   if (error) {
     const errorMessage = error.details[0].message;
     console.log(errorMessage);
-    return res.status(process.env.STATUS_BAD_REQUEST).json({ message: errorMessage });
+    return res.status(Number(process.env.STATUS_BAD_REQUEST)).json({ message: errorMessage });
   }
   next();
 };
