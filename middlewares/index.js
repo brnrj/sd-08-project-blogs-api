@@ -1,3 +1,5 @@
+const { Category } = require('../models');
+
 const BAD_REQUEST = 400;
 
 const validateName = (displayName) => {
@@ -45,7 +47,44 @@ const loginValidation = (req, res, next) => {
   next();
 };
 
+const titleValidation = (title) => {
+  if (!title) return '"title" is required';
+  return false;
+};
+
+const contentValidation = (content) => {
+  if (!content) return '"content" is required';
+  return false;
+};
+
+const categoryIdsValidation = (categoryIds) => {
+  if (!categoryIds) return '"categoryIds" is required';
+  return false;
+};
+
+const postValidation = (req, res, next) => {
+  const { title, content, categoryIds } = req.body;
+  const validation = titleValidation(title) || contentValidation(content)
+    || categoryIdsValidation(categoryIds) || false;
+  if (validation) return res.status(BAD_REQUEST).json({ message: validation });
+  next();
+};
+
+const categoryValidation = async (req, res, next) => {
+  const { categoryIds } = req.body;
+  const categories = await Category.findAll();
+  const idsFromCategories = categories.map(({ id }) => id);
+  for (let i = 0; i < categoryIds.length; i += 1) {
+    if (!idsFromCategories.includes(categoryIds[i])) {
+      return res.status(BAD_REQUEST).json({ message: '"categoryIds" not found' });
+    }
+  }
+  next();
+};
+
 module.exports = {
     userValidation,
     loginValidation,
+    postValidation,
+    categoryValidation,
 };
