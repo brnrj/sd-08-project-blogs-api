@@ -8,8 +8,8 @@ const jwtConfig = {
 };
 
 function TokenCreate(req, res, next) {
-  const { displayName } = req.body;
-  const token = jwt.sign({ displayName }, secret, jwtConfig);
+  const data = req.body;
+  const token = jwt.sign(data, secret, jwtConfig);
   req.token = token;
   next();
 }
