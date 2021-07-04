@@ -5,7 +5,7 @@ const controllers = require('../controllers');
 
 const router = express.Router();
 
-router.get('/', (_req, res) => {
+router.get('/', middleware.validateToken, (_req, res) => {
   User.findAll().then((data) => {
     res.status(200).json(data);
   }).catch((err) => {
