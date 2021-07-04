@@ -1,4 +1,4 @@
-const { Users } = require('../models');
+const { User } = require('../models');
 
 const BAD_REQUEST = 400;
 const NOT_FOUND = 404;
@@ -45,7 +45,7 @@ const verifyPassword = async (req, res, next) => {
 
 const verifyIfUserExists = async (req, res, next) => {
   const { email } = req.body;
-  const findUser = await Users.findOne({ where: { email } });
+  const findUser = await User.findOne({ where: { email } });
   if (findUser !== null) {
     return res.status(CONFLICT).json({ message: errors.registeredUser });
   }
@@ -54,7 +54,7 @@ const verifyIfUserExists = async (req, res, next) => {
 
 const verifyUserId = async (req, res, next) => {
   const { id } = req.params;
-  const findUserId = await Users.findOne({ where: { id } });
+  const findUserId = await User.findOne({ where: { id } });
   if (!findUserId) {
     return res.status(NOT_FOUND).json({ message: errors.notFound });
   }

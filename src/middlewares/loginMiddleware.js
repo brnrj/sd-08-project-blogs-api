@@ -1,4 +1,4 @@
-const { Users } = require('../models');
+const { User } = require('../models');
 
 const BAD_REQUEST = 400;
 
@@ -26,7 +26,7 @@ const verifyLoginPassword = async (req, res, next) => {
 
 const verifyIfUserExists = async (req, res, next) => {
   const { email, password } = req.body;
-  const findUser = await Users.findOne({ where: { email, password } });
+  const findUser = await User.findOne({ where: { email, password } });
   if (!findUser) {
     return res.status(BAD_REQUEST).json({ message: errors.invalidFields });
   }

@@ -1,4 +1,4 @@
-const { Categories } = require('../models');
+const { Category } = require('../models');
 
 const BAD_REQUEST = 400;
 
@@ -29,7 +29,7 @@ const verifyCategoryIds = async (req, res, next) => {
 
 const verifyIfCategoryIdsExists = async (req, res, next) => {
   const { categoryIds } = req.body;
-  const data = await Categories.findOne({ where: { id: categoryIds } });
+  const data = await Category.findOne({ where: { id: categoryIds } });
   if (!data) return res.status(BAD_REQUEST).json({ message: errors.categoryIdsNotFound });
   next();
 };
