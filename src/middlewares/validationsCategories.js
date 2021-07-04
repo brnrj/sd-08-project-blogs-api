@@ -1,10 +1,7 @@
 const Joi = require('joi');
 
 const schema = Joi.object({
-    name: Joi.string()
-                .alphanum()
-                .message('"name" is required')
-                .required(),
+    name: Joi.string().required(),
 });
 
 function ValidateString(req, res, next) {
