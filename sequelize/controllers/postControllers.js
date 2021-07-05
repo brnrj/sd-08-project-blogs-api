@@ -12,7 +12,7 @@ router.post('/', validateToken, validatePost, (req, res) => {
   BlogPosts.create({ title, content, categoryIds, userId })
   .then((post) => {
     const { updated: _, published: pwd, ...newPost } = post.dataValues;
-    res.status(201).json(newPost);
+    return res.status(201).json(newPost);
   });
 });
 
@@ -23,9 +23,7 @@ router.get('/', validateToken, (req, res) => {
       { model: Categories, as: 'categories', through: { attributes: [] } },
     ],
   })
-  .then((post) => {
-    res.status(200).json(post);
-  });
+  .then((post) => res.status(200).json(post));
 });
 
 router.get('/search', validateToken, (req, res) => {
@@ -58,7 +56,7 @@ router.get('/:id', validateToken, (req, res) => {
   })
   .then((post) => {
     if (!post) res.status(404).json({ message: 'Post does not exist' });
-    res.status(200).json(post);
+    return res.status(200).json(post);
   });
 });
 
@@ -72,9 +70,7 @@ router.put('/:id', validateToken, validateEditPost, verifyUser, (req, res) => {
       attributes: { exclude: ['updated', 'published', 'id'] },
       include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
     }))
-  .then((post) => {
-    res.status(200).json(post);
-  });
+  .then((post) => res.status(200).json(post));
 });
 
 router.delete('/:id', validateToken, verifyUser, (req, res) => {
@@ -82,7 +78,7 @@ router.delete('/:id', validateToken, verifyUser, (req, res) => {
   BlogPosts.destroy({ where: { id } })
   .then((post) => {
     if (!post) res.status(404).json({ message: 'Post does not exist' });
-    res.status(204).send();
+    return res.status(204).send();
   });
 });
 
