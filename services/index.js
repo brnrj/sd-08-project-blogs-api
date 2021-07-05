@@ -1,10 +1,11 @@
 const { auth } = require('./auth');
 const { tokenCreate } = require('./token');
-const { validata, validlogin } = require('./validata');
+const { validata } = require('./validata');
+const { validLogin } = require('./login');
 
 module.exports = {
   auth,
   tokenCreate,
   validata,
-  validlogin,
+  validLogin,
 };
