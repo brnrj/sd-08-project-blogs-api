@@ -1,7 +1,9 @@
 const userService = require('../services/userService');
 
+const httpStatusCodeSucess = 200;
 const httpStatusCodeCreated = 201;
 const httpStatusCodeBadRequest = 400;
+const httpStatusCodeUnauthorized = 401;
 const httpStatusCodeConflict = 409;
 
 const criarUsuario = async (req, res) => {
@@ -20,4 +22,35 @@ const criarUsuario = async (req, res) => {
   }
 };
 
-module.exports = { criarUsuario };
+const login = async (req, res) => {
+  try {
+    const usuario = req.body;
+    const loginUsuario = await userService.logarUsuario(usuario);
+    return res.status(httpStatusCodeSucess).json({ token: loginUsuario });
+  } catch (err) {
+    return res.status(httpStatusCodeBadRequest).json(
+      {
+        message: err.message,
+      },
+    );
+  }
+};
+
+const buscarTodosUsuarios = async (req, res) => {
+  try {
+    const usuarios = await userService.buscarTodosUsuarios();
+    return res.status(httpStatusCodeSucess).json(usuarios);
+  } catch (err) {
+    return res.status(httpStatusCodeUnauthorized).json(
+      {
+        message: err.message,
+      },
+    );
+  }
+};
+
+module.exports = { 
+  criarUsuario,
+  login,
+  buscarTodosUsuarios,
+ };

@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const auth = require('./middleware/jwt');
 const userController = require('./controller/userController');
 
 const app = express();
@@ -13,3 +14,5 @@ app.get('/', (request, response) => {
 });
 
 app.post('/user', userController.criarUsuario);
+app.post('/login', userController.login);
+app.get('/user', auth, userController.buscarTodosUsuarios);
