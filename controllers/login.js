@@ -10,8 +10,9 @@ const STATUS_400 = 400;
 const STATUS_200 = 200;
 
 LoginController.post('/', validLogin, tokenCreate, async (req, res) => {
-   const { email } = req.body;
-  const { token } = req.header;
+  const { email } = req.body;
+  console.log(email);
+  const { token } = req.userToken;
   // if (!email) res.status(STATUS_400).json({ message: '"email" is required' }); 
   // if (!password) res.status(STATUS_400).json({ message: '"password" is required' }); 
   // console.log(token);

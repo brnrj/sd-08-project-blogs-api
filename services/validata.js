@@ -1,19 +1,17 @@
 const STATUS_400 = 400;
 
 const validName = (name) => {
-  let message = '';
-  if (name.length < 8) message = '"displayName" length must be at least 8 characters long';
+  let message = '';  
+  if (name && name.length < 8) message = '"displayName" length must be at least 8 characters long';
   if (!message) return false;
   return message;
 };
 
 const validEmail = (email) => {
-  const regex = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-  let message = '';
-  if (!regex.test(email)) message = '"email" must be a valid email';
-  if (!email) message = '"email" is required';
-  if (!message) return false;
-  return message;
+  const regex = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;  
+  if (email === undefined) return '"email" is required';
+  if (!regex.test(email)) return '"email" must be a valid email';  
+  return false;
 };
 
 const validPassword = (password) => {

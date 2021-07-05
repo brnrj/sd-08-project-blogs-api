@@ -11,7 +11,7 @@ const tokenCreate = (req, _res, next) => {
     process.env.JWT_SECRET, 
     jwtConfig,
   );  
-  req.headers.authorization = token;
+  req.userToken = token;
 next();
 };
 
