@@ -43,7 +43,7 @@ router.get('/search', validateToken, (req, res) => {
   })
   .then((post) => {
     if (!post) return res.status(200).json([]);
-    res.status(200).json(post);
+    return res.status(200).json(post);
   });
 });
 
