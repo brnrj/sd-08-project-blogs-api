@@ -23,4 +23,24 @@ const createCategory = async (category, token) => {
   }
 };
 
-module.exports = { createCategory };
+const getCategories = async (token, id) => {
+  try {
+    tokenValidation(token);
+    let responseData;
+
+    if (!id) {
+      responseData = await Categories.findAll();
+    } else {
+      responseData = await Categories.findOne({ where: { id } });
+      if (!responseData) {
+        throw generateError('Category does not exist', HTTP.NOT_FOUND);
+      }
+    }
+
+    return { status: HTTP.OK, result: responseData };
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = { createCategory, getCategories };

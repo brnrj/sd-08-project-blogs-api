@@ -7,4 +7,11 @@ const createCategory = async (req, res) => {
   return res.status(status).json(result);
 };
 
-module.exports = { createCategory };
+const getCategories = async (req, res) => {
+  const { id } = req.params;
+  const token = req.headers.authorization;
+  const { status, result } = await service.getCategories(token, id);
+  return res.status(status).json(result);
+};
+
+module.exports = { createCategory, getCategories };
