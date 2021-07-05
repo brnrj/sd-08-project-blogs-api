@@ -73,9 +73,15 @@ const getPostById = async (req, res) => {
       { model: Category, as: 'categories' },
     ],
   });
-  console.log('post: ', post);
   if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
   return res.status(OK_STATUS).json(post.dataValues);
+};
+
+const updatePost = async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  const updatedPost = await BlogPost.updateOne({ where: { id } }, { title, content });
+  console.log('updatedPost: ', updatedPost);
 };
 
 module.exports = {
@@ -84,4 +90,5 @@ module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };
