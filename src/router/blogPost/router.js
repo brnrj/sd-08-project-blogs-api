@@ -7,12 +7,15 @@ const {
   createBlogPost,
   findBlogPost,
   findIdBlogPost,
+  // editIdBlogPost,
 } = require('../../controller/blogPost/blogPost');
 
-router.post('/post', createBlogPost);
+router.post('/post', validateJwt, createBlogPost);
 
 router.get('/post', validateJwt, findBlogPost);
 
 router.get('/post/:id', validateJwt, findIdBlogPost);
+
+// router.put('/post/:id', editIdBlogPost);
 
 module.exports = router;

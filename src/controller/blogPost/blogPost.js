@@ -5,6 +5,7 @@ const {
   createServices,
   findServices,
   findIdServices,
+  editIdServices,
 } = require('../../sevices/blogPost/blogPost');
 
 const createBlogPost = rescue(async (req, res, next) => {
@@ -27,8 +28,17 @@ const findIdBlogPost = rescue(async (req, res, next) => {
   res.status(helpers.DOO).json(result[0]);
 });
 
+// const editIdBlogPost = rescue(async (req, res, next) => {
+//   const { id } = req.params;
+//   const { newData } = req.body;
+//   const result = await editIdServices(id, newData);
+//   if (result.status) return next(result);
+//   res.status(helpers.DOO).json(result[0]);
+// });
+
 module.exports = {
   createBlogPost,
   findBlogPost,
   findIdBlogPost,
+  // editIdBlogPost,
 };
