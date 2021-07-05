@@ -18,11 +18,13 @@ const validatePost = async (req, res, next) => {
   try {
     const { title, content, categoryIds } = req.body;
     await postSchema.validate({ title, content, categoryIds });
-    await categoryExists(req, res, next);
+    const exists = await categoryExists(req, res, next);
+    if (!exists) {
+      next();
+    }
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
-  next();
 };
 
 const validateEditPost = async (req, res, next) => {
