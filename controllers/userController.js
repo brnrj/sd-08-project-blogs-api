@@ -40,4 +40,12 @@ const findUserById = async (req, res, next) => {
   return res.status(responseCode.OK).json(user);
 };
 
-module.exports = { createUser, userLogin, findAllUsers, findUserById };
+const deleteUser = async (req, res, _next) => {
+  const id = req.userId;
+
+  const user = await userService.deleteUser(id);
+
+  return res.status(responseCode.NO_CONTENT).json(user);
+};
+
+module.exports = { createUser, userLogin, findAllUsers, findUserById, deleteUser };

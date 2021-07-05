@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const boom = require('@hapi/boom');
 
 const { BlogPost, Category, User } = require('../models');
@@ -59,4 +60,33 @@ const editPost = async (id, body, userId) => {
   return { ...body, userId, categories };
 };
 
-module.exports = { createPost, findAllPosts, findPostById, editPost };
+const deletePost = async (id, userId) => {
+  const post = await findPostById(id);
+
+  if (post.error) return post;
+
+  if (userId !== post.userId) return { error: boom.unauthorized('Unauthorized user') };
+
+  await BlogPost.destroy({ where: { id } });
+
+  return {};
+};
+
+const searchPost = async (q) => {
+  const posts = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${q}%` } },
+        { content: { [Op.like]: `%${q}%` } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return posts;
+};
+
+module.exports = { createPost, findAllPosts, findPostById, editPost, deletePost, searchPost };

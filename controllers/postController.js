@@ -37,4 +37,23 @@ const editPost = async (req, res, next) => {
   return res.status(responseCode.OK).json(post);
 };
 
-module.exports = { createPost, findAllPosts, findPostById, editPost };
+const deletePost = async (req, res, next) => {
+  const { userId } = req;
+  const { id } = req.params;
+
+  const post = await postService.deletePost(id, userId);
+
+  if (post.error) return next(post.error);
+
+  return res.status(responseCode.NO_CONTENT).json(post);
+};
+
+const searchPost = async (req, res, _next) => {
+  const { q } = req.query;
+
+  const posts = await postService.searchPost(q);
+
+  return res.status(responseCode.OK).json(posts);
+};
+
+module.exports = { createPost, findAllPosts, findPostById, editPost, deletePost, searchPost };
