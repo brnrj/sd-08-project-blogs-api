@@ -27,7 +27,7 @@ router.post(
   validCategoryIdsPost,
   postContoller.getAddPost,
 );
-// router.get('/user/:id', validToken, userContoller.getUserById);
+router.get('/post/:id', validToken, postContoller.getPostById);
 // router.post('/login', validEmail, validPassword, userContoller.loginUser);
 
 module.exports = router;

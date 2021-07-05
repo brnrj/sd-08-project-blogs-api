@@ -26,7 +26,20 @@ const getAddPost = async (req, res) => {
   res.status(StatusCodes.CREATED).json(post);
 };
 
+const getPostById = async (req, res) => {
+  const { id } = req.params;
+
+  const findId = await postService.findById(id);
+  if (findId !== null) {
+    return res.status(StatusCodes.OK).json(findId);
+  }
+  return res
+    .status(StatusCodes.NOT_FOUND)
+    .json({ message: 'Post does not exist' });
+};
+
 module.exports = {
   getAllPosts,
   getAddPost,
+  getPostById,
 };
