@@ -67,13 +67,19 @@ const deleteById = async (id) => {
     message: `The ${BlogPosts.singular} with id = ${id} was deleted successfully` } };
 };
 
-const updateById = async (id, obj) => {
-  const resp = await BlogPost.updateById(BlogPosts.tableOrCollec, id, obj);
-  if (!resp) {
-    return { error: {
-    code: 'not_found', message: `${BlogPosts.singular} not found` } };
+const updateById = async (id, obj, userId) => {
+  const { error, result: post } = await findById(id);
+  if (error) return { error };
+  if (userId !== post.userId) {
+    return { error: { code: 'unauthenticated', message: 'Unauthorized user' } };
   }
-  return findById(id);
+  if (obj.categoryIds) {
+    return { error: { code: 'badRequest', message: 'Categories cannot be edited' } };
+  }
+
+  await BlogPost.update(obj, { where: { id } });
+
+  return { result: { ...post.dataValues, ...obj } };
 };
 
 module.exports = {

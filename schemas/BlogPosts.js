@@ -7,10 +7,9 @@ const insert = Joi.object({
 });
 
 const update = Joi.object({
-  label1: Joi.string(),
-  label2: Joi.string().isoDate().message('Date needs to be on ISODate pattern'),
-  label3: Joi.number(),
-  label4: Joi.array().items(Joi.number()),
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  categoryIds: Joi.array().items(Joi.number()),
 });
 
 module.exports = {

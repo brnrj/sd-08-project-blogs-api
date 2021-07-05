@@ -7,7 +7,7 @@ const route = express.Router();
 
 route.get('/:id', jwtAuthentication('Users'), Controller.findById);
 
-route.put('/:id', isBodyValidFor('update'), Controller.updateById);
+route.put('/:id', jwtAuthentication('Users'), isBodyValidFor('update'), Controller.updateById);
 
 route.delete('/:id', Controller.deleteById);
 

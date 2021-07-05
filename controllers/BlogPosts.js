@@ -13,7 +13,7 @@ const findById = tcw(async (req, res, next) => {
 
 const updateById = tcw(async (req, res, next) => {
   const { id } = req.params;
-  const { result, error } = await Service.updateById(id, req.body);
+  const { result, error } = await Service.updateById(id, req.body, req.resource.id);
   if (error) return next(error);
   res.status(STATUS_OK).json(result);
 });
