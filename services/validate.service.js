@@ -1,7 +1,11 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/');
 const { REGEX_EMAIL } = require('../shared/defs');
-
+const secret = 'seusecretdetoken';
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 const invalidUser = (name, email) => {
   if (name.length < 8) {
     return '"displayName" length must be at least 8 characters long';
