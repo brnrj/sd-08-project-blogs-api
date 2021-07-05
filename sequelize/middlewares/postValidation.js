@@ -44,14 +44,14 @@ const verifyUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { id: userId } = getTokenUser(req.headers.authorization);
-    BlogPosts.findOne({ where: { id } })
-    .then((post) => {
-      if (userId !== post.userId) res.status(401).json({ message: 'Unauthorized user' });
-    });
+    const user = await BlogPosts.findOne({ where: { id } });
+    if (userId !== user.userId) {
+      return res.status(401).json({ message: 'Unauthorized user' });
+    }
+    next();
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
-  next();
 };
 
 module.exports = {
