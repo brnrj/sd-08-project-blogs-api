@@ -29,15 +29,18 @@ const findAll = async (_req, res) => {
 };
 const findById = async (req, res) => {
   const { id } = req.params;
-  const NumberId = Number(id);
-  console.log('Pesquisando por ID', id);
-  const all = await services.user.findAll();
-  console.log('Todos os resultados', all);
-  const { displayName, email, image, isBoom } = await services.user.findByKey('id', NumberId);
-  if (isBoom) {
-    console.log('USUARIO NÂO EXISTE');
-    return boom.notFound('User does not exist');
+  if (!id) {
+    console.log('ID NÂO EXISTE', id);
+    return res.boom.notFound('User does not exist');
   }
+  const NumberId = Number(id);
+  console.log('Pesquisando por ID', NumberId);
+  const foundId = await services.user.findByKey('id', NumberId);
+  if (!foundId || !foundId.id) {
+    console.log('USUARIO NÂO EXISTE');
+    return res.boom.notFound('User does not exist');
+  }
+  const { displayName, email, image } = foundId;
   const result = { id: Number(id), displayName, email, image };
   console.log('resultado', result);
   return res.status(Number(process.env.STATUS_OK)).json(result);

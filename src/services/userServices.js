@@ -5,11 +5,11 @@ const { User } = require('../../models');
 
 const findByKey = async (key, value) => {
   try {
-    console.log(key, value, { key: value });
-    const foundUser = await User.findOne({ where: key[value] });
+    const foundUser = await User.findOne({ where: { [key]: value } }) || null;
     return foundUser;
   } catch (error) {
-    return { isBoom: true };
+    console.log(error);
+    return false;
   }
 };
 
