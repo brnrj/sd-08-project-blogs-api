@@ -6,8 +6,8 @@ app.use(bodyParser.json());
 
 const UserController = require('./controllers/user');
 const LoginController = require('./controllers/login');
-const CategoriesController = require('./controllers/categories');
-const PostController = require('./controllers/post');
+// const CategoriesController = require('./controllers/categories');
+// const PostController = require('./controllers/post');
 
 app.use('/user', UserController);
 app.use('/login', LoginController);
