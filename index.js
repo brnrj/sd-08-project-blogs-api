@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const userController = require('./controllers/userController');
 const categoryController = require('./controllers/categoryController');
+const postController = require('./controllers/postController');
 const middleware = require('./middlewares');
 
 const app = express();
@@ -21,6 +22,11 @@ app.get('/user/:id', userController.findUserById);
 
 app.post('/categories', categoryController.createCategory);
 app.get('/categories', categoryController.findAllCategories);
+
+app.post('/post', postController.createPost);
+app.get('/post', postController.findAllPosts);
+app.get('/post/:id', postController.findPostById);
+app.put('/post/:id', postController.editPost);
 
 app.use(middleware.error);
 

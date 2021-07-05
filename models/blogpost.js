@@ -4,7 +4,8 @@ const BlogPost = (sequelize, DataTypes) => {
     content: DataTypes.STRING,
   },
   {
-    underscored: true,
+    createdAt: 'published',
+    updatedAt: 'updated',
   });
 
   blogPostSchema.associate = (models) => {

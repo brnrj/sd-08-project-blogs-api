@@ -9,7 +9,7 @@ const createCategory = async (req, res, next) => {
   return res.status(responseCode.CREATED).json(newCategory);
 };
 
-const findAllCategories = async (req, res, _next) => {
+const findAllCategories = async (_req, res, _next) => {
   const categories = await categoryService.findAllCategories();
 
   return res.status(responseCode.OK).json(categories);
