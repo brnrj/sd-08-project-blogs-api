@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(UNAUTHORIZED).json({ message: 'Token não encontrado' });
+    return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
   }
 
   try {
@@ -19,13 +19,13 @@ module.exports = async (req, res, next) => {
     // console.log(user);
 
     if (user === null) {
-      return res.status(UNAUTHORIZED).json({ message: 'Token não encontrado' });
+      return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
     }
 
     req.userId = user.dataValues.id;
 
     next();
   } catch (err) {
-    return res.status(UNAUTHORIZED).json({ message: 'Token expirado ou inválido' });
+    return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
   }
 };

@@ -25,7 +25,7 @@ module.exports = {
   async getPostById(req, res) {
     const post = await GetPostByIdService.execute(req.params);
 
-    if (!post) return res.status(NOT_FOUND).json({ message: 'Post não existe' });
+    if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
 
     return res.status(OK).json(post[0]);
   },
@@ -33,7 +33,7 @@ module.exports = {
   async deletePost(req, res) {
     const post = await DeletePostService.execute(req.params);
 
-    if (!post) return res.status(NOT_FOUND).json({ message: 'Post não existe' });
+    if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
 
     return res.status(NO_CONTENT).json();
   },

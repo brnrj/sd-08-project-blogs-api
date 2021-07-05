@@ -31,12 +31,12 @@ module.exports = async (req, res, next) => {
   const nameValid = validateName(displayName);
   if (nameValid === 'minLength') {
     return res.status(BAD_REQUEST).json({
-       message: '"displayName" length must be at least 8 characters long',
+      message: '"displayName" length must be at least 8 characters long',
     });
   } 
 
   const userByEmail = await User.findOne({ where: { email } });
-  if (userByEmail) return res.status(CONFLICT).json({ message: 'Usuário já existe' });
+  if (userByEmail) return res.status(CONFLICT).json({ message: 'User already registered' });
 
   next();
 };

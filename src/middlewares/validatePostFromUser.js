@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
   const post = await BlogPost.findByPk(id);
   const user = await User.findByPk(userId);
 
-  if (!post) return res.status(NOT_FOUND).json({ message: 'Post não existe' });
+  if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
 
   if (post.dataValues.userId !== user.dataValues.id) {
     return res.status(UNAUTHORIZED).json({ message: 'Usuário não autorizado' });

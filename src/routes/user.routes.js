@@ -8,7 +8,7 @@ const UserController = require('../controllers/UserController');
 
 const userRoutes = Router();
 
-userRoutes.post('/', validateUser, validateUserEmail, UserController.createUser);
+userRoutes.post('/', validateUserEmail, validateUser, UserController.createUser);
 userRoutes.get('/', validateToken, UserController.getAllUsers);
 userRoutes.get('/:id', validateToken, UserController.getUserById);
 userRoutes.delete('/me', validateToken, UserController.deleteUser);
