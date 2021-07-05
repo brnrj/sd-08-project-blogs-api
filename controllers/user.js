@@ -6,6 +6,7 @@ const { User } = require('../models');
 const { tokenCreate, validata } = require('../services');
 
 const STATUS_409 = 409;
+const STATUS_201 = 201;
 
 // create 
 UserController.post('/', validata, tokenCreate, async (req, res) => {
@@ -19,9 +20,10 @@ UserController.post('/', validata, tokenCreate, async (req, res) => {
 // findAll
 UserController.get('/', async (req, res) => {
   const users = await UserController.findAll({ attributes: { exclude: ['password'] } });
-  res.status(201).json(users);
+  res.status(STATUS_201).json(users);
 });
 
+// 
 // findByPK
 // const getByIdUser = async (req, res) => {
   

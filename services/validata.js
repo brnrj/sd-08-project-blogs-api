@@ -34,6 +34,17 @@ const validata = (req, res, next) => {
   next();
 };
 
+const validlogin = (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email) res.status(STATUS_400).json({ message: '"email" is required' });
+  if (!password) res.status(STATUS_400).json({ message: '"password" is required' });  
+  if (!validEmail(email) || !validPassword(password)) {
+    res.status(STATUS_400).json({ message: 'Invalid fields' });
+  }
+  next();
+};
+
 module.exports = {
   validata,
+  validlogin,
 };
