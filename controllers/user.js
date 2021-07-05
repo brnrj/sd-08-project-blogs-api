@@ -3,7 +3,7 @@ const { Router } = require('express');
 const UserController = Router();
 
 const { User } = require('../models');
-const { tokenCreate, validata } = require('../services');
+const { tokenCreate, validata, auth } = require('../services');
 
 const STATUS_409 = 409;
 const STATUS_201 = 201;
@@ -18,7 +18,7 @@ UserController.post('/', validata, tokenCreate, async (req, res) => {
 });
 
 // findAll
-UserController.get('/', async (req, res) => {
+UserController.get('/', tokenCreate, auth, async (req, res) => {
   const users = await UserController.findAll({ attributes: { exclude: ['password'] } });
   res.status(STATUS_201).json(users);
 });
