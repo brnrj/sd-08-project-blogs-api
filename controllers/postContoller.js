@@ -23,7 +23,6 @@ const getAddPost = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .json({ message: '"categoryIds" not found' });
   }
-
   res.status(StatusCodes.CREATED).json(post);
 };
 

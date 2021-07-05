@@ -1,7 +1,18 @@
-const { BlogPosts, Categories } = require('../models');
+const { BlogPosts, User, Categories } = require('../models');
+// const userService = require('../services/userService');
 
 const getAll = async () => {
-  const posts = await BlogPosts.findAll();
+  const posts = await BlogPosts.findAll(
+    { include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      {
+        model: Categories, 
+        as: 'categories', 
+        // through: { attributes: [] }
+      }, 
+    ] },
+
+  );
   return posts;
 };
 
@@ -13,9 +24,9 @@ const add = async ({ title, content, userId, categoryIds }) => {
     if (categoriesExists.some((cat) => !cat)) {
       return 'CATEGORIES_NOT_FOUND';
     }
-  
     const post = await BlogPosts.create({ title, content, userId });
-  
+    categoriesExists.forEach((cat) => post.addCategory(cat));
+
     return post.dataValues;
   };
 
