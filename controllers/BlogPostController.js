@@ -3,6 +3,7 @@ const { Category, BlogPost, PostsCategories, User } = require('../models');
 const OK_STATUS = 200;
 const CREATED = 201;
 const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 
 const checkPost = (req, res, next) => {
   const { title, content, categoryIds } = req.body;
@@ -63,9 +64,24 @@ const getAllPosts = async (req, res) => {
   }
 };
 
+const getPostById = async (req, res) => {
+  const { id } = req.params;
+  const post = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user', attributes: { excludes: ['password'] } },
+      { model: Category, as: 'categories' },
+    ],
+  });
+  console.log('post: ', post);
+  if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
+  return res.status(OK_STATUS).json(post.dataValues);
+};
+
 module.exports = {
   checkPost,
   checkCategoryIds,
   createPost,
   getAllPosts,
+  getPostById,
 };
