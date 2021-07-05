@@ -8,7 +8,6 @@ const validateNewUser = (req, res, next) => {
   const { error } = validation.user.validate({ displayName, email, password });
   if (error) {
     const errorMessage = error.details[0].message;
-    console.log(errorMessage);
     return res.status(Number(process.env.STATUS_BAD_REQUEST)).json({ message: errorMessage });
   }
   next();

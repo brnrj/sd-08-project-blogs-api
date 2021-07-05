@@ -4,6 +4,9 @@ const controllers = require('../controllers');
 
 const router = express.Router();
 
+router.get('/:id', middleware.validateToken, async (req, res) => {
+  await controllers.user.findById(req, res);
+});
 router.get('/', middleware.validateToken, async (_req, res) => {
   await controllers.user.findAll(_req, res);
 });

@@ -3,17 +3,20 @@ require('dotenv').config({ path: './config.env' });
 const boom = require('@hapi/boom');
 const { User } = require('../../models');
 
-const findUserByEmail = async (email) => {
-  const foundUser = await User.findOne({ where: { email } });
-  // console.log('FOUND', foundUser);
-
-  return foundUser;
+const findByKey = async (key, value) => {
+  try {
+    console.log(key, value, { key: value });
+    const foundUser = await User.findOne({ where: key[value] });
+    return foundUser;
+  } catch (error) {
+    return { isBoom: true };
+  }
 };
 
 const CreateUser = async (userInfos) => {
   const { email } = userInfos;
-  console.log('EMAIL', email);
-  const foundUser = await findUserByEmail(email);
+  // console.log('EMAIL', email);
+  const foundUser = await findByKey('email', email);
   if (foundUser !== null) {
     return boom.conflict(process.env.ALREADY_REGISTERED);
   }
@@ -30,6 +33,6 @@ const findAll = async () => {
 
 module.exports = {
   CreateUser,
-  findUserByEmail,
   findAll,
+  findByKey,
 };
