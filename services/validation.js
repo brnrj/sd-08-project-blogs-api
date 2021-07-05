@@ -16,6 +16,10 @@ const loginSchema = joi.object({
   password: joi.string().length(6).required(),
 });
 
+const categorySchema = joi.object({
+  name: joi.string().required(),
+});
+
 const tokenValidation = (token) => {
   if (!token) throw generateError('Token not found', HTTP.UNAUTHORIZED);
   jwt.verify(token, process.env.JWT_SECRET, (err) => {
@@ -25,4 +29,4 @@ const tokenValidation = (token) => {
   });
 };
 
-module.exports = { userSchema, loginSchema, tokenValidation };
+module.exports = { userSchema, loginSchema, categorySchema, tokenValidation };

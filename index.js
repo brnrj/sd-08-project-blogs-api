@@ -1,6 +1,7 @@
 const express = require('express');
 
 const Users = require('./controllers/Users');
+const Categories = require('./controllers/Categories');
 
 const app = express();
 app.use(express.json());
@@ -15,5 +16,7 @@ app.get('/user/:id?', Users.getUsers);
 app.post('/user', Users.createUser);
 
 app.post('/login', Users.login);
+
+app.post('/categories', Categories.createCategory);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
