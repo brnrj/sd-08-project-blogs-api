@@ -67,6 +67,11 @@ const getUsers = async (token, id) => {
 
     if (!id) {
       responseData = await Users.findAll();
+    } else {
+      responseData = await Users.findOne({ where: { id } });
+      if (!responseData) {
+        throw generateError('User does not exist', HTTP.NOT_FOUND);
+      }
     }
 
     return { status: HTTP.OK, result: responseData };
