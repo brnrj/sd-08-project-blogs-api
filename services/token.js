@@ -7,10 +7,10 @@ const tokenCreate = (req, _res, next) => {
     algorithm: 'HS256',
 };
   const token = jwt.sign(
-    { email }, 
-    process.env.JWT_SECRET, 
+    { email },
+    process.env.JWT_SECRET,
     jwtConfig,
-  );  
+  );
   req.userToken = token;
 next();
 };
