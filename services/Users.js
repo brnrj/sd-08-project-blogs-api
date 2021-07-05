@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { StatusCodes: HTTP } = require('http-status-codes');
 
 const { Users } = require('../models');
-const { userSchema, loginSchema } = require('./validation');
+const { userSchema, loginSchema, tokenValidation } = require('./validation');
 
 const generateError = require('../utils/generateError');
 
@@ -60,4 +60,19 @@ const login = async (loginData) => {
   }
 };
 
-module.exports = { createUser, login };
+const getUsers = async (token, id) => {
+  try {
+    tokenValidation(token);
+    let responseData;
+
+    if (!id) {
+      responseData = await Users.findAll();
+    }
+
+    return { status: HTTP.OK, result: responseData };
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = { createUser, login, getUsers };

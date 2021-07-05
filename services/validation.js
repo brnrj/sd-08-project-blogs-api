@@ -1,4 +1,8 @@
 const joi = require('joi');
+const jwt = require('jsonwebtoken');
+const { StatusCodes: HTTP } = require('http-status-codes');
+
+const generateError = require('../utils/generateError');
 
 const userSchema = joi.object({
   displayName: joi.string().min(8),
@@ -12,4 +16,13 @@ const loginSchema = joi.object({
   password: joi.string().length(6).required(),
 });
 
-module.exports = { userSchema, loginSchema };
+const tokenValidation = (token) => {
+  if (!token) throw generateError('Token not found', HTTP.UNAUTHORIZED);
+  jwt.verify(token, process.env.JWT_SECRET, (err) => {
+    if (err) {
+      throw generateError('Expired or invalid token', HTTP.UNAUTHORIZED);
+    }
+  });
+};
+
+module.exports = { userSchema, loginSchema, tokenValidation };

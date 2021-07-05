@@ -10,6 +10,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+app.get('/user/:id?', Users.getUsers);
+
 app.post('/user', Users.createUser);
 
 app.post('/login', Users.login);
