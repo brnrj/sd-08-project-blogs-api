@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
+require('dotenv/config');
 
 const { User } = require('../models/index.js');
 
-const secret = 'seusecretdetoken';
+const secret = process.env.JWT_SECRET;
 const jwtConfig = {
   expiresIn: '7d',
   algorithm: 'HS256',
@@ -78,7 +79,6 @@ const logarUsuario = async (usuario) => {
 
 const buscarTodosUsuarios = async () => {
   const buscarUsuarios = await User.findAll();
-  console.log(buscarUsuarios);
   return buscarUsuarios;
 };
 
