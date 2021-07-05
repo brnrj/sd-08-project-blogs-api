@@ -5,7 +5,7 @@ const { notFoundHandler, jwtAuthentication } = require('../middlewares');
 
 const route = express.Router();
 
-route.get('/:id', Controller.findById);
+route.get('/:id', jwtAuthentication('Users'), Controller.findById);
 
 route.put('/:id', isBodyValidFor('update'), Controller.updateById);
 

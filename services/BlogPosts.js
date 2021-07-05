@@ -16,10 +16,14 @@ const getAll = async () => {
 };
 
 const findById = async (id) => {
-  const resource = await BlogPost.findByPk(id);
+  const resource = await BlogPost.findByPk(id, {
+    include: [
+      'user',
+      { association: 'categories', through: { attributes: [] } },
+    ],
+  });
   if (!resource) {
-    return { error: {
-    code: 'notFound', message: `${BlogPosts.singular} not found` } };
+    return { error: { code: 'notFound', message: 'Post does not exist' } };
   }
   return { result: resource };
 };
