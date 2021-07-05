@@ -6,6 +6,7 @@ async function validateToken(req, res, next) {
   try {
     const decode = getTokenUser(token);
     req.token = decode;
+    // next();
   } catch (error) {
     throw res.status(401).json({ message: 'Expired or invalid token' });
   }
