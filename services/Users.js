@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { StatusCodes: HTTP } = require('http-status-codes');
 
 const { Users } = require('../models');
-const { userSchema } = require('./validation');
+const { userSchema, loginSchema } = require('./validation');
 
 const generateError = require('../utils/generateError');
 
@@ -25,6 +25,7 @@ const createUser = async (user) => {
     }
 
     const { dataValues: createdUser } = await Users.create(user);
+    delete createdUser.password;
 
     const token = jwt.sign(createdUser, process.env.JWT_SECRET, jwtConfig);
 
@@ -34,4 +35,29 @@ const createUser = async (user) => {
   }
 };
 
-module.exports = { createUser };
+const login = async (loginData) => {
+  try {
+    const isInvalid = loginSchema.validate(loginData).error;
+
+    if (isInvalid) {
+      throw generateError(isInvalid.details[0].message);
+    }
+
+    const userData = await Users.findOne({ where: loginData });
+
+    if (!userData) {
+      throw generateError('Invalid fields');
+    }
+
+    const { dataValues } = userData;
+    delete dataValues.password;
+
+    const token = jwt.sign(dataValues, process.env.JWT_SECRET, jwtConfig);
+
+    return { status: HTTP.OK, result: { token } };
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = { createUser, login };
