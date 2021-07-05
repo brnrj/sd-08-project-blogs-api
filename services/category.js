@@ -1,5 +1,5 @@
 const { sequelize } = require('../models');
-const { Category: CategoryModel } = require('../models');
+const { Categories: CategoryModel } = require('../models');
 const { CategorySchema } = require('../schema');
 const { customError } = require('../utils/index');
 
@@ -18,6 +18,9 @@ const createOne = async (newCategory) => {
     CategoryModel.create({ ...newCategory }, { transaction }));
 };
 
+const findAll = async () => CategoryModel.findAll();
+
 module.exports = {
   createOne,
+  findAll,
 };
