@@ -7,7 +7,10 @@ const sequelize = new Sequelize(config.development);
 
 const getAll = async () => {
   const resources = await BlogPost.findAll({
-    include: [{ model: 'User', as: 'user', through: { attributes: [] } }],
+    include: [
+      'user',
+      { association: 'categories', through: { attributes: [] } },
+    ],
   });
   return { result: resources };
 };
@@ -29,9 +32,6 @@ const mapCategories = (post) => (category) => ({
 const insertOne = async (obj) => {
   const { categoryIds, ...post } = obj;
   const categories = await Category.findAll({ where: { id: categoryIds } });
-  // const categories = categoriesSrc.map(({ dataValues }) => dataValues);
-  // console.log('categories: ', categories);
-  // console.log(categories[0]);
   if (categoryIds.length !== categories.length) {
     return { error: { code: 'badRequest', message: '"categoryIds" not found' } };
   }
