@@ -8,7 +8,8 @@ const validName = (name) => {
 const validEmail = (email) => {
   const regex = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   if (email === undefined) return '"email" is required';
-  if (!regex.test(email)) return '"email" must be a valid email';
+  const test = regex.test(email);
+  if (test === false) return '"email" must be a valid email';
   return false;
 };
 

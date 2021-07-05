@@ -20,7 +20,7 @@ UserController.post('/', validata, tokenCreate, async (req, res) => {
 });
 
 // findAll
-UserController.get('/', tokenCreate, auth, async (req, res) => {
+UserController.get('/', auth, async (req, res) => {
   const { token } = req.headers.authorization;
   if (!token) res.status(STATUS_401).json({ message: 'Token not found' });
   const users = await UserController.findAll({ attributes: { exclude: ['password'] } });
