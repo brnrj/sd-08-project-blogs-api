@@ -1,11 +1,13 @@
 const { Op } = require('sequelize');
 const { Users, Categories } = require('../models');
 
-const userExists = async (req, res, _next) => {
+const userExists = async (req, res, next) => {
   const { email } = req.body;
   const user = await Users.findOne({ where: { email } });
-  if (user) {
-    return res.status(409).json({ message: 'User already registered' });
+  if (user && user.dataValues) {
+    res.status(409).json({ message: 'User already registered' });
+  } else {
+    next();
   }
 };
 

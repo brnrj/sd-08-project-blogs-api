@@ -9,7 +9,6 @@ const validateUserRegister = async (req, res, next) => {
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
-  next();
 };
 
 const validateLogin = async (req, res, next) => {
