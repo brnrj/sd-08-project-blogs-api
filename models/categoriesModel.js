@@ -10,7 +10,6 @@ const Category = (sequelize, DataTypes) => {
   //       as: 'blogposts',
   //       through: 'PostsCategories',
   //       foreignKey: 'categoryId',
-  //       otherKey: 'categoryId',
   //     });
   // };
 

@@ -43,4 +43,39 @@ router.get('/', validJWT, async (req, res) => {
   return res.status(statusCode.code.c200).json(getAllPosts);
 });
 
+router.get('/:id', validJWT, async (req, res) => {
+  const { id } = req.params;
+  console.log('id', id);
+  const getPostsById = await postCategServices.getPostsById(id);
+  console.log('getPostsById', getPostsById);
+
+  if (getPostsById.message) {
+    return res.status(statusCode.code.c404).json(getPostsById);
+  }
+
+  return res.status(statusCode.code.c200).json(getPostsById);
+});
+
+router.put('/:id', validJWT, async (req, res) => {
+  const { id } = req.params;
+  const { email } = req;
+  const { title, content, categoryIds } = req.body;
+
+  if (categoryIds) {
+    return res.status(statusCode.code.c400).json({ message: 'Categories cannot be edited' });
+  }
+
+  const getPosts = await postCategServices.getPostsById(id);
+  const getUserPostOwner = await postCategServices.filterAllUserByEmail(email);
+
+  if (getPosts.userId !== getUserPostOwner.id) {
+    return res.status(statusCode.code.c401).json({ message: 'Unauthorized user' });
+  }
+  const updatedPosts = await postCategServices.updatedPosts(title, content, id);
+
+  if (updatedPosts.message) return res.status(statusCode.code.c400).json(updatedPosts);
+
+  return res.status(statusCode.code.c200).json(updatedPosts);
+});
+
 module.exports = router;
