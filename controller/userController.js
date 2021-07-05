@@ -4,6 +4,7 @@ const httpStatusCodeSucess = 200;
 const httpStatusCodeCreated = 201;
 const httpStatusCodeBadRequest = 400;
 const httpStatusCodeUnauthorized = 401;
+const httpStatusCodeNotFound = 404;
 const httpStatusCodeConflict = 409;
 
 const criarUsuario = async (req, res) => {
@@ -49,8 +50,25 @@ const buscarTodosUsuarios = async (req, res) => {
   }
 };
 
+const buscarUsuarioPorId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const usuario = await userService.buscarUsuarioPorId(id);
+    return res.status(httpStatusCodeSucess).json(usuario);
+  } catch (err) {
+    const httpRetorno = err.message === 'User does not exist' 
+      ? httpStatusCodeNotFound : httpStatusCodeUnauthorized;
+    res.status(httpRetorno).json(
+      {
+        message: err.message,
+      },
+    );
+  }
+};
+
 module.exports = { 
   criarUsuario,
   login,
   buscarTodosUsuarios,
+  buscarUsuarioPorId,
  };

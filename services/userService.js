@@ -81,8 +81,17 @@ const buscarTodosUsuarios = async () => {
   return buscarUsuarios;
 };
 
+const buscarUsuarioPorId = async (id) => {
+  const usuario = await User.findOne({ where: { id } });
+  if (!usuario) {
+    throw new Error('User does not exist');
+  }
+  return usuario;
+};
+
 module.exports = {
   criar,
   logarUsuario,
   buscarTodosUsuarios,
+  buscarUsuarioPorId,
 };

@@ -16,3 +16,4 @@ app.get('/', (request, response) => {
 app.post('/user', userController.criarUsuario);
 app.post('/login', userController.login);
 app.get('/user', auth, userController.buscarTodosUsuarios);
+app.get('/user/:id', auth, userController.buscarUsuarioPorId);
