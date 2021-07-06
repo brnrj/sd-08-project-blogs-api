@@ -12,7 +12,7 @@ const tokenCreate = (req, _res, next) => {
     process.env.JWT_SECRET,
     jwtConfig,
   );
-  console.log('midlewareToken', token);
+  // console.log('midlewareToken', token);
   req.userToken = token;
 next();
 };
