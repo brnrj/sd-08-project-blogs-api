@@ -17,25 +17,18 @@ router.post('/', validateUserRegister, (req, res) => {
 
 router.get('/', validateToken, (req, res) => {
   Users.findAll()
-  .then((users) => {
-    res.status(200).json(users);
-  });
+  .then((users) => res.status(200).json(users));
 });
 
 router.get('/:id', validateToken, (req, res) => {
   Users.findByPk(req.params.id)
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'User does not exist' });
+        return res.status(404).send({ message: 'User does not exist' });
       }
       const { password: _, ...UserWithoutPassword } = user.dataValues;
-      
-      res.status(200).json(UserWithoutPassword);
-    })
-   .catch((e) => {
-    console.log(e.message);
-    res.status(500).send({ message: 'Algo deu errado' });
-  });
+      return res.status(200).json(UserWithoutPassword);
+    });
 });
 
 router.delete('/me', validateToken, (req, res) => {
@@ -43,9 +36,7 @@ router.delete('/me', validateToken, (req, res) => {
   Users.destroy({
     where: { id: userId },
   })
-  .then(() => {
-    res.status(204).send();
-  });
+  .then(() => res.status(204).send());
 });
 
 module.exports = router;

@@ -55,7 +55,7 @@ router.get('/:id', validateToken, (req, res) => {
     ],
   })
   .then((post) => {
-    if (!post) res.status(404).json({ message: 'Post does not exist' });
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
     return res.status(200).json(post);
   });
 });
@@ -77,7 +77,7 @@ router.delete('/:id', validateToken, verifyUser, (req, res) => {
   const { id } = req.params;
   BlogPosts.destroy({ where: { id } })
   .then((post) => {
-    if (!post) res.status(404).json({ message: 'Post does not exist' });
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
     return res.status(204).send();
   });
 });
