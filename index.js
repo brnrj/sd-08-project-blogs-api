@@ -11,6 +11,7 @@ app.use(boom());
 app.use('/user', routes.userRouter);
 app.use('/login', routes.loginRouter);
 app.use('/categories', routes.categoriesRouter);
+app.use('/post', routes.postRouter);
 app.use(middleware.error);
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
