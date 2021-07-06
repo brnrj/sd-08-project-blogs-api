@@ -24,4 +24,30 @@ router.post('/', validateToken, postValidation, categoryValidation, async (req, 
   return res.status(201).json(post);
 });
 
+// Deletar o post do usuário pelo id
+router.delete('/:id', validateToken, async (req, res) => {
+  const { email } = req.user;
+  const { id } = req.params;
+
+  const user = await Users.findOne({ where: { email } });
+
+  const userId = user.dataValues.id;
+
+  const post = await BlogPosts.findOne({
+    include: { model: Users, as: 'users', attributes: { exclude: 'password' } },
+    where: { id },
+  });
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post does not exist' });
+  }
+  if (post.dataValues.userId !== userId) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+
+  await BlogPosts.destroy({ where: { userId, id } });
+
+  return res.status(204).json();
+});
+
 module.exports = router;
