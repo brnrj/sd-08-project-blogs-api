@@ -6,6 +6,13 @@ const middlewares = require('../middlewares');
 
 const router = express.Router();
 
+router.post('/', middlewares.validateUser, middlewares.createToken,
+  rescue(async (req, res) => {
+    const { displayName, email, password, image } = req.body;
+    await User.create({ displayName, email, password, image });
+    return res.status(201).json({ token: res.token });
+  }));
+
 // // Este endpoint usa o método findAll do Sequelize para retorno todos os users.
 // router.get('/', async (_req, res) => {
 //   try {
@@ -49,13 +56,6 @@ const router = express.Router();
 //     res.status(500).json({ message: 'Algo deu errado' });
 //   }
 // });
-
-router.post('/', middlewares.validateUser, middlewares.createToken,
-  rescue(async (req, res) => {
-    const { displayName, email, password, image } = req.body;
-    await User.create({ displayName, email, password, image });
-    return res.status(201).json({ token: res.token });
-  }));
 
 // // Este endpoint usa o método update do Sequelize para alterar um usuário no banco.
 // router.put('/:id', async (req, res) => {
