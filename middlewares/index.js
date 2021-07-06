@@ -3,6 +3,7 @@ const login = require('./login');
 const auth = require('./auth');
 const users = require('./users');
 const categories = require('./categories');
+const blogPost = require('./blogPost');
 
 module.exports = {
   users,
@@ -10,4 +11,5 @@ module.exports = {
   login,
   auth,
   categories,
+  blogPost,
 };

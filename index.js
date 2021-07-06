@@ -11,6 +11,8 @@ app.use('/user', routes.user);
 
 app.use('/categories', routes.categories);
 
+app.use('/post', routes.posts);
+
 app.post('/login', middleware.login);
 
 // não remova esse endpoint, e para o avaliador funcionar
