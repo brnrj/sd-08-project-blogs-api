@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
   if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
 
   if (post.dataValues.userId !== user.dataValues.id) {
-    return res.status(UNAUTHORIZED).json({ message: 'Usuário não autorizado' });
+    return res.status(UNAUTHORIZED).json({ message: 'Unauthorized user' });
   }
 
   next();

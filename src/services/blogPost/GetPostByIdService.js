@@ -9,8 +9,8 @@ module.exports = {
         include: [{
           model: User,
           as: 'user',
-          attributes: { exclude: ['password'] } }],
-        attributes: { exclude: ['userId'] },
+          attributes: { exclude: ['password'] }, 
+        }],
       });
 
     if (post.length === 0) return false;

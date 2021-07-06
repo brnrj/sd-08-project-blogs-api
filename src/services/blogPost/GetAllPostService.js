@@ -9,7 +9,6 @@ module.exports = {
           model: User,
           as: 'user',
           attributes: { exclude: ['password'] } }],
-        attributes: { exclude: ['userId'] },
       });
 
     return posts;
