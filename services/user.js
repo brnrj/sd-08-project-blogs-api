@@ -30,8 +30,9 @@ const isValidPassword = (password) => {
     return '"password" is not allowed to be empty';
   }
 
-  if (password.length < SIX)
+  if (password.length < SIX) {
     return '"password" length must be 6 characters long';
+  }
 
   return undefined;
 };
