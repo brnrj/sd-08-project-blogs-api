@@ -1,11 +1,10 @@
-// codigo inspirado no do Douglas Cajueiro https://github.com/tryber/sd-08-project-blogs-api/pull/53/files
 require('dotenv').config({ path: '../../config' });
 const services = require('../services');
 
 const creates = async (req, res) => {
   console.log('Criando categoria');
   const userInfos = req.body;
-  const createdCategories = await services.categories.create(userInfos);
+  const createdCategories = await services.Categories.create(userInfos);
   const { error, isBoom } = createdCategories;
   if (error) {
     return res.boom.notFound(error.message);
@@ -21,7 +20,7 @@ const creates = async (req, res) => {
 
 const findAll = async (_req, res) => {
   console.log('Pesquisando todos');
-  const foundAll = await services.categories.findAll();
+  const foundAll = await services.Categories.findAll();
   return res.status(Number(process.env.STATUS_OK)).json(foundAll);
 };
 

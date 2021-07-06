@@ -1,7 +1,9 @@
 const user = require('./userServices');
-const categories = require('./categoriesServices');
+const Categories = require('./categoriesServices');
+const blogPost = require('./blogPostServices');
 
 module.exports = {
     user,
-    categories,
+    Categories,
+    blogPost,    
 };
