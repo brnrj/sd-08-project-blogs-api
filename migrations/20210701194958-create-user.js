@@ -19,11 +19,11 @@ module.exports = {
         }
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       image: {
         type: Sequelize.STRING
-      },
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {
