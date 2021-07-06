@@ -15,6 +15,7 @@ const router = express.Router();
 const CONFLICT = 409;
 const CREATED = 201;
 const OK = 200;
+const NOT_FOUND = 404;
 
 router.post('/', userValidation, async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -28,6 +29,13 @@ router.post('/', userValidation, async (req, res) => {
 router.get('/', authenticator, async (_req, res) => {
     const users = await Users.findAll();
     return res.status(OK).json(users);
+});
+
+router.get('/:id', authenticator, async (req, res) => {
+    const { id } = req.params;
+    const user = await Users.findByPk(id);
+    if (!user) return res.status(NOT_FOUND).send({ message: 'User does not exist' });
+    return res.status(OK).json(user);
 });
 
 module.exports = router;
