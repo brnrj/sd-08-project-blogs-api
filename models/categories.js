@@ -4,7 +4,7 @@ const Categories = (sequelize, DataTypes) => {
     }, { timestamps: false });
 
     // categories.associate = (models) => {
-    //     categories.hasOne(models.PostsCategories, { foreignKey: 'categoryId', as: 'posts' });
+    //     categories.hasOne(models.PostsCategories, { foreignKey: 'categoryId' });
     //     };
 
     return categories;
