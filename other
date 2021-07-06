@@ -1,0 +1,108 @@
+require('dotenv/config');
+const jwt = require('jsonwebtoken');
+const { User, Category, Post } = require('../models/index.js');
+
+const validatePost = (title, content, categoryIds) => {
+  if (title === undefined) {
+    return '"title" is required';
+  }
+  if (content === undefined) {
+    return '"content" is required';
+  }
+  if (categoryIds === undefined) {
+    return '"categoryIds" is required';
+  }
+  return undefined;
+};
+
+const validateData = (title, content, categoryIds) => {
+  const invalidPost = validatePost(title, content, categoryIds);
+
+  if (invalidPost) {
+    throw new Error(invalidPost);
+  }
+  
+  return true;
+};
+
+const findUserById = async (token) => {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = await User.findOne({ where: { email: decoded.email } });
+  return userId.id;
+};
+
+const categoryValid = async (categoryIds) => {
+  const categoryExists = await Category.findAll();
+  const ids = categoryExists.map((category) => category.id);
+  const idsAreValid = categoryIds.every((id) => ids.includes(id));
+  return idsAreValid;
+};
+
+const newPost = async (userId, title, content, categoryIds) => {
+  const createNewPost = await Post.create({
+    userId,
+    title,
+    content,
+    categoryIds,
+    published: new Date(),
+    updated: new Date() });
+  return createNewPost;
+};
+
+module.exports = { validateData, findUserById, categoryValid, newPost };
+
+----------------------------------------------------------------------------------
+
+
+require('dotenv/config');
+const jwt = require('jsonwebtoken');
+const { User, Category, Post } = require('../models/index.js');
+
+const validatePost = (title, content, categoryIds) => {
+  if (title === undefined) {
+    return '"title" is required';
+  }
+  if (content === undefined) {
+    return '"content" is required';
+  }
+  if (categoryIds === undefined) {
+    return '"categoryIds" is required';
+  }
+  return undefined;
+};
+
+const validateData = (title, content, categoryIds) => {
+  const invalidPost = validatePost(title, content, categoryIds);
+
+  if (invalidPost) {
+    throw new Error(invalidPost);
+  }
+  
+  return true;
+};
+
+const findUserById = async (token) => {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = await User.findOne({ where: { email: decoded.email } });
+  return userId.id;
+};
+
+const categoryValid = async (categoryIds) => {
+  const categoryExists = await Category.findAll();
+  const ids = categoryExists.map((category) => category.id);
+  const idsAreValid = categoryIds.every((id) => ids.includes(id));
+  return idsAreValid;
+};
+
+const newPost = async (userId, title, content, categoryIds) => {
+  const createNewPost = await Post.create({
+    userId,
+    title,
+    content,
+    categoryIds,
+    published: new Date(),
+    updated: new Date() });
+  return createNewPost;
+};
+
+module.exports = { validateData, findUserById, categoryValid, newPost };

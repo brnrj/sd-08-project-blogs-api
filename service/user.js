@@ -1,8 +1,7 @@
+require('dotenv/config');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/index.js');
-
-const secret = 'sddsFrontEnd';
 
 const jwtConfig = {
   expiresIn: '1d',
@@ -51,8 +50,21 @@ const newUser = async (displayName, email, password, image) => {
   
   await User.create({ displayName, email, password, image });
 
-  const token = jwt.sign({ email, password }, secret, jwtConfig);
+  const token = jwt.sign({ email, password }, process.env.JWT_SECRET, jwtConfig);
   return token;
 };
 
-module.exports = { newUser };
+const getAllUsers = async () => {
+  const allUsers = await User.findAll();
+  return allUsers;
+};
+
+const getById = async (id) => {
+  const findUser = await User.findOne({ where: { id } });
+
+  if (!findUser) throw new Error('User does not exist');
+
+  return findUser;
+};
+
+module.exports = { newUser, getAllUsers, getById };

@@ -1,8 +1,7 @@
+require('dotenv/config');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/index.js');
-
-const secret = 'sddsFrontEnd';
 
 const jwtConfig = {
   expiresIn: '1d',
@@ -34,7 +33,7 @@ const login = async (email, password) => {
     throw new Error('Invalid fields');
   }
 
-  const token = jwt.sign({ email, password }, secret, jwtConfig);
+  const token = jwt.sign({ email, password }, process.env.JWT_SECRET, jwtConfig);
   return token;
 };
 
