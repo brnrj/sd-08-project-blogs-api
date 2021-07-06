@@ -12,7 +12,7 @@ const CARACTERES_MINIMO_NOME = 8;
 const CARACTERES_MINIMO_SENHA = 6;
 const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
-const validarName = async (usuario) => {
+const validarNome = async (usuario) => {
   const { displayName } = usuario;
   if (displayName && displayName.length < CARACTERES_MINIMO_NOME) {
     throw new Error('"displayName" length must be at least 8 characters long');
@@ -55,7 +55,7 @@ const validarExistenciaUsuario = async (usuario) => {
 
 const criar = async (usuario) => {
   const { displayName, email, image } = usuario;
-  await validarName(usuario);
+  await validarNome(usuario);
   await validarEmail(usuario);
   await validarSenha(usuario);
   await validarExistenciaUsuario(usuario);
