@@ -1,7 +1,7 @@
 const bp = require('../services/blogPost');
 
-const createBp = async (req, res) => {
-  try {      
+const createNewBlogPost = async (req, res) => {
+  try {
     const { title, content, categoryIds } = req.body;
     // console.log(req.user);
     const { id } = req.user;
@@ -25,4 +25,4 @@ const findAllPosts = async (req, res) => {
   }
 };
 
-module.exports = { createBp, findAllPosts };
+module.exports = { createNewBlogPost, findAllPosts };
