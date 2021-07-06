@@ -11,7 +11,7 @@ const postBlogValidation = Joi.object({
     .string()
     .required(),
 
-    categoryIds: Joi.array().items(
+    categoryIds: Joi.array().required().items(
       Joi.number()
       .required(),
     ),

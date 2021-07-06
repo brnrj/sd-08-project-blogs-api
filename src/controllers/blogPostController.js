@@ -1,6 +1,6 @@
 // codigo inspirado no do Douglas Cajueiro https://github.com/tryber/sd-08-project-blogs-api/pull/53/files
 require('dotenv').config({ path: '../../config' });
-const boom = require('@hapi/boom');
+// const boom = require('boom');
 const jwt = require('../auth/tokenGeneratis');
 const services = require('../services');
 
@@ -8,18 +8,15 @@ const createsBlogPost = async (req, res) => {
   console.log('Criando BlogPost');
   const blogPostInfos = req.body;
   const token = req.headers.authorization;
-  const { user } = jwt.tokenDecoded(token);
-  const createdBlogPost = await services.blogPost.CreateBlogPost(blogPostInfos, user);
-  const { error, isBoom } = createdBlogPost;
+  const { email } = jwt.tokenDecoded(token);
+  const { id } = await services.user.findByKey('email', email);
+  console.log(id);
+
+  const createdBlogPost = await services.blogPost.CreateBlogPost(blogPostInfos, id);
+  const { error } = createdBlogPost;
   if (error) {
-    return boom.notFound(error.message);
+    return res.boom.badRequest('"categoryIds" not found');
   }
-  if (isBoom) {
-    // console.log('Created', createdBlogPost.output);
-    const { statusCode } = createdBlogPost.output;
-    return res.status(statusCode).json({ message: 'User already registered' });
-  }
-  // console.log('Created', process.env.STATUS_CREATED, createdBlogPost);
   
   return res.status(Number(process.env.STATUS_CREATED)).json(createdBlogPost);
 };

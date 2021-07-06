@@ -6,7 +6,7 @@ const { Categories } = require('../../models');
 const findByKey = async (key, value) => {
   try {
     console.log(key, value, { key: value });
-    const foundCategories = await Categories.findOne({ where: key[value] });
+    const foundCategories = await Categories.findOne({ where: { [key]: value } });
     return foundCategories;
   } catch (error) {
     return { isBoom: true };
