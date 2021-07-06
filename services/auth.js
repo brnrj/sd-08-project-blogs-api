@@ -4,6 +4,7 @@ const STATUS_401 = 401;
 
 const auth = async (req, res, next) => {
   const token = req.headers.authorization;
+  console.log('auth', token);
   if (!token) return res.status(STATUS_401).json({ message: 'Token not found' });
   try {
     const decode = jwt.verify(token, process.env.JWT_SECRET);

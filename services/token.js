@@ -1,9 +1,10 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 const tokenCreate = (req, _res, next) => {
   const { email } = req.body;
   const jwtConfig = {
-    expiresIn: '12h',
+    expiresIn: '7d',
     algorithm: 'HS256',
 };
   const token = jwt.sign(
@@ -11,6 +12,7 @@ const tokenCreate = (req, _res, next) => {
     process.env.JWT_SECRET,
     jwtConfig,
   );
+  console.log('midlewareToken', token);
   req.userToken = token;
 next();
 };

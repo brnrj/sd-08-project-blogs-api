@@ -13,10 +13,9 @@ LoginController.post('/', validLogin, tokenCreate, async (req, res) => {
   const { email } = req.body;
   console.log('arquivo logincontroller - email', email);
   const { token } = req.userToken;
-  // if (!email) res.status(STATUS_400).json({ message: '"email" is required' }); 
-  // if (!password) res.status(STATUS_400).json({ message: '"password" is required' }); 
-  // console.log(token);
+  console.log('arquivo logincontroller - token', token);
   const userEmail = await User.findOne({ where: { email } });
+   console.log('arquivo logincontroller - userEmail', userEmail);
   if (!userEmail) { 
     return res.status(STATUS_400).json({ message: 'Invalid fields' });
   }  
