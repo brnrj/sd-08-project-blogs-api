@@ -24,7 +24,7 @@ UserController.post('/', validata, tokenCreate, async (req, res) => {
 // findAll
 UserController.get('/', auth, async (req, res) => {
   const users = await User.findAll({ attributes: { exclude: ['password'] } });
- console.log('findAll', users);
+ // console.log('findAll', users);
   return res.status(STATUS_200).json(users);
 });
 
