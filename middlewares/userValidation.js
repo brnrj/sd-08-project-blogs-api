@@ -18,7 +18,6 @@ const validatePassword = (password) => {
 
 const userValidation = (req, res, next) => {
   const { displayName, email, password } = req.body;
-  console.log(displayName, email, password);
   let message;
   if (!validateDisplayName(displayName)) {
     message = '"displayName" length must be at least 8 characters long';
