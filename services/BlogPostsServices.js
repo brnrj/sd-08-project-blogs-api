@@ -15,7 +15,7 @@ const createTheNewBlogPost = async ({ userId, title, content, categoryIds }) => 
 
 const searchAllBPosts = async (options = {
   include: [{ model: UserModel, as: 'user', attributes: { exclude: ['password'] } },
-  { model: CategoryModel, as: 'categories', attributes: { exclude: ['PostsCategories'] } },
+  { model: CategoryModel, as: 'categories', through: { attributes: [] } },
   ],
 }) => {
   try {
@@ -32,7 +32,7 @@ const searchSpecificBpost = async (id) => {
     const searchSpecificPost = await BlogPostsModel.findOne({
       where: { id },
       include: [{ model: UserModel, as: 'user', attributes: { exclude: ['password'] } },
-      { model: CategoryModel, as: 'categories', attributes: { exclude: ['PostsCategories'] } },
+      { model: CategoryModel, as: 'categories', through: { attributes: [] } },
       ],
     });
     return searchSpecificPost;
