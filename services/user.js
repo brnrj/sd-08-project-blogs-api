@@ -9,7 +9,7 @@ const jwtConfig = {
 const EIGHT = 8;
 const SIX = 6;
 // regex tirada do: https:/ / formik.org / docs / guides / validation;
-  const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
 const isValidUser = (displayName, email) => {
   if (displayName && displayName.length < EIGHT) {
@@ -30,8 +30,9 @@ const isValidPassword = (password) => {
     return '"password" is not allowed to be empty';
   }
 
-  if (password.length < SIX) return '"password" length must be 6 characters long';
-  
+  if (password.length < SIX)
+    return '"password" length must be 6 characters long';
+
   return undefined;
 };
 
@@ -45,19 +46,19 @@ const isValidEmail = (email) => {
 const validUser = async (displayName, email, password, image) => {
   const notUser = isValidUser(displayName, email);
   const notPassword = isValidPassword(password);
-  
+
   if (notUser) throw new Error(notUser);
-  
+
   if (notPassword) throw new Error(notPassword);
 
   const findUser = await User.findOne({ where: { email } });
-  
+
   if (findUser) throw new Error('User already registered');
 
   await User.create({ displayName, email, password, image });
 
   const token = jwt.sign({ displayName, email, image }, secret, jwtConfig);
-  return token; // obj com a chave token arrumar 
+  return token; // obj com a chave token arrumar
 };
 
 const login = async (email, password) => {
@@ -65,17 +66,17 @@ const login = async (email, password) => {
   const isValidUserPassword = isValidPassword(password);
 
   if (isValidUserEmail) throw new Error(isValidUserEmail);
-  
+
   if (isValidUserPassword) throw new Error(isValidUserPassword);
 
   const findEmail = await User.findOne({ where: { email } });
-  
+
   if (!findEmail) throw new Error('Invalid fields');
 
   const newToken = jwt.sign({ email, id: findEmail.id }, secret, jwtConfig);
   // console.log(newToken);
 
-  return newToken; 
+  return newToken;
 };
 
 const findAllUsers = async () => {
@@ -90,9 +91,14 @@ const findOneUserById = async (id) => {
   return oneUser;
 };
 
-module.exports = { 
+const removeUserFromDatabase = async (email) => {
+  await User.destroy({ where: { email } });
+};
+
+module.exports = {
   validUser,
   login,
   findAllUsers,
   findOneUserById,
- };
+  removeUserFromDatabase,
+};

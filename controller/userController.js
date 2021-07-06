@@ -46,7 +46,7 @@ const findAllUsers = async (req, res) => {
 const findOneUser = async (req, res) => {
   try {
     const { id } = req.params;
-   
+
     const oneUser = await user.findOneUserById(id);
     return res.status(SUCCESS).json(oneUser);
   } catch (e) {
@@ -61,9 +61,18 @@ const findOneUser = async (req, res) => {
   }
 };
 
-module.exports = { 
+const removeUser = async (req, res) => {
+  const { email } = req.user;
+
+  await user.removeUserFromDatabase(email);
+
+  return res.status(204).json({});
+};
+
+module.exports = {
   createUser,
   login,
   findAllUsers,
   findOneUser,
+  removeUser,
 };
