@@ -65,14 +65,14 @@ const criar = async (usuario) => {
 };
 
 const logarUsuario = async (usuario) => {
-  const { email, password } = usuario;
+  const { email } = usuario;
   await validarEmail(usuario);
   await validarSenha(usuario);
   const buscarUsuario = await User.findOne({ where: { email } });
    if (!buscarUsuario) {
      throw new Error('Invalid fields');
    }
-   const token = jwt.sign({ email, password }, secret, jwtConfig);
+   const token = jwt.sign({ email, id: buscarUsuario.id }, secret, jwtConfig);
   return token;
 };
 

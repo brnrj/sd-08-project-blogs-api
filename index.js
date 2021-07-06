@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const auth = require('./middleware/jwt');
 const userController = require('./controller/userController');
 const categoryController = require('./controller/categoryController');
+const blogPostController = require('./controller/blogPostController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,3 +22,6 @@ app.get('/user/:id', auth, userController.buscarUsuarioPorId);
 
 app.post('/categories', auth, categoryController.criarCategoria);
 app.get('/categories', auth, categoryController.buscarTodasCategorias);
+
+app.post('/post', auth, blogPostController.criarBlogPost);
+app.get('/post', auth, blogPostController.buscarTodosPosts);
