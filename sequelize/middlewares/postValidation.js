@@ -45,6 +45,9 @@ const verifyUser = async (req, res, next) => {
     const { id } = req.params;
     const { id: userId } = getTokenUser(req.headers.authorization);
     const user = await BlogPosts.findOne({ where: { id } });
+    if (user === null) {
+      return res.status(404).json({ message: 'Post does not exist' });
+    }
     if (userId !== user.userId) {
       return res.status(401).json({ message: 'Unauthorized user' });
     }

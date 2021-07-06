@@ -76,10 +76,7 @@ router.put('/:id', validateToken, validateEditPost, verifyUser, (req, res) => {
 router.delete('/:id', validateToken, verifyUser, (req, res) => {
   const { id } = req.params;
   BlogPosts.destroy({ where: { id } })
-  .then((post) => {
-    if (!post) return res.status(404).json({ message: 'Post does not exist' });
-    return res.status(204).send();
-  });
+  .then(() => res.status(204).send());
 });
 
 module.exports = router;
