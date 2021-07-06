@@ -20,3 +20,4 @@ app.get('/user', auth, userController.buscarTodosUsuarios);
 app.get('/user/:id', auth, userController.buscarUsuarioPorId);
 
 app.post('/categories', auth, categoryController.criarCategoria);
+app.get('/categories', auth, categoryController.buscarTodasCategorias);

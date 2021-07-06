@@ -13,6 +13,12 @@ const criarCategoria = async (name) => {
   return buscarCategoria;
 };
 
+const buscarCategorias = async () => {
+  const buscarCategoria = await Category.findAll();
+  return buscarCategoria;
+};
+
 module.exports = {
   criarCategoria,
+  buscarCategorias,
 };
