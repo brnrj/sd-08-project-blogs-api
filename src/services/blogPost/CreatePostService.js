@@ -9,6 +9,7 @@ module.exports = {
     });
 
     const blogPost = {
+      id: post.id,
       title: post.title,
       content: post.content,
       userId: post.userId,
