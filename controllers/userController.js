@@ -2,7 +2,7 @@ const express = require('express');
 const rescue = require('express-rescue');
 
 const { User } = require('../models');
-const { validateUser, createToken } = require('../middlewares');
+const { validateUser, createToken, auth } = require('../middlewares');
 
 const router = express.Router();
 
@@ -10,20 +10,16 @@ router.post('/', validateUser, createToken,
   rescue(async (req, res) => {
     const { displayName, email, password, image } = req.body;
     await User.create({ displayName, email, password, image });
+    
     return res.status(201).json({ token: res.token });
   }));
   
-// // Este endpoint usa o método findAll do Sequelize para retorno todos os users.
-// router.get('/', async (_req, res) => {
-//   try {
-//     const users = await User.findAll();
+router.get('/', auth,
+  rescue(async (_req, res) => {
+    const users = await User.findAll();
 
-//     return res.status(200).json(users);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Algo deu errado' });
-//   };
-// });
+    return res.status(200).json(users);
+  }));
 
 // // Este endpoint usa o método findByPk do Sequelize para buscar um usuário pelo id.
 // router.get('/:id', async (req, res) => {

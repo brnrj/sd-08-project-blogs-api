@@ -13,5 +13,5 @@ module.exports = (req, _res, next) => {
 
   if (error) return next(error);
 
-  next();
+  return next();
 };

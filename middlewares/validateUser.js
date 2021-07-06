@@ -15,5 +15,5 @@ module.exports = (req, _res, next) => {
   }).validate({ displayName, email, password, image });
   if (error) return next(error);
 
-  next();
+  return next();
 };
