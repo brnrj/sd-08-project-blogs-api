@@ -20,13 +20,28 @@ const categorySchema = joi.object({
   name: joi.string().required(),
 });
 
+const postSchema = joi.object({
+  title: joi.string().required(),
+  content: joi.string().required(),
+  categoryIds: joi.array().required(),
+});
+
 const tokenValidation = (token) => {
   if (!token) throw generateError('Token not found', HTTP.UNAUTHORIZED);
-  jwt.verify(token, process.env.JWT_SECRET, (err) => {
+  let tokenData;
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       throw generateError('Expired or invalid token', HTTP.UNAUTHORIZED);
     }
+    tokenData = decoded;
   });
+  return tokenData;
 };
 
-module.exports = { userSchema, loginSchema, categorySchema, tokenValidation };
+module.exports = {
+  userSchema,
+  loginSchema,
+  categorySchema,
+  postSchema,
+  tokenValidation,
+};
