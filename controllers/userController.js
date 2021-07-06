@@ -10,7 +10,7 @@ router.post('/', validateUser, createToken,
   rescue(async (req, res) => {
     const { displayName, email, password, image } = req.body;
     await User.create({ displayName, email, password, image });
-    
+
     return res.status(201).json({ token: res.token });
   }));
   
@@ -21,20 +21,19 @@ router.get('/', auth,
     return res.status(200).json(users);
   }));
 
-// // Este endpoint usa o método findByPk do Sequelize para buscar um usuário pelo id.
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const user = await User.findByPk(id);
+router.get('/:id', auth,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
 
-//     if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
+    if (!user) {
+      const err = new Error('User does not exist');
+      err.statusCode = 404;
+      throw err;
+    }
 
-//     return res.status(200).json(user);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Algo deu errado' });
-//   }
-// });
+    return res.status(200).json(user);
+  }));
 
 // // Este endpoint usa o método findOne do Sequelize para buscar um usuário pelo id e email.
 // // URL a ser utilizada para o exemplo http://localhost:3000/user/search/1?email=aqui-o-email
