@@ -3,7 +3,10 @@ module.exports = (err, _req, res, _next) => {
     return res.status(400).json({ message: err.details[0].message });
   }
 
-  console.log(err.original.errno);
+  if (err.message === 'Invalid fields') {
+    return res.status(400).json({ message: 'Invalid fields' });
+  }
+
   if (err.original.errno) {
     return res.status(409).json({ message: 'User already registered' });
   }

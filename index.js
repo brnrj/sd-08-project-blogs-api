@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv/config');
 
 const userController = require('./controllers/userController');
+const loginController = require('./controllers/loginController');
 const middlewares = require('./middlewares');
 
 const app = express();
@@ -15,6 +16,7 @@ app.get('/', (request, response) => {
 });
 
 app.use('/user', userController);
+app.use('/login', loginController);
 
 app.use(middlewares.error);
 
