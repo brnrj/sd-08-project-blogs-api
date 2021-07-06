@@ -13,7 +13,7 @@ LoginController.post('/', validLogin, tokenCreate, async (req, res) => {
   const { email } = req.body;
   // console.log('arquivo logincontroller - email', email);
   const token = req.userToken;
-  console.log('arquivo logincontroller - token', token);
+  // console.log('arquivo logincontroller - token', token);
   const userEmail = await User.findOne({ where: { email } });
   // console.log('arquivo logincontroller - userEmail', userEmail);
   if (!userEmail) { 
