@@ -1,7 +1,6 @@
 const { Router } = require('express');
 
-const { BlogPosts } = require('../models');
-const { Users } = require('../models');
+const { BlogPosts, Users, Categories } = require('../models');
 const { validateToken } = require('../auth/token');
 const { 
   postValidation,
@@ -22,6 +21,37 @@ router.post('/', validateToken, postValidation, categoryValidation, async (req, 
   const post = await BlogPosts.create({ userId, title, content, categoryIds });
 
   return res.status(201).json(post);
+});
+
+// Listar todos os post do usuário
+router.get('/', validateToken, async (_req, res) => {
+  const posts = await BlogPosts.findAll(
+    { include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ] },
+  );
+
+  return res.status(200).json(posts);
+});
+
+// Listar o post do usuário pelo id
+router.get('/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+
+  const post = await BlogPosts.findOne(
+    { where: { id },
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ] },
+  );
+
+  if (!post) {
+    return res.status(404).json({ message: 'Post does not exist' });
+  }
+
+  return res.status(200).json(post);
 });
 
 // Deletar o post do usuário pelo id
