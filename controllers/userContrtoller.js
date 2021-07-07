@@ -1,7 +1,8 @@
 const express = require('express');
 const { User } = require('../models');
-const { userValidation } = require('../middlewares');
+const { userValidation, checkToken } = require('../middlewares');
 
+const ok = 200;
 const creationSuccess = 201;
 const conflictError = 409;
 const serverError = 500;
@@ -20,6 +21,11 @@ router.post('/', userValidation, async (req, res) => {
   } catch (error) {
     res.status(serverError).json({ message: error.message });
   }
+});
+
+router.get('/', checkToken, async (req, res) => {
+  const users = await User.findAll();
+  res.status(ok).json(users);
 });
 
 module.exports = router;
