@@ -3,6 +3,7 @@ const express = require('express');
 
 const userController = require('./controllers/userController');
 const loginController = require('./controllers/loginController');
+const categoryController = require('./controllers/categoryController');
 const middlewares = require('./middlewares');
 
 const app = express();
@@ -17,6 +18,7 @@ app.get('/', (request, response) => {
 
 app.use('/user', userController);
 app.use('/login', loginController);
+app.use('/categories', categoryController);
 
 app.use(middlewares.error);
 
