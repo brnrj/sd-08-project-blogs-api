@@ -3,7 +3,7 @@ const { Router } = require('express');
 const validateToken = require('../middlewares/validateToken');
 const validatePost = require('../middlewares/validatePost');
 const validateUpdatePost = require('../middlewares/validateUpdatePost');
-// const validatePostFromUser = require('../middlewares/validatePostFromUser');
+const validatePostFromUser = require('../middlewares/validatePostFromUser');
 
 const PostController = require('../controllers/PostController');
 
@@ -13,6 +13,6 @@ userRoutes.post('/', validatePost, validateToken, PostController.createPost);
 userRoutes.get('/', validateToken, PostController.getAllPosts);
 userRoutes.get('/:id', validateToken, PostController.getPostById);
 userRoutes.put('/:id', validateToken, validateUpdatePost, PostController.updatePost);
-userRoutes.delete('/:id', () => 'Delete');
+userRoutes.delete('/:id', validateToken, validatePostFromUser, PostController.deletePost);
 
 module.exports = userRoutes;

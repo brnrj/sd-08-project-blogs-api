@@ -2,11 +2,13 @@ const CreatePostService = require('../services/blogPost/CreatePostService');
 const GetAllPostService = require('../services/blogPost/GetAllPostService');
 const GetPostByIdService = require('../services/blogPost/GetPostByIdService');
 const UpdatePostService = require('../services/blogPost/UpdatePostService');
+const DeletePostService = require('../services/blogPost/DeletePostService');
 
 const { NOT_FOUND } = require('../errors/status');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 
 module.exports = {
   async createPost(req, res) {
@@ -35,10 +37,16 @@ module.exports = {
 
     const updatePost = await UpdatePostService.execute(id, newData);
 
-    console.log('=========== ', updatePost.dataValues);
-
     if (!updatePost) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
 
     return res.status(OK).json(updatePost.dataValues);
+  },
+
+  async deletePost(req, res) {
+    const post = await DeletePostService.execute(req.params);
+
+    if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
+
+    return res.status(NO_CONTENT).json();
   },
 };
