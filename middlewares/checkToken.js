@@ -10,7 +10,6 @@ module.exports = async (req, res, next) => {
       return res.status(tokenError).json({ message: 'Token not found' });
     }
     const decoded = jwt.verify(token, secret);
-    console.log(decoded);
     const response = await User.findOne({ where: { email: decoded.data } });
     if (!response) {
       return res.status(tokenError).json({ message: 'Expired or invalid token' });
