@@ -9,7 +9,7 @@ const PostController = require('../controllers/PostController');
 const userRoutes = Router();
 
 userRoutes.post('/', validatePost, validateToken, PostController.createPost);
-userRoutes.get('/', () => 'Get');
+userRoutes.get('/', validateToken, PostController.getAllPosts);
 userRoutes.get('/:id', () => 'GetId');
 userRoutes.delete('/:id', () => 'Delete');
 
