@@ -13,6 +13,7 @@ const SUCCESS = 200;
 const CONFLICT = 409;
 const ERROR = 500;
 const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 
 const createUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -47,7 +48,31 @@ const login = async (req, res) => {
   }
 };
 
+const getUsers = async (_req, res) => {
+  try {
+    const users = await models.Users
+      .findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
+    return res.status(SUCCESS).json(users);
+  } catch (err) {
+    return res.status(ERROR).json({ message: err.message });
+  }
+};
+
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await models.Users.findOne({ where: { id } });
+    if (!user) return res.status(NOT_FOUND).json({ message: 'User does not exist' });
+    return res.status(SUCCESS).json(user);
+  } catch (err) {
+    return res.status(ERROR).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createUser, 
   login,
+  getUsers,
+  getUserById,
 };

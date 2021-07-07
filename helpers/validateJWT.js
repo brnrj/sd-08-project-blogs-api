@@ -1,28 +1,20 @@
 const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 
-const secret = 'mypass';
-const errorToken = 'Expired or invalid token';
+const secret = 'secret';
 
 const UNAUTHORIZED = 401;
 
-const validateJWT = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) {
-    return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
-  }
   try {
+    if (!token) return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
     const decoded = jwt.verify(token, secret);
     const user = await Users.findOne({ where: { email: decoded.data.email } });
-    
-    if (!user) return res.status(UNAUTHORIZED).json({ message: errorToken });    
-
+    if (!user) return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
     req.user = user;
-  
     next();
   } catch (err) {
-    return res.status(UNAUTHORIZED).json({ message: errorToken });
+    return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
   }
 };
-
-module.exports = validateJWT;
