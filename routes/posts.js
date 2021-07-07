@@ -9,4 +9,6 @@ const router = express.Router();
 
 router.post('/', postMiddlewares.validationBlogPost, middlewares.auth, PostController.create);
 
+router.get('/', middlewares.auth, PostController.getAll);
+
 module.exports = router;
