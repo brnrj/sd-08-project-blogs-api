@@ -18,4 +18,11 @@ router.post('/', auth,
     return res.status(201).json(category);
   }));
 
+  router.get('/', auth,
+  rescue(async (_req, res) => {
+    const categories = await Category.findAll();
+
+    return res.status(200).json(categories);
+  }));
+
 module.exports = router;
