@@ -16,6 +16,7 @@ UserController.post('/', validata, tokenCreate, async (req, res) => {
   const { displayName, email, password, image } = req.body;
   const token = req.userToken;
   const existUser = await User.findOne({ where: { email } });
+  console.log('controlerUSER', existUser);
   if (existUser) return res.status(STATUS_409).json({ message: 'User already registered' });
   await User.create({ displayName, email, password, image });
   return res.status(201).json({ token });

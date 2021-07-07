@@ -2,7 +2,7 @@ const { auth } = require('./auth');
 const { tokenCreate } = require('./token');
 const { validata } = require('./validata');
 const { validLogin } = require('./login');
-const { validBlogPost } = require('./blogPost');
+const { validBlogPost, validCategoryIds } = require('./blogPost');
 
 module.exports = {
   auth,
@@ -10,4 +10,5 @@ module.exports = {
   validata,
   validLogin,
   validBlogPost,
+  validCategoryIds,
 };
