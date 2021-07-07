@@ -7,7 +7,7 @@ const { auth, validBlogPost, validCategoryIds } = require('../services');
 
 // const STATUS_400 = 400;
 const STATUS_201 = 201;
-// const STATUS_200 = 200;
+const STATUS_200 = 200;
 
 PostController.post('/', auth, validBlogPost, validCategoryIds, async (req, res) => {
   const { title, content } = req.body;
@@ -28,14 +28,14 @@ PostController.post('/', auth, validBlogPost, validCategoryIds, async (req, res)
   return res.status(STATUS_201).json(blogPost);
 });
 
-// PostController.get('/', auth, async (req, res) => {
-//   const result = await BlogPost.findAll({
-//     include: [
-//       { model: User, as: 'user', atributes: { exclude: ['password'] } },
-//       { model: Category, as: 'categories' },
-//     ],
-//   });
-//   return res.status(STATUS_200).json(result);
-// });
+PostController.get('/', auth, async (req, res) => {
+  const result = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', atributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' },
+    ],
+  });
+  return res.status(STATUS_200).json(result);
+});
 
 module.exports = PostController;
