@@ -11,6 +11,6 @@ const userRoutes = Router();
 userRoutes.post('/', validateUserEmail, validateUser, UserController.createUser);
 userRoutes.get('/', validateToken, UserController.getAllUsers);
 userRoutes.get('/:id', validateToken, UserController.getUserById);
-userRoutes.delete('/me', () => 'Delete');
+userRoutes.delete('/me', validateToken, UserController.deleteUser);
 
 module.exports = userRoutes;

@@ -1,11 +1,13 @@
 const CreateUserService = require('../services/user/CreateUserService');
 const GetAllUsersService = require('../services/user/GetAllUsersService');
 const GetUserByIdService = require('../services/user/GetUserByIdService');
+const DeleteUserService = require('../services/user/DeleteUserService');
 
 const { NOT_FOUND } = require('../errors/status');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 
 module.exports = {
   async createUser(req, res) {
@@ -28,5 +30,11 @@ module.exports = {
     }
 
     return res.status(OK).json(user);
+  },
+
+  async deleteUser(req, res) {
+    await DeleteUserService.execute(req.userId);
+
+    return res.status(NO_CONTENT).json();
   },
 };
