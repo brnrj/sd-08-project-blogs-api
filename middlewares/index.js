@@ -1,7 +1,7 @@
 const userValidation = require('./userValidation');
 const loginValidation = require('./loginValidation');
 const checkUser = require('./checkUser');
-const generateToken = require('../middlewares/generateToken');
+const generateToken = require('./generateToken');
 const checkToken = require('./checkToken');
 
 module.exports = {
@@ -9,5 +9,5 @@ module.exports = {
   loginValidation,
   checkUser,
   generateToken,
-  checkToken
+  checkToken,
 };

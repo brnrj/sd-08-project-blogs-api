@@ -1,5 +1,5 @@
 const express = require('express');
-const { loginValidation, checkUser, generateToken } = require('../middlewares')
+const { loginValidation, checkUser, generateToken } = require('../middlewares');
 
 const router = express.Router();
 
