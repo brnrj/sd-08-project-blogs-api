@@ -10,7 +10,7 @@ const userRoutes = Router();
 
 userRoutes.post('/', validatePost, validateToken, PostController.createPost);
 userRoutes.get('/', validateToken, PostController.getAllPosts);
-userRoutes.get('/:id', () => 'GetId');
+userRoutes.get('/:id', validateToken, PostController.getPostById);
 userRoutes.delete('/:id', () => 'Delete');
 
 module.exports = userRoutes;
