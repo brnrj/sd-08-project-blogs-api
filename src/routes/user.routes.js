@@ -2,14 +2,14 @@ const { Router } = require('express');
 
 const validateUser = require('../middlewares/validateUser');
 const validateUserEmail = require('../middlewares/validateUserEmail');
-// const validateToken = require('../middlewares/validateToken');
+const validateToken = require('../middlewares/validateToken');
 
 const UserController = require('../controllers/UserController');
 
 const userRoutes = Router();
 
 userRoutes.post('/', validateUserEmail, validateUser, UserController.createUser);
-userRoutes.get('/', () => 'Get');
+userRoutes.get('/', validateToken, UserController.getAllUsers);
 userRoutes.get('/:id', () => 'GetId');
 userRoutes.delete('/me', () => 'Delete');
 
