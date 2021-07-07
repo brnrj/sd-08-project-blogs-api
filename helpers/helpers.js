@@ -45,6 +45,18 @@ const validateDisplayName = (req, res, next) => {
     }
     return next();
   };
+
+  const validateContent = (req, res, next) => {
+    const { title, content } = req.body;
+    if (!title) return res.status(BAD_REQUEST).json({ message: '"title" is required' });
+    if (!content) return res.status(BAD_REQUEST).json({ message: '"content" is required' });
+    return next();
+  };
+  const hasCategoryIds = (req, res, next) => {
+    const { categoryIds } = req.body;
+    if (!categoryIds) return res.status(BAD_REQUEST).json({ message: '"categoryIds" is required' });
+    return next();
+  };
   
   const midError = (error, req, res, _next) => {
     console.log(error);
@@ -56,5 +68,7 @@ const validateDisplayName = (req, res, next) => {
     validateEmail,
     validatePassword,  
     validateLogin,  
+    validateContent,
+    hasCategoryIds,
     midError,
   };

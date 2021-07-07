@@ -4,9 +4,13 @@ const UsersTable = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     image: DataTypes.STRING,
-  }, { timestamps: false });  
+  }, { timestamps: false });
+
+  Users.associate = (models) => {
+    Users.hasOne(models.BlogPosts,
+      { foreignKey: 'userId', as: 'blogposts' });
+  };
 
   return Users;
 };
-
 module.exports = UsersTable;
