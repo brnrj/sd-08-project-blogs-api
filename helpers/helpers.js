@@ -1,4 +1,5 @@
 const BAD_REQUEST = 400;
+const ERROR = 500;
 
 const validateDisplayName = (req, res, next) => {
     const { displayName } = req.body;
@@ -17,7 +18,7 @@ const validateDisplayName = (req, res, next) => {
     if (!isValid) return res.status(BAD_REQUEST).json({ message: '"email" must be a valid email' });
     return next();
   };
-  
+
   const validatePassword = (req, res, next) => {
     const { password } = req.body;
     if (!password) return res.status(BAD_REQUEST).json({ message: '"password" is required' });
@@ -27,15 +28,33 @@ const validateDisplayName = (req, res, next) => {
     }
     return next();
   };
+
+  const validateLogin = (req, res, next) => {
+    const { email, password } = req.body;
+    if (email === '') {
+      return res.status(BAD_REQUEST).json({ message: '"email" is not allowed to be empty' });
+    }
+    if (password === '') {
+      return res.status(BAD_REQUEST).json({ message: '"password" is not allowed to be empty' });
+    }
+    if (!email) {
+      return res.status(BAD_REQUEST).json({ message: '"email" is required' });
+    }
+    if (!password) {
+      return res.status(BAD_REQUEST).json({ message: '"password" is required' });
+    }
+    return next();
+  };
   
   const midError = (error, req, res, _next) => {
     console.log(error);
-    return res.status(500).send();
+    return res.status(ERROR).send();
   };
 
   module.exports = {
     validateDisplayName,
     validateEmail,
-    validatePassword,    
+    validatePassword,  
+    validateLogin,  
     midError,
   };

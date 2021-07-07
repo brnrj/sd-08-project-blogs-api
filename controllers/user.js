@@ -9,8 +9,10 @@ const jwtConfig = {
 };
 
 const CREATE = 201;
+const SUCCESS = 200;
 const CONFLICT = 409;
 const ERROR = 500;
+const BAD_REQUEST = 400;
 
 const createUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -29,6 +31,23 @@ const createUser = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await models.Users.findOne({ where: { email } });
+    if (!user) return res.status(BAD_REQUEST).json({ message: 'Invalid fields' });
+    if (user.password !== password) {
+      return res.status(BAD_REQUEST).json({ message: 'Invalid fields' });
+    }
+    const token = jwt.sign({ data: user }, secret, jwtConfig);
+    return res.status(SUCCESS).json({ token });
+  } catch (e) {
+    return res.status(ERROR).json({ message: e.message });
+  }
+};
+
 module.exports = {
   createUser, 
+  login,
 };
