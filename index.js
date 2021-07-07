@@ -16,6 +16,8 @@ app.get('/user/:id?', Users.getUsers);
 
 app.get('/categories/:id?', Categories.getCategories);
 
+app.get('/post/:id?', BlogPosts.getPosts);
+
 app.post('/user', Users.createUser);
 
 app.post('/login', Users.login);
