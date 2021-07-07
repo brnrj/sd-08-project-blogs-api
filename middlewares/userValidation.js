@@ -1,6 +1,6 @@
 const requestError = 400;
 
-const NameValidation = (displayName) => {
+const nameValidation = (displayName) => {
   if (displayName.length < 8) {
     return '"displayName" length must be at least 8 characters long';
   }
@@ -30,7 +30,7 @@ const passwordValidation = (password) => {
 
 module.exports = (req, res, next) => {
   const { displayName, email, password } = req.body;
-  const validation = NameValidation(displayName) || emailValidation(email)
+  const validation = nameValidation(displayName) || emailValidation(email)
     || passwordValidation(password) || false;
   if (validation) {
     return res.status(requestError).json({ message: validation });
