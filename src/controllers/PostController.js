@@ -1,6 +1,7 @@
 const CreatePostService = require('../services/blogPost/CreatePostService');
 const GetAllPostService = require('../services/blogPost/GetAllPostService');
 const GetPostByIdService = require('../services/blogPost/GetPostByIdService');
+const UpdatePostService = require('../services/blogPost/UpdatePostService');
 
 const { NOT_FOUND } = require('../errors/status');
 
@@ -26,5 +27,18 @@ module.exports = {
     if (!post) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
 
     return res.status(OK).json(post[0]);
+  },
+
+  async updatePost(req, res) {
+    const { id } = req.params;
+    const newData = req.body;
+
+    const updatePost = await UpdatePostService.execute(id, newData);
+
+    console.log('=========== ', updatePost.dataValues);
+
+    if (!updatePost) return res.status(NOT_FOUND).json({ message: 'Post does not exist' });
+
+    return res.status(OK).json(updatePost.dataValues);
   },
 };
