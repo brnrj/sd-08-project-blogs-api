@@ -2,7 +2,7 @@
 require('dotenv').config({ path: './config.env' });
 const { Op } = require('sequelize');
 // const servicesCategories = require('./categoriesServices');
-const { BlogPosts, PostsCategories, Categories } = require('../../models');
+const { BlogPosts, PostsCategories, Categories, User } = require('../../models');
 // const { PostsCategories } = require('../../models');
 // const user = require('../../models/user');
 
@@ -16,18 +16,27 @@ const findByKey = async (key, value) => {
   }
 };
 
+const findByPK = async (pk) => {
+  try {
+    const foundBlogPost = await BlogPosts.findByPk(pk, {
+      include: [{
+        model: User, as: 'user', attributes: { exclude: ['password'] },
+      },
+      {
+        model: Categories, as: 'categories', through: { attributes: [] },
+      },
+    ],
+    });
+    return foundBlogPost;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 const CreateBlogPost = async (BlogPostInfos, id) => {
   const { categoryIds, title, content } = BlogPostInfos;
-  // let result = false;
   const lisfOfId = await Categories.findAll({ where: { id: { [Op.in]: categoryIds } } });
-  // categoryIds.forEach(async (categoryId) => { 
-  //   console.log('categoryId', categoryId);
-  //   const foundBlogPost = await servicesCategories.findByKey('id', categoryId);
-  //   if (foundBlogPost === null) {
-  //     console.log('################### entrou ###################');
-  //     result = true;
-  //   }
-  // });
   console.log('listas ', categoryIds, lisfOfId);
   console.log('listas ', categoryIds.length, lisfOfId.length);
 
@@ -43,7 +52,15 @@ const CreateBlogPost = async (BlogPostInfos, id) => {
 };
 
 const findAll = async () => {
-  const foundAll = await BlogPosts.findAll();
+  const foundAll = await BlogPosts.findAll({
+    include: [{
+      model: User, as: 'user', attributes: { exclude: ['password'] },
+    },
+    {
+      model: Categories, as: 'categories', through: { attributes: [] },
+    },
+  ],
+  });
   // console.log('FOUND', foundAll);
 
   return foundAll;
@@ -53,4 +70,5 @@ module.exports = {
   CreateBlogPost,
   findAll,
   findByKey,
+  findByPK,
 };

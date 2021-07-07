@@ -21,28 +21,30 @@ const createsBlogPost = async (req, res) => {
   return res.status(Number(process.env.STATUS_CREATED)).json(createdBlogPost);
 };
 
-const findAll = async (_req, _res) => {
-  // console.log('Pesquisando todos');
-  // const foundAll = await services.user.findAll();
-  // return res.status(Number(process.env.STATUS_OK)).json(foundAll);
+const findAll = async (_req, res) => {
+  console.log('Pesquisando todos');
+  const foundAll = await services.blogPost.findAll();
+  console.log(foundAll);
+  return res.status(Number(process.env.STATUS_OK)).json(foundAll);
 };
-const findById = async (_req, _res) => {
-  // const { id } = req.params;
-  // if (!id) {
-  //   console.log('ID NÂO EXISTE', id);
-  //   return res.boom.notFound('User does not exist');
-  // }
-  // const NumberId = Number(id);
-  // console.log('Pesquisando por ID', NumberId);
-  // const foundId = await services.user.findByKey('id', NumberId);
-  // if (!foundId || !foundId.id) {
-  //   console.log('USUARIO NÂO EXISTE');
-  //   return res.boom.notFound('User does not exist');
-  // }
-  // const { displayName, email, image } = foundId;
-  // const result = { id: Number(id), displayName, email, image };
-  // console.log('resultado', result);
-  // return res.status(Number(process.env.STATUS_OK)).json(result);
+const findById = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    console.log('ID NÂO EXISTE', id);
+    return res.boom.notFound('Post does not exist');
+  }
+  const NumberId = Number(id);
+  console.log('Pesquisando por ID', NumberId);
+  const foundId = await services.blogPost.findByPK(NumberId);
+  if (!foundId || !foundId.id) {
+    console.log('USUARIO NÂO EXISTE');
+    return res.boom.notFound('Post does not exist');
+  }
+  console.log('ACHADO', foundId);
+  const { title, content, userId, published, updated } = foundId;
+  const result = { id: Number(id), title, content, userId, published, updated };
+  console.log('resultado', result);
+  return res.status(Number(process.env.STATUS_OK)).json(foundId);
 };
 
 module.exports = { 
