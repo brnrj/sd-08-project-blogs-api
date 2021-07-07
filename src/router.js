@@ -22,7 +22,7 @@ router.get('/categories', auth, categoryController.getAllCategorie);
 
 router.post('/login', validationsPost, findUser, tokenCreate, userController.loginUser);
 
-router.get('/post', postController.getAllPosts);
+router.get('/post', auth, postController.getAllPosts);
 router.post('/post', validationsBlogPost, auth, postController.createPost);
 
 module.exports = router;
