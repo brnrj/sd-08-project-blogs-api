@@ -64,7 +64,7 @@ router.delete('/:id', validateToken, async (req, res) => {
   const userId = user.dataValues.id;
 
   const post = await BlogPosts.findOne({
-    include: { model: Users, as: 'users', attributes: { exclude: 'password' } },
+    include: { model: Users, as: 'user', attributes: { exclude: 'password' } },
     where: { id },
   });
 
