@@ -15,6 +15,7 @@ module.exports = async (req, _res, next) => {
   
     const user = await User.findOne({ where: { email, password } });
     if (!user) throw Error();
+    req.user = user.id;
   
     return next();
   } catch (err) {
