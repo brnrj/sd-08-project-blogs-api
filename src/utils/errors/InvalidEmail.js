@@ -1,6 +1,8 @@
-module.exports = class MissingParamError extends Error {
+module.exports = class InvalidEmail extends Error {
   constructor(param) {
-    super(`"${param}" must be a valid email`);
+    super();
+    this.message = `"${param}" must be a valid email`;
     this.statusCode = 400;
+    this.name = 'InvalidEmail';
   }
 };
