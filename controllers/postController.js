@@ -37,4 +37,22 @@ router.get('/', auth,
     return res.status(200).json(posts);
 }));
 
+router.get('/:id', auth,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const posts = await Post.findOne({
+      where: { id },
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    if (!posts) {
+      const err = new Error('Post does not exist');
+      err.statusCode = 404;
+      throw err;
+    }
+    return res.status(200).json(posts);
+}));
+
 module.exports = router;  
