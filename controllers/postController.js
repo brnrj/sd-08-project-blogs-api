@@ -2,7 +2,7 @@ const express = require('express');
 const rescue = require('express-rescue');
 const Sequelize = require('sequelize');
 
-const { Post, PostCategory } = require('../models');
+const { User, Post, Category, PostCategory } = require('../models');
 const { auth, validatePost } = require('../middlewares');
 const config = require('../config/config');
 
@@ -24,6 +24,17 @@ router.post('/', auth, validatePost,
       return res.status(201).json(post);
     });
     console.log(result);
-  }));
+}));
+
+router.get('/', auth,
+  rescue(async (req, res) => {
+    const posts = await Post.findAll({
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+    return res.status(200).json(posts);
+}));
 
 module.exports = router;  
