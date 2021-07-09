@@ -6,7 +6,7 @@ const {
   tokenGenerator,
   tokenValidator,
 } = require('../utils/helpers');
-const { UserAlreadyExistsError } = require('../utils/errors');
+const { UserAlreadyExistsError, UserDoesNotExistsError } = require('../utils/errors');
 
 module.exports = {
   async create(request, response) {
@@ -32,6 +32,20 @@ module.exports = {
       tokenValidator(authorization);
       const users = await User.findAll();
       return response.status(200).send(users);
+    } catch (err) {
+      console.error(`${err.name}`, `${err.message}`);
+      return response.status(err.statusCode).send({ message: err.message });
+    }
+  },
+
+  async show(request, response) {
+    try {
+      const { authorization } = request.headers;
+      const { id } = request.params;
+      tokenValidator(authorization);
+      const user = await User.findByPk(id);
+      if (!user) throw new UserDoesNotExistsError();
+      return response.status(200).send(user);
     } catch (err) {
       console.error(`${err.name}`, `${err.message}`);
       return response.status(err.statusCode).send({ message: err.message });
