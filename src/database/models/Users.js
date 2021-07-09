@@ -21,6 +21,14 @@ class Users extends Model {
       sequelize, timestamps: false,
     });
   }
+
+  static associate(models) {
+    this.hasMany(models.BlogPosts, {
+      foreignKey: 'userId',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
+  }
 }
 
 module.exports = Users;
