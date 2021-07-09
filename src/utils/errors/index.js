@@ -5,6 +5,8 @@ const InvalidEmailError = require('./InvalidEmailError');
 const InvalidPasswordError = require('./InvalidPasswordError');
 const InvalidFieldsError = require('./InvalidFieldsError');
 const UserAlreadyExistsError = require('./UserAlreadyExistsError');
+const TokenNotFoundError = require('./TokenNotFoundError');
+const InvalidTokenError = require('./InvalidTokenError');
 
 module.exports = {
   MissingParamError,
@@ -14,4 +16,6 @@ module.exports = {
   InvalidPasswordError,
   InvalidFieldsError,
   UserAlreadyExistsError,
+  TokenNotFoundError,
+  InvalidTokenError,
 };
