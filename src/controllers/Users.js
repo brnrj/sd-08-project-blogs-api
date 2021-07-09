@@ -5,7 +5,7 @@ const {
   passwordValidator,
   tokenGenerator,
 } = require('../utils/helpers');
-const { UserAlreadyExists } = require('../utils/errors');
+const { UserAlreadyExistsError } = require('../utils/errors');
 
 module.exports = {
   async create(request, response) {
@@ -13,7 +13,7 @@ module.exports = {
       const { displayName, email, password, image } = request.body;
       emailValidator(email);
       const user = await User.findOne({ where: { email } });
-      if (user) throw new UserAlreadyExists();
+      if (user) throw new UserAlreadyExistsError();
       nameValidator(displayName);
       passwordValidator(password);
       await User.create({ displayName, email, password, image });
