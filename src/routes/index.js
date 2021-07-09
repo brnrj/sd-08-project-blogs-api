@@ -1,6 +1,8 @@
 const routes = require('express').Router();
 const users = require('./users');
+const login = require('./login');
 
-routes.post('/users', users);
+routes.post('/user', users);
+routes.post('/login', login);
 
 module.exports = routes;
