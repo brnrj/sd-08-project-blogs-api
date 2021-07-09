@@ -1,13 +1,17 @@
 const MissingParamError = require('./MissingParamError');
-const InvalidName = require('./InvalidName');
-const InvalidEmail = require('./InvalidEmail');
-const InvalidPassword = require('./InvalidPassword');
-const UserAlreadyExists = require('./UserAlreadyExists');
+const EmptyParamError = require('./EmptyParamError');
+const InvalidNameError = require('./InvalidNameError');
+const InvalidEmailError = require('./InvalidEmailError');
+const InvalidPasswordError = require('./InvalidPasswordError');
+const InvalidFieldsError = require('./InvalidFieldsError');
+const UserAlreadyExistsError = require('./UserAlreadyExistsError');
 
 module.exports = {
   MissingParamError,
-  InvalidName,
-  InvalidEmail,
-  InvalidPassword,
-  UserAlreadyExists,
+  EmptyParamError,
+  InvalidNameError,
+  InvalidEmailError,
+  InvalidPasswordError,
+  InvalidFieldsError,
+  UserAlreadyExistsError,
 };
