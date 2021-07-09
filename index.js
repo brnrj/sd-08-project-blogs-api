@@ -1,6 +1,6 @@
 const express = require('express');
-const UserController = require('./controllers/UserController');
-const ErrorsUser = require('./schemas/ErrorsUser');
+const { UserController, LoginController } = require('./controllers');
+const { ErrorsUser, ErrorsLogin } = require('./schemas');
 
 const app = express();
 const PORT = 3000;
@@ -13,5 +13,6 @@ app.get('/', (request, response) => {
 });
 
 app.use('/user', ErrorsUser, UserController);
+app.use('/login', ErrorsLogin, LoginController);
 
 app.listen(PORT, () => console.log('ouvindo porta 3000!'));
