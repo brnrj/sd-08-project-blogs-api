@@ -1,6 +1,6 @@
 require('./database/sequelize');
 const express = require('express');
-const routes = require('./routes/users');
+const routes = require('./routes');
 
 const app = express();
 app.get('/', (_request, response) => {
