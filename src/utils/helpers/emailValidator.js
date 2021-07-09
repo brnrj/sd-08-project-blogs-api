@@ -1,9 +1,10 @@
 const validator = require('validator');
-const { MissingParamError, InvalidEmail } = require('../errors');
+const { MissingParamError, EmptyParamError, InvalidEmailError } = require('../errors');
 
 const emailValidator = (email) => {
-  if (!email) throw new MissingParamError('email');
-  if (!validator.isEmail(email)) throw new InvalidEmail('email');
+  if (email === undefined) throw new MissingParamError('email');
+  if (email.length === 0) throw new EmptyParamError('email');
+  if (!validator.isEmail(email)) throw new InvalidEmailError('email');
 };
 
 module.exports = emailValidator;
