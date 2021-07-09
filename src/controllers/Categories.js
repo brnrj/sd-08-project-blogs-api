@@ -16,4 +16,16 @@ module.exports = {
       return response.status(err.statusCode).send({ message: err.message });
     }
   },
+
+  async index(request, response) {
+    try {
+      const { authorization } = request.headers;
+      tokenValidator(authorization);
+      const categories = await Category.findAll();
+      return response.status(200).send(categories);
+    } catch (err) {
+      console.error(`${err.name}`, `${err.message}`);
+      return response.status(err.statusCode).send({ message: err.message });
+    }
+  },
 };
