@@ -7,6 +7,7 @@ routes.get('/user', users);
 routes.get('/user/:id', users);
 routes.post('/user', users);
 routes.post('/login', login);
+routes.get('/categories', categories);
 routes.post('/categories', categories);
 
 module.exports = routes;
