@@ -1,12 +1,30 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+const { ErrorsUser } = require('../schemas');
 
 const router = express.Router();
+
+const httpRequestOk = 200;
 const httpRequestSubmit = 201;
 const httpRequestError = 500;
+const httpRequestErr = 401;
 const httpRequestConflict = 409;
 
-router.post('/', async (req, res) => {
+router.get('/', async (req, res) => {
+  const JwtSecret = 'secret';
+  const token = req.headers.authorization;
+
+  if (!token) res.status(httpRequestErr).json({ message: 'Token not found' });
+
+  jwt.verify(token, JwtSecret, async (err) => {
+    if (err) return res.status(httpRequestErr).json({ message: 'Expired or invalid token' });
+    const users = await User.findAll();
+    res.status(httpRequestOk).json(users);
+  });
+});
+
+router.post('/', ErrorsUser, async (req, res) => {
   const { displayName, email, password, image } = req.body;
 
   const userEmail = await User.findOne({ where: { email } });
