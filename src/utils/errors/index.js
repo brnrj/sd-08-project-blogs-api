@@ -11,6 +11,7 @@ const UserDoesNotExistsError = require('./UserDoesNotExistsError');
 const CategoryNotFoundError = require('./CategoryNotFoundError');
 const UnauthorizedUserError = require('./UnauthorizedUserError');
 const PostDoesNotExistsError = require('./PostDoesNotExistsError');
+const CannotEditFieldError = require('./CannotEditFieldError');
 
 module.exports = {
   MissingParamError,
@@ -26,4 +27,5 @@ module.exports = {
   CategoryNotFoundError,
   UnauthorizedUserError,
   PostDoesNotExistsError,
+  CannotEditFieldError,
 };
