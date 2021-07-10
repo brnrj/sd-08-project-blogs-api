@@ -5,6 +5,7 @@ const categories = require('./categories');
 const posts = require('./posts');
 
 routes.get('/user', users);
+routes.delete('/user/me', users);
 routes.get('/user/:id', users);
 routes.post('/user', users);
 routes.post('/login', login);
