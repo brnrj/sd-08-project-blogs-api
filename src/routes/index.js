@@ -11,5 +11,6 @@ routes.post('/login', login);
 routes.get('/categories', categories);
 routes.post('/categories', categories);
 routes.post('/post', posts);
+routes.delete('/post/:id', posts);
 
 module.exports = routes;
