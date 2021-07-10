@@ -12,6 +12,14 @@ class Categories extends Model {
       sequelize, timestamps: false,
     });
   }
+
+  static associate(models) {
+    this.belongsToMany(models.Categories, {
+      through: 'PostsCategories',
+      as: 'categories',
+      foreignKey: 'categoryId',
+    });
+  }
 }
 
 module.exports = Categories;

@@ -18,6 +18,10 @@ class BlogPosts extends Model {
 
   static associate(models) {
     this.belongsTo(models.Users, { foreignKey: 'id' });
+    this.belongsToMany(models.Categories, {
+      through: 'PostsCategories',
+      foreignKey: 'postId',
+    });
   }
 }
 
