@@ -9,6 +9,8 @@ const TokenNotFoundError = require('./TokenNotFoundError');
 const InvalidTokenError = require('./InvalidTokenError');
 const UserDoesNotExistsError = require('./UserDoesNotExistsError');
 const CategoryNotFoundError = require('./CategoryNotFoundError');
+const UnauthorizedUserError = require('./UnauthorizedUserError');
+const PostDoesNotExistsError = require('./PostDoesNotExistsError');
 
 module.exports = {
   MissingParamError,
@@ -22,4 +24,6 @@ module.exports = {
   InvalidTokenError,
   UserDoesNotExistsError,
   CategoryNotFoundError,
+  UnauthorizedUserError,
+  PostDoesNotExistsError,
 };
