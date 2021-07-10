@@ -5,6 +5,7 @@ const {
   passwordValidator,
   tokenGenerator,
   tokenValidator,
+  decodeToken,
 } = require('../utils/helpers');
 const { UserAlreadyExistsError, UserDoesNotExistsError } = require('../utils/errors');
 
@@ -46,6 +47,20 @@ module.exports = {
       const user = await User.findByPk(id);
       if (!user) throw new UserDoesNotExistsError();
       return response.status(200).send(user);
+    } catch (err) {
+      console.error(`${err.name}`, `${err.message}`);
+      return response.status(err.statusCode).send({ message: err.message });
+    }
+  },
+
+  async delete(request, response) {
+    try {
+      const { authorization } = request.headers;
+      tokenValidator(authorization);
+      const decodedUser = decodeToken(authorization);
+      const id = Number(decodedUser);
+      await User.destroy({ where: { id } });
+      return response.status(204).send();
     } catch (err) {
       console.error(`${err.name}`, `${err.message}`);
       return response.status(err.statusCode).send({ message: err.message });
