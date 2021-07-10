@@ -1,4 +1,4 @@
-const Post = require('../database/models/BlogPosts');
+const { Post } = require('../database/models');
 const {
   tokenValidator,
   titleValidator,

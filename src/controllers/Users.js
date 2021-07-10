@@ -1,4 +1,4 @@
-const User = require('../database/models/Users');
+const { User } = require('../database/models');
 const {
   nameValidator,
   emailValidator,

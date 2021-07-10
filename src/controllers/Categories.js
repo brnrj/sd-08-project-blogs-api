@@ -1,4 +1,4 @@
-const Category = require('../database/models/Categories');
+const { Category } = require('../database/models');
 const { tokenValidator } = require('../utils/helpers');
 const { MissingParamError } = require('../utils/errors');
 
