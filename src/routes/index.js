@@ -13,6 +13,7 @@ routes.get('/categories', categories);
 routes.post('/categories', categories);
 routes.post('/post', posts);
 routes.get('/post', posts);
+routes.get('/post/:id', posts);
 routes.delete('/post/:id', posts);
 
 module.exports = routes;

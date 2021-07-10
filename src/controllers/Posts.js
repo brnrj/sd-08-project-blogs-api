@@ -44,6 +44,25 @@ module.exports = {
     }
   },
 
+  async show(request, response) {
+    try {
+      const { authorization } = request.headers;
+      const { id } = request.params;
+      tokenValidator(authorization);
+      const post = await BlogPosts.findByPk(id, {
+        include: [
+          { model: Users, as: 'user' },
+          { model: Categories, as: 'categories', through: { attributes: [] } },
+        ],
+      });
+      if (!post) throw new PostDoesNotExistsError();
+      return response.status(200).send(post);
+    } catch (err) {
+      console.error(`${err.name}`, `${err.message}`);
+      return response.status(err.statusCode).send({ message: err.message });
+    }
+  },
+
   async delete(request, response) {
     try {
       const { authorization } = request.headers;
