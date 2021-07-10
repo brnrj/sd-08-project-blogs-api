@@ -1,5 +1,5 @@
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.createTable('blogposts', {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('BlogPosts', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -18,5 +18,5 @@ module.exports = {
     published: { type: Sequelize.DATE },
     updated: { type: Sequelize.DATE },
   }),
-  down: async (queryInterface, _Sequelize) => queryInterface.dropTable('blogposts'),
+  down: async (queryInterface, _Sequelize) => queryInterface.dropTable('BlogPosts'),
 };
