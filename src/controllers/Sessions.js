@@ -1,4 +1,4 @@
-const { User } = require('../database/models');
+const { Users } = require('../database/models');
 const {
   emailValidator,
   passwordValidator,
@@ -11,7 +11,7 @@ module.exports = {
     try {
       const { email, password } = request.body;
       emailValidator(email);
-      const user = await User.findOne({ where: { email } });
+      const user = await Users.findOne({ where: { email } });
       if (!user) throw new InvalidFieldsError();
       passwordValidator(password);
       return response.status(200).send({ token: tokenGenerator(user.id) });

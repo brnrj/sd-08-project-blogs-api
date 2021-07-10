@@ -1,4 +1,4 @@
-const { User } = require('../database/models');
+const { Users } = require('../database/models');
 const {
   nameValidator,
   emailValidator,
@@ -14,11 +14,11 @@ module.exports = {
     try {
       const { displayName, email, password, image } = request.body;
       emailValidator(email);
-      const user = await User.findOne({ where: { email } });
+      const user = await Users.findOne({ where: { email } });
       if (user) throw new UserAlreadyExistsError();
       nameValidator(displayName);
       passwordValidator(password);
-      await User.create({ displayName, email, password, image });
+      await Users.create({ displayName, email, password, image });
       const accessToken = tokenGenerator(email);
       return response.status(201).send({ token: accessToken });
     } catch (err) {
@@ -31,7 +31,7 @@ module.exports = {
     try {
       const { authorization } = request.headers;
       tokenValidator(authorization);
-      const users = await User.findAll();
+      const users = await Users.findAll();
       return response.status(200).send(users);
     } catch (err) {
       console.error(`${err.name}`, `${err.message}`);
@@ -44,7 +44,7 @@ module.exports = {
       const { authorization } = request.headers;
       const { id } = request.params;
       tokenValidator(authorization);
-      const user = await User.findByPk(id);
+      const user = await Users.findByPk(id);
       if (!user) throw new UserDoesNotExistsError();
       return response.status(200).send(user);
     } catch (err) {
@@ -59,7 +59,7 @@ module.exports = {
       tokenValidator(authorization);
       const decodedUser = decodeToken(authorization);
       const id = Number(decodedUser);
-      await User.destroy({ where: { id } });
+      await Users.destroy({ where: { id } });
       return response.status(204).send();
     } catch (err) {
       console.error(`${err.name}`, `${err.message}`);

@@ -1,4 +1,4 @@
-const { Category } = require('../database/models');
+const { Categories } = require('../database/models');
 const { tokenValidator } = require('../utils/helpers');
 const { MissingParamError } = require('../utils/errors');
 
@@ -9,7 +9,7 @@ module.exports = {
       const { name } = request.body;
       tokenValidator(authorization);
       if (!name) throw new MissingParamError('name');
-      const category = await Category.create({ name });
+      const category = await Categories.create({ name });
       return response.status(201).send(category);
     } catch (err) {
       console.error(`${err.name}`, `${err.message}`);
@@ -21,7 +21,7 @@ module.exports = {
     try {
       const { authorization } = request.headers;
       tokenValidator(authorization);
-      const categories = await Category.findAll();
+      const categories = await Categories.findAll();
       return response.status(200).send(categories);
     } catch (err) {
       console.error(`${err.name}`, `${err.message}`);

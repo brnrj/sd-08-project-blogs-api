@@ -12,15 +12,18 @@ class BlogPosts extends Model {
         allowNull: false,
       },
     }, {
-      sequelize, timestamps: false,
+      sequelize,
+      createdAt: 'published',
+      updatedAt: 'updated',
     });
   }
 
   static associate(models) {
-    this.belongsTo(models.Users, { foreignKey: 'id' });
+    this.belongsTo(models.Users, { foreignKey: 'id', as: 'user' });
     this.belongsToMany(models.Categories, {
-      through: 'PostsCategories',
       foreignKey: 'postId',
+      as: 'categories',
+      through: 'PostsCategories',
     });
   }
 }

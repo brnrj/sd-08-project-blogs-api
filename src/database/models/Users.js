@@ -25,7 +25,6 @@ class Users extends Model {
   static associate(models) {
     this.hasMany(models.BlogPosts, {
       foreignKey: 'userId',
-      onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });
   }

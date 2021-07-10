@@ -15,9 +15,9 @@ class Categories extends Model {
 
   static associate(models) {
     this.belongsToMany(models.Categories, {
-      through: 'PostsCategories',
-      as: 'categories',
       foreignKey: 'categoryId',
+      as: 'categories',
+      through: 'PostsCategories',
     });
   }
 }

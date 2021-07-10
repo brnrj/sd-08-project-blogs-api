@@ -15,8 +15,8 @@ module.exports = {
     },
     title: { type: Sequelize.STRING, allowNull: false },
     content: { type: Sequelize.STRING, allowNull: false },
-    published: { type: Sequelize.DATE },
-    updated: { type: Sequelize.DATE },
+    createdAt: { type: Sequelize.DATE, field: 'published' },
+    updatedAt: { type: Sequelize.DATE, field: 'updated' },
   }),
   down: async (queryInterface, _Sequelize) => queryInterface.dropTable('BlogPosts'),
 };
