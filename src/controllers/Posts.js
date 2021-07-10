@@ -6,7 +6,11 @@ const {
   categoryIdsValidator,
   decodeToken,
 } = require('../utils/helpers');
-const { UnauthorizedUserError, PostDoesNotExistsError } = require('../utils/errors');
+const {
+  UnauthorizedUserError,
+  PostDoesNotExistsError,
+  CannotEditFieldError,
+} = require('../utils/errors');
 
 module.exports = {
   async create(request, response) {
@@ -59,6 +63,27 @@ module.exports = {
       return response.status(200).send(post);
     } catch (err) {
       console.error(`${err.name}`, `${err.message}`);
+      return response.status(err.statusCode).send({ message: err.message });
+    }
+  },
+
+  async update(request, response) {
+    try {
+      const { authorization } = request.headers;
+      const { id } = request.params;
+      const { title, content, categoryIds } = request.body;
+      tokenValidator(authorization);
+      const decodedUserId = decodeToken(authorization);
+      const post = await BlogPosts.findByPk(id, { include:
+        [{ model: Categories, as: 'categories', through: { attributes: [] } }] });
+      if (post.userId !== Number(decodedUserId)) throw new UnauthorizedUserError();
+      titleValidator(title);
+      contentValidator(content);
+      if (categoryIds) throw new CannotEditFieldError('Categories');
+      post.title = title;
+      post.content = content;
+      return response.status(200).send(await post.save());
+    } catch (err) {
       return response.status(err.statusCode).send({ message: err.message });
     }
   },
