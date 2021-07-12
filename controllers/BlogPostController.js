@@ -9,6 +9,7 @@ const httpRequestOk = 200;
 const httpRequestSubmit = 201;
 const httpRequestError = 400;
 const httpRequestErr = 401;
+const httpRequestErro = 404;
 
 router.get('/', async (req, res) => {
   const JwtSecret = 'secret';
@@ -19,6 +20,26 @@ router.get('/', async (req, res) => {
   jwt.verify(token, JwtSecret, async (err) => {
     if (err) return res.status(httpRequestErr).json({ message: 'Expired or invalid token' });
     const posts = await BlogPost.findAll({ include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ] });
+    res.status(httpRequestOk).json(posts);
+  });
+});
+
+router.get('/:id', async (req, res) => {
+  const JwtSecret = 'secret';
+  const token = req.headers.authorization;
+  const { id } = req.params;
+
+  const post = await BlogPost.findByPk(id);
+  if (!post) return res.status(httpRequestErro).json({ message: 'Post does not exist' });
+  
+  if (!token) return res.status(httpRequestErr).json({ message: 'Token not found' });
+
+  jwt.verify(token, JwtSecret, async (err) => {
+    if (err) return res.status(httpRequestErr).json({ message: 'Expired or invalid token' });
+    const posts = await BlogPost.findByPk(id, { include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Category, as: 'categories', through: { attributes: [] } },
     ] });
