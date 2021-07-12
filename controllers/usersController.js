@@ -1,22 +1,40 @@
 const rescue = require('express-rescue');
-const schema = require('../schema/usersSchema');
+const userCreate = require('../schema/userCreate');
+const userLogin = require('../schema/userLogin');
 const { Users } = require('../models');
 const errorClient = require('../utils/errorClient');
-
-const STATUS_CREATE = 201;
+const success = require('../utils/success');
+const createToken = require('../auth/createToken');
 
 const createUser = rescue(async (req, res, next) => {
   const { displayName, email, password, image } = req.body;
-  
-  const { error } = schema.usersCreate.validate({ displayName, email, password });
+
+  const { error } = userCreate.validate({ displayName, email, password });
   if (error) return next(errorClient.badRequest(error.details[0].message));
 
   const foundEmailDb = await Users.findOne({ where: { email } });
   if (foundEmailDb) return next(errorClient.conflict('User already registered'));
 
-  const result = await Users.create({ displayName, email, password, image });
+  await Users.create({ displayName, email, password, image });
 
-  res.status(STATUS_CREATE).json(result);
+  res.status(success.Created).json({ token: createToken({ displayName, email, image }) });
 });
 
-module.exports = { createUser };
+const loginUser = rescue(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const { error } = userLogin.validate({ email, password });
+  if (error) return next(errorClient.badRequest(error.details[0].message));
+
+  const foundEmailDb = await Users.findOne({ where: { email } });
+  if (foundEmailDb) {
+    return res.status(success.OK).json({ token: createToken({ email }) });
+  }
+
+  next(errorClient.badRequest('Invalid fields'));
+});
+
+module.exports = {
+   createUser,
+   loginUser, 
+};
