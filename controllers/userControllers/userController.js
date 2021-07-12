@@ -13,7 +13,7 @@ routerUser.get('/', async (_req, res) => {
 
 routerUser.post('/', async (req, res) => {
   const userData = req.body;
-  console.log(userData);
+
   const validation = await validationCreateUser(userData);
 
   if (validation) {
@@ -27,6 +27,7 @@ routerUser.post('/', async (req, res) => {
   await Users.create({ displayName, email, password });
   
   const token = await tokenCreate(userData);
+
   res.status(201).json({ token });
 });
 
