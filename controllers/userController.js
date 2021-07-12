@@ -25,7 +25,6 @@ router.get('/:id', auth,
   rescue(async (req, res) => {
     const { id } = req.params;
     const user = await User.findByPk(id);
-
     if (!user) {
       const err = new Error('User does not exist');
       err.statusCode = 404;
@@ -38,7 +37,6 @@ router.get('/:id', auth,
 router.delete('/me', auth,
   rescue(async (req, res) => {
     const userId = req.user;
-
     await User.destroy({ where: { id: userId } });
 
     return res.status(204).send();

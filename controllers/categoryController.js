@@ -15,6 +15,7 @@ router.post('/', auth,
       throw err;
     }
     const category = await Category.create({ name });
+    
     return res.status(201).json(category);
   }));
 

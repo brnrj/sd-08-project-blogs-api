@@ -5,7 +5,6 @@ const { JWT_SECRET } = process.env;
 
 module.exports = async (req, _res, next) => {
   try {
-    // console.log(req);
     const token = req.headers.authorization;
     if (!token) {
       const err = new Error('Token not found');
@@ -13,10 +12,8 @@ module.exports = async (req, _res, next) => {
       return next(err);
     }
     const { email, password } = jwt.verify(token, JWT_SECRET);
-  
     const user = await User.findOne({ where: { email, password } });
     if (!user) throw Error();
-    
     req.user = user.id;
   
     return next();
