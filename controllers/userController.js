@@ -35,60 +35,13 @@ router.get('/:id', auth,
     return res.status(200).json(user);
   }));
 
-// // Este endpoint usa o método findOne do Sequelize para buscar um usuário pelo id e email.
-// // URL a ser utilizada para o exemplo http://localhost:3000/user/search/1?email=aqui-o-email
-// router.get('/search/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { email } = req.query;
-//     const user = await User.findOne({ where: { id, email }});
+router.delete('/me', auth,
+  rescue(async (req, res) => {
+    const userId = req.user;
 
-//     if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
+    await User.destroy({ where: { id: userId } });
 
-//     return res.status(200).json(user);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Algo deu errado' });
-//   }
-// });
-
-// // Este endpoint usa o método update do Sequelize para alterar um usuário no banco.
-// router.put('/:id', async (req, res) => {
-//   try {
-//     const { fullName, email } = req.body;
-//     const { id } = req.params;
-
-//     const [updateUser] = await User.update(
-//       { fullName, email },
-//       { where: { id } },
-//     );
-
-//     console.log(updateUser); // confira o que é retornado quando o user com o id é ou não encontrado;
-
-//     if(!updateUser) return res.status(404).json({ message: 'Usuário não encontrado' });
-
-//     return res.status(200).json({ message: 'Usuário atualizado com sucesso!' });
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Algo deu errado' });
-//   }
-// });
-
-// // Este endpoint usa o método destroy do Sequelize para remover um usuário no banco.
-// router.delete('/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const deleteUser = await User.destroy(
-//       { where: { id } },
-//     );
-
-//     console.log(deleteUser) // confira o que é retornado quando o user com o id é ou não encontrado;
-
-//     return res.status(200).json({ message: 'Usuário excluído com sucesso!' });
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Algo deu errado' });
-//   }
-// });
+    return res.status(204).send();
+}));
 
 module.exports = router;
