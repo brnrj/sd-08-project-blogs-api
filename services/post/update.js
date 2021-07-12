@@ -1,7 +1,7 @@
 const boom = require('@hapi/boom');
 const { Post: PostModel, sequelize } = require('../../models');
 const PostUpdatesSchema = require('../../schema/postUpdates');
-const findById = require('./findById');
+const isAuthorized = require('./isAuthorized');
 
 const findPost = async (id, transaction) => PostModel.findOne({
   where: { id },
@@ -13,11 +13,6 @@ const findPost = async (id, transaction) => PostModel.findOne({
   },
   transaction,
 });
-
-const isAuthorized = async (postId, userId) => {
-  const post = await findById(postId);
-  return post.userId === userId;
-};
 
 module.exports = async (postId, postUpdates, userId) => {
   const { error } = PostUpdatesSchema.validate(postUpdates);
