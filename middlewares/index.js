@@ -4,6 +4,7 @@ const validateLogin = require('./validateLogin');
 const validatePost = require('./validatePost');
 const createToken = require('./createToken');
 const auth = require('./auth');
+const checkPostAndOwner = require('./checkPostAndOwner');
 const error = require('./error');
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
   validatePost,
   createToken,
   auth,
+  checkPostAndOwner,
   error,
 };

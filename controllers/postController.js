@@ -3,7 +3,7 @@ const rescue = require('express-rescue');
 const Sequelize = require('sequelize');
 
 const { User, Post, Category, PostCategory } = require('../models');
-const { auth, validatePost, validateCategories } = require('../middlewares');
+const { auth, validatePost, validateCategories, checkPostAndOwner } = require('../middlewares');
 const config = require('../config/config');
 
 const router = express.Router();
@@ -36,7 +36,7 @@ router.get('/', auth,
     return res.status(200).json(posts);
 }));
 
-router.get('/:id', auth,
+router.get('/:id', auth, checkPostAndOwner,
   rescue(async (req, res) => {
     const { id } = req.params;
     const post = await Post.findOne({
@@ -46,19 +46,13 @@ router.get('/:id', auth,
         { model: Category, as: 'categories', through: { attributes: [] } },
       ],
     });
-    if (!post) {
-      const err = new Error('Post does not exist');
-      err.statusCode = 404;
-      throw err;
-    }
     return res.status(200).json(post);
 }));
 
-router.put('/:id', auth, validatePost,
+router.put('/:id', auth, validatePost, checkPostAndOwner,
   rescue(async (req, res) => {
     const { id: postId } = req.params;
     const { title, content, categoryIds = 0 } = req.body;
-    const userId = req.user;
 
     if (categoryIds) {
       const err = new Error('Categories cannot be edited');
@@ -66,19 +60,24 @@ router.put('/:id', auth, validatePost,
       throw err;
     }
 
-    const [updatePost] = await Post.update({ title, content }, { where: { id: postId, userId } });
+    await Post.update({ title, content }, { where: { id: postId } });
 
-    if (!updatePost) {
-      const err = new Error('Unauthorized user');
-      err.statusCode = 401;
-      throw err;
-    }
-
-    const post = await Post.findOne({ where: { id: postId },
+    const post = await Post.findOne({
+      where: { id: postId },
       include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
     });
     
     return res.status(200).json(post);
 }));
 
-module.exports = router;  
+router.delete('/:id', auth, checkPostAndOwner,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+
+    await Post.destroy({ where: { id } });
+    // console.log(deletedUser);
+    
+    return res.status(204).send();
+}));
+
+module.exports = router;
