@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const { Users } = require('../../models');
-const { UNAUTHORIZATION } = require('../errosHttps');
+const { Users } = require('../models');
+const { UNAUTHORIZATION } = require('./errosHttps');
 
 const secret = 'mlbbEshow';
 

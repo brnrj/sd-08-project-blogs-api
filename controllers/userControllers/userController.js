@@ -2,7 +2,7 @@ const express = require('express');
 const { Users } = require('../../models');
 const { validationCreateUser, findByIdExists } = require('./userValidations');
 const tokenCreate = require('../encrptoJwt');
-const verifyToken = require('./jwtValidation');
+const verifyToken = require('../jwtValidation');
 
 const routerUser = express.Router();
 
