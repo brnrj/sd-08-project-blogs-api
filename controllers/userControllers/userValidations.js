@@ -1,5 +1,5 @@
 const { Users } = require('../../models');
-const { BAD_REQUEST, CONFLIT_REQUEST } = require('../errosHttps');
+const { BAD_REQUEST, CONFLIT_REQUEST, NOT_FOUND } = require('../errosHttps');
 
 const OITO = 8;
 const displayNameValidation = (displayName) => {
@@ -68,6 +68,18 @@ const validationCreateUser = async ({ displayName, email, password }) => {
   if (emailIsUniq) return emailIsUniq;
   if (passwordIsValid) return passwordIsValid;
 };
+
+const findByIdExists = async (id) => {
+  const findById = await Users.findByPk(id);
+  
+  if (findById === null) {
+    return { erro: {
+      code: NOT_FOUND,
+      message: 'User does not exist',
+    } };
+  }
+};
 module.exports = {
   validationCreateUser,
+  findByIdExists,
 };
