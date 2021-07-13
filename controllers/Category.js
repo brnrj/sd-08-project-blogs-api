@@ -15,4 +15,10 @@ router.post('/', validateJWT, async (req, res) => {
   }
 });
 
+router.get('/', validateJWT, async (req, res) => {
+  const categories = await Category.findAll();
+
+  res.status(200).json(categories);
+});
+
 module.exports = router;
