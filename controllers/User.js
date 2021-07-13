@@ -58,4 +58,13 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.get('/user/:id', validateJWT, async (req, res) => {
+  const { id } = req.params;
+  const findUser = await User.findByPk(id);
+
+  if (!findUser) return res.status(404).json({ message: 'User does not exist' });
+
+  res.status(200).json(findUser);
+});
+
 module.exports = router;
