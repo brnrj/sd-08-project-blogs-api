@@ -16,7 +16,7 @@ const validateUser = (req, res, next) => {
 
   if (!token) return res.status(httpRequestErr).json({ message: 'Token not found' });
 
-  jwt.verify(token, JwtSecret, (err) => {
+  jwt.verify(token, JwtSecret, async (err) => {
     if (err) return res.status(httpRequestErr).json({ message: 'Expired or invalid token' });
   });
 

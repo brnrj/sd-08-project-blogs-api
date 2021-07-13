@@ -67,4 +67,24 @@ router.post('/', ErrorsBlogPost, async (req, res) => {
   res.status(httpRequestSubmit).json(post);
 });
 
+router.put('/:id', ErrorsBlogPost, async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+
+  if (req.body.categoryIds) {
+    return res.status(httpRequestError).json({ message: 'Categories cannot be edited' });
+  }
+
+  const userPost = await BlogPost.findByPk(id);
+  
+  if (req.user.id !== userPost.dataValues.userId) {
+    return res.status(httpRequestErr).json({ message: 'Unauthorized user' });
+  }
+
+  await BlogPost.update({ title, content }, { where: { id } });
+
+  res.status(httpRequestOk).json(await BlogPost.findByPk(id,
+    { include: { model: Category, as: 'categories', through: { attributes: [] } } }));
+});
+
 module.exports = router;
