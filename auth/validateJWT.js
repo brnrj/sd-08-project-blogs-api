@@ -4,19 +4,15 @@ const { User } = require('../models');
 const secret = 'something'; 
 
 module.exports = async (req, res, next) => {
-  const token = req.headers.authorization;
+  const token = req.headers['authorization'];
 
   if (!token) {
     return res.status(401).json({ message: 'Token not found' });
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
-
-    const user = await User.findOne({ where: { email: decoded.email } });
-
-    req.user = user;
-
+    jwt.verify(token, secret);
+    
     next();
   } catch (err) {
     console.log(err.message);
