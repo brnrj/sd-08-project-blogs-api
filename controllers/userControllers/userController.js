@@ -2,10 +2,11 @@ const express = require('express');
 const { Users } = require('../../models');
 const { validationCreateUser } = require('./userValidations');
 const tokenCreate = require('../encrptoJwt');
+const verifyToken = require('./jwtValidation');
 
 const routerUser = express.Router();
 
-routerUser.get('/', async (_req, res) => {
+routerUser.get('/', verifyToken, async (_req, res) => {
   const findAll = await Users.findAll();
   
   return res.status(200).json(findAll);
