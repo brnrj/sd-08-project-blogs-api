@@ -39,8 +39,18 @@ const getAllUsers = rescue(async (req, res, _next) => {
   res.status(success.OK).json(result);
 });
 
+const getUserByID = rescue(async (req, res, next) => {
+  const { id } = req.params;
+
+  const result = await Users.findByPk(id);
+  if (!result) return next(errorClient.notFound('User does not exist'));
+
+  res.status(success.OK).json(result);
+});
+
 module.exports = {
    createUser,
    loginUser,
    getAllUsers,
+   getUserByID,
 };
