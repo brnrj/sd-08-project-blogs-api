@@ -34,7 +34,13 @@ const loginUser = rescue(async (req, res, next) => {
   next(errorClient.badRequest('Invalid fields'));
 });
 
+const getAllUsers = rescue(async (req, res, _next) => {
+  const result = await Users.findAll();
+  res.status(success.OK).json(result);
+});
+
 module.exports = {
    createUser,
-   loginUser, 
+   loginUser,
+   getAllUsers,
 };
