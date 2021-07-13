@@ -21,4 +21,10 @@ categoriesRouter.post('/', verifyToken, async (req, res) => {
   return res.status(201).json(addCategories);
 });
 
+categoriesRouter.get('/', verifyToken, async (_req, res) => {
+  const getAllCategories = await Categories.findAll();
+
+  return res.status(200).json(getAllCategories);
+});
+
 module.exports = categoriesRouter;
