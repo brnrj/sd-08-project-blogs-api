@@ -45,17 +45,13 @@ router.post('/login', async (req, res) => {
   if (!email || !password) {
     return res.status(400).json(validateLogin(email, password));
   }
+  
+  const user = await User.findOne({ where: { email, password } });
 
-  try {
-    const user = await User.findOne({ where: { email, password } });
+  if (!user) return res.status(400).json({ message: 'Invalid fields' });
 
-    if (!user) return res.status(400).json({ message: 'Invalid fields' });
-
-    const token = jwt.sign(email, secret, jwtConfig);
-    return res.status(200).json({ token });
-  } catch (err) {
-    res.status(400).json({ message: 'Invalid fields' });
-  }
+  const token = jwt.sign(email, secret, jwtConfig);
+  return res.status(200).json({ token });
 });
 
 router.get('/user/:id', validateJWT, async (req, res) => {
