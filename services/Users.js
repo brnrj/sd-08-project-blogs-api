@@ -1,12 +1,11 @@
 const boom = require('@hapi/boom');
-const e = require('express');
 const { User } = require('../models');
 
 const createUser = async (user) => {
     try {
     const addUser = await User.create({ ...user });
     return addUser;
-    } catch (er) {
+    } catch (e) {
         throw boom.conflict('User already registered');
     }
 };
@@ -19,9 +18,9 @@ const findAll = async () => {
 const findById = async (id) => {
     try {
     const idUsers = await User.findOne({ where: { id } });
-    if (!idUsers) throw e;
+    if (!idUsers) throw new Error();
     return idUsers;
-    } catch (err) {
+    } catch (e) {
         throw boom.notFound('User does not exist');
     }
 };
