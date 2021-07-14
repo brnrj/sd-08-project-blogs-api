@@ -4,16 +4,15 @@ const blogPosts = (sequelize, DataTypes) => {
     {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
-      categoryId: DataTypes.INTEGER,
+      // categoryId: DataTypes.INTEGER,
+      userId: { type: DataTypes.INTEGER, foreignKey: true },
     },
     { createdAt: 'published', updatedAt: 'updated', timestamps: true },
   );
   result.associate = (models) => {
-    result.belongsToMany(models.Categories, {
-      through: 'PostsCategories',
-      as: 'categories',
-      foreignKey: 'postId',
-      timestamps: false,
+    result.belongsTo(models.Users, {
+      as: 'user',
+      foreignKey: 'userId',
     });
   };
   return result;

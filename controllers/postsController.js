@@ -1,7 +1,7 @@
 const rescue = require('express-rescue');
 // const userCreate = require('../schema/userCreate');
 // const userLogin = require('../schema/userLogin');
-const { BlogPosts } = require('../models');
+const { BlogPosts, Users, Categories } = require('../models');
 const errorClient = require('../utils/errorClient');
 const success = require('../utils/success');
 
@@ -26,6 +26,32 @@ const createPost = rescue(async (req, res, next) => {
    res.status(success.Created).json(result);
 });
 
+const getAllPosts = rescue(async (_req, res, _next) => {
+  const result = await BlogPosts.findAll({
+    include: [
+      {
+        model: Users,
+        as: 'user', // obrigado @Tandy por me ajudar a encontrar essa agulha no palheiro
+        attributes: { exclude: ['password'] },
+      },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  console.log(result);
+  res.status(success.OK).json(result);
+});
+
+const getByIdPost = rescue(async (req, res, _next) => {
+  res.status(success.OK).json({ message: 'teste' });
+});
+
+const editPostById = rescue(async (req, res, _next) => {
+  res.status(success.OK).json({ message: 'teste' });
+});
+
 module.exports = {
   createPost,
+  getAllPosts,
+  getByIdPost,
+  editPostById,
 };

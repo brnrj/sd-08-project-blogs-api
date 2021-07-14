@@ -6,15 +6,7 @@ const categoriesMethods = (sequelize, DataTypes) => {
     },
     { timestamps: false },
   );
-
-  result.associate = (models) => {
-    result.belongsToMany(models.BlogPosts, {
-      through: 'PostsCategories',
-      as: 'blogposts',
-      foreignKey: 'categoryId',
-      timestamps: false,
-    });
-  };
+  
   return result;
 };
 

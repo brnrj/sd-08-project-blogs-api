@@ -20,10 +20,13 @@ categoriesRoute.post('/', verifyAuthorization, categoriesController.createCatego
 categoriesRoute.get('/', verifyAuthorization, categoriesController.getAllCategories);
 
 postRoute.post('/', verifyAuthorization, postsController.createPost);
+postRoute.get('/', verifyAuthorization, postsController.getAllPosts);
+postRoute.get('/:id', verifyAuthorization, postsController.getByIdPost);
+postRoute.put('/:id', verifyAuthorization, postsController.editPostById);
 
 module.exports = { 
   usersRoute,
   loginRoute,
   categoriesRoute,
-  postRoute,
+  postRoute,  
 };
