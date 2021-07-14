@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const rescueMiddleware = require('./controllers/rescueMiddleware');
 const routerUser = require('./controllers/userControllers/userController');
 const loginRouter = require('./controllers/loginControllers/loginController');
 const categoriesRouter = require('./controllers/categoriesControllers/categoriesController.js');
@@ -14,6 +15,8 @@ app.use('/user', routerUser);
 app.use('/login', loginRouter);
 app.use('/categories', categoriesRouter);
 app.use('/post', postRouter);
+
+app.use(rescueMiddleware);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

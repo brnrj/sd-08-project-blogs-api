@@ -2,18 +2,16 @@ const blogPosts = (sequelize, DataTypes) => {
   const BlogPosts = sequelize.define('BlogPosts', {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-    categoryId: DataTypes.INTEGER,
+    userId: { type: DataTypes.INTEGER, foreignKey: true },
   },
   { createdAt: 'published',
     updatedAt: 'updated',
     timestamps: true });
     
   BlogPosts.associate = (models) => {
-    BlogPosts.belongsToMany(models.Categories, {
-      through: 'PostsCategories',
-      as: 'categories',
-      foreignKey: 'postId',
-      timestamps: false,
+    BlogPosts.belongsTo(models.Users, {
+      as: 'user',
+      foreignKey: 'userId',
     });
   };
   return BlogPosts;

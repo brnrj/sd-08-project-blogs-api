@@ -1,5 +1,6 @@
 const express = require('express');
-const { BlogPosts } = require('../../models');
+const rescue = require('express-rescue');
+const { BlogPosts, Categories, Users } = require('../../models');
 const { BAD_REQUEST } = require('../errosHttps');
 
 const validateJwt = require('../jwtValidation');
@@ -21,8 +22,23 @@ postRouter.post('/', validateJwt, async (req, res) => {
    
   const addBlogPosts = await BlogPosts.create({ title, content, userId: req.idUser });
   addBlogPosts.addCategories(categoryIds);
-  console.log(addBlogPosts);
+
   res.status(201).json(addBlogPosts);
 });
+
+postRouter.get('/', validateJwt, rescue(async (_req, res, _next) => {
+  const getAll = await BlogPosts.findAll({
+    include: [
+      {
+        model: Users,
+        as: 'user', // obrigado @Daniel por me ajudar a resolver esse quiproco!
+        attributes: { exclude: ['password'] },
+      },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  res.status(200).json(getAll);
+}));
 
 module.exports = postRouter;
