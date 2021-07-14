@@ -1,12 +1,13 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-const { ErrorsUser } = require('../schemas');
+const { ErrorsUser, ErrorsUserDelete } = require('../schemas');
 
 const router = express.Router();
 
 const httpRequestOk = 200;
 const httpRequestSubmit = 201;
+const httpRequestDelete = 204;
 const httpRequestError = 500;
 const httpRequestErr = 401;
 const httpRequestErro = 404;
@@ -56,6 +57,12 @@ router.post('/', ErrorsUser, async (req, res) => {
     console.log(err.message);
     res.status(httpRequestError).json({ message: 'Something went wrong' });
   }
+});
+
+router.delete('/me', ErrorsUserDelete, async (req, res) => {
+  const email = await User.findByPk(req.user.email);
+  await User.destroy({ where: { email } });
+  res.status(httpRequestDelete).end();
 });
 
 module.exports = router;
