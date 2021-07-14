@@ -15,7 +15,6 @@ const createCategory = rescue(async (req, res, next) => {
 
 const getAllCategories = rescue(async (_req, res, _next) => {
   const result = await Categories.findAll();
-  console.log(result);
   res.status(success.OK).json(result);
 });
 

@@ -17,7 +17,7 @@ const createUser = rescue(async (req, res, next) => {
 
   await Users.create({ displayName, email, password, image });
 
-  res.status(success.Created).json({ token: createToken({ displayName, email, image }) });
+  res.status(success.Created).json({ token: createToken({ email }) });
 });
 
 const loginUser = rescue(async (req, res, next) => {
@@ -34,7 +34,7 @@ const loginUser = rescue(async (req, res, next) => {
   next(errorClient.badRequest('Invalid fields'));
 });
 
-const getAllUsers = rescue(async (req, res, _next) => {
+const getAllUsers = rescue(async (_req, res, _next) => {
   const result = await Users.findAll();
   res.status(success.OK).json(result);
 });
