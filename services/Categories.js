@@ -9,4 +9,9 @@ const createCategory = async (post) => {
         throw boom.conflict('User already REGISTRO POST');
     }
 };
-module.exports = { createCategory };
+
+const findAll = async () => {
+    const allUsers = await Category.findAll();
+    return allUsers;
+};
+module.exports = { createCategory, findAll };

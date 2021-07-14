@@ -9,5 +9,9 @@ const createCategory = rescue(async (req, res, next) => {
     const { id, name } = await CategoriesService.createCategory({ ...req.body });
     res.status(201).json({ id, name });
 });
+const findAll = rescue(async (req, res) => {
+    const allCategories = await CategoriesService.findAll();
+    res.status(200).json(allCategories);
+});
 
-module.exports = { createCategory };
+module.exports = { createCategory, findAll };
