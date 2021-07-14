@@ -4,46 +4,38 @@ const { UNAUTHORIZATION } = require('./errosHttps');
 
 const secret = 'mlbbEshow';
 
-const noToken = (token) => {
-  if (token === undefined || token.length === 0) {
-    return { erro: {
-      code: UNAUTHORIZATION,
-      message: 'Token not found',
-    } };
-  }
-};
-
-const tokenBadFormed = async (token) => {
+const tokenBadFormed = (token) => {
   try {
-    const decode = jwt.verify(token, secret);
-
-    const user = await Users.findOne({ where: { email: decode.data.email } });
-
-    if (!user) {
-      return { erro: {
-        code: UNAUTHORIZATION,
-        message: 'Expired or invalid token',
-      } };
-    }
+    return jwt.verify(token, secret);
     } catch (_err) {
-      return { erro: {
-        code: UNAUTHORIZATION,
-        message: 'Expired or invalid token',
-      } };  
+      return false;  
     }
 };
 
 const verifyToken = async (req, res, next) => {
-  const token = req.headers.authorization;
-
-  const tokenIsNoExists = noToken(token);
-  const tokenIsBadFormed = await tokenBadFormed(token);
+  const { authorization: token } = req.headers;
   
-  if (tokenIsBadFormed || tokenIsNoExists) {
-    const { erro } = tokenIsNoExists || tokenIsBadFormed;
-    return res.status(erro.code).json({ message: erro.message });
+  if (!token) {
+    return res.status(UNAUTHORIZATION).json({
+      message: 'Token not found', 
+    });
   }
-  next();
+
+  const decode = tokenBadFormed(token);
+
+  if (!decode) {
+    return res.status(UNAUTHORIZATION).json({
+      message: 'Expired or invalid token',
+    });
+  }
+
+  const { email } = decode;
+
+  const user = await Users.findOne({ where: { email } });
+  
+  req.idUser = user.dataValues.id;
+
+  return next();
 };
 
 module.exports = verifyToken;

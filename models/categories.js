@@ -6,6 +6,14 @@ const createCategories = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
+  category.associate = (models) => {
+    category.belongsToMany(models.BlogPosts, {
+      through: 'PostsCategories',
+      as: 'blogposts',
+      foreignKey: 'categoryId',
+      timestamps: false,
+    });
+  };
   return category;
 };
 

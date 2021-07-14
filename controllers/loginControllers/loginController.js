@@ -5,8 +5,8 @@ const loginValidations = require('./loginValidations');
 const loginRouter = express.Router();
 
 loginRouter.post('/', async (req, res) => {
-  const userData = req.body;
-  const validation = await loginValidations(userData);
+  const { email, password } = req.body;
+  const validation = await loginValidations({ email, password });
 
   if (validation) {
     const { erro: { mensagem, code } } = validation;
@@ -14,7 +14,7 @@ loginRouter.post('/', async (req, res) => {
       .json({ message: mensagem });
   }
 
-  const token = await tokenCreate(userData);
+  const token = await tokenCreate({ email });
   res.status(200).json({ token });
 });
 

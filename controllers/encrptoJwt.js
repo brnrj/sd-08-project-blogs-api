@@ -7,8 +7,8 @@ const jwtHeader = {
   algorithm: 'HS256',
 };
 
-const tokenCreate = ({ email }) => {
-  const token = jwt.sign({ data: { email } }, secret, jwtHeader);
+const tokenCreate = (payload) => {
+  const token = jwt.sign(payload, secret, jwtHeader);
   return token;
 };
 

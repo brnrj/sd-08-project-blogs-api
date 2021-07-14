@@ -41,7 +41,7 @@ routerUser.post('/', async (req, res) => {
   
   await Users.create({ displayName, email, password });
   
-  const token = await tokenCreate(userData);
+  const token = tokenCreate({ email });
 
   res.status(201).json({ token });
 });
