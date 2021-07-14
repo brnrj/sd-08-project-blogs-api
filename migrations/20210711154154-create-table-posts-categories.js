@@ -9,6 +9,7 @@ module.exports = {
           model: 'BlogPosts',
           key: 'id',
         },
+        onDelete: 'cascade',
       },
       categoryId: {
         type: Sequelize.INTEGER,
@@ -16,6 +17,7 @@ module.exports = {
           model: 'Categories',
           key: 'id',
         },
+        onDelete: 'cascade',
       },
     });
   },

@@ -1,12 +1,13 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { BlogPost, Category, User } = require('../models');
-const { ErrorsBlogPost } = require('../schemas');
+const { ErrorsBlogPost, ErrorsUserDelete } = require('../schemas');
 
 const router = express.Router();
 
 const httpRequestOk = 200;
 const httpRequestSubmit = 201;
+const httpRequestDelete = 204;
 const httpRequestError = 400;
 const httpRequestErr = 401;
 const httpRequestErro = 404;
@@ -85,6 +86,21 @@ router.put('/:id', ErrorsBlogPost, async (req, res) => {
 
   res.status(httpRequestOk).json(await BlogPost.findByPk(id,
     { include: { model: Category, as: 'categories', through: { attributes: [] } } }));
+});
+
+router.delete('/:id', ErrorsUserDelete, async (req, res) => {
+  const { id } = req.params;
+
+  const userPost = await BlogPost.findByPk(id);
+
+  if (!userPost) return res.status(httpRequestErro).json({ message: 'Post does not exist' });
+
+  if (req.user.id !== userPost.dataValues.userId) {
+    return res.status(httpRequestErr).json({ message: 'Unauthorized user' });
+  }
+
+  await BlogPost.destroy({ where: { id } });
+  res.status(httpRequestDelete).end();
 });
 
 module.exports = router;
