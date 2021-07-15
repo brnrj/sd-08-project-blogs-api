@@ -1,5 +1,5 @@
-const User = (sequelize, DataTypes) => {
-  const UserData = sequelize.define('User', {
+const Users = (sequelize, DataTypes) => {
+  const userTb = sequelize.define('Users', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -8,11 +8,9 @@ const User = (sequelize, DataTypes) => {
   },
   {
     timestamps: false,
-    tableName: 'Users',
-    underscored: true,
   });
 
-  return UserData;
+  return userTb;
 };
 
-module.exports = User;
+module.exports = Users;
