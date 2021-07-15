@@ -1,6 +1,7 @@
 const express = require('express');
 const { Users } = require('../models');
 const { validate, getToken } = require('../schema');
+const validateJWT = require('../auth/validateJWT');
 
 const router = express.Router();
 
@@ -23,6 +24,13 @@ router.post('/', async (req, res) => {
     console.log(e.message);
     res.status(500).json({ message: 'Algo deu errado' });
   }
+});
+
+router.get('/', validateJWT, async (req, res) => {
+  const users = await Users.findAll();
+  if (!users) res.status(401).json({ message: 'Algo deu errado' });
+
+  return res.status(200).json(users);
 });
 
 module.exports = router;
