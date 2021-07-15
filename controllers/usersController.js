@@ -48,9 +48,28 @@ const getUserByID = rescue(async (req, res, next) => {
   res.status(success.OK).json(result);
 });
 
+const deleteUserById = rescue(async (req, res, _next) => {
+   const { idUser } = req;
+
+   await Users.destroy({ where: { id: idUser } }); 
+  
+  // if (!result) return next(errorClient.notFound('Post does not exist'));
+
+  // const { userId } = result;
+  // 
+//  if (+userId !== +idUser) {    
+    // return next(errorClient.unauthorized('Unauthorized user')); 
+  // } 
+// 
+  // await BlogPosts.destroy({ where: { userId: id } });
+  
+  res.status(success.noContent).json();
+});
+
 module.exports = {
    createUser,
    loginUser,
    getAllUsers,
    getUserByID,
+   deleteUserById,
 };
