@@ -15,17 +15,23 @@ router.post('/', validateJWT, async (req, res) => {
 
     const categoryList = await Category.findAll();
     const categoryArray = categoryList.map((item) => item.id);
-
-    categoryIds.forEach((item) => { 
+    
+/*    categoryIds.forEach((item) => { 
       if (!categoryArray.includes(item)) {
         return res.status(400).json({ message: '"categoryIds" not found' });
       }
-    });
+    }); */
+
+    // Peguei a dica de usar for com a Karine, por algum motivo ao usar forEach surgia um erro de headers.
+    for (let index = 0; index < categoryIds.length; index += 1) {
+      if (!categoryArray.includes(categoryIds[index])) {
+        return res.status(400).json({ message: '"categoryIds" not found' });
+      }
+    }
 
     const newPost = await BlogPost.create({ title, content, userId });
-    return res.status(201).json(newPost);
+    res.status(201).json(newPost);
   } catch (err) {
-    // console.log('\n\n', err, '\n\n');
     return res.status(400).json({ message: err.errors[0].message });
   }
 });
