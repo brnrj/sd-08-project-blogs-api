@@ -36,7 +36,7 @@ router.post('/', validateJWT, async (req, res) => {
   }
 });
 
-router.get('/', validateJWT, async (req, res) => {
+router.get('/', validateJWT, async (_req, res) => {
   try {
     const posts = await BlogPost.findAll({
       include: [
@@ -47,7 +47,26 @@ router.get('/', validateJWT, async (req, res) => {
   
     return res.status(200).json(posts);
   } catch (err) {
-    console.log('\n\n', err, '\n\n');
+    res.status(400).json({ message: err.errors[0].message });
+  }
+});
+
+router.get('/:id', validateJWT, async (req, res) => {
+  try {
+    const id = req.params;
+
+    const getPost = await BlogPost.findOne({
+      where: id,
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+
+    if (!getPost) return res.status(404).json({ message: 'Post does not exist' });
+
+    return res.status(200).json(getPost);
+  } catch (err) {
     res.status(400).json({ message: err.errors[0].message });
   }
 });
