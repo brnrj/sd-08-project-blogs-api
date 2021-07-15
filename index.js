@@ -12,3 +12,4 @@ app.get('/', (request, response) => {
 });
 
 app.use('/user', require('./controllers/userController'));
+app.use('/login', require('./controllers/loginController'));
