@@ -29,4 +29,15 @@ router.post('/', validateJWT, async (req, res) => {
   }
 });
 
+router.get('/', validateJWT, async (req, res) => {
+  try {
+    const posts = await BlogPost.findAll();
+  
+    res.status(200).json(posts);
+  } catch (err) {
+    console.log(err);
+    // res.status(400).json({ message: err.errors[0].message });
+  }
+});
+
 module.exports = router;
