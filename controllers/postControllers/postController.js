@@ -89,4 +89,24 @@ postRouter.put('/:id', validateJwt, rescue(async (req, res, _next) => {
   res.status(200).json({ categories, title, content, userId });
 }));
 
+postRouter.delete('/:id', validateJwt, rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  
+  const findOne = await BlogPosts.findOne({ where: { id } });
+
+  if (!findOne) {
+    return res.status(NOT_FOUND).json({
+      message: 'Post does not exist',
+    });
+  }
+
+  if (+findOne.userId !== +req.idUser) {
+    return res.status(UNAUTHORIZATION).json({
+      message: 'Unauthorized user',
+  }); 
+}
+ await BlogPosts.destroy({ where: { userId: id } });
+  res.status(204).json();
+}));
+
 module.exports = postRouter;
