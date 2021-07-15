@@ -1,9 +1,10 @@
 const express = require('express');
 const rescue = require('express-rescue');
 const { BlogPosts, Categories, Users } = require('../../models');
-const { BAD_REQUEST } = require('../errosHttps');
+const { BAD_REQUEST, NOT_FOUND, UNAUTHORIZATION } = require('../errosHttps');
 
 const validateJwt = require('../jwtValidation');
+// const { idIsValidation } = require('./postValidation');
 
 const postRouter = express.Router();
 
@@ -39,6 +40,53 @@ postRouter.get('/', validateJwt, rescue(async (_req, res, _next) => {
   });
 
   res.status(200).json(getAll);
+}));
+
+postRouter.get('/:id', validateJwt, rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const getOne = await BlogPosts.findOne({
+    where: { id },
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!getOne) {
+    return res.status(NOT_FOUND).json({
+      message: 'Post does not exist',
+    });
+  }
+
+  res.status(200).json(getOne);
+}));
+
+postRouter.put('/:id', validateJwt, rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const { title, content, categoryIds } = req.body;
+  
+  if (!title) return res.status(BAD_REQUEST).json({ message: '"title" is required' });
+  if (!content) return res.status(BAD_REQUEST).json({ message: '"content" is required' });
+  if (categoryIds) return res.status(BAD_REQUEST).json({ message: 'Categories cannot be edited' });
+  const { categories, userId } = await BlogPosts.findOne({
+    where: { id },
+    include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
+  });
+
+  if (+userId !== +req.idUser) {
+    console.log(userId, req.idUser);
+    return res.status(UNAUTHORIZATION).json({
+      message: 'Unauthorized user',
+  }); 
+}
+
+  await BlogPosts.update({ title, content }, { where: { userId: id } });
+
+  res.status(200).json({ categories, title, content, userId });
 }));
 
 module.exports = postRouter;
