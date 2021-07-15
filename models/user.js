@@ -12,8 +12,9 @@ const validatePassword = {
   len: { min: 6, msg: '"password" length must be 6 characters long' },
 };
 
-const User = (sequelize, DataTypes) => {
-  const Users = sequelize.define('User', {
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     displayName: { type: DataTypes.STRING, allowNull: false, validate: validateName },
     email: {
       type: DataTypes.STRING,
@@ -21,14 +22,12 @@ const User = (sequelize, DataTypes) => {
       unique: { args: true, msg: 'User already registered' },
       validate: validateEmail,
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: validatePassword,
-    },
+    password: { type: DataTypes.STRING, allowNull: false, validate: validatePassword },
     image: DataTypes.STRING,
-  }, { timestamps: false });
-  return Users;
-};
+  }, { timestamps: false, tableName: 'Users' });
 
-module.exports = User;
+  User.associate = (models) => {
+    models.User.hasMany(models.BlogPost, { foreignKey: 'postId', as: 'posts' });
+  };
+  return User;
+};

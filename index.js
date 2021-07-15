@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 
 const User = require('./controllers/User');
 const Category = require('./controllers/Category');
+const Post = require('./controllers/Post');
+
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,5 +17,6 @@ app.get('/', (request, response) => {
 
 app.use('/', User);
 app.use('/categories', Category);
+app.use('/post', Post);
 
-app.listen(3000, () => console.log('ouvindo porta 3000!'));
+app.listen(PORT, () => console.log(`Ouvindo porta ${PORT}!`));

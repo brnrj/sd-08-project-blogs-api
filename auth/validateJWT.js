@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 
 const secret = 'something'; 
 
@@ -10,11 +11,14 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    jwt.verify(token, secret);
+    const { email, password } = jwt.verify(token, secret);
+    const findUser = await User.findOne({ where: { email, password } });
+    if (!findUser) return res.status(400).json({ message: 'User not found' });
+
+    req.user = findUser.id;
     
     next();
   } catch (err) {
-    console.log(err.message);
     return res.status(401).json({ message: 'Expired or invalid token' });
   }
 };

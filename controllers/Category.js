@@ -11,11 +11,11 @@ router.post('/', validateJWT, async (req, res) => {
 
     res.status(201).json(newCategory);
   } catch (err) {
-    res.status(400).json({ message: err.errors[0].message })
+    res.status(400).json({ message: err.errors[0].message });
   }
 });
 
-router.get('/', validateJWT, async (req, res) => {
+router.get('/', validateJWT, async (_req, res) => {
   const categories = await Category.findAll();
 
   res.status(200).json(categories);

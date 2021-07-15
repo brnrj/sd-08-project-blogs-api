@@ -16,7 +16,7 @@ router.post('/user', async (req, res) => {
     const { displayName, email, password, image } = req.body;
     await User.create({ displayName, email, password, image });
 
-    const token = jwt.sign(email, secret, jwtConfig);
+    const token = jwt.sign({ email, password }, secret, jwtConfig);
     return res.status(201).json({ token });
   } catch (err) {
     if (err.errors[0].message === 'Users.email must be unique') {
@@ -26,7 +26,7 @@ router.post('/user', async (req, res) => {
   }
 });
 
-router.get('/user', validateJWT, async (req, res) => {
+router.get('/user', validateJWT, async (_req, res) => {
   const users = await User.findAll();
 
   return res.status(200).json(users);
@@ -45,12 +45,12 @@ router.post('/login', async (req, res) => {
   if (!email || !password) {
     return res.status(400).json(validateLogin(email, password));
   }
-  
-  const user = await User.findOne({ where: { email, password } });
+
+  const user = await User.findOne({ where: { email } });
 
   if (!user) return res.status(400).json({ message: 'Invalid fields' });
 
-  const token = jwt.sign(email, secret, jwtConfig);
+  const token = jwt.sign({ email, password }, secret, jwtConfig);
   return res.status(200).json({ token });
 });
 
