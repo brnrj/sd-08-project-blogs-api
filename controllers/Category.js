@@ -11,14 +11,16 @@ router.post('/', validateJWT, async (req, res) => {
 
     res.status(201).json(newCategory);
   } catch (err) {
-    res.status(400).json({ message: err.errors[0].message });
+    console.log('\n\n', err, '\n\n');
+
+    return res.status(400).json({ message: err.errors[0].message });
   }
 });
 
 router.get('/', validateJWT, async (_req, res) => {
   const categories = await Category.findAll();
 
-  res.status(200).json(categories);
+  return res.status(200).json(categories);
 });
 
 module.exports = router;

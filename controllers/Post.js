@@ -16,16 +16,17 @@ router.post('/', validateJWT, async (req, res) => {
     const categoryList = await Category.findAll();
     const categoryArray = categoryList.map((item) => item.id);
 
-    categoryIds.forEach((item) => {
+    categoryIds.forEach((item) => { 
       if (!categoryArray.includes(item)) {
         return res.status(400).json({ message: '"categoryIds" not found' });
       }
     });
 
     const newPost = await BlogPost.create({ title, content, userId });
-    res.status(201).json(newPost);
+    return res.status(201).json(newPost);
   } catch (err) {
-    res.status(400).json({ message: err.errors[0].message });
+    // console.log('\n\n', err, '\n\n');
+    return res.status(400).json({ message: err.errors[0].message });
   }
 });
 
@@ -33,7 +34,7 @@ router.get('/', validateJWT, async (req, res) => {
   try {
     const posts = await BlogPost.findAll();
   
-    res.status(200).json(posts);
+    return res.status(200).json(posts);
   } catch (err) {
     console.log(err);
     // res.status(400).json({ message: err.errors[0].message });

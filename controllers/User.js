@@ -16,13 +16,13 @@ router.post('/user', async (req, res) => {
     const { displayName, email, password, image } = req.body;
     await User.create({ displayName, email, password, image });
 
-    const token = jwt.sign({ email, password }, secret, jwtConfig);
+    const token = jwt.sign({ email }, secret, jwtConfig);
     return res.status(201).json({ token });
   } catch (err) {
     if (err.errors[0].message === 'Users.email must be unique') {
       return res.status(409).json({ message: 'User already registered' });
     }
-    res.status(400).json({ message: err.errors[0].message });
+    return res.status(400).json({ message: err.errors[0].message });
   }
 });
 
@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
 
   if (!user) return res.status(400).json({ message: 'Invalid fields' });
 
-  const token = jwt.sign({ email, password }, secret, jwtConfig);
+  const token = jwt.sign({ email }, secret, jwtConfig);
   return res.status(200).json({ token });
 });
 
@@ -60,7 +60,7 @@ router.get('/user/:id', validateJWT, async (req, res) => {
 
   if (!findUser) return res.status(404).json({ message: 'User does not exist' });
 
-  res.status(200).json(findUser);
+  return res.status(200).json(findUser);
 });
 
 module.exports = router;
