@@ -1,5 +1,5 @@
 const express = require('express');
-const { BlogPost, Category } = require('../models');
+const { User, BlogPost, Category } = require('../models');
 const validateJWT = require('../auth/validateJWT');
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.post('/', validateJWT, async (req, res) => {
     const categoryList = await Category.findAll();
     const categoryArray = categoryList.map((item) => item.id);
     
-/*    categoryIds.forEach((item) => { 
+    /*    categoryIds.forEach((item) => { 
       if (!categoryArray.includes(item)) {
         return res.status(400).json({ message: '"categoryIds" not found' });
       }
@@ -38,12 +38,17 @@ router.post('/', validateJWT, async (req, res) => {
 
 router.get('/', validateJWT, async (req, res) => {
   try {
-    const posts = await BlogPost.findAll();
+    const posts = await BlogPost.findAll({
+      include: [
+        { model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
   
     return res.status(200).json(posts);
   } catch (err) {
-    console.log(err);
-    // res.status(400).json({ message: err.errors[0].message });
+    console.log('\n\n', err, '\n\n');
+    res.status(400).json({ message: err.errors[0].message });
   }
 });
 
