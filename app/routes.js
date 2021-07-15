@@ -23,6 +23,7 @@ postRoute.post('/', verifyAuthorization, postsController.createPost);
 postRoute.get('/', verifyAuthorization, postsController.getAllPosts);
 postRoute.get('/:id', verifyAuthorization, postsController.getByIdPost);
 postRoute.put('/:id', verifyAuthorization, postsController.editPostById);
+postRoute.delete('/:id', verifyAuthorization, postsController.deletePostById);
 
 module.exports = { 
   usersRoute,

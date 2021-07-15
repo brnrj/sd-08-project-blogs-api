@@ -81,9 +81,32 @@ const editPostById = rescue(async (req, res, next) => {
   res.status(200).json({ categories, title, content, userId });
 });
 
+const deletePostById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const { idUser } = req;
+
+  const result = await BlogPosts.findOne({
+    where: { id },
+    include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
+  });
+
+  if (!result) return next(errorClient.notFound('Post does not exist'));
+
+  const { userId } = result;
+  
+ if (+userId !== +idUser) {    
+    return next(errorClient.unauthorized('Unauthorized user')); 
+  } 
+
+  await BlogPosts.destroy({ where: { userId: id } });
+  
+  res.status(success.noContent).json();
+});
+
 module.exports = {
   createPost,
   getAllPosts,
   getByIdPost,
   editPostById,
+  deletePostById,
 };
