@@ -10,8 +10,12 @@ router.post('/', async (req, res) => {
     const invalid = validate(displayName, email, password);
     if (invalid) return res.status(invalid.status).json({ message: invalid.message });
 
-    const newUser = await Users.create({ displayName, email, password, image });
+    const emailExists = await Users.findOne({ where: { email } });
+    if (emailExists && emailExists.dataValues) {
+      return res.status(409).json({ message: 'User already registered' });
+    }
 
+    const newUser = await Users.create({ displayName, email, password, image });
     const token = getToken(newUser);
 
     return res.status(201).json({ token });
