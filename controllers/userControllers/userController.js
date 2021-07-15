@@ -1,4 +1,5 @@
 const express = require('express');
+const rescue = require('express-rescue');
 const { Users } = require('../../models');
 const { validationCreateUser, findByIdExists } = require('./userValidations');
 const tokenCreate = require('../encrptoJwt');
@@ -45,5 +46,10 @@ routerUser.post('/', async (req, res) => {
 
   res.status(201).json({ token });
 });
+
+routerUser.delete('/me', verifyToken, rescue(async (req, res, _next) => {
+  await Users.destroy({ where: { id: req.idUser } });
+  res.status(204).json();
+}));
 
 module.exports = routerUser;
