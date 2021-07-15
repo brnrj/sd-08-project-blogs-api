@@ -59,8 +59,26 @@ const getByIdPost = rescue(async (req, res, next) => {
   res.status(success.OK).json(result);
 });
 
-const editPostById = rescue(async (_req, res, _next) => {
-  res.status(success.OK).json({ message: 'teste' });
+const editPostById = rescue(async (req, res, next) => {
+  const { title, content, categoryIds } = req.body;
+  const { id } = req.params;
+  const { idUser } = req;
+
+  if (!title) return next(errorClient.badRequest('"title" is required'));
+  if (!content) return next(errorClient.badRequest('"content" is required'));
+  if (categoryIds) return next(errorClient.badRequest('Categories cannot be edited'));
+
+  const { categories, userId } = await BlogPosts.findOne({
+    where: { id },
+    include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
+  });
+
+  if (+userId !== +idUser) {    
+    return next(errorClient.unauthorized('Unauthorized user')); 
+}
+  await BlogPosts.update({ title, content }, { where: { userId: id } });
+
+  res.status(200).json({ categories, title, content, userId });
 });
 
 module.exports = {
