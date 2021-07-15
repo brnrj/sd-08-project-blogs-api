@@ -20,12 +20,12 @@ router.post('/', validateJWT, async (req, res) => {
   }
 });
 
-// router.get('/', validateJWT, async (req, res) => {
-//   const users = await Users.findAll();
-//   if (!users) res.status(401).json({ message: 'Algo deu errado' });
+router.get('/', validateJWT, async (req, res) => {
+  const categories = await Categories.findAll();
+  if (!categories) res.status(401).json({ message: 'Algo deu errado' });
 
-//   return res.status(200).json(users);
-// });
+  return res.status(200).json(categories);
+});
 
 // router.get('/:id', validateJWT, async (req, res) => {
 //   try {
