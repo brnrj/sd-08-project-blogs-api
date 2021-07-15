@@ -40,4 +40,12 @@ router.get('/:id', validateToken, async (req, res) => {
   return res.status(200).json(user);
 });
 
+router.delete('/me', validateToken, async (req, res) => {
+  const { email } = req.user;
+
+  await Users.destroy({ where: { email } });
+
+  return res.status(204).json({});
+});
+
 module.exports = router;
