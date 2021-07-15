@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const httpRequestError = 400;
+const httpResError = 400;
 
 const userSchema = (body) => Joi.object({
   email: Joi.string().email().required().messages({
@@ -15,7 +15,7 @@ const userSchema = (body) => Joi.object({
 
 const validateUser = (req, res, next) => {
   const { error } = userSchema(req.body);
-  if (error) res.status(httpRequestError).json({ message: error.message });
+  if (error) { res.status(httpResError).json({ message: error.message }); return; }
   next();
 };
 

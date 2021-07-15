@@ -2,8 +2,8 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-const httpRequestOk = 200;
-const httpRequestError = 400;
+const httpResOk = 200;
+const httpResError = 400;
 
 const JwtSecret = 'secret';
 const jwtConfig = { expiresIn: '1d', algorithm: 'HS256' };
@@ -19,10 +19,11 @@ router.post('/', async (req, res) => {
     const token = jwt.sign({ id: user.dataValues.id, email: user.dataValues.email },
       JwtSecret, jwtConfig);
 
-    res.status(httpRequestOk).json({ token });
+    res.status(httpResOk).json({ token });
+    return;
   } catch (error) {
-    res.status(httpRequestError).json({ message: 'Invalid fields' });
+    res.status(httpResError).json({ message: 'Invalid fields' });
   }
 });
 
-module.exports = router; 
+module.exports = router;

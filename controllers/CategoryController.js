@@ -4,21 +4,24 @@ const { Category } = require('../models');
 
 const router = express.Router();
 
-const httpRequestOk = 200;
-const httpRequestSubmit = 201;
-const httpRequestErr = 401;
-const httpRequestErro = 400;
+const httpResOk = 200;
+const httpResSubmit = 201;
+const httpResErr = 401;
+const httpResErro = 400;
 
 router.get('/', async (req, res) => {
   const JwtSecret = 'secret';
   const token = req.headers.authorization;
 
-  if (!token) res.status(httpRequestErr).json({ message: 'Token not found' });
+  if (!token) { res.status(httpResErr).json({ message: 'Token not found' }); return; }
 
   jwt.verify(token, JwtSecret, async (err) => {
-    if (err) return res.status(httpRequestErr).json({ message: 'Expired or invalid token' });
+    if (err) {
+      res.status(httpResErr).json({ message: 'Expired or invalid token' });
+      return;
+    }
     const category = await Category.findAll();
-    res.status(httpRequestOk).json(category);
+    res.status(httpResOk).json(category);
   });
 });
 
@@ -26,16 +29,18 @@ router.post('/', async (req, res) => {
   const JwtSecret = 'secret';
   const token = req.headers.authorization;
 
-  if (!token) res.status(httpRequestErr).json({ message: 'Token not found' });
+  if (!token) { res.status(httpResErr).json({ message: 'Token not found' }); return; }
 
   const { name } = req.body;
 
-  if (!name) res.status(httpRequestErro).json({ message: '"name" is required' });
+  if (!name) { res.status(httpResErro).json({ message: '"name" is required' }); return; }
 
   jwt.verify(token, JwtSecret, async (err) => {
-    if (err) return res.status(httpRequestErr).json({ message: 'Expired or invalid token' });
+    if (err) {
+      res.status(httpResErr).json({ message: 'Expired or invalid token' }); return;
+    }
     const category = await Category.create({ name });
-    res.status(httpRequestSubmit).json(category);
+    res.status(httpResSubmit).json(category);
   });
 });
 

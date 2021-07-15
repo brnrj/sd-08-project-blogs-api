@@ -5,24 +5,27 @@ const { ErrorsUser, ErrorsUserDelete } = require('../schemas');
 
 const router = express.Router();
 
-const httpRequestOk = 200;
-const httpRequestSubmit = 201;
-const httpRequestDelete = 204;
-const httpRequestError = 500;
-const httpRequestErr = 401;
-const httpRequestErro = 404;
-const httpRequestConflict = 409;
+const httpResOk = 200;
+const httpResSubmit = 201;
+const httpResDelete = 204;
+const httpResError = 500;
+const httpResErr = 401;
+const httpResErro = 404;
+const httpResConflict = 409;
 
 router.get('/', async (req, res) => {
   const JwtSecret = 'secret';
   const token = req.headers.authorization;
 
-  if (!token) res.status(httpRequestErr).json({ message: 'Token not found' });
+  if (!token) { res.status(httpResErr).json({ message: 'Token not found' }); return; }
 
   jwt.verify(token, JwtSecret, async (err) => {
-    if (err) return res.status(httpRequestErr).json({ message: 'Expired or invalid token' });
+    if (err) {
+      res.status(httpResErr).json({ message: 'Expired or invalid token' });
+      return;
+    }
     const users = await User.findAll();
-    res.status(httpRequestOk).json(users);
+    res.status(httpResOk).json(users);
   });
 });
 
@@ -31,13 +34,15 @@ router.get('/:id', async (req, res) => {
   const token = req.headers.authorization;
   const { id } = req.params;
 
-  if (!token) res.status(httpRequestErr).json({ message: 'Token not found' });
+  if (!token) { res.status(httpResErr).json({ message: 'Token not found' }); return; }
 
   jwt.verify(token, JwtSecret, async (err) => {
-    if (err) return res.status(httpRequestErr).json({ message: 'Expired or invalid token' });
+    if (err) {
+      res.status(httpResErr).json({ message: 'Expired or invalid token' }); return;
+    }
     const user = await User.findByPk(id);
-    if (!user) return res.status(httpRequestErro).json({ message: 'User does not exist' });
-    res.status(httpRequestOk).json(user);
+    if (!user) { res.status(httpResErro).json({ message: 'User does not exist' }); return; }
+    res.status(httpResOk).json(user);
   });
 });
 
@@ -47,22 +52,23 @@ router.post('/', ErrorsUser, async (req, res) => {
   const userEmail = await User.findOne({ where: { email } });
 
   if (userEmail) {
-    return res.status(httpRequestConflict).json({ message: 'User already registered' });
+    res.status(httpResConflict).json({ message: 'User already registered' }); return;
   }
 
   try {
     const user = await User.create({ displayName, email, password, image });
-    return res.status(httpRequestSubmit).json(user);
+    res.status(httpResSubmit).json(user);
+    return;
   } catch (err) {
     console.log(err.message);
-    res.status(httpRequestError).json({ message: 'Something went wrong' });
+    res.status(httpResError).json({ message: 'Something went wrong' });
   }
 });
 
 router.delete('/me', ErrorsUserDelete, async (req, res) => {
   const email = await User.findByPk(req.user.email);
   await User.destroy({ where: { email } });
-  res.status(httpRequestDelete).end();
+  res.status(httpResDelete).end();
 });
 
 module.exports = router;
