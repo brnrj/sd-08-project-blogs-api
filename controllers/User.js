@@ -63,4 +63,16 @@ router.get('/user/:id', validateJWT, async (req, res) => {
   return res.status(200).json(findUser);
 });
 
+router.delete('/user/me', validateJWT, async (req, res) => {
+  try {
+    const userId = req.user;
+
+    await User.destroy({ where: { id: userId } });
+    
+    res.status(204).end();
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = router;
