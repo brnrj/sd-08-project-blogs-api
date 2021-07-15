@@ -37,15 +37,29 @@ const getAllPosts = rescue(async (_req, res, _next) => {
       { model: Categories, as: 'categories', through: { attributes: [] } },
     ],
   });
-  console.log(result);
   res.status(success.OK).json(result);
 });
 
-const getByIdPost = rescue(async (req, res, _next) => {
-  res.status(success.OK).json({ message: 'teste' });
+const getByIdPost = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await BlogPosts.findOne({
+    where: { id },
+    include: [
+      {
+        model: Users,
+        as: 'user', 
+        attributes: { exclude: ['password'] },
+      },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  if (!result) next(errorClient.notFound('Post does not exist'));
+
+  res.status(success.OK).json(result);
 });
 
-const editPostById = rescue(async (req, res, _next) => {
+const editPostById = rescue(async (_req, res, _next) => {
   res.status(success.OK).json({ message: 'teste' });
 });
 
