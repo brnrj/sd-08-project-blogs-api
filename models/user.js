@@ -13,4 +13,14 @@ const User = (sequelize, DataTypes) => {
   return user;
 };
 
+User.associate = (models) => {
+  User.hasOne(
+    models.blogpost,
+    {
+      foreignKey: 'userId',
+      as: 'blogsPosts',
+    },
+  );
+};
+
 module.exports = User;
