@@ -10,4 +10,5 @@ module.exports = {
   emptyPassword: { message: '"password" is not allowed to be empty' },
   noToken: { message: 'Token not found' },
   invalidToken: { message: 'Expired or invalid token' },
+  userNotExist: { message: 'User does not exist' },
 };

@@ -42,7 +42,7 @@ const invalidUserCreation = async (data) => {
   }
 };
 
-const unauthorizedToken = async (token) => {
+const unauthorizedToken = (token) => {
   const { unauthorized } = statusCode;
   const { noToken, invalidToken } = errors;
 
@@ -56,8 +56,17 @@ const unauthorizedToken = async (token) => {
   }
 };
 
+const invalidUser = (user) => {
+  const { notFound } = statusCode;
+  const { userNotExist } = errors;
+
+  if (!user) return result(notFound, userNotExist);
+  return null;
+};
+
 module.exports = {
   invalidUserCreation,
   incompleteData,
   unauthorizedToken,
+  invalidUser,
 };

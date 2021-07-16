@@ -7,10 +7,12 @@ const userSchema = require('../schemas/userSchema');
 
 const { JWT_SECRET } = process.env;
 
-const usersWithoutPassword = (users) => users.map((user) => {
+const userWithoutPassword = (user) => {
   const { password, ...userData } = user.dataValues;
   return userData;
-});
+};
+
+const usersWithoutPassword = (users) => users.map(userWithoutPassword);
 
 const insertUser = async (data) => {
   const incompleteData = userSchema.incompleteData(data);
@@ -27,7 +29,7 @@ const insertUser = async (data) => {
 };
 
 const findAllUsers = async (token) => {
-  const unauthorizedToken = await userSchema.unauthorizedToken(token);
+  const unauthorizedToken = userSchema.unauthorizedToken(token);
   if (unauthorizedToken) return unauthorizedToken;
 
   const allUsers = await User.findAll();
@@ -35,7 +37,20 @@ const findAllUsers = async (token) => {
   return { status: ok, response: users };
 };
 
+const findUserById = async (token, id) => {
+  const unauthorizedToken = userSchema.unauthorizedToken(token);
+  if (unauthorizedToken) return unauthorizedToken;
+
+  const user = await User.findByPk(id);
+  const invalidUser = userSchema.invalidUser(user);
+  if (invalidUser) return invalidUser;
+
+  const userData = userWithoutPassword(user);
+  return { status: ok, response: userData };
+};
+
 module.exports = {
   insertUser,
   findAllUsers,
+  findUserById,
 };
