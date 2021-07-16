@@ -2,9 +2,10 @@ const { User } = require('../models');
 
 const emailValidation = /^[\w.]+@[\w]+(.[\w]+)+$/;
 
-const isBlank = (value) => !value;
+const isBlank = (value) => value === '';
 const isShortString = (text, min) => text.length < min;
 const isInvalidEmail = (email) => !email.match(emailValidation);
+const isWrongPassword = (pass, userPass) => pass !== userPass;
 
 const isRegisteredEmail = async (email) => {
   const user = await User.findOne({ where: { email } });
@@ -16,4 +17,5 @@ module.exports = {
   isInvalidEmail,
   isShortString,
   isRegisteredEmail,
+  isWrongPassword,
 };

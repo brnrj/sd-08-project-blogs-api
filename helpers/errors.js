@@ -5,4 +5,7 @@ module.exports = {
   noEmail: { message: '"email" is required' },
   shortPassword: { message: '"password" length must be 6 characters long' },
   noPassword: { message: '"password" is required' },
+  invalidFields: { message: 'Invalid fields' },
+  emptyEmail: { message: '"email" is not allowed to be empty' },
+  emptyPassword: { message: '"password" is not allowed to be empty' },
 };
