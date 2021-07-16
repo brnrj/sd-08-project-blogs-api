@@ -1,5 +1,5 @@
 const express = require('express');
-const { Users } = require('../models');
+const { User } = require('../models');
 const { validate, getToken } = require('../schema');
 const validateJWT = require('../auth/validateJWT');
 
@@ -11,12 +11,12 @@ router.post('/', async (req, res) => {
     const invalid = validate(displayName, email, password);
     if (invalid) return res.status(invalid.status).json({ message: invalid.message });
 
-    const emailExists = await Users.findOne({ where: { email } });
+    const emailExists = await User.findOne({ where: { email } });
     if (emailExists && emailExists.dataValues) {
       return res.status(409).json({ message: 'User already registered' });
     }
 
-    const newUser = await Users.create({ displayName, email, password, image });
+    const newUser = await User.create({ displayName, email, password, image });
     const token = getToken(newUser);
 
     return res.status(201).json({ token });
@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', validateJWT, async (req, res) => {
-  const users = await Users.findAll();
+  const users = await User.findAll();
   if (!users) res.status(401).json({ message: 'Algo deu errado' });
 
   return res.status(200).json(users);
@@ -36,7 +36,7 @@ router.get('/', validateJWT, async (req, res) => {
 router.get('/:id', validateJWT, async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await Users.findByPk(id);
+    const user = await User.findByPk(id);
 
     if (!user) return res.status(404).json({ message: 'User does not exist' });
 
