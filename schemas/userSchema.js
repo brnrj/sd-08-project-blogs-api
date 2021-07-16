@@ -1,6 +1,10 @@
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const validations = require('../helpers/validations');
 const statusCode = require('../helpers/statusCode');
 const errors = require('../helpers/errors');
+
+const { JWT_SECRET } = process.env;
 
 const result = (status, response) => ({ status, response });
 
@@ -38,7 +42,22 @@ const invalidUserCreation = async (data) => {
   }
 };
 
+const unauthorizedToken = async (token) => {
+  const { unauthorized } = statusCode;
+  const { noToken, invalidToken } = errors;
+
+  if (!token) return result(unauthorized, noToken);
+  
+  try {
+    jwt.verify(token, JWT_SECRET);
+    return null;
+  } catch (err) {
+    return result(unauthorized, invalidToken);
+  }
+};
+
 module.exports = {
   invalidUserCreation,
   incompleteData,
+  unauthorizedToken,
 };
