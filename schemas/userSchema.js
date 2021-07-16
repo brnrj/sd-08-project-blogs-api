@@ -4,7 +4,7 @@ const errors = require('../helpers/errors');
 
 const result = (status, response) => ({ status, response });
 
-const invalidUserCreationData = (data) => {
+const incompleteData = (data) => {
   const { badRequest } = statusCode;
   const { noEmail, noPassword } = errors;
   if (!data.email) {
@@ -40,5 +40,5 @@ const invalidUserCreation = async (data) => {
 
 module.exports = {
   invalidUserCreation,
-  invalidUserCreationData,
+  incompleteData,
 };

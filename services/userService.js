@@ -8,7 +8,7 @@ const userSchema = require('../schemas/userSchema');
 const { JWT_SECRET } = process.env;
 
 const insertUser = async (data) => {
-  const incompleteData = userSchema.invalidUserCreationData(data);
+  const incompleteData = userSchema.incompleteData(data);
   if (incompleteData) return incompleteData;
 
   const invalidData = await userSchema.invalidUserCreation(data);
