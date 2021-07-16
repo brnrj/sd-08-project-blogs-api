@@ -1,4 +1,3 @@
-require('dotenv').config();
 const validations = require('../helpers/validations');
 const statusCode = require('../helpers/statusCode');
 const errors = require('../helpers/errors');
