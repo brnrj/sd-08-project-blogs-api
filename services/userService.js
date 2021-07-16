@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const { created, ok } = require('../helpers/statusCode');
 const userSchema = require('../schemas/userSchema');
+const commonSchema = require('../schemas/commonSchema');
 
 const { JWT_SECRET } = process.env;
 
@@ -29,7 +30,7 @@ const insertUser = async (data) => {
 };
 
 const findAllUsers = async (token) => {
-  const unauthorizedToken = userSchema.unauthorizedToken(token);
+  const unauthorizedToken = commonSchema.unauthorizedToken(token);
   if (unauthorizedToken) return unauthorizedToken;
 
   const allUsers = await User.findAll();
@@ -38,7 +39,7 @@ const findAllUsers = async (token) => {
 };
 
 const findUserById = async (token, id) => {
-  const unauthorizedToken = userSchema.unauthorizedToken(token);
+  const unauthorizedToken = commonSchema.unauthorizedToken(token);
   if (unauthorizedToken) return unauthorizedToken;
 
   const user = await User.findByPk(id);
