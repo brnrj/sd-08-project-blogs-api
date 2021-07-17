@@ -28,24 +28,30 @@ router.get('/', validateJWT, async (req, res) => {
   const blogPosts = await BlogPost
     .findAll({ include: [
       { model: User, as: 'user' },
-      { model: Categories, as: 'categories'}] });
+      { model: Categories, as: 'categories' }] });
   if (!blogPosts) res.status(401).json({ message: 'Algo deu errado' });
 
   return res.status(200).json(blogPosts);
 });
 
-// router.get('/:id', validateJWT, async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const user = await Users.findByPk(id);
+router.get('/:id', validateJWT, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await BlogPost.findOne({ 
+      where: { id },
+      include: [
+        { model: User, as: 'user' },
+        { model: Categories, as: 'categories' },
+      ],
+    });
 
-//     if (!user) return res.status(404).json({ message: 'User does not exist' });
+    if (!user) return res.status(404).json({ message: 'Post does not exist' });
 
-//     return res.status(200).json(user);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Algo deu errado' });
-//   }
-// });
+    return res.status(200).json(user);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json({ message: 'Algo deu errado' });
+  }
+});
 
 module.exports = router;
