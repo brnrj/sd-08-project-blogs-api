@@ -47,4 +47,19 @@ router.get('/:id', validateJWT, async (req, res) => {
   }
 });
 
+router.delete('/me', validateJWT, async (req, res) => {
+  try {
+    const { id } = req.user.data;
+
+    await User.destroy(
+      { where: { id } },
+    );
+
+    return res.status(204).json();
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json({ message: 'Algo deu errado' });
+  }
+});
+
 module.exports = router;
