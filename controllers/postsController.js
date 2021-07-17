@@ -74,4 +74,25 @@ router.put('/:id', validateJWT, async (req, res) => {
   }
 });
 
+router.delete('/:id', validateJWT, async (req, res) => {
+  try {
+    const { id: uId } = req.user.data;
+    const { id } = req.params;
+    
+    const blogPost = await BlogPost.findByPk(id);
+
+    if (blogPost === null) return res.status(404).json({ message: 'Post does not exist' });
+    if (blogPost.userId !== uId) return res.status(401).json({ message: 'Unauthorized user' });
+
+    await BlogPost.destroy(
+      { where: { id } },
+    );
+
+    return res.status(204).json();
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json({ message: 'Algo deu errado' });
+  }
+});
+
 module.exports = router;
