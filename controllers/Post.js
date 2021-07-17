@@ -35,4 +35,10 @@ const putById = rescue(async (req, res, next) => {
     const idPost = await PostService.putById(id, req.body, req.user);
     res.status(200).json(idPost);
 });
-module.exports = { post, findAll, findById, putById };
+
+const deletePostById = rescue(async (req, res) => {
+    const { id } = req.params;
+    await PostService.deletePostById(id, req.user);
+    res.status(204).json();
+});
+module.exports = { post, findAll, findById, putById, deletePostById };

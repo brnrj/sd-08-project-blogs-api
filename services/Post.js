@@ -35,12 +35,19 @@ const findById = async (id) => {
 const putById = async (id, { title, content }, { email }) => {
   const verifyIdUser = await User.findOne({ where: { email } });
   const verifyId = await findById(id);
-
   if (verifyIdUser.id !== verifyId.userId) { throw boom.unauthorized('Unauthorized user'); }
 
   await BlogPosts.update({ title, content }, { where: { id } }); 
 const postEdited = await findById(id);
 return postEdited;
 };
+const deletePostById = async (id, { email }) => {
+  const verifyId = await findById(id);
+  const verifyIdUser = await User.findOne({ where: { email } });
+  if (verifyIdUser.id !== verifyId.userId) { throw boom.unauthorized('Unauthorized user'); }
 
-module.exports = { post, findAll, findById, putById };
+  const deletePost = await BlogPosts.destroy({ where: { id } });
+  return deletePost;
+};
+
+module.exports = { post, findAll, findById, putById, deletePostById };
