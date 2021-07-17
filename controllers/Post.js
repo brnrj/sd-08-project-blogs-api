@@ -41,4 +41,8 @@ const deletePostById = rescue(async (req, res) => {
     await PostService.deletePostById(id, req.user);
     res.status(204).json();
 });
-module.exports = { post, findAll, findById, putById, deletePostById };
+
+const findByTitleContent = rescue(async (req, res) => {
+    res.status(200).json({ message: 'find by titlhe' });
+});
+module.exports = { post, findAll, findById, putById, deletePostById, findByTitleContent };
