@@ -32,4 +32,15 @@ const findById = async (id) => {
   return idPost;
 };
 
-module.exports = { post, findAll, findById };
+const putById = async (id, { title, content }, { email }) => {
+  const verifyIdUser = await User.findOne({ where: { email } });
+  const verifyId = await findById(id);
+
+  if (verifyIdUser.id !== verifyId.userId) { throw boom.unauthorized('Unauthorized user'); }
+
+  await BlogPosts.update({ title, content }, { where: { id } }); 
+const postEdited = await findById(id);
+return postEdited;
+};
+
+module.exports = { post, findAll, findById, putById };

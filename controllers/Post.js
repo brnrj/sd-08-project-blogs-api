@@ -1,7 +1,9 @@
 const rescue = require('express-rescue');
 // const jwt = require('jsonwebtoken');
+const boom = require('@hapi/boom');
 const PostVerify = require('../services/utils/postSchema');
 const PostService = require('../services/Post');
+const PostUpdVerify = require('../services/utils/postUpdSchema');
 
 const post = rescue(async (req, res, next) => {
     const { error } = PostVerify.validate(req.body);
@@ -21,4 +23,16 @@ const findById = rescue(async (req, res) => {
     console.log(idPost);
     res.status(200).json(idPost);
 });
-module.exports = { post, findAll, findById };
+
+const putById = rescue(async (req, res, next) => {
+    const { id } = req.params;
+     
+    const { error } = PostUpdVerify.validate(req.body);
+    if (Object.keys(req.body).includes('categoryIds')) {
+        throw boom.badRequest('Categories cannot be edited');
+    }
+    if (error) next(error);
+    const idPost = await PostService.putById(id, req.body, req.user);
+    res.status(200).json(idPost);
+});
+module.exports = { post, findAll, findById, putById };
