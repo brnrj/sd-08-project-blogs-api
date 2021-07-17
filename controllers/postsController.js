@@ -1,6 +1,7 @@
 const express = require('express');
+
 const { User, BlogPost, Categories } = require('../models');
-const { validatePosts, validateCategoryIds } = require('../schema');
+const { validatePosts, validateCategoryIds, validatePostUpdate } = require('../schema');
 const validateJWT = require('../auth/validateJWT');
 
 const router = express.Router();
@@ -51,6 +52,25 @@ router.get('/:id', validateJWT, async (req, res) => {
   } catch (e) {
     console.log(e.message);
     res.status(500).json({ message: 'Algo deu errado' });
+  }
+});
+
+router.put('/:id', validateJWT, async (req, res) => {
+  try {
+    const { title, content, categoryIds } = req.body;
+    const { id: uId } = req.user.data;
+    const { id } = req.params;
+    const blogPost = await BlogPost.findOne({ where: { id },
+      include: { model: Categories, as: 'categories' },
+    });
+    if (blogPost.userId !== uId) return res.status(401).json({ message: 'Unauthorized user' });
+    const invalid = validatePostUpdate(title, content, categoryIds);
+    if (invalid) return res.status(invalid.status).json({ message: invalid.message });
+    await BlogPost.update({ title, content },
+      { where: { id } });
+    return res.status(200).json({ title, content, userId: uId, categories: blogPost.categories });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
   }
 });
 
