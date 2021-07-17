@@ -10,6 +10,7 @@ const jwtValidate = rescue(async (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     if (decoded)next();
   } catch (e) {
    throw boom.unauthorized('Expired or invalid token');

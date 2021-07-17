@@ -1,9 +1,9 @@
 const boom = require('@hapi/boom');
-const { Category } = require('../models');
+const { Categories } = require('../models');
 
 const createCategory = async (post) => {
     try {
-    const category = await Category.create({ ...post });
+    const category = await Categories.create({ ...post });
     return category;
     } catch (e) {
         throw boom.conflict('User already REGISTRO POST');
@@ -11,7 +11,7 @@ const createCategory = async (post) => {
 };
 
 const findAll = async () => {
-    const allUsers = await Category.findAll();
+    const allUsers = await Categories.findAll();
     return allUsers;
 };
 module.exports = { createCategory, findAll };
