@@ -14,12 +14,6 @@ const createOne = async (newPost) => {
       { title, content, userId },
       { transaction },
     );
-    // console.log(post);
-    // try {
-    //   await post.addCategories(categoryIds, { transaction });
-    // } catch (err) {
-    //   return customError('"categoryIds" not found');
-    // }
 
     return { id: post.id, userId, title, content };
   });
