@@ -8,7 +8,7 @@ const createOne = async (newPost) => {
   if (error) return customError(error.details[0].message, 'invalidData');
 
   return sequelize.transaction(async (transaction) => {
-    const { title, content, userId, categoryIds } = newPost;
+    const { title, content, userId } = newPost;
 
     const post = await PostModel.create(
       { title, content, userId },
@@ -24,6 +24,8 @@ const createOne = async (newPost) => {
     return { id: post.id, userId, title, content };
   });
 };
+
+// const findAll = async () => PostModel.findAll();
 
 const findAll = async () => PostModel.findAll({
   include: ['user', 'categories'],
