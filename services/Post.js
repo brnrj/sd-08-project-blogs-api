@@ -26,4 +26,10 @@ const findAll = async () => {
   return allPost;
 };
 
-module.exports = { post, findAll };
+const findById = async (id) => {
+  const idPost = await BlogPosts.findOne({ where: { id }, include: ['user', 'categories'] });
+  if (!idPost) throw boom.notFound('Post does not exist');
+  return idPost;
+};
+
+module.exports = { post, findAll, findById };

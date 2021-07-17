@@ -14,4 +14,11 @@ const findAll = rescue(async (req, res) => {
     const allPost = await PostService.findAll();
     res.status(200).json(allPost);
 });
-module.exports = { post, findAll };
+
+const findById = rescue(async (req, res) => {
+    const { id } = req.params;
+    const idPost = await PostService.findById(id);
+    console.log(idPost);
+    res.status(200).json(idPost);
+});
+module.exports = { post, findAll, findById };

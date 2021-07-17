@@ -7,5 +7,6 @@ const router = express.Router();
 // validate.jwtValidate
 router.post('/', validate.jwtValidate, PostControllers.post);
 router.get('/', validate.jwtValidate, PostControllers.findAll);
+router.get('/:id', validate.jwtValidate, PostControllers.findById);
 
 module.exports = router;
