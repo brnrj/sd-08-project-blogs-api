@@ -8,9 +8,9 @@ module.exports = errorHandling(async (req, res, next) => {
   if (error) return next(customError(error.details[0].message, 'invalidData'));
 
   const { email, password } = req.body;
-  console.log(email, password);
+  // console.log(email, password);
   const user = await UserModel.findOne({ where: { email } });
-  console.log(user);
+  // console.log(user);
   if (!user || user.password !== password) {
     return next(customError('Invalid fields', 'invalidData'));
   }

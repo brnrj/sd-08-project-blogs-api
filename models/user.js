@@ -5,9 +5,16 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     image: DataTypes.STRING,
-  },
-  {
+  }, {
     timestamps: false,
   });
+  User.associate = (models) => {
+    User.hasMany(models.Post, {
+      foreignKey: 'userId',
+      as: 'posts',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+  };
   return User;
 };
