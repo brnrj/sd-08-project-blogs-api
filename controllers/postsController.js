@@ -1,5 +1,5 @@
 const express = require('express');
-const { BlogPost } = require('../models');
+const { User, BlogPost, Categories } = require('../models');
 const { validatePosts, validateCategoryIds } = require('../schema');
 const validateJWT = require('../auth/validateJWT');
 
@@ -24,12 +24,15 @@ router.post('/', validateJWT, async (req, res) => {
   }
 });
 
-// router.get('/', validateJWT, async (req, res) => {
-//   const users = await Users.findAll();
-//   if (!users) res.status(401).json({ message: 'Algo deu errado' });
+router.get('/', validateJWT, async (req, res) => {
+  const blogPosts = await BlogPost
+    .findAll({ include: [
+      { model: User, as: 'user' },
+      { model: Categories, as: 'categories'}] });
+  if (!blogPosts) res.status(401).json({ message: 'Algo deu errado' });
 
-//   return res.status(200).json(users);
-// });
+  return res.status(200).json(blogPosts);
+});
 
 // router.get('/:id', validateJWT, async (req, res) => {
 //   try {
