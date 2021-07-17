@@ -20,4 +20,10 @@ const post = async (postItem, user) => {
 
   return createPost;
 };
-module.exports = { post };
+
+const findAll = async () => {
+  const allPost = await BlogPosts.findAll({ include: ['user', 'categories'] });
+  return allPost;
+};
+
+module.exports = { post, findAll };

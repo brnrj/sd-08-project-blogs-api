@@ -9,4 +9,9 @@ const post = rescue(async (req, res, next) => {
      const { id, userId, title, content } = await PostService.post(req.body, req.user.email);
          res.status(201).json({ id, userId, title, content });
 });
-module.exports = { post };
+
+const findAll = rescue(async (req, res) => {
+    const allPost = await PostService.findAll();
+    res.status(200).json(allPost);
+});
+module.exports = { post, findAll };
