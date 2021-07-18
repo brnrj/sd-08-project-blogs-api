@@ -34,12 +34,32 @@ const findById = async (id) => {
     ],
   });
   if (!post) return customError('Post does not exist', 'notFound');
-  
+
   return post;
+};
+
+const updateById = async (id, obj, userId) => {
+  const post = await findById(id);
+  console.log('post line 43: ', post);
+  if (!post) return customError('Post does not exist', 'notFound');
+  if (userId !== post.userId) {
+    return customError('Unauthorized user', 'unauthorized');
+    // return { error: { code: 'unauthenticated', message: 'Unauthorized user' } };
+  }
+  if (obj.categoryIds) {
+    return customError('Categories cannot be edited', 'invalidData');
+    // return { error: { code: 'badRequest', message: 'Categories cannot be edited' } };
+  }
+
+  await PostModel.update({ content: obj.content, title: obj.title }, { where: { id } });
+  const newPost = await findById(id);
+  console.log('newPost line 55: ', newPost);
+  return { ...obj };
 };
 
 module.exports = {
   createOne,
   findAll,
   findById,
+  updateById,
 };

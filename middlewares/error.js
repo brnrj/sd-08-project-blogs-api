@@ -3,6 +3,7 @@ const { STATUS } = require('../constants');
 const ERRORS = {
   invalidData: STATUS.BAD_REQUEST,
   conflict: STATUS.CONFLICT,
+  unauthorized: STATUS.UNAUTHORIZED,
   invalidLogin: STATUS.UNAUTHORIZED,
   missingToken: STATUS.UNAUTHORIZED,
   invalidToken: STATUS.UNAUTHORIZED,
