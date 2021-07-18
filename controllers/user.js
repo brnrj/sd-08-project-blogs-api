@@ -30,6 +30,26 @@ const create = rescue(async (req, res, next) => {
     res.status(201).json({ token });
 });
 
+const read = rescue(async (req, res) => {
+    const user = await User.findAll();
+
+    res.status(200).json(user);
+});
+
+const readById = rescue(async (req, res) => {
+    const { id } = req.params;
+
+    const user = await User.findOne({ where: { id } });
+
+    if (!user) {
+        return res.status(404).json({ message: 'User does not exist' });
+    }
+
+    res.status(200).json(user);
+});
+
 module.exports = {
     create,
+    read,
+    readById,
 };

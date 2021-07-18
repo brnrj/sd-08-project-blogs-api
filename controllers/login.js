@@ -18,7 +18,7 @@ module.exports = rescue(async (req, res, next) => {
     });
 
     if (!user || user.password !== password) {
-        next({ message: 'Invalid fields', code: 400 });
+        return next({ message: 'Invalid fields', code: 400 });
     }
 
     const token = jwt.sign(user.dataValues, process.env.JWT_SECRET);

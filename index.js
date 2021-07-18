@@ -1,7 +1,9 @@
 const express = require('express');
 const error = require('./ middlewares/error');
+const validateJWT = require('./ middlewares/validateJWT');
 const Login = require('./controllers/login');
 const User = require('./controllers/user');
+const Category = require('./controllers/category');
 
 const app = express();
 
@@ -13,7 +15,11 @@ app.get('/', (request, response) => {
 });
 
 app.post('/login', Login);
+app.get('/user/:id', validateJWT, User.readById);
 app.post('/user', User.create);
+app.post('/categories', validateJWT, Category.create);
+app.get('/categories', validateJWT, Category.read);
+app.get('/user', validateJWT, User.read);
 
 app.use(error);
 
