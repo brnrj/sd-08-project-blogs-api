@@ -27,8 +27,17 @@ const findById = async (options) => {
   return result;
 };
 
+const deleteById = async (userId) => {
+  const user = await UserModel.findByPk(userId);
+
+  if (!user) return customError('User not found', 'notFound');
+
+  return sequelize.transaction(async (transaction) => user.destroy({ transaction }));
+};
+
 module.exports = {
   createOne,
   findAll,
   findById,
+  deleteById,
 };
