@@ -1,5 +1,5 @@
 const { Post: PostModel, sequelize } = require('../models');
-const { PostSchema } = require('../schema');
+const { PostSchema, UpdatePostSchema } = require('../schema');
 const { customError } = require('../utils/index');
 
 const createOne = async (newPost) => {
@@ -41,20 +41,24 @@ const findById = async (id) => {
 const updateById = async (id, obj, userId) => {
   const post = await findById(id);
   console.log('post line 43: ', post);
+
   if (!post) return customError('Post does not exist', 'notFound');
+
   if (userId !== post.userId) {
     return customError('Unauthorized user', 'unauthorized');
-    // return { error: { code: 'unauthenticated', message: 'Unauthorized user' } };
   }
+
   if (obj.categoryIds) {
     return customError('Categories cannot be edited', 'invalidData');
-    // return { error: { code: 'badRequest', message: 'Categories cannot be edited' } };
   }
+  
+  const { error } = UpdatePostSchema.validate(obj);
+  if (error) return customError(error.details[0].message, 'invalidData');
 
   await PostModel.update({ content: obj.content, title: obj.title }, { where: { id } });
   const newPost = await findById(id);
   console.log('newPost line 55: ', newPost);
-  return { ...obj };
+  return newPost.dataValues;
 };
 
 module.exports = {
