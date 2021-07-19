@@ -2,13 +2,11 @@ const Joi = require('joi');
 
 const { User } = require('../models');
 const JWTgenerate = require('../middleware/JWT');
-const { ErrorCode400, ErrorCode409 } = require('../Error');
+const { ErrorCode400 } = require('../Error');
 
 const userSchema = Joi.object({
-  displayName: Joi.string().min(8).required(),
   email: Joi.string().email().required(),
   password: Joi.string().length(6).required(),
-  image: Joi.string(),
 });
 
 const reqValid = (userInfo) => {
@@ -19,19 +17,18 @@ const reqValid = (userInfo) => {
   }
 };
 
-const addUser = async (userInfo) => {
-  reqValid(userInfo);
+const login = async (loginInfo) => {
+  reqValid(loginInfo);
   try {
-    const newUser = await User.create(userInfo);
-    const { password, ...userInfoToken } = newUser;
-    const token = JWTgenerate(userInfoToken);
-
+    const { email: userEmail } = loginInfo;
+    const userLogin = await User.findOne({ where: { email: userEmail } });
+    const token = JWTgenerate(userLogin.toJSON());
     return token;
   } catch (err) {
-    throw new ErrorCode409('User already registered');
+    throw new ErrorCode400('Invalid fields');
   }
 };
 
 module.exports = {
-  addUser,
+  login,
 };
