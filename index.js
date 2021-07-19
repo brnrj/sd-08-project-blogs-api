@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const User = require('./controllers/users');
 const Login = require('./controllers/login');
 
+const ValidJWT = require('./middleware/validJWT');
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -15,6 +17,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+app.get('/user', ValidJWT, rescue(User.findAllUsers));
 app.post('/user', rescue(User.addUser));
 
 app.post('/login', rescue(Login));

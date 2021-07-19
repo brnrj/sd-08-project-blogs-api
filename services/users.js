@@ -2,7 +2,11 @@ const Joi = require('joi');
 
 const { User } = require('../models');
 const JWTgenerate = require('../middleware/JWT');
-const { ErrorCode400, ErrorCode409 } = require('../Error');
+const {
+  ErrorCode400,
+  ErrorCode409,
+  ErrorCode500,
+} = require('../Error');
 
 const userSchema = Joi.object({
   displayName: Joi.string().min(8).required(),
@@ -32,6 +36,18 @@ const addUser = async (userInfo) => {
   }
 };
 
+/* { attributes: { exclude: ['some field'] } } encontrado aqui:
+  https://github.com/sequelize/sequelize/issues/4074 */
+const findAllUsers = async () => {
+  try {
+    const allUsers = await User.findAll();
+    return allUsers;
+  } catch (err) {
+    throw new ErrorCode500('Internal server error');
+  }
+};
+
 module.exports = {
   addUser,
+  findAllUsers,
 };
