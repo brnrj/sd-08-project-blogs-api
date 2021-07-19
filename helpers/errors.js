@@ -12,4 +12,8 @@ module.exports = {
   shortPassword: { message: '"password" length must be 6 characters long' },
   userNotExist: { message: 'User does not exist' },
   userRegistered: { message: 'User already registered' },
+  noContent: { message: '"content" is required' },
+  noCategoryIds: { message: '"categoryIds" is required' },
+  noTitle: { message: '"title" is required' },
+  categoryIdNotFound: { message: '"categoryIds" not found' },
 };
