@@ -18,8 +18,8 @@ app.get('/', (request, response) => {
 });
 
 app.get('/user/:id', ValidJWT, rescue(User.findUserById));
-app.get('/user', ValidJWT, rescue(User.findAllUsers));
 app.post('/user', rescue(User.addUser));
+app.get('/user', ValidJWT, rescue(User.findAllUsers));
 
 app.post('/login', rescue(Login));
 
