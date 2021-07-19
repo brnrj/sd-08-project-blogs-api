@@ -8,8 +8,10 @@ module.exports = async (req, res, next) => {
     }
 
     try {
-        jwt.verify(token, process.env.JWT_SECRET);
+        const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
+        req.id = id;
+        
         next();
     } catch (err) {
         return res.status(401).json({ message: 'Expired or invalid token' });

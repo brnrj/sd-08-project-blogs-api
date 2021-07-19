@@ -30,7 +30,7 @@ const create = rescue(async (req, res, next) => {
     res.status(201).json({ token });
 });
 
-const read = rescue(async (req, res) => {
+const read = rescue(async (_, res) => {
     const user = await User.findAll();
 
     res.status(200).json(user);

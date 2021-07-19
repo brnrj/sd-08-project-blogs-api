@@ -4,6 +4,7 @@ const validateJWT = require('./ middlewares/validateJWT');
 const Login = require('./controllers/login');
 const User = require('./controllers/user');
 const Category = require('./controllers/category');
+const BlogPost = require('./controllers/blogpost');
 
 const app = express();
 
@@ -15,8 +16,12 @@ app.get('/', (request, response) => {
 });
 
 app.post('/login', Login);
+app.get('/post/:id', validateJWT, BlogPost.readById);
+app.put('/post/:id', validateJWT, BlogPost.update);
 app.get('/user/:id', validateJWT, User.readById);
 app.post('/user', User.create);
+app.post('/post', validateJWT, BlogPost.create);
+app.get('/post', validateJWT, BlogPost.read);
 app.post('/categories', validateJWT, Category.create);
 app.get('/categories', validateJWT, Category.read);
 app.get('/user', validateJWT, User.read);
