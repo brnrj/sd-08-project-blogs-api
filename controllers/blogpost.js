@@ -99,9 +99,35 @@ const update = rescue(async (req, res, next) => {
     res.status(200).json({ title, content, userId, categories });
 });
 
+const remove = rescue(async (req, res, next) => {
+    const { id } = req.params;
+
+    const blogPost = await BlogPost.findOne({
+        where: { id },
+    });
+
+    if (!blogPost) return next({ message: 'Post does not exist', code: 404 });
+
+    if (req.id !== blogPost.userId) return next({ message: 'Unauthorized user', code: 401 });
+
+    await sequelize.transaction(async (transaction) => BlogPost
+    .destroy({ where: { id } }, { transaction }));
+    
+    res.sendStatus(204);
+});
+
+const removeSelf = rescue(async (req, res) => {
+    await sequelize.transaction(async (transaction) => User
+    .destroy({ where: { id: req.id } }, { transaction }));
+    
+    res.sendStatus(204);
+});
+
 module.exports = {
     create,
     read,
     readById,
     update,
+    remove,
+    removeSelf,
 };

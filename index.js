@@ -17,7 +17,9 @@ app.get('/', (request, response) => {
 
 app.post('/login', Login);
 app.get('/post/:id', validateJWT, BlogPost.readById);
+app.delete('/user/me', validateJWT, BlogPost.removeSelf);
 app.put('/post/:id', validateJWT, BlogPost.update);
+app.delete('/post/:id', validateJWT, BlogPost.remove);
 app.get('/user/:id', validateJWT, User.readById);
 app.post('/user', User.create);
 app.post('/post', validateJWT, BlogPost.create);
