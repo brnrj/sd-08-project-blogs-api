@@ -17,6 +17,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+app.get('/user/:id', ValidJWT, rescue(User.findUserById));
 app.get('/user', ValidJWT, rescue(User.findAllUsers));
 app.post('/user', rescue(User.addUser));
 

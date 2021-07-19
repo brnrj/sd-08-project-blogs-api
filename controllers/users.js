@@ -15,7 +15,14 @@ const findAllUsers = async (req, res) => {
   res.status(STATUS_OK).json(allUsers);
 };
 
+const findUserById = async (req, res) => {
+  const { id } = req.params;
+  const userById = await User.findUserById(id);
+  res.status(STATUS_OK).json(userById);
+};
+
 module.exports = {
   addUser,
   findAllUsers,
+  findUserById,
 };
