@@ -7,13 +7,13 @@ const validUser = async (req, res, next) => {
   const emailOk = validEmail(user.email);
   const passwordOk = validPassword(user.password);
 
-  if (nameOk) {
+  if (nameOk !== true) {
     return res.status(400).json({ message: nameOk });
   }
-  if (emailOk) {
+  if (emailOk !== true) {
     return res.status(400).json({ message: emailOk });
   }
-  if (passwordOk) {
+  if (passwordOk !== true) {
     return res.status(400).json({ message: passwordOk });
   }
 
