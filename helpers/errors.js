@@ -17,4 +17,6 @@ module.exports = {
   noTitle: { message: '"title" is required' },
   categoryIdNotFound: { message: '"categoryIds" not found' },
   postNotFound: { message: 'Post does not exist' },
+  unauthorizedUser: { message: 'Unauthorized user' },
+  categoriesCannotBeEdited: { message: 'Categories cannot be edited' },
 };

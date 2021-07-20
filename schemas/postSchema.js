@@ -36,8 +36,27 @@ const postDoesNotFound = (post) => {
   return null;
 };
 
+const invalidCategoryProperty = (data) => {
+  const { badRequest } = statusCode;
+  const { categoriesCannotBeEdited } = errors;
+  if (data.categoryIds) {
+    return result(badRequest, categoriesCannotBeEdited);
+  }
+  return null;
+};
+
+const incompleteDataForUpdate = (data) => {
+  const { badRequest } = statusCode;
+  const { noContent, noTitle } = errors;
+  if (!data.title) return result(badRequest, noTitle);
+  if (!data.content) return result(badRequest, noContent);
+  return null;
+};
+
 module.exports = {
   incompleteData,
+  incompleteDataForUpdate,
   invalidCategoryIds,
+  invalidCategoryProperty,
   postDoesNotFound,
 };

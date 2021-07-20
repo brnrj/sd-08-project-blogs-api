@@ -21,6 +21,21 @@ const unauthorizedToken = (token) => {
   }
 };
 
+const invalidUserPermission = (token, userId) => {
+  const { unauthorized } = statusCode;
+  const { unauthorizedUser } = errors;
+  try {
+    const payload = jwt.verify(token, JWT_SECRET);
+    if (payload.id !== userId) {
+      return result(unauthorized, unauthorizedUser);
+    }
+    return null;
+  } catch (err) {
+    return result(unauthorized, err.message);
+  }
+};
+
 module.exports = {
   unauthorizedToken,
+  invalidUserPermission,
 };

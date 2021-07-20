@@ -79,8 +79,30 @@ const findPostById = async (token, id) => {
   return { status: ok, response: postData };
 };
 
+const updatePost = async (token, id, data) => {
+  const invalidCategoryProperty = postSchema.invalidCategoryProperty(data);
+  if (invalidCategoryProperty) return invalidCategoryProperty;
+
+  const unauthorizedToken = commonSchema.unauthorizedToken(token);
+  if (unauthorizedToken) return unauthorizedToken;
+
+  const { response } = await findPostById(token, id);
+  const { userId, categories } = response;
+  const invalidUserPermission = commonSchema.invalidUserPermission(token, userId);
+  if (invalidUserPermission) return invalidUserPermission;
+
+  const incompleteDataForUpdate = postSchema.incompleteDataForUpdate(data);
+  if (incompleteDataForUpdate) return incompleteDataForUpdate;
+
+  const { title, content } = data;
+  await BlogPost.update({ title, content, updated: Date.now() }, { where: { id } });
+  const updatedPost = { title, content, userId, categories };
+  return { status: ok, response: updatedPost };
+};
+
 module.exports = {
   insertPost,
   findAllPosts,
   findPostById,
+  updatePost,
 };
