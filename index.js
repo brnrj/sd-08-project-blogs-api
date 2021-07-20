@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userController = require('./controller/userController');
-// const routes = require('./router/userRouter');
+const createUser = require('./middleware/createUser');
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,7 +12,6 @@ app.get('/', (req, res) => {
 });
 
 console.log('aquiIndex');
-app.post('/user', userController.createUsers);
-// app.use(routes);
+app.post('/user', createUser.validUser, userController.createUsers);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
