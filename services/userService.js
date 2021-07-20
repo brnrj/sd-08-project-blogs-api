@@ -2,7 +2,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
-const { created, ok } = require('../helpers/statusCode');
+const { created, ok, noContent } = require('../helpers/statusCode');
 const userSchema = require('../schemas/userSchema');
 const commonSchema = require('../schemas/commonSchema');
 
@@ -50,7 +50,17 @@ const findUserById = async (token, id) => {
   return { status: ok, response: userData };
 };
 
+const deleteMe = async (token) => {
+  const unauthorizedToken = commonSchema.unauthorizedToken(token);
+  if (unauthorizedToken) return unauthorizedToken;
+
+  const { id } = jwt.verify(token, JWT_SECRET);
+  await User.destroy({ where: { id } });
+  return { status: noContent, response: '' };
+};
+
 module.exports = {
+  deleteMe,
   insertUser,
   findAllUsers,
   findUserById,
