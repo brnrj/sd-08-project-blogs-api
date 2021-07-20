@@ -2,8 +2,11 @@ const router = require('express').Router();
 const { PostController } = require('../controllers');
 const AuthMiddleware = require('../middlewares/authMiddleware');
 
+router.get('/search', AuthMiddleware, PostController.search);
 router.post('/', AuthMiddleware, PostController.create);
-// router.get('/', AuthMiddleware, UserController.getAll);
-// router.get('/:id', AuthMiddleware, UserController.getById);
+router.get('/', AuthMiddleware, PostController.getAll);
+router.get('/:id', AuthMiddleware, PostController.getById);
+router.put('/:id', AuthMiddleware, PostController.update);
+router.delete('/:id', AuthMiddleware, PostController.destroy);
 
 module.exports = router;

@@ -21,8 +21,6 @@ module.exports = {
           model: 'Categories',
           key: 'id'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
         primaryKey: true,
       }
     })

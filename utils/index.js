@@ -11,7 +11,7 @@ const throwError = (err, statusCode, message = '') => {
 
 const categoryExists = async (ids, categoryModel) => {
   const categories = Promise.all(ids.map(async (id) => {
-    const item = await categoryModel.findOne({ where: { id } });
+    const item = await categoryModel.findByPk(id);
     if (item) return item.dataValues;
     return null;
   }));
@@ -19,9 +19,9 @@ const categoryExists = async (ids, categoryModel) => {
 };
 
 const postCategory = async (postId, postCategoryModel, categoriesIds) => {
-  Promise.all(categoriesIds.forEach(async ({ id }) => {
+  categoriesIds.map(async ({ id }) => {
     await postCategoryModel.create({ postId, categoryId: id });
-  }));
+  });
 };
 
 module.exports = {
