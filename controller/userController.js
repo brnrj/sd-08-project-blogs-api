@@ -1,13 +1,15 @@
-const { user } = require('../models');
+const { Users } = require('../models');
 
-const createUser = async (req, res) => {
+const createUsers = async (req, res) => {
+  console.log('aqui Controller');
+  console.log(req.body);
   try {
-    const { displayName, email, password, image } = req.body;
-    const result = await user.create({ displayName, email, password, image });
-    return res.status(201).json(result);
+    const data = req.body;
+    await Users.create(data);
+    return res.status(201).json({ token: 'LorenIpsonlorenippsono' });
   } catch (error) {
-    res.status(error.status).json({ message: error });
+    return res.status(400).json(error.message);
   }
 };
 
-module.exports = { createUser };
+module.exports = { createUsers };
