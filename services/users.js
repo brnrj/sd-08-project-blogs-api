@@ -3,10 +3,10 @@ const Joi = require('joi');
 const { User } = require('../models');
 const JWTgenerate = require('../middleware/JWT');
 const {
-  ErrorCode400,
-  ErrorCode404,
-  ErrorCode409,
-  ErrorCode500,
+  Code400,
+  Code404,
+  Code409,
+  Code500,
 } = require('../Error');
 
 const userSchema = Joi.object({
@@ -19,8 +19,7 @@ const userSchema = Joi.object({
 const reqValid = (userInfo) => {
   const { error } = userSchema.validate(userInfo);
   if (error) {
-    const { message } = error.details[0];
-    throw new ErrorCode400(message);
+    throw new Code400(error.details[0].message);
   }
 };
 
@@ -30,41 +29,29 @@ const addUser = async (userInfo) => {
     const newUser = await User.create(userInfo);
     const { password, ...userInfoToken } = newUser;
     const token = JWTgenerate(userInfoToken);
-
     return token;
   } catch (err) {
-    throw new ErrorCode409('User already registered');
+    throw new Code409('User already registered');
   }
 };
 
-/* { attributes: { exclude: ['some field'] } } encontrado aqui:
-  https://github.com/sequelize/sequelize/issues/4074 */
 const findAllUsers = async () => {
   try {
-    const allUsers = await User.findAll({
-      attributes: {
-        exclude: ['password'],
-      },
-    });
+    const allUsers = await User.findAll();
     return allUsers;
   } catch (err) {
-    throw new ErrorCode500('Internal server error');
+    throw new Code500('Internal server error');
   }
 };
 
 const findUserById = async (id) => {
   let userById;
   try {
-    userById = await User.findByPk(id, {
-      attributes: {
-        exclude: ['password'],
-      },
-    });
+    userById = await User.findByPk(id);
   } catch (err) {
-    throw new ErrorCode500('Internal server error');
+    throw new Code500('Internal server error');
   }
-  if (!userById) throw new ErrorCode404('User does not exist');
-
+  if (!userById) throw new Code404('User does not exist');
   return userById;
 };
 

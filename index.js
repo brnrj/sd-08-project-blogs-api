@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const User = require('./controllers/users');
 const Login = require('./controllers/login');
+const Categories = require('./controllers/categories');
 
 const ValidJWT = require('./middleware/validJWT');
 
@@ -23,6 +24,9 @@ app.get('/user', ValidJWT, rescue(User.findAllUsers));
 
 app.post('/login', rescue(Login));
 
+app.post('/categories', ValidJWT, rescue(Categories.addCategory));
+app.get('/categories', ValidJWT, rescue(Categories.getAllCategories));
+
 app.use((err, _req, res, _next) => {
-  res.status(err.code).json({ message: err.message });
+  return res.status(err.code).json({ message: err.message });
 });

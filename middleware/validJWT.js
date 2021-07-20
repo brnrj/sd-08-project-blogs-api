@@ -6,7 +6,7 @@ const UNAUTHORIZED = 401;
 const validJWT = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-    res.status(UNAUTHORIZED).json({ message: 'Token not found' });
+    return res.status(UNAUTHORIZED).json({ message: 'Token not found' });
   }
 
   try {
@@ -16,7 +16,7 @@ const validJWT = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
+    return res.status(UNAUTHORIZED).json({ message: 'Expired or invalid token' });
   }
 };
 

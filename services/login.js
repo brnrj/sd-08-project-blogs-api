@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const { User } = require('../models');
 const JWTgenerate = require('../middleware/JWT');
-const { ErrorCode400 } = require('../Error');
+const { Code400 } = require('../Error');
 
 const userSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -13,7 +13,7 @@ const reqValid = (userInfo) => {
   const { error } = userSchema.validate(userInfo);
   if (error) {
     const { message } = error.details[0];
-    throw new ErrorCode400(message);
+    throw new Code400(message);
   }
 };
 
@@ -25,7 +25,7 @@ const login = async (loginInfo) => {
     const token = JWTgenerate(userLogin.toJSON());
     return token;
   } catch (err) {
-    throw new ErrorCode400('Invalid fields');
+    throw new Code400('Invalid fields');
   }
 };
 
