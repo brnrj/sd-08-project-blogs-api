@@ -27,6 +27,4 @@ app.post('/login', rescue(Login));
 app.post('/categories', ValidJWT, rescue(Categories.addCategory));
 app.get('/categories', ValidJWT, rescue(Categories.getAllCategories));
 
-app.use((err, _req, res, _next) => {
-  return res.status(err.code).json({ message: err.message });
-});
+app.use((err, _req, res, _next) => res.status(err.code).json({ message: err.message }));
