@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const postSchema = require('../schemas/postSchema');
 const commonSchema = require('../schemas/commonSchema');
 const { BlogPost, PostsCategory, User, Category } = require('../models');
-const { created, ok } = require('../helpers/statusCode');
+const { created, ok, noContent } = require('../helpers/statusCode');
 
 const { JWT_SECRET } = process.env;
 
@@ -100,8 +100,25 @@ const updatePost = async (token, id, data) => {
   return { status: ok, response: updatedPost };
 };
 
+const deletePost = async (token, id) => {
+  const post = await BlogPost.findByPk(id);
+  const postDoesNotFound = postSchema.postDoesNotFound(post);
+  if (postDoesNotFound) return postDoesNotFound;
+
+  const unauthorizedToken = commonSchema.unauthorizedToken(token);
+  if (unauthorizedToken) return unauthorizedToken;
+
+  const invalidUserPermission = commonSchema.invalidUserPermission(token, post.userId);
+  if (invalidUserPermission) return invalidUserPermission;
+
+  await BlogPost.destroy({ where: { id } });
+
+  return { status: noContent, response: '' };
+};
+
 module.exports = {
   insertPost,
+  deletePost,
   findAllPosts,
   findPostById,
   updatePost,
