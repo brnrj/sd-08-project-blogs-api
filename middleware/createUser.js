@@ -3,11 +3,18 @@ const { validEmail, validPassword, validDisplayName } = require('../services');
 
 const validUser = async (req, res, next) => {
   const user = req.body;
-  const validations = validEmail(user.email)
-    || validDisplayName(user.displayName) || validPassword(user.password);
+  const nameOk = validDisplayName(user.displayName);
+  const emailOk = validEmail(user.email);
+  const passwordOk = validPassword(user.password);
 
-  if (validations !== true) {
-    return res.status(400).json({ message: validations });
+  if (nameOk) {
+    return res.status(400).json({ message: nameOk });
+  }
+  if (emailOk) {
+    return res.status(400).json({ message: emailOk });
+  }
+  if (passwordOk) {
+    return res.status(400).json({ message: passwordOk });
   }
 
   const userAlredyExist = await Users.findOne({ where: { email: user.email } });
