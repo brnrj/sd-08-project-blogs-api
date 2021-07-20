@@ -60,7 +60,27 @@ const findAllPosts = async (token) => {
   return { status: ok, response: clearData };
 };
 
+const findPostById = async (token, id) => {
+  const unauthorizedToken = commonSchema.unauthorizedToken(token);
+  if (unauthorizedToken) return unauthorizedToken;
+
+  const post = await BlogPost.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'user' },
+      { model: Category, as: 'categories' },
+    ],
+  });
+
+  const postDoesNotFound = postSchema.postDoesNotFound(post);
+  if (postDoesNotFound) return postDoesNotFound;
+
+  const postData = getDataValues(post);
+  return { status: ok, response: postData };
+};
+
 module.exports = {
   insertPost,
   findAllPosts,
+  findPostById,
 };

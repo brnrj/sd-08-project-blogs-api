@@ -25,7 +25,19 @@ const invalidCategoryIds = async (ids) => {
   return null;
 };
 
+const postDoesNotFound = (post) => {
+  const { notFound } = statusCode;
+  const { postNotFound } = errors;
+
+  if (!post) {
+    return result(notFound, postNotFound);
+  }
+
+  return null;
+};
+
 module.exports = {
   incompleteData,
   invalidCategoryIds,
+  postDoesNotFound,
 };

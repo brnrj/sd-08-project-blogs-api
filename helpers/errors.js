@@ -16,4 +16,5 @@ module.exports = {
   noCategoryIds: { message: '"categoryIds" is required' },
   noTitle: { message: '"title" is required' },
   categoryIdNotFound: { message: '"categoryIds" not found' },
+  postNotFound: { message: 'Post does not exist' },
 };
