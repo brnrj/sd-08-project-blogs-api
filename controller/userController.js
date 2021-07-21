@@ -26,4 +26,19 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-module.exports = { createUsers, getAllUsers };
+const getUser = async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+
+    if (!token) return res.status(401).json({ message: 'Token not found' });
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { id } = req.params;
+    const response = await Users.findByPk(id);
+    if (!response) return res.status(404).json({ message: 'User does not exist' });
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(401).json({ message: 'Expired or invalid token' });
+  }
+};
+
+module.exports = { createUsers, getAllUsers, getUser };

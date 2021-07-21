@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
   res.send();
 });
 
+app.get('/user/:id', userController.getUser);
 app.get('/user', userController.getAllUsers);
 app.post('/user', createUser.validUser, userController.createUsers);
 app.post('/login', loginUser.createToken, loginController.login);
