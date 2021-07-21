@@ -13,8 +13,8 @@ app.get('/', (req, res) => {
   res.send();
 });
 
-console.log('aquiIndex');
+app.get('/user', userController.getAllUsers);
 app.post('/user', createUser.validUser, userController.createUsers);
-app.post('/login', loginUser.validToken, loginController.login);
+app.post('/login', loginUser.createToken, loginController.login);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

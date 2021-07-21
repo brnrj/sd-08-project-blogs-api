@@ -1,7 +1,7 @@
 const { Users } = require('../models');
 const { validEmail, validPassword } = require('../services');
 
-const validToken = async (req, res, next) => {
+const createToken = async (req, res, next) => {
   const { email, password } = req.body;
   const emailOk = validEmail(email);
   const passwordOk = validPassword(password);
@@ -19,4 +19,4 @@ const validToken = async (req, res, next) => {
   next();
 };
 
-module.exports = { validToken };
+module.exports = { createToken };
