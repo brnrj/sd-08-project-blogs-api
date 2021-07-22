@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+
 const cdi = 401;
 
 /* Mesma chave privada que usamos para criptografar o token.
