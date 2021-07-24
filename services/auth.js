@@ -8,8 +8,7 @@ const auth = async (req, res, next) => {
   if (!token) {
     return res.status(status.UNAUTHORIEZED).json(message.serverError); // message
   }
-  try {
-    const decodedPayload = jwt.verify(token, process.env.JWT_SECRET);
+  const decodedPayload = jwt.verify(token, process.env.JWT_SECRET);
     // console.log(decodedPayload);
   //   if (!decodedPayload) {
   //     return res.status(status.UNAUTHORIEZED).json(message.serverError) // message
@@ -22,9 +21,6 @@ const auth = async (req, res, next) => {
   // req.User = emailFind;
   // console.log(req.user);
   return next();
-  } catch (error) {
-    res.status(status.SERVER_ERROR).json(message.serverError); // message
-  }
 };
 
 module.exports = { auth };
