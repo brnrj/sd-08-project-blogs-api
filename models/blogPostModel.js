@@ -1,5 +1,3 @@
-const { Sequelize } = require('sequelize/types');
-
 const defineBlogPost = (sequelize, DataTypes) => {
   const BlogPost = sequelize.define('BlogPost', {
     title: DataTypes.STRING,

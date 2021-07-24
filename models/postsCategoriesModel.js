@@ -1,4 +1,4 @@
-const definePostCategoriesModel = (sequelize, Datatypes) => {
+const definePostCategoriesModel = (sequelize, _Datatypes) => {
   const PostsCategories = sequelize.define('PostsCategories', {},
   { timestamps: false });
   
@@ -16,6 +16,7 @@ const definePostCategoriesModel = (sequelize, Datatypes) => {
       otherKey: 'postId',
     });
   };
+  return PostsCategories;
 };
 
 module.exports = definePostCategoriesModel;

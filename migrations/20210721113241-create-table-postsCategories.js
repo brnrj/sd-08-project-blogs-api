@@ -9,8 +9,8 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-          model: 'blogPosts',
-          key: 'id',
+          model: 'BlogPosts',
+          foreignKey: 'id',
         }
       },
       categoryId: {
@@ -19,8 +19,8 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
-          model: 'categories',
-          key: 'id',
+          model: 'Categories',
+          foreignKey: 'id',
         }
       }
     });
