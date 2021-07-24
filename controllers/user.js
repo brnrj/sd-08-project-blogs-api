@@ -1,11 +1,13 @@
 const { Router } = require('express');
 
-const userController = Router();
+const userRouter = Router();
 
 const { User } = require('../models');
-const { status, message } = require('../services/statusMessages');
+const service = require('../services');
 
-userController.get('/:id', async (req, res) => {
+const { status, message } = service;
+
+userRouter.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await User.findByPk(id);
@@ -15,14 +17,13 @@ userController.get('/:id', async (req, res) => {
   }
 });
 
-userController.get('/', async (req, res) => {
+userRouter.get('/', async (req, res) => {
   try {
     const result = await User.findAll();
-    console.log(result);
   res.status(status.OK).json(result);
   } catch (error) {
     res.status(status.SERVER_ERROR).json(message.serverError);
   }
 });
 
-module.exports = userController;
+module.exports = userRouter;

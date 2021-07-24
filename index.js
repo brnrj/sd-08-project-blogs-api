@@ -1,18 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const userController = require('./controllers/userController');
-// const loginController = require('./controllers/loginController');
-const categoryController = require('./controllers/categoryController');
-// const postController = require('./controllers/postController');
+
+const controller = require('./controllers');
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/user', userController);
-// app.use('/login', loginController);
-app.use('/categories', categoryController);
-// app.use('/post', postController);
+app.use('/user', controller.userRouter);
+app.use('/login', controller.loginRouter);
+app.use('/categories', controller.categoryRouter);
+// app.use('/post', controller.postRouter);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {

@@ -21,13 +21,13 @@ fs
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
   })
   .forEach(file => {
-    console.log(file);
+    // console.log(file);
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 
 Object.keys(db).forEach(model => {
-  console.log(model);
+  // console.log(model);
 
   if ('associate' in db[model]) {
     db[model].associate(db)
