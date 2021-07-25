@@ -32,10 +32,10 @@ router.get('/', validateJWT, async (req, res) => {
    const all = await BlogPosts.findAll({ 
      include: [
       { model: User, as: 'user' },
-      { model: Categories, as: 'categories' },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
      ], 
     });
-   console.log(all);
+   console.log('all:', all);
    return res.status(cc).json(all);
  } catch (e) {
    res.status(e).json(e);

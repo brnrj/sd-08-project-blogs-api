@@ -10,13 +10,14 @@ const Categories = (sequelize, DataTypes) => {
     },
    
   }, { timestamps: false });
-  Categories.associate = (models) => {
-    Categories.hasMany(
-      models.BlogPosts,
-      { as: 'categories', foreignkey: 'id' },
-    );
+   Categories.associate = (models) => {
+    Categories.belongsToMany(models.BlogPosts, {
+      as: 'categories',
+      through: 'PostsCategories',
+      foreignkey: 'postId', 
+    });
   };
-
+ 
   return categories;
 };
 

@@ -7,9 +7,7 @@ module.exports = {
       Email: { type: Sequelize.STRING },
       Password: { type: Sequelize.STRING },
       image: { type: Sequelize.STRING },
-      createdAt: { allowNull: false, type: Sequelize.DATE, defaultValue: new Date() },
-      updatedAt: { allowNull: false, type: Sequelize.DATE, defaultValue: new Date() }
-    });
+    }, { timestamps: false });
     
   },
   down: async (queryInterface, Sequelize) => {
