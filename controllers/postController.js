@@ -6,6 +6,8 @@ const validateJWT = require('../service/validateJWT');
 const router = express.Router();
 
 const { User, Categories, BlogPosts } = require('../models');
+
+const notefound = { message: 'Post does not exist' };
 // codigo de resposta em algarismos romanos
 const cc = 200;
 const cci = 201;
@@ -13,7 +15,7 @@ const cci = 201;
 // const cdxxii = 422;
 // const cd = 400;
 // const cdi = 401;
-// const cdiv = 404;
+const cdiv = 404;
 // const cdix = 409;
 // const d = 500;
 
@@ -41,5 +43,21 @@ router.get('/', validateJWT, async (req, res) => {
    res.status(e).json(e);
  }
 });
+
+router.get('/:id', validateJWT, async (req, res) => {
+  try {
+    const oneUser = await BlogPosts.findOne({ 
+      where: { id: req.params.id },
+      include: [ 
+      { model: User, as: 'user' },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+      ], 
+     });
+    if (!oneUser) { return res.status(cdiv).json(notefound); }
+    return res.status(cc).json(oneUser);
+  } catch (e) {
+    res.status(e).json(e);
+  }
+ });
 
 module.exports = router;
