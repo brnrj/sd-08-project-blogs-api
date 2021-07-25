@@ -8,18 +8,24 @@ const auth = async (req, res, next) => {
   if (!token) {
     return res.status(status.UNAUTHORIEZED).json(message.serverError); // message
   }
-  const decodedPayload = jwt.verify(token, process.env.JWT_SECRET);
-    // console.log(decodedPayload);
-  //   if (!decodedPayload) {
-  //     return res.status(status.UNAUTHORIEZED).json(message.serverError) // message
-  //   }
-  //   const emailFind = await User.findOne({ where: { decodedPayload.email } });
+  try {
+   const tokenPayload = jwt.verify(token, process.env.JWT_SECRET);
+  // console.log(tokenPayload);
 
-  // if (!emailFind) {
-  //   return res.status(status.UNAUTHORIEZED).json(message.serverError); // message
-  // }
-  // req.User = emailFind;
-  // console.log(req.user);
+  const { email } = tokenPayload;
+  // console.log(email);
+
+  const emailFind = await User.findOne({ where: { email } });
+
+  if (!emailFind) {
+    return res.status(status.UNAUTHORIEZED).json(message.serverError); // message
+  }
+  req.user = emailFind;
+  // console.log(req.user); 
+  } catch (error) {
+    return res.status(status.UNAUTHORIEZED).json(message.serverError); // message
+  }
+  
   return next();
 };
 

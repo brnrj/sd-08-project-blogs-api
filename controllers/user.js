@@ -17,7 +17,7 @@ userRouter.get('/:id', async (req, res) => {
   }
 });
 
-userRouter.get('/', async (req, res) => {
+userRouter.get('/', service.auth, async (req, res) => {
   try {
     const result = await User.findAll();
   res.status(status.OK).json(result);
