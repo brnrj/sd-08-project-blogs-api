@@ -11,4 +11,22 @@ exports.status = {
 
 exports.message = {
   serverError: { message: 'Sistema Indisponível' },
+  fieldsInvalid: { message: '"invalid fields' },
+  userAlredyRegistered: { message: 'User already registered' },
+  userNotExist: { message: 'User does not exist' },
+  displaynameLength: { message: '"displayName" length must be at least 8 characters long' },
+  emailInvalid: { message: '"email" must be a valid email' },
+  emailEmpty: { message: '"email" is required' },
+  passwordLength: { message: '"passoword" length must be 6 characters long' },
+  passwordEmpty: { message: '"password" is required' },
+  loginEmpty: { message: '"email" is not allowed to be empty' },
+  loginpasswordEmpty: { message: '"password" is not allowed to be empty' },
+  categoryNameEmpty: { message: '"name" is required' },
+  categoryIdEmpty: { message: '"categoryId" is required' },
+  categoryIdNotFound: { message: '"categoryId" not found' },
+  postTitleEmpty: { message: '"title" is required' },
+  postContentEmpty: { message: '"content" is required' },
+  postIdNotExist: { message: 'Post does not exist' },
+  tokenNotFound: { message: 'Token not found' },
+  tokenExpired: { message: 'Expired or invalid token' },
 };
