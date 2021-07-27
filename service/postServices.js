@@ -6,14 +6,15 @@ const { User, Categories, BlogPosts } = require('../models');
 // const z = 0;
 const cd = 400;
 const cdi = 401;
-// const cdiv = 404;
+const cdiv = 404;
 // const cdix = 409;
 // const d = 500;
 
 const errInvalidUser = { message: 'Unauthorized user' };
-const errEdit = { message: 'Categories can not be edited' };
+const errEdit = { message: 'Categories cannot be edited' };
 const errTitle = { message: '"title" is required' };
 const errContent = { message: '"content" is required' };
+const errNotExist = { message: 'Post does not exist' };
 
 const verifyUser = async (req, res, next) => {
   const getUser = await BlogPosts.findOne({ 
@@ -24,9 +25,9 @@ const verifyUser = async (req, res, next) => {
     ], 
   });
 
-  const { id } = req.User.dataValues.id;
-  
-  if (id !== getUser.userId) { return res.status(cdi).json(errInvalidUser); }
+  const { id } = req.user.dataValues;
+  if (!getUser) return res.status(cdiv).json(errNotExist);
+  if (id !== getUser.id) { return res.status(cdi).json(errInvalidUser); }
 
   next();
 };

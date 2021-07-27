@@ -16,7 +16,7 @@ const notefound = { message: 'Post does not exist' };
 const cc = 200;
 const cci = 201;
 // const z = 0;
-// const cdxxii = 422;
+const cciv = 204;
 // const cd = 400;
 // const cdi = 401;
 const cdiv = 404;
@@ -67,6 +67,9 @@ router.get('/:id', validateJWT, async (req, res) => {
 
  router.put('/:id', validateJWT, verifyUser, verifyBodyFilds, async (req, res) => {
   try {
+    const { id } = req.params;
+    await BlogPosts.update({ ...req.body }, { where: { id } });
+    
     const oneUser = await BlogPosts.findOne({ 
     where: { id: req.params.id },
     include: [ 
@@ -76,6 +79,17 @@ router.get('/:id', validateJWT, async (req, res) => {
   });
     
   return res.status(cc).json(oneUser);
+  } catch (e) {
+    res.status(e).json(e);
+  }
+ });
+
+ router.delete('/:id', validateJWT, verifyUser, async (req, res) => {
+  try {
+    const { id } = req.params;
+    await BlogPosts.destroy({ where: { id } });
+    
+  return res.status(cciv).json();
   } catch (e) {
     res.status(e).json(e);
   }
