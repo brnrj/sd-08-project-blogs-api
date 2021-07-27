@@ -6,6 +6,10 @@ const validateJWT = require('../service/validateJWT');
 const router = express.Router();
 
 const { User, Categories, BlogPosts } = require('../models');
+const {
+  verifyUser,
+  verifyBodyFilds,
+} = require('../service/postServices');
 
 const notefound = { message: 'Post does not exist' };
 // codigo de resposta em algarismos romanos
@@ -46,6 +50,7 @@ router.get('/', validateJWT, async (req, res) => {
 
 router.get('/:id', validateJWT, async (req, res) => {
   try {
+    // console.log('token:', req.user);
     const oneUser = await BlogPosts.findOne({ 
       where: { id: req.params.id },
       include: [ 
@@ -55,6 +60,22 @@ router.get('/:id', validateJWT, async (req, res) => {
      });
     if (!oneUser) { return res.status(cdiv).json(notefound); }
     return res.status(cc).json(oneUser);
+  } catch (e) {
+    res.status(e).json(e);
+  }
+ });
+
+ router.put('/:id', validateJWT, verifyUser, verifyBodyFilds, async (req, res) => {
+  try {
+    const oneUser = await BlogPosts.findOne({ 
+    where: { id: req.params.id },
+    include: [ 
+    { model: User, as: 'user' },
+    { model: Categories, as: 'categories', through: { attributes: [] } },
+    ], 
+  });
+    
+  return res.status(cc).json(oneUser);
   } catch (e) {
     res.status(e).json(e);
   }
