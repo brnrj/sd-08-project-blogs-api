@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { status, message } = require('./statusMessages');
+// const { status, message } = require('./statusMessages');
 
 const createToken = async (req, res, next) => {
-  const { email } = req.user;
+  const { email } = req.body;
   // console.log(email);
 
   const jwtConfig = {

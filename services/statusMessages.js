@@ -17,7 +17,7 @@ exports.message = {
   displaynameLength: { message: '"displayName" length must be at least 8 characters long' },
   emailInvalid: { message: '"email" must be a valid email' },
   emailEmpty: { message: '"email" is required' },
-  passwordLength: { message: '"passoword" length must be 6 characters long' },
+  passwordLength: { message: '"password" length must be 6 characters long' },
   passwordEmpty: { message: '"password" is required' },
   loginEmpty: { message: '"email" is not allowed to be empty' },
   loginpasswordEmpty: { message: '"password" is not allowed to be empty' },

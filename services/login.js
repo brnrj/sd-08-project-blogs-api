@@ -13,7 +13,7 @@ if (!emailFind) {
 // console.log(emailFind);
 const passwordCheck = (password === emailFind.password);
 if (!passwordCheck) {
-  return res.status(status.UNAUTHORIEZED).json(message.serverError); // message
+  return res.status(status.CONFLICT).json(message.serverError); // message
 }
 req.user = emailFind;
 return next();
