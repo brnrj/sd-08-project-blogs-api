@@ -10,6 +10,9 @@ const userCheck = (req, res, next) => {
   }
   // password
   if (!password) {
+    return res.status(status.BAD_REQUEST).json(message.passwordRequired);
+  }
+  if (password === '') {
     return res.status(status.BAD_REQUEST).json(message.passwordEmpty);
   }
   const passwordCheck = password.length >= 6;
@@ -21,7 +24,10 @@ const userCheck = (req, res, next) => {
 
 const emailCheck = async (req, res, next) => {
   const { email } = req.body;
-    if (!email) {
+  if (!email) {
+    return res.status(status.BAD_REQUEST).json(message.emailRequired);
+  }
+  if (email === '') {
     return res.status(status.BAD_REQUEST).json(message.emailEmpty);
   }
   const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
