@@ -27,6 +27,8 @@ categoryRouter.get('/', service.auth, async (req, res) => {
 
 categoryRouter.post('/', service.auth, service.categoryCheck, async (req, res) => {
   try {
+    // const { emailFind } = req.user;
+    console.log(req.user.emailFind);
     const { name } = req.body;
     const result = await Category.create({ name });
     // console.log(result.id, result.name);

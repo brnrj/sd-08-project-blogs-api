@@ -21,7 +21,7 @@ const auth = async (req, res, next) => {
     return res.status(status.UNAUTHORIEZED).json(message.serverError);
   }
   req.user = emailFind;
-  // console.log(req.user); 
+  // console.log(req.user);
   } catch (error) {
     return res.status(status.UNAUTHORIEZED).json(message.tokenExpired);
   }

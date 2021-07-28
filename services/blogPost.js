@@ -1,7 +1,7 @@
-// const { BlogPost } = require('../models');
+const { Category } = require('../models');
 const { status, message } = require('./statusMessages');
 
-const blogPostCheck = (req, res, next) => {
+const blogPostCheck = async (req, res, next) => {
   const { title, content, categoryIds } = req.body;
   if (!title) {
     return res.status(status.BAD_REQUEST).json(message.postTitleEmpty);
@@ -9,9 +9,18 @@ const blogPostCheck = (req, res, next) => {
   if (!content) {
     return res.status(status.BAD_REQUEST).json(message.postContentEmpty);
   }
-  if (!categoryIds) {
-    return res.status(status.BAD_REQUEST).json(message.postIdNotExist);
+  if (!categoryIds || categoryIds === '') {
+    return res.status(status.BAD_REQUEST).json(message.categoryIdEmpty);
   }
+  // forEach para verificar se os ids do array constam no banco
+  categoryIds.forEach(async (elId) => {
+    const findCategoryId = await Category.findByPk(elId);
+    // console.log(elId);
+    // console.log(findCategoryId);
+    if (!findCategoryId) {
+      return res.status(status.BAD_REQUEST).json(message.categoryIdNotFound);
+    }
+  });
 
   return next();
 };
