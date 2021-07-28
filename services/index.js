@@ -3,6 +3,7 @@ const { loginCheck, loginFindCheck } = require('./login');
 const { createToken } = require('./token');
 const { userCheck, emailCheck, userCreate } = require('./user');
 const { categoryCheck } = require('./category');
+const { blogPostCheck } = require('./blogPost');
 const { status, message } = require('./statusMessages');
 
 module.exports = {
@@ -14,6 +15,7 @@ module.exports = {
   emailCheck,
   userCreate,
   categoryCheck,
+  blogPostCheck,
   status,
   message,
 };
