@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
-const CategoryRouter = Router();
+const categoryRouter = Router();
 
 const service = require('../services');
 const { Category } = require('../models');
 const { status, message } = require('../services/statusMessages');
 
-CategoryRouter.get('/:id', service.auth, async (req, res) => {
+categoryRouter.get('/:id', service.auth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await Category.findByPk(id);
@@ -16,7 +16,7 @@ CategoryRouter.get('/:id', service.auth, async (req, res) => {
   }
 });
 
-CategoryRouter.get('/', service.auth, async (req, res) => {
+categoryRouter.get('/', service.auth, async (req, res) => {
   try {
     const result = await Category.findAll();
   res.status(status.OK).json(result);
@@ -25,7 +25,7 @@ CategoryRouter.get('/', service.auth, async (req, res) => {
   }
 });
 
-// CategoryRouter.post('/', async (req, res) => {
+// categoryRouter.post('/', async (req, res) => {
 //   try {
     
 //   } catch (error) {
@@ -33,4 +33,4 @@ CategoryRouter.get('/', service.auth, async (req, res) => {
 //   }
 // });
 
-module.exports = CategoryRouter;
+module.exports = categoryRouter;

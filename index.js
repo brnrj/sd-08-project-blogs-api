@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use('/user', controller.userRouter);
 app.use('/login', controller.loginRouter);
 app.use('/categories', controller.categoryRouter);
-// app.use('/post', controller.postRouter);
+app.use('/post', controller.blogPostRouter);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
