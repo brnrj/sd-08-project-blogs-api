@@ -7,17 +7,17 @@ const service = require('../services');
 
 const { status, message } = service;
 
-userRouter.get('/:id', async (req, res) => {
+userRouter.get('/:id', service.auth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await User.findByPk(id);
+    if (!result) res.status(status.NOT_FOUND).json(message.userNotExist);
     res.status(status.OK).json(result);
   } catch (error) {
-    res.status(status.SERVER_ERROR).json(message.serverError);
+    res.status(status.SERVER_ERROR).json(message.SERVER_ERROR);
   }
 });
 
-// service.auth
 userRouter.get('/', service.auth, async (req, res) => {
   try {
     const result = await User.findAll();
