@@ -2,10 +2,11 @@ const { Router } = require('express');
 
 const CategoryRouter = Router();
 
+const service = require('../services');
 const { Category } = require('../models');
 const { status, message } = require('../services/statusMessages');
 
-CategoryRouter.get('/:id', async (req, res) => {
+CategoryRouter.get('/:id', service.auth, async (req, res) => {
   try {
     const { id } = req.params;
     const result = await Category.findByPk(id);
@@ -15,7 +16,7 @@ CategoryRouter.get('/:id', async (req, res) => {
   }
 });
 
-CategoryRouter.get('/', async (req, res) => {
+CategoryRouter.get('/', service.auth, async (req, res) => {
   try {
     const result = await Category.findAll();
   res.status(status.OK).json(result);
