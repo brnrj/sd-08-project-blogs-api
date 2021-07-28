@@ -23,7 +23,7 @@ exports.message = {
   passwordEmpty: { message: '"password" is not allowed to be empty' },
   loginEmpty: { message: '"email" is not allowed to be empty' },
   loginpasswordEmpty: { message: '"password" is not allowed to be empty' },
-  categoryNameEmpty: { message: '"name" is required' },
+  categoryNameRequired: { message: '"name" is required' },
   categoryIdEmpty: { message: '"categoryId" is required' },
   categoryIdNotFound: { message: '"categoryId" not found' },
   postTitleEmpty: { message: '"title" is required' },

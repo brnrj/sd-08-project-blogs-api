@@ -34,7 +34,6 @@ userRouter.post('/', service.userCheck, service.emailCheck, service.userCreate,
     // console.log(userCreated.email);
     const { token } = req;
     try {
-      console.log('ponto2');
       res.status(status.CREATED).json({ token });
     } catch (error) {
       res.status(status.SERVER_ERROR).json(message.serverError);

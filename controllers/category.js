@@ -25,12 +25,15 @@ categoryRouter.get('/', service.auth, async (req, res) => {
   }
 });
 
-// categoryRouter.post('/', async (req, res) => {
-//   try {
-    
-//   } catch (error) {
-//     res.status(status.SERVER_ERROR).json(message.serverError);
-//   }
-// });
+categoryRouter.post('/', service.auth, service.categoryCheck, async (req, res) => {
+  try {
+    const { name } = req.body;
+    const result = await Category.create({ name });
+    // console.log(result.id, result.name);
+    res.status(status.CREATED).json(result);
+  } catch (error) {
+    res.status(status.SERVER_ERROR).json(message.serverError);
+  }
+});
 
 module.exports = categoryRouter;

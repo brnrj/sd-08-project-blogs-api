@@ -26,7 +26,7 @@ const emailFind = await User.findOne({ where: { email } });
 if (!emailFind) {
   return res.status(status.BAD_REQUEST).json(message.fieldsInvalid);
 }
-console.log(emailFind);
+// console.log(emailFind);
 const passwordCheck = (password === emailFind.password);
 if (!passwordCheck) {
   return res.status(status.UNAUTHORIEZED).json(message.serverError);
