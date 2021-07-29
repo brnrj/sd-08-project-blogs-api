@@ -12,7 +12,7 @@ categoryRouter.get('/:id', service.auth, async (req, res) => {
     const result = await Category.findByPk(id);
   res.status(status.OK).json(result);
   } catch (error) {
-    res.status(status.SERVER_ERROR).json(message.serverError);
+      res.status(status.SERVER_ERROR).json(message.serverError);
   }
 });
 
@@ -21,7 +21,7 @@ categoryRouter.get('/', service.auth, async (req, res) => {
     const result = await Category.findAll();
   res.status(status.OK).json(result);
   } catch (error) {
-    res.status(status.SERVER_ERROR).json(message.serverError);
+      res.status(status.SERVER_ERROR).json(message.serverError);
   }
 });
 
@@ -34,7 +34,7 @@ categoryRouter.post('/', service.auth, service.categoryCheck, async (req, res) =
     // console.log(result.id, result.name);
     res.status(status.CREATED).json(result);
   } catch (error) {
-    res.status(status.SERVER_ERROR).json(message.serverError);
+      res.status(status.SERVER_ERROR).json(message.serverError);
   }
 });
 

@@ -14,7 +14,7 @@ userRouter.get('/:id', service.auth, async (req, res) => {
     if (!result) res.status(status.NOT_FOUND).json(message.userNotExist);
     res.status(status.OK).json(result);
   } catch (error) {
-    res.status(status.SERVER_ERROR).json(message.SERVER_ERROR);
+      res.status(status.SERVER_ERROR).json(message.SERVER_ERROR);
   }
 });
 
@@ -23,7 +23,7 @@ userRouter.get('/', service.auth, async (req, res) => {
     const result = await User.findAll();
     res.status(status.OK).json(result);
   } catch (error) {
-    res.status(status.SERVER_ERROR).json(message.serverError);
+      res.status(status.SERVER_ERROR).json(message.serverError);
   }
 });
 
@@ -36,7 +36,7 @@ userRouter.post('/', service.userCheck, service.emailCheck, service.userCreate,
     try {
       res.status(status.CREATED).json({ token });
     } catch (error) {
-      res.status(status.SERVER_ERROR).json(message.serverError);
+        res.status(status.SERVER_ERROR).json(message.serverError);
     }
   });
 
