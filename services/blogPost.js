@@ -1,4 +1,4 @@
-const { Category } = require('../models');
+const { Category, BlogPost } = require('../models');
 const { status, message } = require('./statusMessages');
 
 const blogPostCheckFields = async (req, res, next) => {
@@ -26,7 +26,6 @@ const blogPostCheckCategory = async (req, res, next) => {
       return res.status(status.BAD_REQUEST).json(message.categoryIdNotFound);
     }
   });
-
   return next();
 };
 
