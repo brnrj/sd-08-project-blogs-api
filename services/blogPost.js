@@ -1,4 +1,4 @@
-const { Category, BlogPost } = require('../models');
+const { Category } = require('../models');
 const { status, message } = require('./statusMessages');
 
 const blogPostCheckFields = async (req, res, next) => {
