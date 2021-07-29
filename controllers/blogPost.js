@@ -25,24 +25,24 @@ blogPostRouter.get('/', service.auth, async (req, res) => {
   }
 });
 
-blogPostRouter.post('/', service.auth, service.blogPostCheck, async (req, res) => {
-  try {
-    const { id: userId } = req.user;
-    const { title, content, categoryIds } = req.body;
-    // console.log(userId, title, content, categoryIds);
-    const addPost = await BlogPost.create(
-      { title, content, userId, published: new Date(), updated: new Date() },
-    );
-    
-    await categoryIds.forEach(async (elId) => {
-      await PostsCategories.create({ categoryId: elId, postId: addPost.id });
-    });
-    console.log('Ponto 3');
-    console.log(addPost);
-    res.status(status.CREATED).json(addPost);
-  } catch (error) {
-    res.status(status.SERVER_ERROR).json(message.serverError);
-  }
+blogPostRouter.post('/', service.auth, service.blogPostCheckFields,
+  service.blogPostCheckCategory, async (req, res) => {
+    try {
+      const { id: userId } = req.user;
+      const { title, content, categoryIds } = req.body;
+      // console.log(userId, title, content, categoryIds);
+      const addPost = await BlogPost.create(
+        { title, content, userId, published: new Date(), updated: new Date() },
+      );
+      
+      await categoryIds.forEach(async (elId) => {
+        await PostsCategories.create({ categoryId: elId, postId: addPost.id });
+      });
+      
+      res.status(status.CREATED).json(addPost);
+    } catch (error) {
+      res.status(status.SERVER_ERROR).json(message.serverError);
+    }
 });
 
 module.exports = blogPostRouter;

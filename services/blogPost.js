@@ -1,14 +1,19 @@
 const { Category } = require('../models');
 const { status, message } = require('./statusMessages');
 
-const blogPostCheck = async (req, res, next) => {
-  const { title, content, categoryIds } = req.body;
+const blogPostCheckFields = async (req, res, next) => {
+  const { title, content } = req.body;
   if (!title) {
     return res.status(status.BAD_REQUEST).json(message.postTitleEmpty);
   }
   if (!content) {
     return res.status(status.BAD_REQUEST).json(message.postContentEmpty);
   }
+  return next();
+};
+
+const blogPostCheckCategory = async (req, res, next) => {
+  const { categoryIds } = req.body;
   if (!categoryIds || categoryIds === '') {
     return res.status(status.BAD_REQUEST).json(message.categoryIdEmpty);
   }
@@ -25,4 +30,4 @@ const blogPostCheck = async (req, res, next) => {
   return next();
 };
 
-module.exports = { blogPostCheck };
+module.exports = { blogPostCheckFields, blogPostCheckCategory };
